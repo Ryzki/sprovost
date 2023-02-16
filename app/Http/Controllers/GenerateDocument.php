@@ -43,12 +43,15 @@ class GenerateDocument extends Controller
         $template->setValue('tanggal', $data['tanggal']);
         $template->setValue('perihal', $data['perihal']);
 
-        DokumenPelanggar::create([
-            'data_pelanggar_id' => $request->kasus_id,
-            'process_id' => 2,
-            'created_by' => Auth::user()->id,
-            'status' => 1
-        ]);
+        $dokumen = DokumenPelanggar::where('data_pelanggar_id', $request->kasus_id)->where('process_id', $request->process_id)->where('sub_process_id', null)->first();
+        if($dokumen == null){
+            DokumenPelanggar::create([
+                'data_pelanggar_id' => $request->kasus_id,
+                'process_id' => 2,
+                'created_by' => Auth::user()->id,
+                'status' => 1
+            ]);
+        }
 
         $data = DataPelanggar::find($request->kasus_id);
         if($data->status_id < 2){

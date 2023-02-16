@@ -261,7 +261,7 @@
             var data = $(this).serializeArray()
             $.ajax({
                 url: `/lembar-disposisi`,
-                method: 'GET',
+                method: 'POST',
                 data: data,
                 beforeSend: () => {
                     $.LoadingOverlay("show");
