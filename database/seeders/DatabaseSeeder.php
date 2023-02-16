@@ -71,10 +71,12 @@ class DatabaseSeeder extends Seeder
         [
             [
                 'process_id' => '2',
-                'name' => 'Disposisi Karo / Sesro Ke Gakkum'
+                'name' => 'Disposisi Karo / Sesro Ke Gakkum',
+                'required' => 0
             ],[
                 'process_id' => '2',
-                'name' => 'Disposisi Rikum / Riksa / Pemeriksa Utama 1-6'
+                'name' => 'Disposisi Rikum / Riksa / Pemeriksa Utama 1-6',
+                'required' => 0
             ],[
                 'process_id' => '3',
                 'name' => 'SPRIN Lidik',
@@ -89,49 +91,64 @@ class DatabaseSeeder extends Seeder
                 'required' => 1
             ],[
                 'process_id' => '3',
-                'name' => 'Undangan Klarifikasi'
+                'name' => 'Undangan Klarifikasi',
+                'required' => 0
             ],[
                 'process_id' => '3',
-                'name' => 'BAI'
+                'name' => 'BAI',
+                'required' => 0
             ],[
                 'process_id' => '3',
-                'name' => 'Laporan Hasil Penyelidikan'
+                'name' => 'Laporan Hasil Penyelidikan',
+                'required' => 0
             ],[
                 'process_id' => '3',
-                'name' => 'ND Permohonan Gelar Perkara'
+                'name' => 'ND Permohonan Gelar Perkara',
+                'required' => 0
             ],[
                 'process_id' => '4',
-                'name' => 'Undangan Gelar'
+                'name' => 'Undangan Gelar',
+                'required' => 0
             ],[
                 'process_id' => '4',
-                'name' => 'Gelar'
+                'name' => 'Gelar',
+                'required' => 0
             ],[
                 'process_id' => '4',
-                'name' => 'Notulen Hasil Gelar'
+                'name' => 'Notulen Hasil Gelar',
+                'required' => 0
             ],[
                 'process_id' => '4',
-                'name' => 'Laporan Hasil Gelar'
+                'name' => 'Laporan Hasil Gelar',
+                'required' => 0
             ],[
                 'process_id' => '6',
-                'name' => 'SPRIN Sidik'
+                'name' => 'SPRIN Sidik',
+                'required' => 0
             ],[
                 'process_id' => '6',
-                'name' => 'UUK'
+                'name' => 'UUK',
+                'required' => 0
             ],[
                 'process_id' => '6',
-                'name' => 'Undangan Pemeriksaan'
+                'name' => 'Undangan Pemeriksaan',
+                'required' => 0
             ],[
                 'process_id' => '6',
-                'name' => 'BAP'
+                'name' => 'BAP',
+                'required' => 0
             ],[
                 'process_id' => '6',
-                'name' => 'Tambahan Alat Bukti'
+                'name' => 'Tambahan Alat Bukti',
+                'required' => 0
             ],[
                 'process_id' => '6',
-                'name' => 'Laporan Hasil'
+                'name' => 'Laporan Hasil',
+                'required' => 0
             ],[
                 'process_id' => '6',
-                'name' => 'ND Permohonan Gelar Sidik'
+                'name' => 'ND Permohonan Gelar Sidik',
+                'required' => 0
             ]
         ];
 
