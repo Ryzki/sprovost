@@ -48,6 +48,7 @@ class GenerateDocument extends Controller
             DokumenPelanggar::create([
                 'data_pelanggar_id' => $request->kasus_id,
                 'process_id' => 2,
+                'sub_process_id' => null,
                 'created_by' => Auth::user()->id,
                 'status' => 1
             ]);
