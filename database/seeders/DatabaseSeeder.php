@@ -108,11 +108,11 @@ class DatabaseSeeder extends Seeder
                 'required' => 0
             ],[
                 'process_id' => '4',
-                'name' => 'Undangan Gelar',
+                'name' => 'SPRIN Gelar',
                 'required' => 0
             ],[
                 'process_id' => '4',
-                'name' => 'Gelar',
+                'name' => 'Undangan Gelar',
                 'required' => 0
             ],[
                 'process_id' => '4',
@@ -124,15 +124,19 @@ class DatabaseSeeder extends Seeder
                 'required' => 0
             ],[
                 'process_id' => '6',
-                'name' => 'SPRIN Sidik',
+                'name' => 'LPA',
                 'required' => 0
             ],[
                 'process_id' => '6',
-                'name' => 'UUK',
+                'name' => 'SPRIN RIKSA',
                 'required' => 0
             ],[
                 'process_id' => '6',
-                'name' => 'Undangan Pemeriksaan',
+                'name' => 'Surat Panggilan Saksi',
+                'required' => 0
+            ],[
+                'process_id' => '6',
+                'name' => 'Surat Panggilan Terduga',
                 'required' => 0
             ],[
                 'process_id' => '6',
@@ -140,15 +144,11 @@ class DatabaseSeeder extends Seeder
                 'required' => 0
             ],[
                 'process_id' => '6',
-                'name' => 'Tambahan Alat Bukti',
+                'name' => 'DP3D',
                 'required' => 0
             ],[
                 'process_id' => '6',
-                'name' => 'Laporan Hasil',
-                'required' => 0
-            ],[
-                'process_id' => '6',
-                'name' => 'ND Permohonan Gelar Sidik',
+                'name' => 'Surat Pelimpahan ke Aktum',
                 'required' => 0
             ]
         ];

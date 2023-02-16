@@ -70,24 +70,25 @@ class GenerateDocument extends Controller
     }
 
     public function generateDisposisiKaro(Request $request){
-
-        DokumenPelanggar::create([
-            'data_pelanggar_id' => $request->kasus_id,
-            'process_id' => 2,
-            'sub_process_id' => 1,
-            'created_by' => Auth::user()->id,
-            'status' => 1
-        ]);
+        // DokumenPelanggar::create([
+        //     'data_pelanggar_id' => $request->kasus_id,
+        //     'process_id' => 2,
+        //     'sub_process_id' => 1,
+        //     'created_by' => Auth::user()->id,
+        //     'status' => 1
+        // ]);
+        return redirect()->back()->with('msg', 'Proses cetak Disposisi Karo sedang dalam pengerjaan');
     }
 
     public function generateDisposisiRikum(Request $request){
-        DokumenPelanggar::create([
-            'data_pelanggar_id' => $request->kasus_id,
-            'process_id' => 2,
-            'sub_process_id' => 2,
-            'created_by' => Auth::user()->id,
-            'status' => 1
-        ]);
+        // DokumenPelanggar::create([
+        //     'data_pelanggar_id' => $request->kasus_id,
+        //     'process_id' => 2,
+        //     'sub_process_id' => 2,
+        //     'created_by' => Auth::user()->id,
+        //     'status' => 1
+        // ]);
+        return redirect()->back()->with('msg', 'Proses cetak Disposisi Rikum sedang dalam pengerjaan');
     }
 
     public function SuratPerintah(Request $request, $kasus_id, $generated){
@@ -96,7 +97,6 @@ class GenerateDocument extends Controller
         if ($sprinHistory == null){
             $sprinHistory = SprinHistory::create([
                 'data_pelanggar_id' => $kasus_id,
-                // 'isi_surat_perintah' => $request->isi_surat_perintah,
                 'created_by' => Auth::user()->id,
             ]);
 
@@ -114,10 +114,14 @@ class GenerateDocument extends Controller
 
         $template_document = new \PhpOffice\PhpWord\TemplateProcessor(storage_path('template\template_sprin.docx'));
         $template_document->setValues(array(
-            // 'bulan' => date('F', strtotime($sprinHistory->created_at)),
-            // 'isi_surat_perintah' => $sprinHistory->isi_surat_perintah,
-            'tanggal' => Carbon::parse($kasus->created_at)->translatedFormat('d F Y'),
-            'no_nota_dinas' => $kasus->no_nota_dinas,
+            'no_nd' => $kasus->no_nota_dinas,
+            'tgl_nd' => Carbon::parse($kasus->created_at)->translatedFormat('d F Y'),
+            'perihal_nd' => $kasus->perihal_nota_dinas,
+            'pelapor' => $kasus->pelapor,
+            'wujud_perbuatan' => $kasus->wujud_perbuatan,
+            'terlapor' => $kasus->terlapor,
+            'pangkat' => $kasus->pangkat,
+            'jabatan' => $kasus->jabatan,
             'kesatuan' => $kasus->kesatuan,
             'tanggal_ttd' => Carbon::parse($sprinHistory->created_at)->translatedFormat('F Y')
         ));
@@ -139,45 +143,19 @@ class GenerateDocument extends Controller
 
         $template_document = new \PhpOffice\PhpWord\TemplateProcessor(storage_path('template\pengantar_sprin.docx'));
         $template_document->setValues(array(
-            'nama' => $kasus->terlapor,
             'nrp' => $kasus->nrp,
+            'tgl_nd' => Carbon::parse($kasus->created_at)->translatedFormat('d F Y'),
+            'kronologi' => $kasus->kronologi,
             'pangkat' => $kasus->pangkat,
+            'terlapor' => $kasus->terlapor,
             'jabatan' => $kasus->jabatan,
+            'kesatuan' => $kasus->kesatuan,
+            'tgl_ttd' => Carbon::now()->translatedFormat('F Y')
         ));
 
         $filename = 'Surat Pengantar SPRIN-'.$kasus_id;
         $path = storage_path('document/'.$filename.'.docx');
         $template_document->saveAs($path);
-        return response()->download($path)->deleteFileAfterSend(true);
-    }
-
-    public function printUUK($kasus_id, $process_id, $subprocess){
-        $kasus = DataPelanggar::find($kasus_id);
-        $dokumen = DokumenPelanggar::where('data_pelanggar_id', $kasus_id)->where('process_id', $process_id)->where('sub_process_id', $subprocess)->first();
-        if($dokumen == null){
-            DokumenPelanggar::create([
-                'data_pelanggar_id' => $kasus_id,
-                'process_id' => $process_id,
-                'sub_process_id' => $subprocess,
-                'created_by' => Auth::user()->id,
-                'status' => 1
-            ]);
-        }
-
-        $template_document = new \PhpOffice\PhpWord\TemplateProcessor(storage_path('template\template_uuk.docx'));
-        $template_document->setValues(array(
-            'nama' => $kasus->terlapor,
-            'nrp' => $kasus->nrp,
-            'pangkat' => $kasus->pangkat,
-            'jabatan' => $kasus->jabatan,
-            'tanggal' => Carbon::parse($dokumen->created_at)->translatedFormat('F Y'),
-            'kronologi' => $kasus->kronologi
-        ));
-
-        $filename = 'Surat UUK'.'.docx';
-        $path = storage_path('document/'.$filename);
-        $template_document->saveAs($path);
-
         return response()->download($path)->deleteFileAfterSend(true);
     }
 
@@ -235,63 +213,20 @@ class GenerateDocument extends Controller
         return redirect()->back()->with('msg', 'Proses cetak SP2HP2 akhir sedang dalam pengerjaan');
     }
 
-    public function bai_sipil($kasus_id, $process_id, $subprocess){
+    public function bai($kasus_id, $process_id, $subprocess){
         $kasus = DataPelanggar::find($kasus_id);
-        $template_document = new TemplateProcessor(storage_path('template\BAI_SIPIL.docx'));
+        $template_document = new TemplateProcessor(storage_path('template\template_bai.docx'));
 
         $template_document->setValues(array(
-            'pelapor' => $kasus->pelapor,
-            'pekerjaan' => $kasus->pekerjaan,
-            'nik' => $kasus->nik,
-            'agama' => $kasus->religi->name,
-            'alamat' => $kasus->alamat,
-            'telp' => $kasus->no_telp,
-            'pelapor' => $kasus->pelapor,
-            'pangkat' => $kasus->pangkat,
-            'jabatan' => $kasus->jabatan,
-            'kwn' => $kasus->kewarganegaraan,
-            'terlapor' => $kasus->terlapor,
-            'wujud_perbuatan' => $kasus->wujud_perbuatan
+            'hari' => Carbon::now()->translatedFormat('l'),
+            'tanggal' => dateToWord(Carbon::now()->translatedFormat('d')),
+            'bulan' => Carbon::now()->translatedFormat('F'),
+            'tahun' => dateToWord(Carbon::now()->translatedFormat('Y')),
+            'tgl' => Carbon::now()->translatedFormat('d-F-Y'),
+            'jam' => date('H:i') . ' WIB',
         ));
 
-        $filename = 'BAI Sipil'.'.docx';
-        $path = storage_path('document/'.$filename);
-        $template_document->saveAs($path);
-
-        // $dokumen = DokumenPelanggar::where('data_pelanggar_id', $kasus_id)->where('process_id', $process_id)->where('sub_process_id', $subprocess)->first();
-        // if($dokumen == null){
-        //     DokumenPelanggar::create([
-        //         'data_pelanggar_id' => $kasus_id,
-        //         'process_id' => $process_id,
-        //         'sub_process_id' => $subprocess,
-        //         'created_by' => Auth::user()->id,
-        //         'status' => 1
-        //     ]);
-        // }
-
-        return response()->download($path)->deleteFileAfterSend(true);
-    }
-
-    public function bai_anggota($kasus_id, $process_id, $subprocess){
-        $kasus = DataPelanggar::find($kasus_id);
-        $template_document = new TemplateProcessor(storage_path('template\bai_anggota.docx'));
-
-        $template_document->setValues(array(
-            'no_nota_dinas' => $kasus->no_nota_dinas,
-            'tanggal_nota_dinas' => Carbon::parse($kasus->tanggal_nota_dinas)->translatedFormat('d F Y'),
-            'pangkat' => $kasus->pangkat,
-            'jabatan' => $kasus->jabatan,
-            'kwn' => $kasus->kewarganegaraan,
-            'terlapor' => $kasus->terlapor,
-            'wujud_perbuatan' => $kasus->wujud_perbuatan,
-            'terlapor' => $kasus->terlapor,
-            'nrp' => $kasus->nrp,
-            'jabatan' => $kasus->jabatan,
-            'kesatuan' => $kasus->kesatuan,
-            'pelapor' => $kasus->pelapor,
-        ));
-
-        $filename = 'BAI Anggota'.'.docx';
+        $filename = 'BAI'.'.docx';
         $path = storage_path('document/'.$filename);
         $template_document->saveAs($path);
 
@@ -389,5 +324,34 @@ class GenerateDocument extends Controller
 
     public function undangan_klarifikasi($kasus_id, $process_id, $subprocess){
         return redirect()->back()->with('msg', 'Proses cetak Undangan Klarifikasi sedang dalam pengerjaan');
+    }
+
+    public function sprin_gelar($kasus_id, $process_id, $subprocess){
+        $template_document = new TemplateProcessor(storage_path('template\template_sprin_gelar_perkara.docx'));
+        $filename = 'Dokumen SPRIN Gelar Perkara'.'.docx';
+        $path = storage_path('document/'.$filename);
+        $template_document->saveAs($path);
+        return response()->download($path)->deleteFileAfterSend(true);
+    }
+
+    public function berkas_undangan_gelar($kasus_id, $process_id, $subprocess){
+        $template_document = new TemplateProcessor(storage_path('template\undangan_gelar.docx'));
+        $filename = 'Dokumen Undangan Gelar Perkara'.'.docx';
+        $path = storage_path('document/'.$filename);
+        $template_document->saveAs($path);
+        return response()->download($path)->deleteFileAfterSend(true);
+
+    }
+
+    public function notulen_hasil_gelar($kasus_id, $process_id, $subprocess){
+        return redirect()->back()->with('msg', 'Proses cetak Notulen Hasil Gelar sedang dalam pengerjaan');
+    }
+
+    public function laporan_hasil_gelar($kasus_id, $process_id, $subprocess){
+        $template_document = new TemplateProcessor(storage_path('template\template_lap_hasil_gp.docx'));
+        $filename = 'Dokumen SPRIN Gelar Perkara'.'.docx';
+        $path = storage_path('document/'.$filename);
+        $template_document->saveAs($path);
+        return response()->download($path)->deleteFileAfterSend(true);
     }
 }

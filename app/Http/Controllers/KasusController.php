@@ -221,15 +221,11 @@ class KasusController extends Controller
         $kasus = DataPelanggar::find($id);
         $status = Process::find($kasus->status_id);
         $sub_process = SubProcess::where('process_id', $kasus->status_id)->get();
-        $sprin = SprinHistory::where('data_pelanggar_id', $id)->with('user')->first();
-        $sp2hp2 = Sp2hp2History::where('data_pelanggar_id', $id)->with('user')->first();
 
         $data = [
             'kasus' => $kasus,
             'status' => $status,
             'sub_process' => $sub_process,
-            'sprin' => $sprin,
-            'sp2hp2' => $sp2hp2
         ];
 
         return view('pages.data_pelanggaran.proses.gelarlidik', $data);
