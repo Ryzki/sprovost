@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->bigInteger('data_pelanggar_id');
             $table->bigInteger('process_id');
-            $table->integer('sub_process_id');
+            $table->integer('sub_process_id')->nullable();
             $table->integer('status')->nullable();
             $table->bigInteger('created_by');
             $table->timestamps();
