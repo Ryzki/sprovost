@@ -77,7 +77,7 @@
         .f1-step {
             position: relative;
             float: left;
-            width: 16.6%;
+            width: 20%;
             padding: 0 5px;
         }
 

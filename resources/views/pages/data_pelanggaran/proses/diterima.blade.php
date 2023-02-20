@@ -17,7 +17,7 @@
         <div class="col-lg-12" style="text-align: center;">
             <div class="f1-steps">
                 <div class="f1-progress">
-                    <div class="f1-progress-line" data-now-value="16" data-number-of-steps="4" style="width: 16.6%;">
+                    <div class="f1-progress-line" data-now-value="20" data-number-of-steps="5" style="width: 20%;">
                     </div>
                 </div>
                 <div class="f1-step active">
@@ -35,10 +35,6 @@
                 <div class="f1-step">
                     <div class="f1-step-icon"><i class="fa fa-key"></i></div>
                     <p>Sidik / LPA</p>
-                </div>
-                <div class="f1-step">
-                    <div class="f1-step-icon"><i class="fa fa-key"></i></div>
-                    <p>Gelar Sidik</p>
                 </div>
                 <div class="f1-step">
                     <div class="f1-step-icon"><i class="fa fa-address-book"></i></div>
@@ -122,24 +118,26 @@
                             <label for="exampleFormControlInput1" class="form-label">Kronologis</label>
                             <input type="text" class="form-control" value="{{ $kasus->kronologi }}" readonly>
                         </div>
-                        <div class="col-lg-12 mb-3">
-                            <label for="exampleFormControlInput1" class="form-label">Download Berkas Disposisi</label>
-                            <button class="btn btn-primary" style="width: 100%" data-bs-toggle="modal"
-                                data-bs-target="#modal_disposisi" type="button">Download</button>
-                            {{-- <input type="text" class="form-control" value="{{ $kasus->terlapor }}" readonly> --}}
-                        </div>
-                        <div class="col-lg-12 mb-3">
-                            <label for="exampleFormControlInput1" class="form-label" style="; width: 100%">Download Berkas Lainnya</label>
-                            @foreach ($sub_process as $sb)
-                            <p>
-                                <a href="#" class="text-primary" style="text-decoration: none; width: 100%">
-                                    <i class="mdi mdi-file-document"></i>
-                                    {{$sb->name}}
-                                    <span class="mdi mdi-download"></span>
-                                </a>
-                            </p>
-                            @endforeach
-                        </div>
+                        @if($kasus->status_id != 8)
+                            <div class="col-lg-12 mb-3">
+                                <label for="exampleFormControlInput1" class="form-label">Download Berkas Disposisi</label>
+                                <button class="btn btn-primary" style="width: 100%" data-bs-toggle="modal"
+                                    data-bs-target="#modal_disposisi" type="button">Download</button>
+                                {{-- <input type="text" class="form-control" value="{{ $kasus->terlapor }}" readonly> --}}
+                            </div>
+                            <div class="col-lg-12 mb-3">
+                                <label for="exampleFormControlInput1" class="form-label" style="; width: 100%">Download Berkas Lainnya</label>
+                                @foreach ($sub_process as $sb)
+                                <p>
+                                    <a href="#" class="text-primary" style="text-decoration: none; width: 100%">
+                                        <i class="mdi mdi-file-document"></i>
+                                        {{$sb->name}}
+                                        <span class="mdi mdi-download"></span>
+                                    </a>
+                                </p>
+                                @endforeach
+                            </div>
+                        @endif
                         {{-- <div class="col-lg-12 mb-3">
                             <label for="exampleInputEmail1" class="form-label">Update Status</label>
                             <select class="form-select" aria-label="Default select example" name="disposisi_tujuan" onchange="getPolda()" id="disposisi-tujuan">
@@ -155,15 +153,17 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-lg-12" style="float: right;">
-                    {{-- <button class="btn btn-success submit" type="submit" value="update_data" name="type_submit">Update
-                        Data</button> --}}
-                    <button class="btn btn-primary submit" type="submit" value="{{$kasus->status_id}}" name="type_submit"
-                        {{ $kasus->status_id > 2 || $kasus->status_id == 1 ? 'disabled' : '' }}>Update
-                        Status (Pulbaket)</button>
+            @if ($kasus->status_id != 8)
+                <div class="row">
+                    <div class="col-lg-12" style="float: right;">
+                        {{-- <button class="btn btn-success submit" type="submit" value="update_data" name="type_submit">Update
+                            Data</button> --}}
+                        <button class="btn btn-primary submit" type="submit" value="{{$kasus->status_id}}" name="type_submit"
+                            {{ $kasus->status_id > 2 || $kasus->status_id == 1 ? 'disabled' : '' }}>Update
+                            Status (Pulbaket)</button>
+                    </div>
                 </div>
-            </div>
+            @endif
         </form>
     </div>
 </div>

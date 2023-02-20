@@ -67,8 +67,21 @@ Route::middleware(['auth'])->group(function (){
     Route::get('/print/notulen_hasil_gelar/{id}/{process_id}/{subprocess}', [GenerateDocument::class, 'notulen_hasil_gelar']);
     Route::get('/print/laporan_hasil_gelar/{id}/{process_id}/{subprocess}', [GenerateDocument::class, 'laporan_hasil_gelar']);
 
-    // Route::group(['middleware' => ['role:super-admin']], function () {
-    //     Route::get('/user',[UserController::class, 'index'])->name('user-index');
-    //     Route::get('/role',[RoleController::class, 'index'])->name('role-index');
-    // });
+    Route::post('/limpah-polda', [GenerateDocument::class, 'limpah_polda']);
+
+    // Generate Sidik / LPA
+    Route::get('/print/lpa/{id}/{process_id}/{subprocess}', [GenerateDocument::class, 'lpa']);
+    Route::get('/print/sprin_riksa/{id}/{process_id}/{subprocess}', [GenerateDocument::class, 'sprin_riksa']);
+    Route::get('/print/surat_panggilan_saksi/{id}/{process_id}/{subprocess}', [GenerateDocument::class, 'surat_panggilan_saksi']);
+    Route::get('/print/surat_panggilan_terduga/{id}/{process_id}/{subprocess}', [GenerateDocument::class, 'surat_panggilan_terduga']);
+    Route::get('/print/bap/{id}/{process_id}/{subprocess}', [GenerateDocument::class, 'bap']);
+    Route::get('/print/dp3d/{id}/{process_id}/{subprocess}', [GenerateDocument::class, 'dp3d']);
+    Route::get('/print/surat_pelimpahan_ke_aktum/{id}/{process_id}/{subprocess}', [GenerateDocument::class, 'pelimpahan_ankum']);
+
+    // Sidang Disiplin
+    Route::get('/print/nota_dina_perangkat_sidang/{id}/{process_id}/{subprocess}', [GenerateDocument::class, 'nota_dina_perangkat_sidang']);
+    Route::get('/print/sprin_perangkat_sidang/{id}/{process_id}/{subprocess}', [GenerateDocument::class, 'sprin_perangkat_sidang']);
+    Route::get('/print/undangan_sidang_disiplin/{id}/{process_id}/{subprocess}', [GenerateDocument::class, 'undangan_sidang_disiplin']);
+    Route::get('/print/hasil_putusan_sidang_disiplin/{id}/{process_id}/{subprocess}', [GenerateDocument::class, 'hasil_putusan_sidang_disiplin']);
+    Route::get('/print/nota_hasil_putusan/{id}/{process_id}/{subprocess}', [GenerateDocument::class, 'nota_hasil_putusan']);
 });

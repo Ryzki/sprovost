@@ -108,6 +108,88 @@ class KasusController extends Controller
                     ], 'detail' => $th
                 ], 500);
             }
+        } else if ($request->status == 4){
+            if($request->next == 'limpah'){
+                try {
+                    $data = DataPelanggar::find($request->kasus_id);
+                    $data->status_id = 5;
+                    $data->save();
+
+                    return response()->json([
+                        'status' => [
+                            'code' => 200,
+                            'msg' => 'OK'
+                        ]
+                    ], 200);
+                } catch (\Throwable $th) {
+                    return response()->json([
+                        'status' => [
+                            'code' => 500,
+                            'msg' => 'Terjadi masalah saat merubah status'
+                        ], 'detail' => $th
+                    ], 500);
+                }
+            } else {
+                try {
+                    $data = DataPelanggar::find($request->kasus_id);
+                    $data->status_id = 6;
+                    $data->save();
+
+                    return response()->json([
+                        'status' => [
+                            'code' => 200,
+                            'msg' => 'OK'
+                        ]
+                    ], 200);
+                } catch (\Throwable $th) {
+                    return response()->json([
+                        'status' => [
+                            'code' => 500,
+                            'msg' => 'Terjadi masalah saat merubah status'
+                        ], 'detail' => $th
+                    ], 500);
+                }
+            }
+        } else if ($request->status == 6) {
+            try {
+                $data = DataPelanggar::find($request->kasus_id);
+                $data->status_id = 7;
+                $data->save();
+
+                return response()->json([
+                    'status' => [
+                        'code' => 200,
+                        'msg' => 'OK'
+                    ]
+                ], 200);
+            } catch (\Throwable $th) {
+                return response()->json([
+                    'status' => [
+                        'code' => 500,
+                        'msg' => 'Terjadi masalah saat merubah status'
+                    ], 'detail' => $th
+                ], 500);
+            }
+        } else if ($request->status == 7) {
+            try {
+                $data = DataPelanggar::find($request->kasus_id);
+                $data->status_id = 8;
+                $data->save();
+
+                return response()->json([
+                    'status' => [
+                        'code' => 200,
+                        'msg' => 'OK'
+                    ]
+                ], 200);
+            } catch (\Throwable $th) {
+                return response()->json([
+                    'status' => [
+                        'code' => 500,
+                        'msg' => 'Terjadi masalah saat merubah status'
+                    ], 'detail' => $th
+                ], 500);
+            }
         }
     }
 
@@ -133,46 +215,22 @@ class KasusController extends Controller
             case 4:
                 return $this->gelarLidik($kasus_id);
                 break;
+            case 5:
+                return $this->gelarLidik($kasus_id);
+                break;
+            case 6:
+                return $this->sidik($kasus_id);
+                break;
+            case 7:
+                return $this->sidang_disiplin($kasus_id);
+                break;
+            case 8:
+                return $this->viewDiterima($kasus_id);
+                break;
             default:
                 return 404;
                 break;
         }
-    }
-
-    private function viewLimpah($id)
-    {
-        $kasus = DataPelanggar::find($id);
-        $status = Process::find($kasus->status_id);
-        $process = Process::where('sort', '<=', $status->id)->get();
-
-        $data = [
-            'kasus' => $kasus,
-            'status' => $status,
-            'process' =>  $process
-        ];
-        $data['limpahPolda'] = LimpahPolda::where('data_pelanggar_id', $id)->first();
-
-        return view('pages.data_pelanggaran.proses.limpah_polda', $data);
-    }
-
-    private function limpahToPolda(Request $request)
-    {
-        // dd(auth()->user()->id);
-        $data = DataPelanggar::find($request->kasus_id);
-        $limpah = LimpahPolda::create([
-            'data_pelanggar_id' => $request->kasus_id,
-            'polda_id' => $request->polda,
-            'tanggal_limpah' => date('Y-m-d'),
-            'created_by' => auth()->user()->id,
-            'isi_surat' => '<ol><li>Rujukan :&nbsp;<br><b>a</b>.&nbsp;Undang-Undang Nomor 2 Tahun 2022 tentang Kepolisian Negara Republik Indonesia.<br><b>b</b>.&nbsp;Peraturan Kepolisian Negara Republik Indonesia Nomor 7 Tahun 2022 tentang Kode Etik Profesi&nbsp; &nbsp; &nbsp;dan Komisi Kode Etik Polri.<br><b>c</b>.&nbsp;Peraturan Kepala Kepolisian Negara Republik Indonesia Nomor 13 Tahun 2016 tentang Pengamanan Internal di Lingkungan Polri<br><b>d</b>.&nbsp;Nota Dinas Kepala Bagian Pelayanan Pengaduan Divpropam Polri Nomor: R/ND-2766-b/XII/WAS.2.4/2022/Divpropam tanggal 16 Desember 2022 perihal pelimpahan Dumas BRIPKA JAMALUDDIN ASYARI.</li></ol>'
-        ]);
-         if ($limpah)
-         {
-            $data->status_id = $request->disposisi_tujuan;
-            $data->save();
-         }
-
-         return redirect()->back();
     }
 
     private function viewDiterima($id)
@@ -229,6 +287,34 @@ class KasusController extends Controller
         ];
 
         return view('pages.data_pelanggaran.proses.gelarlidik', $data);
+    }
+
+    private function sidik($id){
+        $kasus = DataPelanggar::find($id);
+        $status = Process::find($kasus->status_id);
+        $sub_process = SubProcess::where('process_id', $kasus->status_id)->get();
+
+        $data = [
+            'kasus' => $kasus,
+            'status' => $status,
+            'sub_process' => $sub_process,
+        ];
+
+        return view('pages.data_pelanggaran.proses.sidik_lpa', $data);
+    }
+
+    private function sidang_disiplin($id){
+        $kasus = DataPelanggar::find($id);
+        $status = Process::find($kasus->status_id);
+        $sub_process = SubProcess::where('process_id', $kasus->status_id)->get();
+
+        $data = [
+            'kasus' => $kasus,
+            'status' => $status,
+            'sub_process' => $sub_process,
+        ];
+
+        return view('pages.data_pelanggaran.proses.sidang_disiplin', $data);
     }
 
     private function cek_requirement($kasus_id, $process_id){

@@ -68,6 +68,10 @@ class DatabaseSeeder extends Seeder
             'name' => 'Sidang Disiplin'
         ]);
 
+        Process::create([
+            'name' => 'Selesai'
+        ]);
+
         $subprocess =
         [
             [
@@ -149,6 +153,26 @@ class DatabaseSeeder extends Seeder
             ],[
                 'process_id' => '6',
                 'name' => 'Surat Pelimpahan ke Aktum',
+                'required' => 0
+            ],[
+                'process_id' => '7',
+                'name' => 'NOTA DINA PERANGKAT SIDANG',
+                'required' => 0
+            ],[
+                'process_id' => '7',
+                'name' => 'SPRIN PERANGKAT SIDANG',
+                'required' => 0
+            ],[
+                'process_id' => '7',
+                'name' => 'Undangan Sidang Disiplin',
+                'required' => 0
+            ],[
+                'process_id' => '7',
+                'name' => 'Hasil Putusan Sidang Disiplin',
+                'required' => 0
+            ],[
+                'process_id' => '7',
+                'name' => 'NOTA HASIL PUTUSAN',
                 'required' => 0
             ]
         ];

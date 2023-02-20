@@ -354,4 +354,125 @@ class GenerateDocument extends Controller
         $template_document->saveAs($path);
         return response()->download($path)->deleteFileAfterSend(true);
     }
+
+    public function limpah_polda(Request $request){
+        (new KasusController())->updateData($request);
+
+        if ($request->next == 'limpah'){
+            $template_document = new TemplateProcessor(storage_path('template\template_limpah.docx'));
+            $filename = 'Surat Limpah'.'.docx';
+            $path = storage_path('document/'.$filename);
+            $template_document->saveAs($path);
+
+            return response()->json(['file' => $filename]);
+            // return response()->download($path)->deleteFileAfterSend(true);
+        }
+    }
+
+    // Sidik / LPA
+    public function lpa($kasus_id, $process_id, $subprocess){
+        $template_document = new TemplateProcessor(storage_path('template\template_lpa.docx'));
+        $filename = 'Surat LPA'.'.docx';
+        $path = storage_path('document/'.$filename);
+        $template_document->saveAs($path);
+
+        return response()->download($path)->deleteFileAfterSend(true);
+    }
+
+
+    public function sprin_riksa($kasus_id, $process_id, $subprocess){
+        $template_document = new TemplateProcessor(storage_path('template\template_sprin_riksa.docx'));
+        $filename = 'SRIN Riksa'.'.docx';
+        $path = storage_path('document/'.$filename);
+        $template_document->saveAs($path);
+
+        return response()->download($path)->deleteFileAfterSend(true);
+    }
+
+    public function surat_panggilan_saksi($kasus_id, $process_id, $subprocess){
+        $template_document = new TemplateProcessor(storage_path('template\template_surat_panggilan_saksi.docx'));
+        $filename = 'Surat Panggilan Saksi'.'.docx';
+        $path = storage_path('document/'.$filename);
+        $template_document->saveAs($path);
+
+        return response()->download($path)->deleteFileAfterSend(true);
+    }
+
+    public function surat_panggilan_terduga($kasus_id, $process_id, $subprocess){
+        return redirect()->back()->with('msg', 'Proses cetak Surat Panggilan Terduga sedang dalam pengerjaan');
+    }
+
+    public function bap($kasus_id, $process_id, $subprocess){
+        $template_document = new TemplateProcessor(storage_path('template\template_bap.docx'));
+        $filename = 'Dokumen BAP'.'.docx';
+        $path = storage_path('document/'.$filename);
+        $template_document->saveAs($path);
+
+        return response()->download($path)->deleteFileAfterSend(true);
+    }
+
+    public function dp3d($kasus_id, $process_id, $subprocess){
+        $template_document = new TemplateProcessor(storage_path('template\template_dp3d.docx'));
+        $filename = 'Dokumen DP3D'.'.docx';
+        $path = storage_path('document/'.$filename);
+        $template_document->saveAs($path);
+
+        return response()->download($path)->deleteFileAfterSend(true);
+    }
+
+    public function pelimpahan_ankum($kasus_id, $process_id, $subprocess){
+        $template_document = new TemplateProcessor(storage_path('template\template_pelimpahan_ankum.docx'));
+        $filename = 'Surat Pelimpahan Ke Ankum'.'.docx';
+        $path = storage_path('document/'.$filename);
+        $template_document->saveAs($path);
+
+        return response()->download($path)->deleteFileAfterSend(true);
+    }
+
+
+    //Sidang Disiplin
+    public function nota_dina_perangkat_sidang($kasus_id, $process_id, $subprocess){
+        $template_document = new TemplateProcessor(storage_path('template\template_perangkat_sidang.docx'));
+        $filename = 'Nota Dinas Perangkat Sidang'.'.docx';
+        $path = storage_path('document/'.$filename);
+        $template_document->saveAs($path);
+
+        return response()->download($path)->deleteFileAfterSend(true);
+    }
+
+    public function sprin_perangkat_sidang($kasus_id, $process_id, $subprocess){
+        $template_document = new TemplateProcessor(storage_path('template\template_perangkat_sidang.docx'));
+        $filename = 'SPRIN Perangkat Sidang'.'.docx';
+        $path = storage_path('document/'.$filename);
+        $template_document->saveAs($path);
+
+        return response()->download($path)->deleteFileAfterSend(true);
+    }
+
+    public function undangan_sidang_disiplin($kasus_id, $process_id, $subprocess){
+        $template_document = new TemplateProcessor(storage_path('template\template_undangan_sidang.docx'));
+        $filename = 'Surat Undangan Sidang Disiplin'.'.docx';
+        $path = storage_path('document/'.$filename);
+        $template_document->saveAs($path);
+
+        return response()->download($path)->deleteFileAfterSend(true);
+    }
+
+    public function hasil_putusan_sidang_disiplin($kasus_id, $process_id, $subprocess){
+        $template_document = new TemplateProcessor(storage_path('template\template_hasil_putusan_sidang.docx'));
+        $filename = 'Hasil Putusan Sidang Disiplin'.'.docx';
+        $path = storage_path('document/'.$filename);
+        $template_document->saveAs($path);
+
+        return response()->download($path)->deleteFileAfterSend(true);
+    }
+
+    public function nota_hasil_putusan($kasus_id, $process_id, $subprocess){
+        $template_document = new TemplateProcessor(storage_path('template\template_nota_hasil_putusan.docx'));
+        $filename = 'Nota Hasil Putusan Sidang'.'.docx';
+        $path = storage_path('document/'.$filename);
+        $template_document->saveAs($path);
+
+        return response()->download($path)->deleteFileAfterSend(true);
+    }
 }
