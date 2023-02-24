@@ -13,11 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('sprin_histories', function (Blueprint $table) {
+        Schema::create('penyidiks', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('data_pelanggar_id');
-            $table->bigInteger('no_sprin');
-            $table->integer('created_by');
+            $table->string('name');
+            $table->string('nrp');
+            $table->string('pangkat');
+            $table->string('jabatan');
             $table->timestamps();
         });
     }
@@ -29,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sprin_histories');
+        Schema::dropIfExists('penyidiks');
     }
 };

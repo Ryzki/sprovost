@@ -199,10 +199,10 @@
                         <label for="exampleInputPassword1" class="form-label">Tanggal</label>
                         <input type="date" class="form-control" id="tanggal" name="tanggal">
                     </div>
-                    <div class="mb-3">
+                    {{-- <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Perihal</label>
                         <input type="text" class="form-control" id="perihal" name="perihal">
-                    </div>
+                    </div> --}}
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

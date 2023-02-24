@@ -95,35 +95,12 @@
             <hr>
 
             <div class="row align-items-center justify-content-center">
-            @if ($kasus->status_now != 8)
-                <h4 class="">Download Berkas</h4>
-                <div class="col-lg-12 mb-3 mt-4">
-                    <div class="row align-items-end justify-content-center">
-                        @foreach ($sub_process as $sb)
-                            @if($sb->required == 1)
-                                <div class="col-md-3 col-sm-12">
-                                    <h6>Berkas {{$sb->name}}</h6>
-                                </div>
-                                <div class="col-md-1">
-                                    :
-                                </div>
-                                <div class="col-md-8 col-sm-12">
-                                    <a href="#" class="text-primary modal-toggle" style="text-decoration: none; width: 100%"  data-process_id="{{$kasus->status_id}}" data-kasus_id="{{$kasus->id}}" data-subprocess_name="{{$sb->name}}" data-subprocess="{{$sb->id}}">
-                                        <i class="mdi mdi-file-document"></i>
-                                        Download Berkas {{$sb->name}}
-                                        <span class="mdi mdi-download"></span>
-                                    </a>
-                                </div>
-                            @endif
-                        @endforeach
-                    </div>
-                </div>
-                @if ($sprin != null)
-                    <h4 class="mt-4">Download Berkas Lainnya</h4>
+                @if ($kasus->status_now != 8)
+                    <h4 class="">Download Berkas</h4>
                     <div class="col-lg-12 mb-3 mt-4">
                         <div class="row align-items-end justify-content-center">
                             @foreach ($sub_process as $sb)
-                                @if ($sb->required != 1)
+                                @if($sb->required == 1)
                                     <div class="col-md-3 col-sm-12">
                                         <h6>Berkas {{$sb->name}}</h6>
                                     </div>
@@ -131,7 +108,7 @@
                                         :
                                     </div>
                                     <div class="col-md-8 col-sm-12">
-                                        <a href="#" class="text-primary modal-toggle" style="text-decoration: none; width: 100%"  data-process_id="{{$kasus->status_id}}" data-kasus_id="{{$kasus->id}}" data-subprocess_name="{{$sb->name}}" data-subprocess="{{$sb->id}}">
+                                        <a href="#!" class="text-primary modal-toggle" style="text-decoration: none; width: 100%"  data-process_id="{{$kasus->status_id}}" data-kasus_id="{{$kasus->id}}" data-subprocess_name="{{$sb->name}}" data-subprocess="{{$sb->id}}">
                                             <i class="mdi mdi-file-document"></i>
                                             Download Berkas {{$sb->name}}
                                             <span class="mdi mdi-download"></span>
@@ -141,28 +118,52 @@
                             @endforeach
                         </div>
                     </div>
-                @endif
-                <div class="row mt-5">
-                    <div class="col-lg-12" style="float: right;">
-                        {{-- <button class="btn btn-success submit" type="submit" value="update_data" name="type_submit">Update
-                            Data</button> --}}
-                        <button class="btn btn-primary submit" type="submit" value="{{$kasus->status_id}}" name="type_submit"
-                            {{ $kasus->status_now > 3 ? 'disabled' : '' }}>Update
-                            Status (Gelar Lidik)</button>
+                    @if ($sprin != null)
+                        <h4 class="mt-4">Download Berkas Lainnya</h4>
+                        <div class="col-lg-12 mb-3 mt-4">
+                            <div class="row align-items-end justify-content-center">
+                                @foreach ($sub_process as $sb)
+                                    @if ($sb->required != 1)
+                                        <div class="col-md-3 col-sm-12">
+                                            <h6>Berkas {{$sb->name}}</h6>
+                                        </div>
+                                        <div class="col-md-1">
+                                            :
+                                        </div>
+                                        <div class="col-md-8 col-sm-12">
+                                            <a href="#" class="text-primary modal-toggle" style="text-decoration: none; width: 100%"  data-process_id="{{$kasus->status_id}}" data-kasus_id="{{$kasus->id}}" data-subprocess_name="{{$sb->name}}" data-subprocess="{{$sb->id}}">
+                                                <i class="mdi mdi-file-document"></i>
+                                                Download Berkas {{$sb->name}}
+                                                <span class="mdi mdi-download"></span>
+                                            </a>
+                                        </div>
+                                    @endif
+                                @endforeach
+                            </div>
+                        </div>
+                    @endif
+                    <div class="row mt-5">
+                        <div class="col-lg-12" style="float: right;">
+                            {{-- <button class="btn btn-success submit" type="submit" value="update_data" name="type_submit">Update
+                                Data</button> --}}
+                            <button class="btn btn-primary submit" type="submit" value="{{$kasus->status_id}}" name="type_submit"
+                                {{ $kasus->status_now > 3 ? 'disabled' : '' }}>Update
+                                Status (Gelar Lidik)</button>
+                        </div>
                     </div>
-                </div>
-            @else
-                <h2 class="text-center text-info mt-4">
-                    <i class="mdi mdi-information"></i> Kasus ini telah selesai
-                </h2>
-            @endif
+                @else
+                    <h2 class="text-center text-info mt-4">
+                        <i class="mdi mdi-information"></i> Kasus ini telah selesai
+                    </h2>
+                @endif
+            </div>
         </form>
     </div>
 </div>
 
 {{-- Modal --}}
 <div class="modal fade" id="sprin_lidik" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Pembuatan Surat Perintah</h5>
@@ -196,11 +197,64 @@
                     </div>
                     <hr>
                     @if ($sprin == null)
-                        {{-- <div class="form-outline mb-3 mt-4">
-                            <label class="form-label" for="textAreaExample2">Isi Surat</label>
-                            <textarea class="form-control htmlEditor" name="editor_surat_perintah"></textarea>
-                            <textarea name="isi_surat_perintah" hidden class="value_html"></textarea>
-                        </div> --}}
+                        <div class="form-group">
+                            <label for="no_sprin" class="form-label">No. SPRIN</label>
+                            <input type="number" class="form-control" name="no_sprin" value="{{!empty($sprin) ? $sprin->no_sprin : ''}}" placeholder="{{!empty($sprin) ? '' : 'Masukan Nomor SPRIN'}}">
+                        </div>
+
+                        <!-- Input data penyidik -->
+                        <div class="card card-data-penyidik">
+                            <div class="card-header">Input Data Penyelidik</div>
+                            <div class="card-body">
+                                <div class="mb-3" id="form_input_anggota">
+                                    <div class="row form_penyelidik">
+                                        <div class="col-lg-6">
+                                            <div class="form-outline mb-3">
+                                                <input type="text" class="form-control" name="pangkat"
+                                                    id="pangkat" placeholder="Pangkat Penyelidik">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-6">
+                                            <div class="form-outline mb-3">
+                                                <input type="text" class="form-control" name="nama_penyelidik"
+                                                    id="nama_penyidik" placeholder="Nama Penyelidik">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-6">
+                                            <div class="form-outline mb-3">
+                                                <input type="text" class="form-control" name="nrp"
+                                                    id="nrp" placeholder="NRP">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-6">
+                                            <div class="form-outline mb-3">
+                                                <input type="text" class="form-control" name="jabatan"
+                                                    id="jabatan" placeholder="Jabatan Penyelidik">
+                                            </div>
+                                        </div>
+
+                                        {{-- <div class="col-lg-12">
+                                            <div class="form-outline mb-3">
+                                                <label for="tipe_tim" class="form-label">Jabatan TIM : </label>
+                                                <select name="tipe_tim" id="tipe_tim" class="form-control"
+                                                    disabeled>
+                                                    <option value="1" class="text-center" selected>Ketua</option>
+                                                </select>
+                                            </div>
+                                        </div> --}}
+                                    </div>
+                                    <hr>
+                                </div>
+
+                                <div class="d-flex mb-3 justify-content-between">
+                                    <span onclick="tambahAnggota()" class="text-primary" style="cursor: pointer"> <i class="far fa-plus-square"></i>
+                                        Anggota </span>
+                                </div>
+                            </div>
+                        </div>
                     @else
                         <div class="row justify-content-around items-center mt-4">
                             <p>
@@ -354,6 +408,7 @@
 
 <script>
     $(document).ready(function(){
+        localStorage.setItem('addAnggota', 0)
         tinymce.remove();
         tinymce.init({
             selector: ".htmlEditor",
@@ -396,32 +451,48 @@
         })
 
         $('#form-generate-sprin').on('submit', function(){
-            var data = $(this).serializeArray()
+            var data = new FormData()
+            const elemPenyelidik = $('#form_input_anggota').find('.form_penyelidik')
+            for (let i = 0; i < elemPenyelidik.length; i++) {
+                data.append(`pangkat[${i}]`, $(elemPenyelidik).find('input[name="pangkat"]')[i].value)
+                data.append(`nama[${i}]`, $(elemPenyelidik).find('input[name="nama_penyelidik"]')[i].value)
+                data.append(`nrp[${i}]`, $(elemPenyelidik).find('input[name="nrp"]')[i].value)
+                data.append(`jabatan[${i}]`, $(elemPenyelidik).find('input[name="jabatan"]')[i].value)
+            }
+
+            data.append('no_sprin', $('input[name="no_sprin"]').val())
+            data.append('process_id', $('input[name="process_id"]').val())
+            data.append('sub_process', $('input[name="sub_process"]').val())
+            // var data = $(this).serializeArray()
             $.ajax({
                 url: `/surat-perintah/{{ $kasus->id }}/not_generated`,
-                method: 'GET',
+                method: 'POST',
+                headers: {
+                    "X-CSRF-TOKEN": $('input[name="_token"]').val()
+                },
                 data: data,
+                processData : false,
+                contentType: false,
                 beforeSend: () => {
                     $.LoadingOverlay("show");
                 },
                 success:(res) => {
                     window.location.href = `/download-file/${res.file}`
+                    $.LoadingOverlay("hide");
+                    Swal.fire({
+                        title: 'Berhasil',
+                        text: 'Berhasil generate dan download dokumen',
+                        icon: 'success',
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                    })
 
                     setTimeout(() => {
-                        $.LoadingOverlay("hide");
-                        Swal.fire({
-                            title: 'Berhasil',
-                            text: 'Berhasil generate dan download dokumen',
-                            icon: 'success',
-                            toast: true,
-                            position: 'top-end',
-                            showConfirmButton: false,
-                            timer: 3000,
-                            timerProgressBar: true,
-                        })
-
                         window.location.reload()
-                    }, 2500);
+                    }, 2000);
                 },
                 error: (xhr) => {
                     $.LoadingOverlay("hide");
@@ -525,4 +596,66 @@
             })
         })
     })
+
+
+
+    function tambahAnggota() {
+        var addAnggota = localStorage.getItem('addAnggota')
+
+        let inHtml =
+            `<div class="row form_penyelidik">
+                <div class="col-lg-6">
+                    <div class="form-outline mb-3">
+                        <input type="text" class="form-control" name="pangkat" id="pangkat" placeholder="Pangkat Penyelidik">
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="form-outline mb-3">
+                        <input type="text" class="form-control" name="nama_penyelidik" id="nama_penyidik" placeholder="Nama Penyelidik">
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="form-outline mb-3">
+                        <input type="text" class="form-control" name="nrp" id="nrp" placeholder="NRP">
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="form-outline mb-3">
+                        <input type="text" class="form-control" name="jabatan" id="jabatan" placeholder="Jabatan Penyelidik">
+                    </div>
+                </div>
+                <div class="d-flex mb-3 justify-content-end">
+                    <span onclick="removeAnggota($(this))" class="text-danger" style="cursor: pointer"> <i class="far fa-minus-square"></i>
+                        Anggota </span>
+                </div>
+            </div>
+        <hr>`;
+        addAnggota = parseInt(addAnggota) + 1
+        localStorage.setItem('addAnggota', addAnggota)
+
+        if(addAnggota <= 5){
+            $('#form_input_anggota').append(inHtml);
+        } else {
+            Swal.fire({
+                title: `Tidak bisa menambahkan lebih dari 5`,
+                icon: 'error',
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+            })
+        }
+    }
+
+    function removeAnggota(el){
+        $(el).parent().parent().next().remove()
+        $(el).parent().parent().remove()
+        var addAnggota = localStorage.getItem('addAnggota')
+        addAnggota = parseInt(addAnggota) - 1
+        localStorage.setItem('addAnggota', addAnggota)
+    }
 </script>

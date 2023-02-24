@@ -9,7 +9,7 @@ class SprinHistory extends Model
 {
     use HasFactory;
 
-    protected $fillable = [ 'data_pelanggar_id', 'isi_surat_perintah', 'created_by'];
+    protected $fillable = [ 'data_pelanggar_id', 'isi_surat_perintah', 'created_by', 'no_sprin'];
 
     function user(){
         return $this->hasMany(User::class, 'id', 'created_by');

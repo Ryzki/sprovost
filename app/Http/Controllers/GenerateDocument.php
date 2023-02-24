@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\DataPelanggar;
 use App\Models\DokumenPelanggar;
+use App\Models\Penyidik;
 use App\Models\Sp2hp2History;
 use App\Models\SprinHistory;
 use Carbon\Carbon;
@@ -26,16 +27,19 @@ class GenerateDocument extends Controller
 
     public function generateDisposisi(Request $request)
     {
+        $kasus = DataPelanggar::find($request->kasus_id);
+
         $data = [
             'tanggal' => $request->tanggal,
             'surat_dati' => $request->surat_dari,
             'nomor_surat' => $request->nomor_surat,
-            'perihal' => $request->perihal,
+            'perihal' => $kasus->perihal_nota_dinas,
             'nomor_agenda' => $request->nomor_agenda
         ];
+
         $filename = 'disposisi-'.$data['nomor_surat'].'-'.$data['tanggal'];
         $path = storage_path('document/'.$filename.'.docx');
-        $template = new \PhpOffice\PhpWord\TemplateProcessor(storage_path('template/template disposisi.docx'));
+        $template = new TemplateProcessor(storage_path('template/template disposisi.docx'));
 
         $template->setValue('no_surat', $data['nomor_surat']);
         $template->setValue('no_agenda', $data['nomor_agenda']);
@@ -91,14 +95,17 @@ class GenerateDocument extends Controller
         return redirect()->back()->with('msg', 'Proses cetak Disposisi Rikum sedang dalam pengerjaan');
     }
 
-    public function SuratPerintah(Request $request, $kasus_id, $generated){
+    public function SuratPerintah(Request $request, $kasus_id){
         $kasus = DataPelanggar::find($kasus_id);
         $sprinHistory = SprinHistory::where('data_pelanggar_id', $kasus_id)->first();
+        $penyelidik = Penyidik::where('data_pelanggar_id', $kasus_id)->get();
         if ($sprinHistory == null){
             $sprinHistory = SprinHistory::create([
                 'data_pelanggar_id' => $kasus_id,
+                'no_sprin' => $request->no_sprin,
                 'created_by' => Auth::user()->id,
             ]);
+
 
             $dokumen = DokumenPelanggar::where('data_pelanggar_id', $kasus_id)->where('process_id', $request->process_id)->where('sub_process_id', $request->sub_process)->first();
             if($dokumen == null){
@@ -112,7 +119,31 @@ class GenerateDocument extends Controller
             }
         }
 
-        $template_document = new \PhpOffice\PhpWord\TemplateProcessor(storage_path('template\template_sprin.docx'));
+        if (count($penyelidik) == 0){
+            for ($i=0; $i < count($request->nama); $i++) {
+                Penyidik::create([
+                    'data_pelanggar_id' => $kasus_id,
+                    'name' => strtoupper($request->nama[$i]),
+                    'nrp' => $request->nrp[$i],
+                    'pangkat' => strtoupper($request->pangkat[$i]),
+                    'jabatan' => strtoupper($request->jabatan[$i])
+                ]);
+            }
+        }
+
+        \PhpOffice\PhpWord\Settings::setCompatibility(false);
+        $template_document = new TemplateProcessor(storage_path('template\template_sprin.docx'));
+        $template_document->cloneRow('pangkat_penyelidik', count($request->jabatan));
+
+        for ($i=0; $i < count($request->jabatan); $i++) {
+            $template_document->setValues(array(
+                "no#".$i+1 => $i+1,
+                'pangkat_penyelidik#'.$i+1 => strtoupper($request->pangkat[$i]),
+                'jabatan_penyelidik#'.$i+1 => strtoupper($request->jabatan[$i]),
+                'nama_penyelidik#'.$i+1 => strtoupper($request->nama[$i]),
+                'nrp_penyelidik#'.$i+1 => $request->nrp[$i]
+            ));
+        }
         $template_document->setValues(array(
             'no_nd' => $kasus->no_nota_dinas,
             'tgl_nd' => Carbon::parse($kasus->created_at)->translatedFormat('d F Y'),
@@ -123,25 +154,24 @@ class GenerateDocument extends Controller
             'pangkat' => $kasus->pangkat,
             'jabatan' => $kasus->jabatan,
             'kesatuan' => $kasus->kesatuan,
+            'no_sprin' => $request->no_sprin,
             'tanggal_ttd' => Carbon::parse($sprinHistory->created_at)->translatedFormat('F Y')
         ));
 
         $filename = 'Surat Perintah'.'.docx';
         $path = storage_path('document/'.$filename);
         $template_document->saveAs($path);
-
-        if ($generated == 'generated'){
+        if ($request->method() == 'GET'){
             return response()->download($path)->deleteFileAfterSend(true);
         } else {
             return response()->json(['file' => $filename]);
         }
-
     }
 
     public function SuratPerintahPengantar($kasus_id){
         $kasus = DataPelanggar::find($kasus_id);
 
-        $template_document = new \PhpOffice\PhpWord\TemplateProcessor(storage_path('template\pengantar_sprin.docx'));
+        $template_document = new TemplateProcessor(storage_path('template\pengantar_sprin.docx'));
         $template_document->setValues(array(
             'nrp' => $kasus->nrp,
             'tgl_nd' => Carbon::parse($kasus->created_at)->translatedFormat('d F Y'),
@@ -183,7 +213,7 @@ class GenerateDocument extends Controller
                 ]);
             }
         }
-        $template_document = new \PhpOffice\PhpWord\TemplateProcessor(storage_path('template\sp2hp2_awal.docx'));
+        $template_document = new TemplateProcessor(storage_path('template\sp2hp2_awal.docx'));
 
         $template_document->setValues(array(
             'penangan' => $sp2hp2->penangan,
