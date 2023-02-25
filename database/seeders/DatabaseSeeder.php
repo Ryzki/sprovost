@@ -88,11 +88,7 @@ class DatabaseSeeder extends Seeder
                 'required' => 1
             ],[
                 'process_id' => '3',
-                'name' => 'SP2HP2 Awal',
-                'required' => 1
-            ],[
-                'process_id' => '3',
-                'name' => 'SP2HP2 Akhir',
+                'name' => 'SP2HP2',
                 'required' => 1
             ],[
                 'process_id' => '3',
