@@ -206,8 +206,13 @@ class GenerateDocument extends Controller
         return response()->download($path)->deleteFileAfterSend(true);
     }
 
-    public function sp2hp_awal(Request $request, $kasus_id, $generated){
-        return redirect()->back()->with('msg', 'Proses cetak SP2HP2 sedang dalam pengerjaan');
+    public function sp2hp(Request $request, $kasus_id, $generated){
+        $template_document = new TemplateProcessor(storage_path('template\template_sp2hp.docx'));
+        $filename = 'SP2HP'.'.docx';
+        $path = storage_path('document/'.$filename);
+        $template_document->saveAs($path);
+
+        return response()->download($path)->deleteFileAfterSend(true);
 
         // $kasus = DataPelanggar::find($kasus_id);
         // $sp2hp2 = Sp2hp2History::where('data_pelanggar_id', $kasus_id)->first();

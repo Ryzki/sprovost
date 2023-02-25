@@ -54,8 +54,7 @@ Route::middleware(['auth'])->group(function (){
     Route::get('/surat-perintah/{id}/generated', [GenerateDocument::class, 'SuratPerintah']);
     Route::post('/surat-perintah/{id}/not_generated', [GenerateDocument::class, 'SuratPerintah']);
     Route::get('/surat-perintah-pengantar/{id}', [GenerateDocument::class, 'SuratPerintahPengantar']);
-    Route::get('/surat-sp2hp2-awal/{id}/{generated}', [GenerateDocument::class, 'sp2hp_awal']);
-    Route::get('/print/sp2hp2_akhir/{id}/{process_id}/{subprocess}', [GenerateDocument::class, 'sp2hp2_akhir']);
+    Route::get('/print/sp2hp2/{id}/{process_id}/{subprocess}', [GenerateDocument::class, 'sp2hp']);
     Route::post('/print/bai/{id}', [GenerateDocument::class, 'bai']);
     // Route::get('/print/bai-anggota/{id}/{process_id}/{subprocess}', [GenerateDocument::class, 'bai_anggota']);
     Route::get('/print/laporan_hasil_penyelidikan/{id}/{process_id}/{subprocess}', [GenerateDocument::class, 'laporanHasilPenyelidikan']);
