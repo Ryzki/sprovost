@@ -24,4 +24,5 @@
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js"></script>
 
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script src="https://cdn.tiny.cloud/1/jt86g0xi8xyme7wrxesf4cgceiqev2l757u1d60cs4wey7b7/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>

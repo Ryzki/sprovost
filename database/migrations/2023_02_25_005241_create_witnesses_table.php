@@ -13,11 +13,19 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('sprin_histories', function (Blueprint $table) {
+        Schema::create('witnesses', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('data_pelanggar_id');
-            $table->text('no_sprin');
-            $table->integer('created_by');
+            $table->string('nama');
+            $table->string('pangkat');
+            $table->string('nrp');
+            $table->string('jabatan');
+            $table->string('kesatuan');
+            $table->string('ttl');
+            $table->string('warga_negara');
+            $table->integer('agama');
+            $table->string('alamat');
+            $table->string('no_telp');
             $table->timestamps();
         });
     }
@@ -29,6 +37,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sprin_histories');
+        Schema::dropIfExists('witnesses');
     }
 };

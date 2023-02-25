@@ -43,7 +43,7 @@ Route::middleware(['auth'])->group(function (){
 
     // View Kasus
     Route::get('data-kasus/view/{kasus_id}/{id}', [KasusController::class, 'viewProcess'])->name('kasus.proses.view');
-
+    Route::get('data-penyidik/{kasus_id}', [KasusController::class, 'getDataPenyidik']);
     // End View Kasus
 
     // Generate
@@ -56,11 +56,11 @@ Route::middleware(['auth'])->group(function (){
     Route::get('/surat-perintah-pengantar/{id}', [GenerateDocument::class, 'SuratPerintahPengantar']);
     Route::get('/surat-sp2hp2-awal/{id}/{generated}', [GenerateDocument::class, 'sp2hp_awal']);
     Route::get('/print/sp2hp2_akhir/{id}/{process_id}/{subprocess}', [GenerateDocument::class, 'sp2hp2_akhir']);
-    Route::get('/print/bai/{id}/{process_id}/{subprocess}', [GenerateDocument::class, 'bai']);
+    Route::post('/print/bai/{id}', [GenerateDocument::class, 'bai']);
     // Route::get('/print/bai-anggota/{id}/{process_id}/{subprocess}', [GenerateDocument::class, 'bai_anggota']);
     Route::get('/print/laporan_hasil_penyelidikan/{id}/{process_id}/{subprocess}', [GenerateDocument::class, 'laporanHasilPenyelidikan']);
     Route::get('/print/nd_permohonan_gelar_perkara/{id}/{process_id}/{subprocess}', [GenerateDocument::class, 'nd_permohonan_gelar_perkara']);
-    Route::get('/print/undangan_klarifikasi/{id}/{process_id}/{subprocess}', [GenerateDocument::class, 'undangan_klarifikasi']);
+    Route::post('/print/undangan_klarifikasi/{id}', [GenerateDocument::class, 'undangan_klarifikasi']);
 
     // Generate Gelar Lidik
     Route::get('/print/sprin_gelar/{id}/{process_id}/{subprocess}', [GenerateDocument::class, 'sprin_gelar']);

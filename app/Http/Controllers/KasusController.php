@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Agama;
 use App\Models\DataPelanggar;
 use App\Models\DokumenPelanggar;
 use App\Models\LimpahPolda;
+use App\Models\Penyidik;
 use App\Models\Process;
 use App\Models\Sp2hp2History;
 use App\Models\SprinHistory;
 use App\Models\SubProcess;
+use App\Models\UndanganKlarifikasiHistory;
 use Illuminate\Http\Request;
 use DataTables;
 use Illuminate\Support\Facades\Redirect;
@@ -263,13 +266,15 @@ class KasusController extends Controller
         // $sub_process = SubProcess::where('process_id', 3)->get();
         $sprin = SprinHistory::where('data_pelanggar_id', $id)->with('user')->first();
         $sp2hp2 = Sp2hp2History::where('data_pelanggar_id', $id)->with('user')->first();
+        $agama = Agama::get();
 
         $data = [
             'kasus' => $kasus,
             'status' => $status,
             'sub_process' => $sub_process,
             'sprin' => $sprin,
-            'sp2hp2' => $sp2hp2
+            'sp2hp2' => $sp2hp2,
+            'agamas' => $agama
         ];
 
         return view('pages.data_pelanggaran.proses.pulbaket', $data);
@@ -315,6 +320,11 @@ class KasusController extends Controller
         ];
 
         return view('pages.data_pelanggaran.proses.sidang_disiplin', $data);
+    }
+
+    public function getDataPenyidik($kasus_id){
+        $data = Penyidik::where('data_pelanggar_id', $kasus_id)->get();
+        return response()->json($data);
     }
 
     private function cek_requirement($kasus_id, $process_id){

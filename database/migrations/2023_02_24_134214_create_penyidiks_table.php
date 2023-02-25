@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('nrp');
             $table->string('pangkat');
             $table->string('jabatan');
+            $table->string('kesatuan');
             $table->timestamps();
         });
     }
