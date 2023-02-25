@@ -85,6 +85,7 @@ class GenerateDocument extends Controller
         return redirect()->back()->with('msg', 'Proses cetak Disposisi Karo sedang dalam pengerjaan');
     }
 
+    // Document Pulbaket
     public function generateDisposisiRikum(Request $request){
         // DokumenPelanggar::create([
         //     'data_pelanggar_id' => $request->kasus_id,
@@ -414,7 +415,9 @@ class GenerateDocument extends Controller
         return response()->json(['file' => $filename]);
         // return response()->download($path)->deleteFileAfterSend(true);
     }
+    // End of document pulbaket
 
+    // Document Gelar Lidik
     public function sprin_gelar($kasus_id, $process_id, $subprocess){
         $template_document = new TemplateProcessor(storage_path('template\template_sprin_gelar_perkara.docx'));
         $filename = 'Dokumen SPRIN Gelar Perkara'.'.docx';
@@ -443,6 +446,7 @@ class GenerateDocument extends Controller
         $template_document->saveAs($path);
         return response()->download($path)->deleteFileAfterSend(true);
     }
+    // End of Document Gelar Lidik
 
     public function limpah_polda(Request $request){
         (new KasusController())->updateData($request);
