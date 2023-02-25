@@ -85,7 +85,6 @@ class GenerateDocument extends Controller
         return redirect()->back()->with('msg', 'Proses cetak Disposisi Karo sedang dalam pengerjaan');
     }
 
-    // Document Pulbaket
     public function generateDisposisiRikum(Request $request){
         // DokumenPelanggar::create([
         //     'data_pelanggar_id' => $request->kasus_id,
@@ -97,6 +96,7 @@ class GenerateDocument extends Controller
         return redirect()->back()->with('msg', 'Proses cetak Disposisi Rikum sedang dalam pengerjaan');
     }
 
+    // Document Pulbaket
     public function SuratPerintah(Request $request, $kasus_id){
         $kasus = DataPelanggar::find($kasus_id);
         $sprinHistory = SprinHistory::where('data_pelanggar_id', $kasus_id)->first();
@@ -207,53 +207,55 @@ class GenerateDocument extends Controller
     }
 
     public function sp2hp_awal(Request $request, $kasus_id, $generated){
-        $kasus = DataPelanggar::find($kasus_id);
-        $sp2hp2 = Sp2hp2History::where('data_pelanggar_id', $kasus_id)->first();
-        if (!$sp2hp2){
-            $sp2hp2 = Sp2hp2History::create([
-                'data_pelanggar_id' => $kasus_id,
-                'penangan' => $request->penangan,
-                'dihubungi' => $request->dihubungi,
-                'jabatan_dihubungi' => $request->jabatan_dihubungi,
-                'telp_dihubungi' => $request->telp_dihubungi,
-                'created_by' => Auth::user()->id,
-            ]);
+        return redirect()->back()->with('msg', 'Proses cetak SP2HP2 sedang dalam pengerjaan');
 
-            $dokumen = DokumenPelanggar::where('data_pelanggar_id', $kasus_id)->where('process_id', $request->process_id)->where('sub_process_id', $request->sub_process)->first();
-            if($dokumen == null){
-                DokumenPelanggar::create([
-                    'data_pelanggar_id' => $kasus_id,
-                    'process_id' => $request->process_id,
-                    'sub_process_id' => $request->sub_process,
-                    'created_by' => Auth::user()->id,
-                    'status' => 1
-                ]);
-            }
-        }
-        $template_document = new TemplateProcessor(storage_path('template\sp2hp2_awal.docx'));
+        // $kasus = DataPelanggar::find($kasus_id);
+        // $sp2hp2 = Sp2hp2History::where('data_pelanggar_id', $kasus_id)->first();
+        // if (!$sp2hp2){
+        //     $sp2hp2 = Sp2hp2History::create([
+        //         'data_pelanggar_id' => $kasus_id,
+        //         'penangan' => $request->penangan,
+        //         'dihubungi' => $request->dihubungi,
+        //         'jabatan_dihubungi' => $request->jabatan_dihubungi,
+        //         'telp_dihubungi' => $request->telp_dihubungi,
+        //         'created_by' => Auth::user()->id,
+        //     ]);
 
-        $template_document->setValues(array(
-            'penangan' => $sp2hp2->penangan,
-            'dihubungi' => $sp2hp2->dihubungi,
-            'jabatan_dihubungi' => $sp2hp2->jabatan_dihubungi,
-            'telp_dihubungi' => $sp2hp2->telp_dihubungi,
-            'pelapor' => $kasus->pelapor,
-            'alamat' => $kasus->alamat,
-            'bulan_tahun' => Carbon::parse($sp2hp2->created_at)->translatedFormat('F Y'),
-            'tanggal' => Carbon::parse($kasus->created_at)->translatedFormat('d F Y'),
-            'no_nota_dinas' => $kasus->no_nota_dinas,
-        ));
+        //     $dokumen = DokumenPelanggar::where('data_pelanggar_id', $kasus_id)->where('process_id', $request->process_id)->where('sub_process_id', $request->sub_process)->first();
+        //     if($dokumen == null){
+        //         DokumenPelanggar::create([
+        //             'data_pelanggar_id' => $kasus_id,
+        //             'process_id' => $request->process_id,
+        //             'sub_process_id' => $request->sub_process,
+        //             'created_by' => Auth::user()->id,
+        //             'status' => 1
+        //         ]);
+        //     }
+        // }
+        // $template_document = new TemplateProcessor(storage_path('template\sp2hp2_awal.docx'));
+
+        // $template_document->setValues(array(
+        //     'penangan' => $sp2hp2->penangan,
+        //     'dihubungi' => $sp2hp2->dihubungi,
+        //     'jabatan_dihubungi' => $sp2hp2->jabatan_dihubungi,
+        //     'telp_dihubungi' => $sp2hp2->telp_dihubungi,
+        //     'pelapor' => $kasus->pelapor,
+        //     'alamat' => $kasus->alamat,
+        //     'bulan_tahun' => Carbon::parse($sp2hp2->created_at)->translatedFormat('F Y'),
+        //     'tanggal' => Carbon::parse($kasus->created_at)->translatedFormat('d F Y'),
+        //     'no_nota_dinas' => $kasus->no_nota_dinas,
+        // ));
 
 
-        $filename = 'Surat SP2HP Awal'.'.docx';
-        $path = storage_path('document/'.$filename);
-        $template_document->saveAs($path);
+        // $filename = 'Surat SP2HP Awal'.'.docx';
+        // $path = storage_path('document/'.$filename);
+        // $template_document->saveAs($path);
 
-        if ($generated == 'generated'){
-            return response()->download($path)->deleteFileAfterSend(true);
-        } else {
-            return response()->json(['file' => $filename]);
-        }
+        // if ($generated == 'generated'){
+        //     return response()->download($path)->deleteFileAfterSend(true);
+        // } else {
+        //     return response()->json(['file' => $filename]);
+        // }
     }
 
     public function sp2hp2_akhir($kasus_id, $process_id, $subprocess){
@@ -302,81 +304,84 @@ class GenerateDocument extends Controller
     }
 
     public function laporanHasilPenyelidikan($kasus_id, $process_id, $subprocess){
-        $kasus = DataPelanggar::find($kasus_id);
-        $sprin = SprinHistory::where('data_pelanggar_id', $kasus->id)->first();
-        $template_document = new TemplateProcessor(storage_path('template\lhp.docx'));
+        return redirect()->back()->with('msg', 'Proses cetak Laporan Hasil Penyelidikan sedang dalam pengerjaan');
 
-        $template_document->setValues(array(
-            'no_nota_dinas' => $kasus->no_nota_dinas,
-            'tanggal_nota_dinas' => Carbon::parse($kasus->tanggal_nota_dinas)->translatedFormat('d F Y'),
-            'pangkat' => $kasus->pangkat,
-            'jabatan' => $kasus->jabatan,
-            'kwn' => $kasus->kewarganegaraan,
-            'terlapor' => $kasus->terlapor,
-            'wujud_perbuatan' => $kasus->wujud_perbuatan,
-            'terlapor' => $kasus->terlapor,
-            'nrp' => $kasus->nrp,
-            'jabatan' => $kasus->jabatan,
-            'kesatuan' => $kasus->kesatuan,
-            'pelapor' => $kasus->pelapor,
-            'bulan_sprin' => Carbon::parse($sprin->created_at)->translatedFormat('F Y')
-        ));
+        // $kasus = DataPelanggar::find($kasus_id);
+        // $sprin = SprinHistory::where('data_pelanggar_id', $kasus->id)->first();
+        // $template_document = new TemplateProcessor(storage_path('template\lhp.docx'));
 
-        $filename = 'Dokumen LHP'.'.docx';
-        $path = storage_path('document/'.$filename);
-        $template_document->saveAs($path);
+        // $template_document->setValues(array(
+        //     'no_nota_dinas' => $kasus->no_nota_dinas,
+        //     'tanggal_nota_dinas' => Carbon::parse($kasus->tanggal_nota_dinas)->translatedFormat('d F Y'),
+        //     'pangkat' => $kasus->pangkat,
+        //     'jabatan' => $kasus->jabatan,
+        //     'kwn' => $kasus->kewarganegaraan,
+        //     'terlapor' => $kasus->terlapor,
+        //     'wujud_perbuatan' => $kasus->wujud_perbuatan,
+        //     'terlapor' => $kasus->terlapor,
+        //     'nrp' => $kasus->nrp,
+        //     'jabatan' => $kasus->jabatan,
+        //     'kesatuan' => $kasus->kesatuan,
+        //     'pelapor' => $kasus->pelapor,
+        //     'bulan_sprin' => Carbon::parse($sprin->created_at)->translatedFormat('F Y')
+        // ));
 
-        // $dokumen = DokumenPelanggar::where('data_pelanggar_id', $kasus_id)->where('process_id', $process_id)->where('sub_process_id', $subprocess)->first();
-        // if($dokumen == null){
-        //     DokumenPelanggar::create([
-        //         'data_pelanggar_id' => $kasus_id,
-        //         'process_id' => $process_id,
-        //         'sub_process_id' => $subprocess,
-        //         'created_by' => Auth::user()->id,
-        //         'status' => 1
-        //     ]);
-        // }
+        // $filename = 'Dokumen LHP'.'.docx';
+        // $path = storage_path('document/'.$filename);
+        // $template_document->saveAs($path);
 
-        return response()->download($path)->deleteFileAfterSend(true);
+        // // $dokumen = DokumenPelanggar::where('data_pelanggar_id', $kasus_id)->where('process_id', $process_id)->where('sub_process_id', $subprocess)->first();
+        // // if($dokumen == null){
+        // //     DokumenPelanggar::create([
+        // //         'data_pelanggar_id' => $kasus_id,
+        // //         'process_id' => $process_id,
+        // //         'sub_process_id' => $subprocess,
+        // //         'created_by' => Auth::user()->id,
+        // //         'status' => 1
+        // //     ]);
+        // // }
+
+        // return response()->download($path)->deleteFileAfterSend(true);
     }
 
     public function nd_permohonan_gelar_perkara($kasus_id, $process_id, $subprocess){
-        $kasus = DataPelanggar::find($kasus_id);
-        $sprin = SprinHistory::where('data_pelanggar_id', $kasus->id)->first();
-        $template_document = new TemplateProcessor(storage_path('template\nd_permohonan_gelar.docx'));
+        return redirect()->back()->with('msg', 'Proses cetak Nota Dinas Permohonan Gelar Perkara sedang dalam pengerjaan');
+        // $kasus = DataPelanggar::find($kasus_id);
+        // $sprin = SprinHistory::where('data_pelanggar_id', $kasus->id)->first();
+        // $template_document = new TemplateProcessor(storage_path('template\nd_permohonan_gelar.docx'));
 
-        $template_document->setValues(array(
-            'no_nota_dinas' => $kasus->no_nota_dinas,
-            'tanggal_nota_dinas' => Carbon::parse($kasus->tanggal_nota_dinas)->translatedFormat('d F Y'),
-            'pangkat' => $kasus->pangkat,
-            'jabatan' => $kasus->jabatan,
-            'kwn' => $kasus->kewarganegaraan,
-            'terlapor' => $kasus->terlapor,
-            'wujud_perbuatan' => $kasus->wujud_perbuatan,
-            'terlapor' => $kasus->terlapor,
-            'nrp' => $kasus->nrp,
-            'jabatan' => $kasus->jabatan,
-            'kesatuan' => $kasus->kesatuan,
-            'pelapor' => $kasus->pelapor,
-            'bulan_sprin' => Carbon::parse($sprin->created_at)->translatedFormat('F Y')
-        ));
+        // $template_document->setValues(array(
+        //     'no_nota_dinas' => $kasus->no_nota_dinas,
+        //     'tanggal_nota_dinas' => Carbon::parse($kasus->tanggal_nota_dinas)->translatedFormat('d F Y'),
+        //     'pangkat' => $kasus->pangkat,
+        //     'jabatan' => $kasus->jabatan,
+        //     'kwn' => $kasus->kewarganegaraan,
+        //     'terlapor' => $kasus->terlapor,
+        //     'wujud_perbuatan' => $kasus->wujud_perbuatan,
+        //     'terlapor' => $kasus->terlapor,
+        //     'nrp' => $kasus->nrp,
+        //     'jabatan' => $kasus->jabatan,
+        //     'kesatuan' => $kasus->kesatuan,
+        //     'pelapor' => $kasus->pelapor,
+        //     'bulan_sprin' => Carbon::parse($sprin->created_at)->translatedFormat('F Y')
+        // ));
 
-        $filename = 'Dokumen Nota Dinas Permohonan Gelar Perkara'.'.docx';
-        $path = storage_path('document/'.$filename);
-        $template_document->saveAs($path);
+        // $filename = 'Dokumen Nota Dinas Permohonan Gelar Perkara'.'.docx';
+        // $path = storage_path('document/'.$filename);
+        // $template_document->saveAs($path);
 
-        // $dokumen = DokumenPelanggar::where('data_pelanggar_id', $kasus_id)->where('process_id', $process_id)->where('sub_process_id', $subprocess)->first();
-        // if($dokumen == null){
-        //     DokumenPelanggar::create([
-        //         'data_pelanggar_id' => $kasus_id,
-        //         'process_id' => $process_id,
-        //         'sub_process_id' => $subprocess,
-        //         'created_by' => Auth::user()->id,
-        //         'status' => 1
-        //     ]);
-        // }
+        // // $dokumen = DokumenPelanggar::where('data_pelanggar_id', $kasus_id)->where('process_id', $process_id)->where('sub_process_id', $subprocess)->first();
+        // // if($dokumen == null){
+        // //     DokumenPelanggar::create([
+        // //         'data_pelanggar_id' => $kasus_id,
+        // //         'process_id' => $process_id,
+        // //         'sub_process_id' => $subprocess,
+        // //         'created_by' => Auth::user()->id,
+        // //         'status' => 1
+        // //     ]);
+        // // }
 
-        return response()->download($path)->deleteFileAfterSend(true);
+        // return response()->download($path)->deleteFileAfterSend(true);
     }
 
     public function undangan_klarifikasi(Request $request, $kasus_id){
