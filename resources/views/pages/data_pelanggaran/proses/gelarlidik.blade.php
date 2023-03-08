@@ -146,27 +146,185 @@
     </div>
 </div>
 
+<div class="modal fade" id="sprin_gelar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Pembuatan Dokumen SPRIN Gelar</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="javascript:void(0)" id="form-sprin-gelar">
+                @csrf
+                <input type="hidden" name="status" value="{{$status->id}}">
+                <input type="hidden" name="sub_process">
+                <input type="hidden" name="process_id">
+                <div class="modal-body">
+                    {{-- @if ($sprinGelar == null) --}}
+                        <div class="row mb-4">
+                            <div class="col-md-6 col-12">
+                                <div class="form-group">
+                                    <label for="no_sprin" class="form-label">No. SPRIN</label>
+                                    <input type="text" class="form-control" name="no_sprin" placeholder='Masukan Nomor SPRIN' onfocus="mask(this, '9999999')" onchange="mask(this, '9999999')">
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-12">
+                                <div class="form-group">
+                                    <label for="tgl" class="form-label">Tanggal Pelaksanaan Gelar Perkara</label>
+                                    <input type="date" class="form-control" name="tgl" placeholder='Pilih Tanggal'>
+                                </div>
+                            </div>
+                        </div>
+                    {{-- @else
+                        <div class="row justify-content-around items-center mt-4">
+                            <p>
+                                <a href="/print/sprin_gelar/{{$kasus->id}}/generated" class="text-primary" style="text-decoration: none; width: 100%">
+                                    <i class="mdi mdi-file-document"></i>
+                                    Download SPRIN
+                                    <span class="mdi mdi-download"></span>
+                                </a>
+                            </p>
+                        </div>
+                    @endif --}}
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Buat Dokumen</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="undangan_gelar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Pembuatan Dokumen Undangan Gelar Perkara</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="javascript:void(0)" id="form-undangan-gelar">
+                @csrf
+                <input type="hidden" name="status" value="{{$status->id}}">
+                <input type="hidden" name="sub_process">
+                <input type="hidden" name="process_id">
+                <div class="modal-body">
+                    <div class="row mb-4">
+                        <div class="col-md-6 col-12">
+                            <div class="form-group">
+                                <label for="tgl" class="form-label">Tanggal Pelaksanaan Gelar Perkara</label>
+                                <input type="date" class="form-control" name="tgl" placeholder='Pilih Tanggal'>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-12">
+                            <div class="form-group">
+                                <label for="jam" class="form-label">Waktu Pelaksanaan Gelar Perkara</label>
+                                <input type="time" class="form-control" name="jam" placeholder='Pilih Jam'>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-12">
+                            <div class="form-group">
+                                <label for="tempat" class="form-label">Tempat Pelaksanaan</label>
+                                <input type="text" class="form-control" name="tempat" placeholder='Masukan Tempat Pelaksanaan'>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-12">
+                            <div class="form-group">
+                                <label for="pimpinan" class="form-label">Pimpinan Pelaksanaan</label>
+                                <input type="text" class="form-control" name="pimpinan" placeholder='Masukan Pimpinan Pelaksanaan'>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Buat Dokumen</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="laporan_hasil_gelar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Pembuatan Dokumen Laporan Hasil Gelar Perkara</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="htmlEditor">
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">Buat Dokumen</button>
+            </div>
+            {{-- <form action="javascript:void(0)" id="form-undangan-gelar">
+                @csrf
+                <input type="hidden" name="status" value="{{$status->id}}">
+                <input type="hidden" name="sub_process">
+                <input type="hidden" name="process_id">
+                <div class="modal-body">
+                    <div class="row mb-4">
+                        <div class="col-md-6 col-12">
+                            <div class="form-group">
+                                <label for="tgl" class="form-label">Tanggal Pelaksanaan Gelar Perkara</label>
+                                <input type="date" class="form-control" name="tgl" placeholder='Pilih Tanggal'>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-12">
+                            <div class="form-group">
+                                <label for="jam" class="form-label">Waktu Pelaksanaan Gelar Perkara</label>
+                                <input type="time" class="form-control" name="jam" placeholder='Pilih Jam'>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-12">
+                            <div class="form-group">
+                                <label for="tempat" class="form-label">Tempat Pelaksanaan</label>
+                                <input type="text" class="form-control" name="tempat" placeholder='Masukan Tempat Pelaksanaan'>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-12">
+                            <div class="form-group">
+                                <label for="pimpinan" class="form-label">Pimpinan Pelaksanaan</label>
+                                <input type="text" class="form-control" name="pimpinan" placeholder='Masukan Pimpinan Pelaksanaan'>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Buat Dokumen</button>
+                </div>
+            </form> --}}
+        </div>
+    </div>
+</div>
+
 <script>
     $(document).ready(function(){
-        // tinymce.remove();
-        // tinymce.init({
-        //     selector: ".htmlEditor",
-        //     plugins: [
-        //         "advlist autolink link image lists charmap print preview hr anchor pagebreak spellchecker",
-        //         "searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking",
-        //         "table directionality emoticons template paste",
-        //     ],
-        //     menubar: "edit view insert format tools table tc help",
-        //     toolbar:
-        //         "undo redo | bold italic underline strikethrough | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | fullscreen  preview save | outdent indent |  numlist bullist checklist | forecolor backcolor casechange permanentpen formatpainter removeformat | pagebreak | charmap emoticons | insertfile image media pageembed template link anchor codesample | a11ycheck ltr rtl | showcomments addcomment",
-        //     setup: function (editor) {
-        //         editor.on('change', function (e) {
-        //             var x = editor.getContent({format: 'text'})
-        //             $('.value_html').html(x)
-        //         });
-	    //     },
-        //     height: 250
-        // });
+        tinymce.remove();
+        tinymce.init({
+            selector: ".htmlEditor",
+            plugins: [
+                "advlist autolink link image lists charmap print preview hr anchor pagebreak spellchecker",
+                "template",
+            ],
+            menubar: "file edit view insert format tools table tc help",
+            toolbar:
+            "undo redo | bold italic underline strikethrough | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | fullscreen  preview save print | outdent indent |  numlist bullist checklist | forecolor backcolor casechange permanentpen formatpainter removeformat | pagebreak | charmap emoticons | insertfile image media pageembed template link anchor codesample | a11ycheck ltr rtl | showcomments addcomment",
+            height: 600,
+            templates: [
+                {
+                    title: "Laporan Hasil Gelar Perkara",
+                    description: "Laporan Hasil Gelar Perkara",
+                    url:`{{asset('template_lap_hasil_gp.html')}}`,
+                },
+            ],
+            image_title: true,
+            automatic_uploads: true,
+            file_picker_types: "image",
+            relative_urls: false,
+            remove_script_host: false,
+            convert_urls: true,
+        });
 
         $('.generate_document').on('click', function(){
             $('input[name="sub_process"]').val($(this).data('subprocess'))
@@ -185,54 +343,31 @@
 
         })
 
-        $('.submit').on('click', function(){
-            var data = $('#form').serializeArray()
-            data.push({
-                name: 'next',
-                value: $(this).data('next')
-            })
-
+        $('#form-sprin-gelar').on('submit', function(){
+            var data = $(this).serializeArray()
             $.ajax({
-                url: `/limpah-polda`,
+                url: `/print/sprin_gelar/{{ $kasus->id }}/not-generated`,
                 method: 'POST',
                 data: data,
                 beforeSend: () => {
                     $.LoadingOverlay("show");
                 },
                 success:(res) => {
-                    if ($(this).data('next') == 'limpah'){
-                        window.location.href = `/download-file/${res.file}`
-
-                        setTimeout(() => {
-                            $.LoadingOverlay("hide");
-                            Swal.fire({
-                                title: 'Berhasil',
-                                text: 'Berhasil generate dan download dokumen',
-                                icon: 'success',
-                                toast: true,
-                                position: 'top-end',
-                                showConfirmButton: false,
-                                timer: 3000,
-                                timerProgressBar: true,
-                            })
-
-                            window.location.reload()
-                        }, 2500);
-                    } else {
-                        $.LoadingOverlay("hide");
-                        Swal.fire({
-                            title: 'Berhasil',
-                            text: 'Berhasil rubah status',
-                            icon: 'success',
-                            toast: true,
-                            position: 'top-end',
-                            showConfirmButton: false,
-                            timer: 3000,
-                            timerProgressBar: true,
-                        })
-
+                    window.location.href = `/download-file/${res.file}`
+                    $.LoadingOverlay("hide");
+                    Swal.fire({
+                        title: 'Berhasil',
+                        text: 'Berhasil generate dan download dokumen',
+                        icon: 'success',
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                    })
+                    setTimeout(() => {
                         window.location.reload()
-                    }
+                    }, 1500);
                 },
                 error: (xhr) => {
                     $.LoadingOverlay("hide");
@@ -249,5 +384,113 @@
                 }
             })
         })
+
+        $('#form-undangan-gelar').on('submit', function(){
+            var data = $(this).serializeArray()
+            $.ajax({
+                url: `/print/undangan_gelar/{{ $kasus->id }}`,
+                method: 'POST',
+                data: data,
+                beforeSend: () => {
+                    $.LoadingOverlay("show");
+                },
+                success:(res) => {
+                    window.location.href = `/download-file/${res.file}`
+                    $.LoadingOverlay("hide");
+                    Swal.fire({
+                        title: 'Berhasil',
+                        text: 'Berhasil generate dan download dokumen',
+                        icon: 'success',
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                    })
+                },
+                error: (xhr) => {
+                    $.LoadingOverlay("hide");
+                    Swal.fire({
+                        title: `Terjadi Kesalahan`,
+                        text: xhr.responseJSON.status.msg,
+                        icon: 'error',
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                    })
+                }
+            })
+        })
+
+        // $('.submit').on('click', function(){
+        //     var data = $('#form').serializeArray()
+        //     data.push({
+        //         name: 'next',
+        //         value: $(this).data('next')
+        //     })
+
+        //     $.ajax({
+        //         url: `/limpah-polda`,
+        //         method: 'POST',
+        //         data: data,
+        //         beforeSend: () => {
+        //             $.LoadingOverlay("show");
+        //         },
+        //         success:(res) => {
+        //             if ($(this).data('next') == 'limpah'){
+        //                 window.location.href = `/download-file/${res.file}`
+
+        //                 setTimeout(() => {
+        //                     $.LoadingOverlay("hide");
+        //                     Swal.fire({
+        //                         title: 'Berhasil',
+        //                         text: 'Berhasil generate dan download dokumen',
+        //                         icon: 'success',
+        //                         toast: true,
+        //                         position: 'top-end',
+        //                         showConfirmButton: false,
+        //                         timer: 3000,
+        //                         timerProgressBar: true,
+        //                     })
+
+        //                     window.location.reload()
+        //                 }, 2500);
+        //             } else {
+        //                 $.LoadingOverlay("hide");
+        //                 Swal.fire({
+        //                     title: 'Berhasil',
+        //                     text: 'Berhasil rubah status',
+        //                     icon: 'success',
+        //                     toast: true,
+        //                     position: 'top-end',
+        //                     showConfirmButton: false,
+        //                     timer: 3000,
+        //                     timerProgressBar: true,
+        //                 })
+
+        //                 window.location.reload()
+        //             }
+        //         },
+        //         error: (xhr) => {
+        //             $.LoadingOverlay("hide");
+        //             Swal.fire({
+        //                 title: `Terjadi Kesalahan`,
+        //                 text: xhr.responseJSON.status.msg,
+        //                 icon: 'error',
+        //                 toast: true,
+        //                 position: 'top-end',
+        //                 showConfirmButton: false,
+        //                 timer: 3000,
+        //                 timerProgressBar: true,
+        //             })
+        //         }
+        //     })
+        // })
     })
+
+    function mask(el, maskVal){
+        $(el).inputmask({"mask": maskVal});
+    }
 </script>

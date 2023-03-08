@@ -12,6 +12,7 @@ use App\Models\Sp2hp2History;
 use App\Models\SprinHistory;
 use App\Models\SubProcess;
 use App\Models\UndanganKlarifikasiHistory;
+use App\Models\Witness;
 use Illuminate\Http\Request;
 use DataTables;
 use Illuminate\Support\Facades\Redirect;
@@ -267,6 +268,7 @@ class KasusController extends Controller
         $sprin = SprinHistory::where('data_pelanggar_id', $id)->with('user')->first();
         $sp2hp2 = Sp2hp2History::where('data_pelanggar_id', $id)->with('user')->first();
         $agama = Agama::get();
+        $saksi = Witness::where('data_pelanggar_id', $id)->get();
 
         $data = [
             'kasus' => $kasus,
@@ -274,7 +276,8 @@ class KasusController extends Controller
             'sub_process' => $sub_process,
             'sprin' => $sprin,
             'sp2hp2' => $sp2hp2,
-            'agamas' => $agama
+            'agamas' => $agama,
+            'saksi' => $saksi
         ];
 
         return view('pages.data_pelanggaran.proses.pulbaket', $data);
@@ -284,11 +287,14 @@ class KasusController extends Controller
         $kasus = DataPelanggar::find($id);
         $status = Process::find($kasus->status_id);
         $sub_process = SubProcess::where('process_id', $kasus->status_id)->get();
+        // $sprin = SprinHistory::where('data_pelanggar_id', $id)->where('type', 'lidik')->with('user')->first();
+        // $sprinGelar = SprinHistory::where('data_pelanggar_id', $id)->where('type', 'gelar')->with('user')->first();
 
         $data = [
             'kasus' => $kasus,
             'status' => $status,
             'sub_process' => $sub_process,
+            // 'sprinGelar' => $sprinGelar
         ];
 
         return view('pages.data_pelanggaran.proses.gelarlidik', $data);

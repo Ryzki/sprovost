@@ -58,12 +58,13 @@ Route::middleware(['auth'])->group(function (){
     Route::post('/print/bai/{id}', [GenerateDocument::class, 'bai']);
     // Route::get('/print/bai-anggota/{id}/{process_id}/{subprocess}', [GenerateDocument::class, 'bai_anggota']);
     Route::get('/print/laporan_hasil_penyelidikan/{id}/{process_id}/{subprocess}', [GenerateDocument::class, 'laporanHasilPenyelidikan']);
-    Route::get('/print/nd_permohonan_gelar_perkara/{id}/{process_id}/{subprocess}', [GenerateDocument::class, 'nd_permohonan_gelar_perkara']);
+    Route::POST('/print/nd_permohonan_gelar_perkara/{id}', [GenerateDocument::class, 'nd_permohonan_gelar_perkara']);
     Route::post('/print/undangan_klarifikasi/{id}', [GenerateDocument::class, 'undangan_klarifikasi']);
 
     // Generate Gelar Lidik
-    Route::get('/print/sprin_gelar/{id}/{process_id}/{subprocess}', [GenerateDocument::class, 'sprin_gelar']);
-    Route::get('/print/undangan_gelar/{id}/{process_id}/{subprocess}', [GenerateDocument::class, 'berkas_undangan_gelar']);
+    Route::POST('/print/sprin_gelar/{id}/not-generated', [GenerateDocument::class, 'sprin_gelar']);
+    Route::GET('/print/sprin_gelar/{id}/generated', [GenerateDocument::class, 'sprin_gelar']);
+    Route::POST('/print/undangan_gelar/{id}', [GenerateDocument::class, 'berkas_undangan_gelar']);
     Route::get('/print/notulen_hasil_gelar/{id}/{process_id}/{subprocess}', [GenerateDocument::class, 'notulen_hasil_gelar']);
     Route::get('/print/laporan_hasil_gelar/{id}/{process_id}/{subprocess}', [GenerateDocument::class, 'laporan_hasil_gelar']);
 

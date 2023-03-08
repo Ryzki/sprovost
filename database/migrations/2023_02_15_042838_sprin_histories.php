@@ -18,6 +18,8 @@ return new class extends Migration
             $table->bigInteger('data_pelanggar_id');
             $table->text('no_sprin');
             $table->integer('created_by');
+            $table->string('type', 15);
+            $table->date('tgl_pelaksanaan_gelar')->nullable()->default(null);
             $table->timestamps();
         });
     }
