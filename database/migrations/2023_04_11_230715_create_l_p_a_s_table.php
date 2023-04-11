@@ -13,15 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('penyidiks', function (Blueprint $table) {
+        Schema::create('lpas', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('data_pelanggar_id');
-            $table->string('name');
-            $table->string('nrp');
-            $table->string('pangkat');
-            $table->string('jabatan');
-            $table->string('kesatuan');
-            $table->string('type');
+            $table->string('no_lpa');
+            $table->string('created_by');
             $table->timestamps();
         });
     }
@@ -33,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('penyidiks');
+        Schema::dropIfExists('l_p_a_s');
     }
 };

@@ -76,19 +76,19 @@ class DatabaseSeeder extends Seeder
         [
             [
                 'process_id' => '2',
-                'name' => 'Disposisi Karo / Sesro Ke Gakkum',
+                'name' => 'Disposisi Karo',
                 'required' => 0
             ],[
                 'process_id' => '2',
-                'name' => 'Disposisi Rikum / Riksa / Pemeriksa Utama 1-6',
+                'name' => 'Disposisi Sesro',
+                'required' => 0
+            ],[
+                'process_id' => '2',
+                'name' => 'Disposisi Kabag Gakkum',
                 'required' => 0
             ],[
                 'process_id' => '3',
                 'name' => 'SPRIN Lidik',
-                'required' => 1
-            ],[
-                'process_id' => '3',
-                'name' => 'SP2HP2',
                 'required' => 1
             ],[
                 'process_id' => '3',
@@ -103,24 +103,20 @@ class DatabaseSeeder extends Seeder
                 'name' => 'Laporan Hasil Penyelidikan',
                 'required' => 0
             ],[
-                'process_id' => '3',
-                'name' => 'ND Permohonan Gelar Perkara',
-                'required' => 0
-            ],[
                 'process_id' => '4',
                 'name' => 'SPRIN Gelar',
-                'required' => 0
+                'required' => 1
             ],[
                 'process_id' => '4',
                 'name' => 'Undangan Gelar',
                 'required' => 0
             ],[
                 'process_id' => '4',
-                'name' => 'Notulen Hasil Gelar',
+                'name' => 'Laporan Hasil Gelar',
                 'required' => 0
             ],[
                 'process_id' => '4',
-                'name' => 'Laporan Hasil Gelar',
+                'name' => 'SP2HP2',
                 'required' => 0
             ],[
                 'process_id' => '6',
@@ -188,14 +184,14 @@ class DatabaseSeeder extends Seeder
             'jenis_kelamin' => 1,
             'pekerjaan' => 'swasta',
             'agama' => 1,
-            'alamat' => 'cianjur',
+            'alamat' => 'Cianjur',
             'no_identitas' => 123456789,
             'jenis_identitas' => 1,
             'terlapor' => 'Rizky',
             'kesatuan' => 'Polri',
             'tempat_kejadian' => 'Tebet',
             'kronologi' => 'Jatuh Bangun',
-            'pangkat' => 'tengkorak',
+            'pangkat' => 'Bharada Dua',
             'nama_korban' => 'Prayogi',
             'status_id' => 1,
             'nrp' => '12345',

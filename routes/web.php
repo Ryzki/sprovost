@@ -44,11 +44,17 @@ Route::middleware(['auth'])->group(function (){
     // View Kasus
     Route::get('data-kasus/view/{kasus_id}/{id}', [KasusController::class, 'viewProcess'])->name('kasus.proses.view');
     Route::get('data-penyidik/{kasus_id}', [KasusController::class, 'getDataPenyidik']);
+    Route::get('data-penyidik-riksa/{kasus_id}', [KasusController::class, 'getDataPenyidikRiksa']);
     // End View Kasus
 
-    // Generate
-    Route::post('/lembar-disposisi', [GenerateDocument::class, 'generateDisposisi']);
+    // Download From Ajax
     Route::get('/download-file/{filename}', [GenerateDocument::class, 'downloadFile']);
+
+    // Generate Disposisi
+    Route::post('/lembar-disposisi', [GenerateDocument::class, 'generateDisposisi']);
+    Route::post('/lembar-disposisi-karo', [GenerateDocument::class, 'generateDisposisiKaro']);
+    Route::post('/lembar-disposisi-sesro', [GenerateDocument::class, 'generateDisposisiSesro']);
+    Route::get('/print/disposisi_kabag_gakkum/{id}/{process_id}/{subprocess}', [GenerateDocument::class, 'generateDisposisiKabag']);
 
     // Generate Pulbaket
     Route::get('/surat-perintah/{id}/generated', [GenerateDocument::class, 'SuratPerintah']);
@@ -66,14 +72,16 @@ Route::middleware(['auth'])->group(function (){
     Route::GET('/print/sprin_gelar/{id}/generated', [GenerateDocument::class, 'sprin_gelar']);
     Route::POST('/print/undangan_gelar/{id}', [GenerateDocument::class, 'berkas_undangan_gelar']);
     Route::get('/print/notulen_hasil_gelar/{id}/{process_id}/{subprocess}', [GenerateDocument::class, 'notulen_hasil_gelar']);
-    Route::get('/print/laporan_hasil_gelar/{id}/{process_id}/{subprocess}', [GenerateDocument::class, 'laporan_hasil_gelar']);
+    Route::POST('/print/laporan_hasil_gelar/{id}', [GenerateDocument::class, 'laporan_hasil_gelar']);
 
     Route::post('/limpah-polda', [GenerateDocument::class, 'limpah_polda']);
 
     // Generate Sidik / LPA
-    Route::get('/print/lpa/{id}/{process_id}/{subprocess}', [GenerateDocument::class, 'lpa']);
-    Route::get('/print/sprin_riksa/{id}/{process_id}/{subprocess}', [GenerateDocument::class, 'sprin_riksa']);
-    Route::get('/print/surat_panggilan_saksi/{id}/{process_id}/{subprocess}', [GenerateDocument::class, 'surat_panggilan_saksi']);
+    Route::POST('/print/lpa/{id}/not-generated', [GenerateDocument::class, 'lpa']);
+    Route::GET('/print/lpa/{id}/generated', [GenerateDocument::class, 'lpa']);
+    Route::POST('/print/sprin_riksa/{id}/not_generated', [GenerateDocument::class, 'sprin_riksa']);
+    Route::GET('/print/sprin_riksa/{id}/generated', [GenerateDocument::class, 'sprin_riksa']);
+    Route::POST('/print/surat_panggilan_saksi/{id}', [GenerateDocument::class, 'surat_panggilan_saksi']);
     Route::get('/print/surat_panggilan_terduga/{id}/{process_id}/{subprocess}', [GenerateDocument::class, 'surat_panggilan_terduga']);
     Route::get('/print/bap/{id}/{process_id}/{subprocess}', [GenerateDocument::class, 'bap']);
     Route::get('/print/dp3d/{id}/{process_id}/{subprocess}', [GenerateDocument::class, 'dp3d']);

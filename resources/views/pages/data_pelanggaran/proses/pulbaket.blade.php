@@ -384,19 +384,26 @@
                 <input type="hidden" name="process_id">
                 <div class="modal-body">
                     <div class="row mb-4">
-                        <div class="col-md-4 col-12">
+                        <div class="col-md-6 col-12">
                             <div class="form-group">
                                 <label for="no_undangan" class="form-label">No. Undangan</label>
                                 <input type="number" class="form-control" name="no_undangan" placeholder='Masukan Nomor Undangan'>
                             </div>
                         </div>
-                        <div class="col-md-4 col-12">
+                        <div class="col-md-6 col-12">
                             <div class="form-group">
                                 <label for="tgl_pertemuan" class="form-label">Tanggal Undangan</label>
                                 <input type="date" class="form-control" name="tgl_pertemuan" placeholder='Pilih Tanggal'>
                             </div>
                         </div>
-                        <div class="col-md-4 col-12">
+
+                        <div class="col-md-6 col-12">
+                            <div class="form-group">
+                                <label for="ruang_pertemuan" class="form-label">Ruang Pelaksanaan</label>
+                                <input type="text" class="form-control" name="ruang_pertemuan">
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-12">
                             <div class="form-group">
                                 <label for="jam_pertemuan" class="form-label">Jam Undangan</label>
                                 <input type="time" class="form-control" name="jam_pertemuan">
@@ -439,7 +446,7 @@
                 <input type="hidden" name="sub_process">
                 <input type="hidden" name="process_id">
                 <div class="modal-body">
-                    @if (count($saksi) == 0)
+                    {{-- @if (count($saksi) == 0) --}}
                         <div class="card" id="data-penyidik">
                             <div class="card-header">
                                 Pilih Penyidik
@@ -459,7 +466,7 @@
                                 </div>
                             </div>
                         </div>
-                    @endif
+                    {{-- @endif --}}
                     @if (count($saksi) == 0)
                         <div class="card" id="data-saksi">
                             <div class="card-header" id="header-saksi" style="cursor: pointer">Tambah Saksi <br> <small class="text-info">*click untuk menambahkan saksi</small></div>

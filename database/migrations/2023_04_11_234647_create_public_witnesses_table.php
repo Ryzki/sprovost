@@ -13,15 +13,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('penyidiks', function (Blueprint $table) {
+        Schema::create('public_witnesses', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('data_pelanggar_id');
-            $table->string('name');
-            $table->string('nrp');
-            $table->string('pangkat');
-            $table->string('jabatan');
-            $table->string('kesatuan');
-            $table->string('type');
+            $table->string('nama');
+            $table->string('pekerjaan');
+            $table->string('ttl');
+            $table->string('warga_negara');
+            $table->integer('agama');
+            $table->string('alamat');
+            $table->string('no_telp');
             $table->timestamps();
         });
     }
@@ -33,6 +34,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('penyidiks');
+        Schema::dropIfExists('public_witnesses');
     }
 };

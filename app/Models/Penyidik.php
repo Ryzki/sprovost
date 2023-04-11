@@ -8,5 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class Penyidik extends Model
 {
     use HasFactory;
-    protected $fillable = [ 'data_pelanggar_id' ,'name', 'nrp', 'pangkat', 'jabatan', 'kesatuan'];
+    protected $fillable = [ 'data_pelanggar_id' ,'name', 'nrp', 'pangkat', 'jabatan', 'kesatuan', 'type'];
 }
