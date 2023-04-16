@@ -85,7 +85,7 @@ Route::middleware(['auth'])->group(function (){
     Route::get('/print/surat_panggilan_terduga/{id}/{process_id}/{subprocess}', [GenerateDocument::class, 'surat_panggilan_terduga']);
     Route::get('/print/bap/{id}/{process_id}/{subprocess}', [GenerateDocument::class, 'bap']);
     Route::get('/print/dp3d/{id}/{process_id}/{subprocess}', [GenerateDocument::class, 'dp3d']);
-    Route::get('/print/surat_pelimpahan_ke_aktum/{id}/{process_id}/{subprocess}', [GenerateDocument::class, 'pelimpahan_ankum']);
+    Route::get('/print/surat_pelimpahan_ke_ankum/{id}/{process_id}/{subprocess}', [GenerateDocument::class, 'pelimpahan_ankum']);
 
     // Sidang Disiplin
     Route::get('/print/nota_dina_perangkat_sidang/{id}/{process_id}/{subprocess}', [GenerateDocument::class, 'nota_dina_perangkat_sidang']);

@@ -144,7 +144,7 @@ class DatabaseSeeder extends Seeder
                 'required' => 0
             ],[
                 'process_id' => '6',
-                'name' => 'Surat Pelimpahan ke Aktum',
+                'name' => 'Surat Pelimpahan ke Ankum',
                 'required' => 0
             ],[
                 'process_id' => '7',

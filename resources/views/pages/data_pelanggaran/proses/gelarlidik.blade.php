@@ -309,8 +309,8 @@
                                         <div class="col-md-6 col-12">
                                             <div class="form-group mb-4">
                                                 <label for="pimpinan">Pimpinan</label>
-                                                <input type="hidden" name="pimpinan" value="{{ isset($gelarPerkara) ? $gelarPerkara->pimpinan : '' }}" class="form-control" readonly>
-                                                <input type="text" name="pimpinan_text" value="{{ isset($gelarPerkara) ? $gelarPerkara->penyidik->pangkat.' '.$gelarPerkara->penyidik->name : '' }}" class="form-control" readonly>
+                                                <input type="hidden" name="pimpinan" value="{{ $gelarPerkara->pimpinan != null ? $gelarPerkara->pimpinan : '' }}" class="form-control" readonly>
+                                                <input type="text" name="pimpinan_text" value="{{ $gelarPerkara->pimpinan != null ? $gelarPerkara->penyidik->pangkat.' '.$gelarPerkara->penyidik->name : '' }}" class="form-control" readonly>
                                                 {{-- <select name="pimpinan" id="select-pimpinan" class="form-select select-penyidik" data-placeholder="Silahkan Pilih Pimpinan">
                                                 </select> --}}
                                             </div>

@@ -346,6 +346,44 @@
                         <input type="text" class="form-control" id="nomor_surat" name="nomor_surat">
                     </div>
                     <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Nomor Agenda</label>
+                        <input type="text" class="form-control" id="nomor_agenda" name="nomor_agenda">
+                    </div>
+                    <fieldset class="form-group row mb-4">
+                        <legend class="col-form-label">Klasifikasi</legend>
+                        <div class="col-sm-10">
+                          <div class="form-check">
+                            <input class="form-check-input" type="radio" name="klasifikasi" id="klasifikasi1" value="Biasa">
+                            <label class="form-check-label" for="klasifikasi1">
+                              Biasa
+                            </label>
+                          </div>
+                          <div class="form-check">
+                            <input class="form-check-input" type="radio" name="klasifikasi" id="klasifikasi2" value="Rahasia">
+                            <label class="form-check-label" for="klasifikasi2">
+                              Rahasia
+                            </label>
+                          </div>
+                        </div>
+                    </fieldset>
+                    <fieldset class="form-group row mb-4">
+                        <legend class="col-form-label">Derajat</legend>
+                        <div class="col-sm-10">
+                          <div class="form-check">
+                            <input class="form-check-input" type="radio" name="derajat" id="derajat1" value="Biasa">
+                            <label class="form-check-label" for="derajat1">
+                              Biasa
+                            </label>
+                          </div>
+                          <div class="form-check">
+                            <input class="form-check-input" type="radio" name="derajat" id="derajat2" value="Kilat">
+                            <label class="form-check-label" for="derajat2">
+                              Kilat
+                            </label>
+                          </div>
+                        </div>
+                    </fieldset>
+                    <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Tanggal</label>
                         <input type="date" class="form-control" id="tanggal" name="tanggal">
                     </div>
@@ -380,6 +418,44 @@
                         <label for="exampleInputPassword1" class="form-label">Nomor Surat</label>
                         <input type="text" class="form-control" id="nomor_surat" name="nomor_surat">
                     </div>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Nomor Agenda</label>
+                        <input type="text" class="form-control" id="nomor_agenda" name="nomor_agenda">
+                    </div>
+                    <fieldset class="form-group row mb-4">
+                        <legend class="col-form-label">Klasifikasi</legend>
+                        <div class="col-sm-10">
+                          <div class="form-check">
+                            <input class="form-check-input" type="radio" name="klasifikasi" id="klasifikasi1" value="Biasa">
+                            <label class="form-check-label" for="klasifikasi1">
+                              Biasa
+                            </label>
+                          </div>
+                          <div class="form-check">
+                            <input class="form-check-input" type="radio" name="klasifikasi" id="klasifikasi2" value="Rahasia">
+                            <label class="form-check-label" for="klasifikasi2">
+                              Rahasia
+                            </label>
+                          </div>
+                        </div>
+                    </fieldset>
+                    <fieldset class="form-group row mb-4">
+                        <legend class="col-form-label">Derajat</legend>
+                        <div class="col-sm-10">
+                          <div class="form-check">
+                            <input class="form-check-input" type="radio" name="derajat" id="derajat1" value="Biasa">
+                            <label class="form-check-label" for="derajat1">
+                              Biasa
+                            </label>
+                          </div>
+                          <div class="form-check">
+                            <input class="form-check-input" type="radio" name="derajat" id="derajat2" value="Kilat">
+                            <label class="form-check-label" for="derajat2">
+                              Kilat
+                            </label>
+                          </div>
+                        </div>
+                    </fieldset>
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Tanggal</label>
                         <input type="date" class="form-control" id="tanggal" name="tanggal">

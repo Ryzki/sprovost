@@ -349,6 +349,7 @@ class KasusController extends Controller
         // $sprin = SprinHistory::where('data_pelanggar_id', $id)->where('type', 'lidik')->with('user')->first();
         $sprinGelar = SprinHistory::where('data_pelanggar_id', $id)->where('type', 'gelar')->with('user')->first();
         $gelarPerkara = GelarPerkara::where('data_pelanggar_id', $id)->with('penyidik')->first();
+        // dd($gelarPerkara);
         $data = [
             'kasus' => $kasus,
             'status' => $status,

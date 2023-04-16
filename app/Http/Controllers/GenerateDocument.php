@@ -81,20 +81,20 @@ class GenerateDocument extends Controller
 
     public function generateDisposisiKaro(Request $request){
         $kasus = DataPelanggar::find($request->kasus_id);
-
         $data = [
             'tanggal' => $request->tanggal,
-            'nomor_surat' => $request->nomor_surat,
-            'perihal' => $kasus->perihal_nota_dinas
+            'no_surat' => $request->nomor_surat,
+            'no_agenda' => $request->nomor_agenda,
+            'perihal' => $kasus->perihal_nota_dinas,
+            'klasifikasi' => strtoupper($request->klasifikasi),
+            'derajat' => strtoupper($request->derajat),
         ];
 
         $filename = "$kasus->pelapor - Lembar Disposisi Karo";
         $path = storage_path('document/'.$filename.'.docx');
         $template = new TemplateProcessor(storage_path('template/template_disposisi_karo.docx'));
 
-        $template->setValue('no_surat', $data['nomor_surat']);
-        $template->setValue('tanggal', $data['tanggal']);
-        $template->setValue('perihal', $data['perihal']);
+        $template->setValues($data);
 
         $dokumen = DokumenPelanggar::where('data_pelanggar_id', $request->kasus_id)->where('process_id', $request->process_id)->where('sub_process_id', null)->first();
         if($dokumen == null){
@@ -116,17 +116,18 @@ class GenerateDocument extends Controller
 
         $data = [
             'tanggal' => $request->tanggal,
-            'nomor_surat' => $request->nomor_surat,
-            'perihal' => $kasus->perihal_nota_dinas
+            'no_surat' => $request->nomor_surat,
+            'no_agenda' => $request->nomor_agenda,
+            'perihal' => $kasus->perihal_nota_dinas,
+            'klasifikasi' => strtoupper($request->klasifikasi),
+            'derajat' => strtoupper($request->derajat),
         ];
 
         $filename = "$kasus->pelapor - Lembar Disposisi Sesro";
         $path = storage_path('document/'.$filename.'.docx');
         $template = new TemplateProcessor(storage_path('template/template_disposisi_sesro.docx'));
 
-        $template->setValue('no_surat', $data['nomor_surat']);
-        $template->setValue('tanggal', $data['tanggal']);
-        $template->setValue('perihal', $data['perihal']);
+        $template->setValues($data);
 
         $dokumen = DokumenPelanggar::where('data_pelanggar_id', $request->kasus_id)->where('process_id', $request->process_id)->where('sub_process_id', null)->first();
         if($dokumen == null){
