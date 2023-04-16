@@ -147,7 +147,7 @@ class GenerateDocument extends Controller
     public function generateDisposisiKabag($kasus_id, $process_id, $subprocess){
         $kasus = DataPelanggar::find($kasus_id);
 
-        $template_document = new TemplateProcessor(storage_path('template\template_disposisi_kabag.docx'));
+        $template_document = new TemplateProcessor(storage_path('template/template_disposisi_kabag.docx'));
         $template_document->setValues(array(
             'tgl_ttd' => Carbon::now()->translatedFormat('F Y')
         ));
@@ -186,7 +186,7 @@ class GenerateDocument extends Controller
             }
         }
 
-        $template_document = new TemplateProcessor(storage_path('template\template_sprin.docx'));
+        $template_document = new TemplateProcessor(storage_path('template/template_sprin.docx'));
         if (count($penyelidik) == 0){
             for ($i=0; $i < count($request->nama); $i++) {
                 Penyidik::create([
@@ -254,7 +254,7 @@ class GenerateDocument extends Controller
     public function SuratPerintahPengantar($kasus_id){
         $kasus = DataPelanggar::find($kasus_id);
 
-        $template_document = new TemplateProcessor(storage_path('template\pengantar_sprin.docx'));
+        $template_document = new TemplateProcessor(storage_path('template/pengantar_sprin.docx'));
         $template_document->setValues(array(
             'nrp' => $kasus->no_pengaduan,
             'tgl_nd' => Carbon::parse($kasus->created_at)->translatedFormat('d F Y'),
@@ -277,7 +277,7 @@ class GenerateDocument extends Controller
         $sprin = SprinHistory::where('data_pelanggar_id', $kasus_id)->where('type', 'lidik')->first();
         $penyidik = Penyidik::find($request->penyidik);
 
-        $template_document = new TemplateProcessor(storage_path('template\template_undangan_klarifikasi.docx'));
+        $template_document = new TemplateProcessor(storage_path('template/template_undangan_klarifikasi.docx'));
         $template_document->setValues(array(
             'no' => $request->no_undangan,
             'create_date' => Carbon::now()->translatedFormat('d F Y'),
@@ -332,7 +332,7 @@ class GenerateDocument extends Controller
 
         if (count($dataSaksi) == 0){
             for ($i=0; $i < count($request->nama) ; $i++) {
-                $template_document = new TemplateProcessor(storage_path('template\template_bai.docx'));
+                $template_document = new TemplateProcessor(storage_path('template/template_bai.docx'));
                 Witness::create([
                     'data_pelanggar_id' => $kasus_id,
                     'nama' => strtoupper($request->nama[$i]),
@@ -399,7 +399,7 @@ class GenerateDocument extends Controller
         } else {
             foreach ($dataSaksi as $saksi) {
                 $agama = Agama::where('id', $saksi->agama)->first();
-                $template_document = new TemplateProcessor(storage_path('template\template_bai.docx'));
+                $template_document = new TemplateProcessor(storage_path('template/template_bai.docx'));
                 $template_document->setValues(array(
                     'saksi' => strtoupper($saksi->nama),
                     'pangkat_saksi' => strtoupper($saksi->pangkat),
@@ -459,7 +459,7 @@ class GenerateDocument extends Controller
 
         // $kasus = DataPelanggar::find($kasus_id);
         // $sprin = SprinHistory::where('data_pelanggar_id', $kasus->id)->first();
-        // $template_document = new TemplateProcessor(storage_path('template\lhp.docx'));
+        // $template_document = new TemplateProcessor(storage_path('template/lhp.docx'));
 
         // $template_document->setValues(array(
         //     'no_nota_dinas' => $kasus->no_nota_dinas,
@@ -510,7 +510,7 @@ class GenerateDocument extends Controller
             ]);
         }
 
-        $template_document = new TemplateProcessor(storage_path('template\template_nd_gelar_perkara.docx'));
+        $template_document = new TemplateProcessor(storage_path('template/template_nd_gelar_perkara.docx'));
         $template_document->setValues(array(
             'tgl_ttd' => Carbon::now()->translatedFormat('F Y'),
             'hari' => $hari,
@@ -567,7 +567,7 @@ class GenerateDocument extends Controller
             }
         }
 
-        $template_document = new TemplateProcessor(storage_path('template\template_sprin_gelar_perkara.docx'));
+        $template_document = new TemplateProcessor(storage_path('template/template_sprin_gelar_perkara.docx'));
         $template_document->setValues(array(
             'no_sprin' => $no_sprin != '' ? $no_sprin : $sprinHistory->no_sprin,
             'tgl_ttd' => Carbon::now()->translatedFormat('F Y'),
@@ -605,7 +605,7 @@ class GenerateDocument extends Controller
         $gelarPerkara->pimpinan = $request->pimpinan;
         $gelarPerkara->save();
 
-        $template_document = new TemplateProcessor(storage_path('template\undangan_gelar.docx'));
+        $template_document = new TemplateProcessor(storage_path('template/undangan_gelar.docx'));
         $template_document->setValues(array(
             'tgl_ttd' => Carbon::now()->translatedFormat('F Y'),
             'hari' => $hari,
@@ -644,7 +644,7 @@ class GenerateDocument extends Controller
         $gelarPerkara->landasan_hukum = $request->landasan_hukum;
         $gelarPerkara->save();
 
-        $template_document = new TemplateProcessor(storage_path('template\template_lap_hasil_gp.docx'));
+        $template_document = new TemplateProcessor(storage_path('template/template_lap_hasil_gp.docx'));
 
         $template_document->setValues(array(
             'no_nd' => $dataPelanggaran->no_nota_dinas,
@@ -713,7 +713,7 @@ class GenerateDocument extends Controller
         $sprinGelar = SprinHistory::where('data_pelanggar_id', $kasus_id)->where('type', 'gelar')->first();
         $jk = $dataPelanggaran->jenis_kelamin == 1 ? 'Sdr' : 'Sdri';
 
-        $template_document = new TemplateProcessor(storage_path('template\template_sp2hp.docx'));
+        $template_document = new TemplateProcessor(storage_path('template/template_sp2hp.docx'));
         $template_document->setValues(array(
             'tgl_cetak' => Carbon::now()->translatedFormat('F Y'),
             'jk' => $jk,
@@ -754,7 +754,7 @@ class GenerateDocument extends Controller
             $gelarPerkara = GelarPerkara::where('data_pelanggar_id', $request->kasus_id)->with(['penyidik', 'pemapar', 'operator', 'notulen'])->first();
             $sprin = SprinHistory::where('data_pelanggar_id', $request->kasus_id)->where('type', 'lidik')->first();
 
-            $template_document = new TemplateProcessor(storage_path('template\template_limpah.docx'));
+            $template_document = new TemplateProcessor(storage_path('template/template_limpah.docx'));
             $template_document->setValues(array(
                 'no_nd' => $kasus->no_nota_dinas,
                 'tgl_nd' => Carbon::parse($kasus->tangal_nota_dinas)->translatedFormat('d F Y'),
@@ -822,7 +822,7 @@ class GenerateDocument extends Controller
             ]);
         }
 
-        $template_document = new TemplateProcessor(storage_path('template\template_lpa.docx'));
+        $template_document = new TemplateProcessor(storage_path('template/template_lpa.docx'));
         $template_document->setValues(array(
             'no_laporan' => $request->no_lpa
         ));
@@ -862,7 +862,7 @@ class GenerateDocument extends Controller
             }
         }
 
-        $template_document = new TemplateProcessor(storage_path('template\template_sprin_riksa.docx'));
+        $template_document = new TemplateProcessor(storage_path('template/template_sprin_riksa.docx'));
         if (count($penyelidik) == 0){
             for ($i=0; $i < count($request->nama); $i++) {
                 Penyidik::create([
@@ -948,7 +948,7 @@ class GenerateDocument extends Controller
 
         if (count($dataSaksi) == 0){
             for ($i=0; $i < count($request->nama) ; $i++) {
-                $template_document = new TemplateProcessor(storage_path('template\template_surat_panggilan_saksi.docx'));
+                $template_document = new TemplateProcessor(storage_path('template/template_surat_panggilan_saksi.docx'));
                 PublicWitness::create([
                     'data_pelanggar_id' => $kasus_id,
                     'nama' => strtoupper($request->nama[$i]),
@@ -996,7 +996,7 @@ class GenerateDocument extends Controller
         } else {
             foreach ($dataSaksi as $saksi) {
                 $agama = Agama::where('id', $saksi->agama)->first();
-                $template_document = new TemplateProcessor(storage_path('template\template_surat_panggilan_saksi.docx'));
+                $template_document = new TemplateProcessor(storage_path('template/template_surat_panggilan_saksi.docx'));
                 $template_document->setValues(array(
                     'nama_saksi' => strtoupper($saksi->nama),
                     'pekerjaan_saksi' => strtoupper($saksi->pekerjaan),
@@ -1036,7 +1036,7 @@ class GenerateDocument extends Controller
     }
 
     public function surat_panggilan_terduga($kasus_id, $process_id, $subprocess){
-        $template_document = new TemplateProcessor(storage_path('template\template_surat_panggilan_terduga.docx'));
+        $template_document = new TemplateProcessor(storage_path('template/template_surat_panggilan_terduga.docx'));
         $filename = 'Surat Panggilan Terduga'.'.docx';
         $path = storage_path('document/'.$filename);
         $template_document->saveAs($path);
@@ -1045,7 +1045,7 @@ class GenerateDocument extends Controller
     }
 
     public function bap($kasus_id, $process_id, $subprocess){
-        $template_document = new TemplateProcessor(storage_path('template\template_bap.docx'));
+        $template_document = new TemplateProcessor(storage_path('template/template_bap.docx'));
         $filename = 'Dokumen BAP'.'.docx';
         $path = storage_path('document/'.$filename);
         $template_document->saveAs($path);
@@ -1054,7 +1054,7 @@ class GenerateDocument extends Controller
     }
 
     public function dp3d($kasus_id, $process_id, $subprocess){
-        $template_document = new TemplateProcessor(storage_path('template\template_dp3d.docx'));
+        $template_document = new TemplateProcessor(storage_path('template/template_dp3d.docx'));
         $filename = 'Dokumen DP3D'.'.docx';
         $path = storage_path('document/'.$filename);
         $template_document->saveAs($path);
@@ -1063,7 +1063,7 @@ class GenerateDocument extends Controller
     }
 
     public function pelimpahan_ankum($kasus_id, $process_id, $subprocess){
-        $template_document = new TemplateProcessor(storage_path('template\template_pelimpahan_ankum.docx'));
+        $template_document = new TemplateProcessor(storage_path('template/template_pelimpahan_ankum.docx'));
         $filename = 'Surat Pelimpahan Ke Ankum'.'.docx';
         $path = storage_path('document/'.$filename);
         $template_document->saveAs($path);
@@ -1074,7 +1074,7 @@ class GenerateDocument extends Controller
 
     //Sidang Disiplin
     public function nota_dina_perangkat_sidang($kasus_id, $process_id, $subprocess){
-        $template_document = new TemplateProcessor(storage_path('template\template_perangkat_sidang.docx'));
+        $template_document = new TemplateProcessor(storage_path('template/template_perangkat_sidang.docx'));
         $filename = 'Nota Dinas Perangkat Sidang'.'.docx';
         $path = storage_path('document/'.$filename);
         $template_document->saveAs($path);
@@ -1083,7 +1083,7 @@ class GenerateDocument extends Controller
     }
 
     public function sprin_perangkat_sidang($kasus_id, $process_id, $subprocess){
-        $template_document = new TemplateProcessor(storage_path('template\template_perangkat_sidang.docx'));
+        $template_document = new TemplateProcessor(storage_path('template/template_perangkat_sidang.docx'));
         $filename = 'SPRIN Perangkat Sidang'.'.docx';
         $path = storage_path('document/'.$filename);
         $template_document->saveAs($path);
@@ -1092,7 +1092,7 @@ class GenerateDocument extends Controller
     }
 
     public function undangan_sidang_disiplin($kasus_id, $process_id, $subprocess){
-        $template_document = new TemplateProcessor(storage_path('template\template_undangan_sidang.docx'));
+        $template_document = new TemplateProcessor(storage_path('template/template_undangan_sidang.docx'));
         $filename = 'Surat Undangan Sidang Disiplin'.'.docx';
         $path = storage_path('document/'.$filename);
         $template_document->saveAs($path);
@@ -1101,7 +1101,7 @@ class GenerateDocument extends Controller
     }
 
     public function hasil_putusan_sidang_disiplin($kasus_id, $process_id, $subprocess){
-        $template_document = new TemplateProcessor(storage_path('template\template_hasil_putusan_sidang.docx'));
+        $template_document = new TemplateProcessor(storage_path('template/template_hasil_putusan_sidang.docx'));
         $filename = 'Hasil Putusan Sidang Disiplin'.'.docx';
         $path = storage_path('document/'.$filename);
         $template_document->saveAs($path);
@@ -1110,7 +1110,7 @@ class GenerateDocument extends Controller
     }
 
     public function nota_hasil_putusan($kasus_id, $process_id, $subprocess){
-        $template_document = new TemplateProcessor(storage_path('template\template_nota_hasil_putusan.docx'));
+        $template_document = new TemplateProcessor(storage_path('template/template_nota_hasil_putusan.docx'));
         $filename = 'Nota Hasil Putusan Sidang'.'.docx';
         $path = storage_path('document/'.$filename);
         $template_document->saveAs($path);
