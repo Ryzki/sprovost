@@ -1,0 +1,182 @@
+<?php
+
+namespace Database\Seeders;
+
+use App\Models\WujudPerbuatan;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Database\Seeder;
+
+class WujudPerbuatanSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     *
+     * @return void
+     */
+    public function run()
+    {
+        $disiplin = [
+            'Arogansi',
+            'Asusila',
+            'Balapan liar',
+            'Bekerjasama dengan orang lain untuk keuntungan pribadi atau golongan',
+            'Berpihak pada perkara yang sedang ditangani',
+            'Bertindak sebagai pelindung ditempat perjudian, prostitusi dan tempat hiburan',
+            'Bertindak selaku perantara pengusaha untuk mendapat pesanan kantor/ instansi Polri.',
+            'Bertindak sewenang wenang terhadap bawahan.',
+            'Cerai tanpa ijin pimpinan',
+            'Disersi',
+            'Hutang',
+            'Ingkar janji',
+            'Istri lebih dari satu',
+            'Judi',
+            'KDRT',
+            'Kekerasan terhadap masyarakat',
+            'Lahgun barang, uang atau surat berharga milik dinas.',
+            'Lahgun wewenang.',
+            'Laka lantas menimbulkan korban',
+            'Lalai dalam tugas',
+            'Mabuk',
+            'Manipulasi perkara.',
+            'Melakukan kegiatan politik praktis.',
+            'Melakukan pungutan tidak sah dalam bentuk apapun untuk kepentingan atau golongan.',
+            'Melakukan tindakan yang dapat mengakibatkan, menghalangi, atau mempersulitsalah satu pihak yang dilayani.',
+            'Melakukan upaya paksa penyidikan yang bukan kewenangannya.',
+            'Melanggar prokes',
+            'Memakai perhiasan secara berlebihan pada saat berpakaian dinas kepolisian negara RI.',
+            'Memasuki tempat yang dapat mencemarkan kehormatan martabat kepolisian.',
+            'Membocorkan rahasia kepolisian.',
+            'Membuat opini negatif rekan sekerja, pimpinan dan kesatuan.',
+            'Memiliki saham/modal dalam perusahaan yang kegiatan usahanaya berada dalam lingkup kekuasaannya.',
+            'Memiliki, menjual, membeli, menggadaikan dan menghilangkan dokumen, barang milik dinas.',
+            'Mempengaruhi proses penyidikan untuk kepentingan pribadi.',
+            'Menelantarkan keluarga.',
+            'Mengalihkan rumah dinas kepada yang tidak berhak.',
+            'Mengambil paksa',
+            'Mengeluarkan tahanan tidak sesuai prosedur',
+            'Menggunakan barang bukti untuk kepentingan pribadi.',
+            'Menggunakan fasilitas negara untuk kepentingan pribadi.',
+            'Menghambat kelancaran tugas dinas Kepolisian',
+            'Menghindar tanggungjawab dinas',
+            'Mengikuti aliran yang dapat menimbulkan perpecahan atau mengancam persatuan dan kesatuan bangsa',
+            'Mengontrakan atau menyewakan rumah dinas',
+            'Menguasai barang milik dinas yang bukan peruntukan baginya',
+            'Menguasai rumah dinas lebih dari satu',
+            'Mengurusi, mensponsori dan mempengaruhi dalam penerimaan anggota Polri',
+            'Meninggalkan tugas tanpa ijin pimpinan',
+            'Menjadi penagih piutang atau pelindung bagi yang mempunyai hutang',
+            'Menjadi perantara/ makelar perkara',
+            'Narkoba',
+            'Nikah siri',
+            'Pelecehan seksual',
+            'Pencurian',
+            'Pengadaan',
+            'Pengancaman',
+            'Penganiayaan',
+            'Pengelapan',
+            'Penimbunan',
+            'Penipuan',
+            'Penyalahgunaan media sosial',
+            'Perbuatan tidak menyenangkan',
+            'Perselingkuhan',
+            'Pungli',
+            'Senpi',
+            'Tahanan bunuh diri',
+            'Tahanan melarikan diri',
+            'Tidak profesional dalam penanganan perkara',
+            'Lain-lain',
+        ];
+
+        $kode_etik = [
+            'Terlibat Dalam Kegiatan Yang Bertujuan Untuk Mengubah, Mengganti Atau Menentang Pancasila Dan Undang- Undang Dasar Negara Republik Indonesia Tahun 1945 Secara Tidak Sah;',
+            'Terlibat Dalam Kegiatan Menentang Kebijakan Pemerintah;',
+            'Menjadi Anggota Atau Pengurus Organisasi Atau Kelompok Yang Dilarang Pemerintah;',
+            'Menjadi Anggota Atau Pengurus Partai Politik;',
+            'Menggunakan Hak Memilih Dan Dipilih;',
+            'Melibatkan Diri Pada Kegiatan Politik Praktis;',
+            'Mendukung, Mengikuti, Atau Menjadi Simpatisan Paham/Aliran Terorisme, Atau Ekstrimisme Berbasis Kekerasan Yang Dapat Mengarah Pada Terorisme',
+            'Mendukung, Mengikuti, Atau Menjadi Simpatisan Eksklusivisme Terhadap Kemajemukan Budaya, Suku, Bahasa, Ras Dan Agama.',
+            'Melakukan Perbuatan Yang Tidak Sesuai Dengan Ketentuan Peraturan Perundang-Undangan, Dan/Atau Standar Operasional Prosedur',
+            'Menyampaikan Dan Menyebarluaskan Informasi Yang Tidak Dapat Dipertangungjawabkan Kebenarannya Tentang Polri Dan/Atau Pribadi Pegawai Negeri Pada Polri',
+            'Menghindar Dan/Atau Menolak Perintah Kedinasan Dalam Rangka Pemeriksaan Internal Yang Dilakukan Oleh Fungsi Pengawasan Terkait Dengan Laporan Atau Pengaduan Masyarakat',
+            'Menyalahgunakan Kewenangan Dalam Melaksanakan Tugas Kedinasan',
+            'Melaksanakan Tugas Tanpa Perintah Kedinasan Dari Pejabat Yang Berwenang, Kecuali Ditentukan Lain Dalam Ketentuan Peraturan Perundang-Undangan',
+            'Melakukan Permufakatan Pelanggaran Kepp Atau Disiplin Atau Tindak Pidana',
+            'Mengabaikan Kepentingan Pelapor, Terlapor, Atau Pihak Lain Yang Terkait Dalam Perkara Yang Bertentangan Dengan Ketentuan Peraturan Perundang-Undangan',
+            'Menempatkan Tersangka Di Tempat Bukan Rumah Tahanan Negara/Polri Dan Tidak Memberitahukan Kepada Keluarga Atau Kuasa Hukum Tersangka',
+            'Merekayasa Dan Memanipulasi Perkara Yang Menjadi Tanggung Jawabnya Dalam Rangka Penegakan Hukum',
+            'Mengeluarkan Tahanan Tanpa Perintah Tertulis Dari Penyidik, Atasan Penyidik Atau Penuntut Umum, Atau Hakim Yang Berwenang',
+            'Melakukan Pemeriksaan Terhadap Seseorang Dengan Cara Memaksa, Intimidasi Dan Atau Kekerasan Untuk Mendapatkan Pengakuan',
+            'Melakukan Penyidikan Yang Bertentangan Dengan Ketentuan Peraturan Perundang-Undangan Karena Adanya Campur Tangan Pihak Lain',
+            'Menghambat Kepentingan Pelapor, Terlapor, Dan Pihak Terkait Lainnya Yang Sedang Berperkara Untuk Memperoleh Haknya Dan/Atau Melaksanakan Kewajibannya',
+            'Mengurangi, Menambahkan, Merusak, Menghilangan Dan/Atau Merekayasa Barang Bukti',
+            'Menghambat Dan Menunda Waktu Penyerahan Barang Bukti Yang Disita Kepada Pihak Yang Berhak/Berwenang Sesuai Dengan Ketentuan Peraturan Perundang-Undangan',
+            'Menghambat Dan Menunda Waktu Penyerahan Tersangka Dan Barang Bukti Kepada Jaksa Penuntut Umum',
+            'Melakukan Penghentian Atau Membuka Kembali Penyidikan Tindak Pidana Yang Tidak Sesuai Dengan Ketentuan Peraturan Perundang-Undangan',
+            'Melakukan Hubungan Atau Pertemuan Secara Langsung Atau Tidak Langsung Di Luar Kepentingan Dinas Dengan Pihak-Pihak Terkait Dengan Perkara Yang Sedang Ditangani Dengan Landasan Itikad Buruk',
+            'Melakukan Pemeriksaan Di Luar Kantor Penyidik Kecuali Ditentukan Lain Sesuai Dengan Ketentuan Peraturan Perundang-Undangan',
+            'Melakukan Keberpihakan Dalam Menangani Perkara',
+            'Memberikan Fakta, Data Dan Informasi Yang Tidak Benar Dan/Atau Segala Sesuatu Yang Belum Pasti Atau Diputuskan',
+            'Melakukan Pembahasan Proses Pengadaan Barang/Jasa Dengan Calon Penyedia Barang/Jasa, Kuasa Atau Wakil, Dan/Atau Perusahaan Yang Mempunyai Afiliasi Dengan Calon Penyedia Barang/Jasa Di Luar Kewenangannya Baik Langsung Maupun Tidak Langsung',
+            'Menghambat Proses Pemilihan Penyedia Dalam Pengadaan Barang/Jasa',
+            'Saling Mempengaruhi Antar Personel Unit Kerja Pengadaan Barang Dan Jasa Dan Pihak Yang Berkepentingan Lainnya, Baik Langsung Maupun Tidak Langsung Yang Mengakibatkan Persaingan Usaha Tidak Sehat',
+            'Menerima, Menawarkan Atau Menjanjikan Untuk Memberi Atau Menerima Hadiah, Imbalan, Komisi, Rabat, Atau Berupa Apa Saja Dari Atau Kepada Siapa Pun Yang Diketahui Atau Patut Diduga Berkaitan Dengan Pengadaan Barang/Jasa',
+            'Membocorkan Dan Menyebarluaskan Materi Yang Diujikan',
+            'Merekayasa Hasil Tes Yang Diujikan',
+            'Memberikan Prioritas Atau Fasilitas Khusus Kepada Calon Peserta Didik Tertentu',
+            'Meluluskan Calon Pegawai Negeri Pada Polri Atau Calon Peserta Seleksi Pendidikan Pengembangan Tidak Melalui Prosedur',
+            'Menyelenggarakan Kursus Atau Pelatihan Materi Yang Diujikan Dalam Seleksi Penerimaan Anggota Polri',
+            'Menerima Imbalan Dalam Proses Seleksi Penerimaan Anggota Polri Maupun Pendidikan Pengembangan',
+            'Menawarkan Dan/Atau Menjanjikan Kelulusan Kepada Peserta Seleksi Penerimaan Anggota Polri Maupun Pendidikan Pengembangan',
+            'Menerbitkan Tanpa Melalui Prosedur Yang Berlaku',
+            'Menentukan Biaya Tidak Sesuai Ketentuan',
+            'Mempersulit Masyarakat Untuk Memperoleh Surat Yang Dimohonkan',
+            'Merekayasa Keterangan Ke Dalam Surat Yang Diterbitkan',
+            'Menggunakan Bahan Baku Dan/Atau Material Tidak Sesuai Standar Yang Telah Ditetapkan',
+            'Menjual, Memberikan, Menghibahkan, Meminjamkan, Dan/Atau Menyewakan Senjata Api, Amunisi, Bahan Peledak, Barang Bergerak Dan/Atau Barang Tidak Bergerak Milik Polri Atau Yang Diperoleh Secara Tidak Sah Kepada Pihak Lain Secara Ilegal',
+            'Menerima Dan Menguasai Secara Tidak Sah Senjata Api, Amunisi, Bahan Peledak, Barang Bergerak Dan/Atau Barang Tidak Bergerak Dari Pihak Lain',
+            'Memberi Perintah Yang Bertentangan Dengan Norma Hukum, Norma Agama, Dan Norma Kesusilaan',
+            'Menggunakan Kewenangannya Secara Tidak Bertanggung Jawab',
+            'Menghalangi Dan/Atau Menghambat Proses Penegakan Hukum Terhadap Bawahannya Yang Dilaksanakan Oleh Fungsi Penegakan Hukum',
+            'Melawan Atau Menentang Atasan',
+            'Menyampaikan Laporan Yang Tidak Benar Kepada Atasan',
+            'Menolak Atau Mengabaikan Permintaan Pertolongan, Bantuan, Atau Laporan Dan Pengaduan Masyarakat Yang Menjadi Lingkup Tugas, Fungsi Dan Kewenangannya',
+            'Mencari-Cari Kesalahan Masyarakat',
+            'Menyebarluaskan Berita Bohong Dan/Atau Menyampaikan Ketidakpatutan Berita Yang Dapat Meresahkan Masyarakat',
+            'Mengeluarkan Ucapan, Isyarat, Dan/Atau Tindakan Dengan Maksud Untuk Mendapatkan Imbalan Atau Keuntungan Pribadi Dalam Memberikan Pelayanan Masyarakat',
+            'Bersikap, Berucap, Dan Bertindak Sewenang-Wenang',
+            'Mempersulit Masyarakat Yang Membutuhkan Perlindungan, Pengayoman, Dan Pelayanan',
+            'Melakukan Perbuatan Yang Dapat Merendahkan Kehormatan Perempuan Pada Saat Melakukan Tindakan Kepolisian',
+            'Membebankan Biaya Dalam Memberikan Pelayanan Di Luar Ketentuan Peraturan Perundang-Undangan',
+            'Bersikap Diskriminatif Dalam Melayani Masyarakat',
+            'Bersikap Tidak Perduli Dan Tidak Sopan Dalam Melayani Pemohon',
+            'Menganut Paham Radikal Dan/Atau Eksklusivisme Terhadap Kemajemukan Budaya, Suku, Bahasa, Ras Dan Agama',
+            'Mempengaruhi Atau Memaksa Sesama Anggota Polri Untuk Mengikuti Cara Beribadah Di Luar Keyakinannya',
+            'Menampilkan Sikap Dan Perilaku Menghujat, Serta Menista Kesatuan, Atasan Dan/Atau Sesama Anggota Polri',
+            'Melakukan Perilaku Penyimpangan Seksual Atau Disorientasi Seksual',
+            'Melakukan Penyalahgunaan Narkotika, Psikotropika Dan Obat Terlarang Meliputi Menyimpan, Menggunakan, Mengedarkan Dan/Atau Memproduksi Narkotika, Psikotropika Dan Obat Terlarang',
+            'Melakukan Perzinaan Dan/Atau Perselingkuhan',
+            'Mengunakan Sarana Media Sosial Dan Media Lainnya Untuk Aktivitas Atau Kegiatan Mengunggah, Memposting Dan Menyebarluaskan',
+            'Kdrt',
+            'Mengikuti Aliran Atau Ajaran Yang Tidak Sah Dan/Atau Tidak Dibenarkan Oleh Peraturan Perundang-Undangan',
+            'Menyimpan, Memiliki, Menggunakan, Dan/Atau Memperjualbelikan Barang Bergerak Atau Tidak Bergerak Secara Tidak Sah',
+            'Menista Dan/Atau Menghina',
+            'Melakukan Tindakan Yang Diskriminatif',
+            'Melakukan Tindakan Kekerasan, Berperilaku Kasar Dan Tidak Patut',
+            'Lain-lain',
+        ];
+
+        foreach ($disiplin as $key => $value) {
+            WujudPerbuatan::create([
+                'jenis_wp' => 'disiplin',
+                'keterangan_wp' => $value
+            ]);
+        }
+        foreach ($kode_etik as $key => $value) {
+            WujudPerbuatan::create([
+                'jenis_wp' => 'kode etik',
+                'keterangan_wp' => $value
+            ]);
+        }
+    }
+}

@@ -5,8 +5,7 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 use App\Models\DataPelanggar;
-use App\Models\Process;
-use App\Models\SubProcess;
+use App\Models\MasterPenyidik;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
@@ -39,170 +38,17 @@ class DatabaseSeeder extends Seeder
 
         $user->assignRole($adminRole);
 
-
-        Process::create([
-            'name' => 'Diterima'
-        ]);
-
-        Process::create([
-            'name' => 'Disposisi'
-        ]);
-
-        Process::create([
-            'name' => 'Pulbaket / Lidik'
-        ]);
-
-        Process::create([
-            'name' => 'Gelar Lidik'
-        ]);
-
-        Process::create([
-            'name' => 'Limpah Polda'
-        ]);
-
-        Process::create([
-            'name' => 'Sidik / LPA'
-        ]);
-
-        Process::create([
-            'name' => 'Sidang Disiplin'
-        ]);
-
-        Process::create([
-            'name' => 'Selesai'
-        ]);
-
-        $subprocess =
-        [
-            [
-                'process_id' => '2',
-                'name' => 'Disposisi Karo',
-                'required' => 0
-            ],[
-                'process_id' => '2',
-                'name' => 'Disposisi Sesro',
-                'required' => 0
-            ],[
-                'process_id' => '2',
-                'name' => 'Disposisi Kabag Gakkum',
-                'required' => 0
-            ],[
-                'process_id' => '3',
-                'name' => 'SPRIN Lidik',
-                'required' => 1
-            ],[
-                'process_id' => '3',
-                'name' => 'Undangan Klarifikasi',
-                'required' => 0
-            ],[
-                'process_id' => '3',
-                'name' => 'BAI',
-                'required' => 0
-            ],[
-                'process_id' => '3',
-                'name' => 'Laporan Hasil Penyelidikan',
-                'required' => 0
-            ],[
-                'process_id' => '4',
-                'name' => 'SPRIN Gelar',
-                'required' => 1
-            ],[
-                'process_id' => '4',
-                'name' => 'Undangan Gelar',
-                'required' => 0
-            ],[
-                'process_id' => '4',
-                'name' => 'Laporan Hasil Gelar',
-                'required' => 0
-            ],[
-                'process_id' => '4',
-                'name' => 'SP2HP2',
-                'required' => 0
-            ],[
-                'process_id' => '6',
-                'name' => 'LPA',
-                'required' => 0
-            ],[
-                'process_id' => '6',
-                'name' => 'SPRIN RIKSA',
-                'required' => 0
-            ],[
-                'process_id' => '6',
-                'name' => 'Surat Panggilan Saksi',
-                'required' => 0
-            ],[
-                'process_id' => '6',
-                'name' => 'Surat Panggilan Terduga',
-                'required' => 0
-            ],[
-                'process_id' => '6',
-                'name' => 'BAP',
-                'required' => 0
-            ],[
-                'process_id' => '6',
-                'name' => 'DP3D',
-                'required' => 0
-            ],[
-                'process_id' => '6',
-                'name' => 'Surat Pelimpahan ke Ankum',
-                'required' => 0
-            ],[
-                'process_id' => '7',
-                'name' => 'NOTA DINA PERANGKAT SIDANG',
-                'required' => 0
-            ],[
-                'process_id' => '7',
-                'name' => 'SPRIN PERANGKAT SIDANG',
-                'required' => 0
-            ],[
-                'process_id' => '7',
-                'name' => 'Undangan Sidang Disiplin',
-                'required' => 0
-            ],[
-                'process_id' => '7',
-                'name' => 'Hasil Putusan Sidang Disiplin',
-                'required' => 0
-            ],[
-                'process_id' => '7',
-                'name' => 'NOTA HASIL PUTUSAN',
-                'required' => 0
-            ]
-        ];
-
-        SubProcess::insert($subprocess);
-
-        DataPelanggar::create([
-            'no_nota_dinas' => "10/24/propam",
-            'wujud_perbuatan' => 'kode etik',
-            'tanggal_nota_dinas' => '2023-02-01',
-            'no_telp' => '085720966872',
-            'kewarganegaraan' => 'Indonesia',
-            'perihal_nota_dinas' => 'Pusing',
-            'no_pengaduan' => "123456",
-            'pelapor' => "Ahmad",
-            'umur' => 24,
-            'jenis_kelamin' => 1,
-            'pekerjaan' => 'swasta',
-            'agama' => 1,
-            'alamat' => 'Cianjur',
-            'no_identitas' => 123456789,
-            'jenis_identitas' => 1,
-            'terlapor' => 'Rizky',
-            'kesatuan' => 'Polri',
-            'tempat_kejadian' => 'Tebet',
-            'kronologi' => 'Jatuh Bangun',
-            'pangkat' => 'Bharada Dua',
-            'nama_korban' => 'Prayogi',
-            'status_id' => 1,
-            'nrp' => '12345',
-            'tanggal_kejadian' => '2023-01-20',
-            'jabatan' => 'Sekretaris'
-        ]);
-
         $this->call([
             AgamaSeeder::class,
             JenisKelaminSeed::class,
             JenisIdentitasSeeder::class,
-          ]);
+            ProcessSeeder::class,
+            SubProcessSeeder::class,
+            DataPelanggarSeeder::class,
+            PoldaSeeder::class,
+            PangkatSeeder::class,
+            WujudPerbuatanSeeder::class,
+            MasterPenyidikSeeder::class
+        ]);
     }
 }
