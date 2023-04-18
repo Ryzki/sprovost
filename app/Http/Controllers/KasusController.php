@@ -10,6 +10,7 @@ use App\Models\JenisIdentitas;
 use App\Models\JenisKelamin;
 use App\Models\LimpahPolda;
 use App\Models\LPA;
+use App\Models\Pangkat;
 use App\Models\Penyidik;
 use App\Models\Process;
 use App\Models\PublicWitness;
@@ -18,6 +19,7 @@ use App\Models\SprinHistory;
 use App\Models\SubProcess;
 use App\Models\UndanganKlarifikasiHistory;
 use App\Models\Witness;
+use App\Models\WujudPerbuatan;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use DataTables;
@@ -30,6 +32,84 @@ class KasusController extends Controller
         $data['kasuss'] = DataPelanggar::all();
 
         return view('pages.data_pelanggaran.index', $data);
+    }
+
+    public function inputKasus()
+    {
+        $agama = Agama::get();
+        $jenis_identitas = JenisIdentitas::get();
+        $jenis_kelamin = JenisKelamin::get();
+        $pangkat = Pangkat::get();
+        $wujud_perbuatan = WujudPerbuatan::get();
+
+        $i_dis = 0;
+        $i_ke = 0;
+        foreach ($wujud_perbuatan as $key => $value) {
+            if ($value->jenis_wp == 'disiplin') {
+                $disiplin[$i_dis] = $value->keterangan_wp;
+                $id_disiplin[$i_dis] = $value->id;
+                $i_dis++;
+            } else {
+                $kode_etik[$i_ke] = $value->keterangan_wp;
+                $id_kode_etik[$i_ke] = $value->id;
+                $i_ke++;
+            }
+        }
+
+        $disiplin = implode('|',$disiplin);
+        $id_disiplin = implode('|',$id_disiplin);
+        $kode_etik = implode('|',$kode_etik);
+        $id_kode_etik = implode('|',$id_kode_etik);
+
+        // dd($id_kode_etik);
+
+        $data = [
+            'agama' => $agama,
+            'jenis_identitas' => $jenis_identitas,
+            'jenis_kelamin' => $jenis_kelamin,
+            'pangkat' => $pangkat,
+            'wujud_perbuatan' => $wujud_perbuatan,
+            'disiplin' => $disiplin,
+            'id_disiplin' => $id_disiplin,
+            'kode_etik' => $kode_etik,
+            'id_kode_etik' => $id_kode_etik,
+        ];
+
+        return view('pages.data_pelanggaran.input_kasus.input',$data);
+    }
+
+    public function storeKasus(Request $request){
+        $no_pengaduan = "123456"; //generate otomatis
+        $DP = DataPelanggar::create([
+            // Pelapor
+            'no_nota_dinas' => $request->no_nota_dinas,
+            'no_pengaduan' => $no_pengaduan,
+            'perihal_nota_dinas' => $request->perihal_nota_dinas,
+            'wujud_perbuatan' => $request->wujud_perbuatan,
+            'tanggal_nota_dinas' => Carbon::create($request->tanggal_nota_dinas)->format('Y-m-d'),
+            'pelapor' => $request->pelapor,
+            'umur' => $request->umur,
+            'jenis_kelamin' => $request->jenis_kelamin,
+            'pekerjaan' => $request->pekerjaan,
+            'agama' => $request->agama,
+            'alamat' => $request->alamat,
+            'no_identitas' => $request->no_identitas,
+            'no_telp' => $request->no_telp,
+            'jenis_identitas' => $request->jenis_identitas,
+            //Terlapor
+            'terlapor' => $request->terlapor,
+            'nrp' => $request->nrp,
+            'jabatan' => $request->jabatan,
+            'kesatuan' => $request->kesatuan,
+            'wilayah_hukum' => $request->wilayah_hukum,
+            'tempat_kejadian' => $request->tempat_kejadian,
+            'tanggal_kejadian' => Carbon::create($request->tanggal_kejadian)->format('Y-m-d'),
+            'kronologi' => $request->kronologis,
+            'pangkat' => $request->pangkat,
+            'nama_korban' => $request->nama_korban,
+            'status_id' => 1
+        ]);
+        return redirect()->route('kasus.detail',['id'=>$DP->id]);
     }
 
     public function data(Request $request)
@@ -250,153 +330,6 @@ class KasusController extends Controller
                 ], 'detail' => $th
             ], 500);
         }
-    }
-
-    public function updateStatus(Request $request)
-    {
-        $kasus_id = $request->kasus_id;
-        $documentgenerated = $this->cek_requirement($kasus_id, $request->process_id);
-        return $documentgenerated;
-    }
-
-    public function viewProcess($kasus_id,$status_id)
-    {
-        switch ($status_id) {
-            case 1:
-                return $this->viewDiterima($kasus_id, $status_id);
-                break;
-            case 2:
-                return $this->viewDiterima($kasus_id, $status_id);
-                break;
-            case 3:
-                return $this->viewPulbaket($kasus_id, $status_id);
-                break;
-            case 4:
-                return $this->gelarLidik($kasus_id);
-                break;
-            case 5:
-                return $this->gelarLidik($kasus_id);
-                break;
-            case 6:
-                return $this->sidik($kasus_id);
-                break;
-            case 7:
-                return $this->sidang_disiplin($kasus_id);
-                break;
-            case 8:
-                return $this->viewDiterima($kasus_id, $status_id);
-                break;
-            default:
-                return 404;
-                break;
-        }
-    }
-
-    private function viewDiterima($id, $status_id)
-    {
-        $kasus = DataPelanggar::find($id);
-        $status = Process::find($status_id);
-        $process = Process::where('sort', '<=', $status->id)->get();
-        $sub_process = SubProcess::where('process_id', $status->id)->get();
-        $agama = Agama::get();
-        $jenis_identitas = JenisIdentitas::get();
-        $jenis_kelamin = JenisKelamin::get();
-
-        $data = [
-            'kasus' => $kasus,
-            'status' => $status,
-            'process' =>  $process,
-            'sub_process' => $sub_process,
-            'agama' => $agama,
-            'jenis_identitas' => $jenis_identitas,
-            'jenis_kelamin' => $jenis_kelamin
-        ];
-
-        return view('pages.data_pelanggaran.proses.diterima', $data);
-    }
-
-    private function viewPulbaket($id, $status_id){
-        $kasus = DataPelanggar::find($id);
-
-        // if ($kasus->status_id > 3){
-        //     $kasus->status_now = $kasus->status_id;
-        //     $kasus->status_id = 3;
-        // }
-
-        $status = Process::find($status_id);
-        $sub_process = SubProcess::where('process_id', $status->id)->get();
-        // $sub_process = SubProcess::where('process_id', 3)->get();
-        $sprin = SprinHistory::where('data_pelanggar_id', $id)->with('user')->first();
-        $sp2hp2 = Sp2hp2History::where('data_pelanggar_id', $id)->with('user')->first();
-        $agama = Agama::get();
-        $saksi = Witness::where('data_pelanggar_id', $id)->get();
-
-        $data = [
-            'kasus' => $kasus,
-            'status' => $status,
-            'sub_process' => $sub_process,
-            'sprin' => $sprin,
-            'sp2hp2' => $sp2hp2,
-            'agamas' => $agama,
-            'saksi' => $saksi
-        ];
-
-        return view('pages.data_pelanggaran.proses.pulbaket', $data);
-    }
-
-    private function gelarLidik($id){
-        $kasus = DataPelanggar::find($id);
-        $status = Process::find($kasus->status_id);
-        $sub_process = SubProcess::where('process_id', $kasus->status_id)->get();
-        // $sprin = SprinHistory::where('data_pelanggar_id', $id)->where('type', 'lidik')->with('user')->first();
-        $sprinGelar = SprinHistory::where('data_pelanggar_id', $id)->where('type', 'gelar')->with('user')->first();
-        $gelarPerkara = GelarPerkara::where('data_pelanggar_id', $id)->with('penyidik')->first();
-        // dd($gelarPerkara);
-        $data = [
-            'kasus' => $kasus,
-            'status' => $status,
-            'sub_process' => $sub_process,
-            'sprinGelar' => $sprinGelar,
-            'gelarPerkara' => $gelarPerkara
-        ];
-
-        return view('pages.data_pelanggaran.proses.gelarlidik', $data);
-    }
-
-    private function sidik($id){
-        $kasus = DataPelanggar::find($id);
-        $status = Process::find($kasus->status_id);
-        $sub_process = SubProcess::where('process_id', $kasus->status_id)->get();
-        $lpa = LPA::where('data_pelanggar_id', $id)->first();
-        $sprinRiksa = SprinHistory::where('data_pelanggar_id', $id)->where('type', 'riksa')->with('user')->first();
-        $saksi = PublicWitness::where('data_pelanggar_id', $id)->get();
-        $agama = Agama::get();
-
-        $data = [
-            'kasus' => $kasus,
-            'status' => $status,
-            'sub_process' => $sub_process,
-            'lpa' => $lpa,
-            'sprin' => $sprinRiksa,
-            'saksi' => $saksi,
-            'agamas' => $agama
-        ];
-
-        return view('pages.data_pelanggaran.proses.sidik_lpa', $data);
-    }
-
-    private function sidang_disiplin($id){
-        $kasus = DataPelanggar::find($id);
-        $status = Process::find($kasus->status_id);
-        $sub_process = SubProcess::where('process_id', $kasus->status_id)->get();
-
-        $data = [
-            'kasus' => $kasus,
-            'status' => $status,
-            'sub_process' => $sub_process,
-        ];
-
-        return view('pages.data_pelanggaran.proses.sidang_disiplin', $data);
     }
 
     public function getDataPenyidik($kasus_id){

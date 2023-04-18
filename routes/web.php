@@ -5,6 +5,9 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\GenerateDocument;
 use App\Http\Controllers\KasusController;
 use App\Http\Controllers\LimpahPoldaController;
+use App\Http\Controllers\RenderViewController;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -36,6 +39,14 @@ Route::middleware(['auth'])->group(function (){
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 
+    // User Management
+    Route::get('user', [UserController::class, 'index']);
+    Route::post('user/save', [UserController::class, 'store']);
+    Route::get('role', [RoleController::class, 'index']);
+    Route::get('role/permission/{id}', [RoleController::class, 'permission']);
+    Route::get('role/permission/{id}/save', [RoleController::class, 'savePermission']);
+
+    // CRUD Kasus
     Route::get('data-kasus', [KasusController::class, 'index'])->name('kasus.index');
     Route::post('data-kasus/data', [KasusController::class, 'data'])->name('kasus.data');
     Route::post('data-kasus/update', [KasusController::class, 'updateData'])->name('kasus.update');
@@ -43,7 +54,7 @@ Route::middleware(['auth'])->group(function (){
     Route::post('data-kasus/status/update', [KasusController::class, 'updateStatus'])->name('kasus.update.status');
 
     // View Kasus
-    Route::get('data-kasus/view/{kasus_id}/{id}', [KasusController::class, 'viewProcess'])->name('kasus.proses.view');
+    Route::get('data-kasus/view/{kasus_id}/{id}', [RenderViewController::class, 'viewProcess'])->name('kasus.proses.view');
     Route::get('data-penyidik/{kasus_id}', [KasusController::class, 'getDataPenyidik']);
     Route::get('data-penyidik-riksa/{kasus_id}', [KasusController::class, 'getDataPenyidikRiksa']);
     // End View Kasus
