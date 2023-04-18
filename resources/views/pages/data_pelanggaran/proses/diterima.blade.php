@@ -62,16 +62,36 @@
                         <label for="perihal_nota_dinas">Perihal Nota Dinas</label>
                     </div>
                 </div>
-                <div class="col-lg-6 mb-3">
+
+                <div class="col-lg-12 mb-3">
                     <div class="form-floating">
-                        <input type="text" class="form-control border-dark" name="wujud_perbuatan" id="wujud_perbuatan" placeholder="Wujud Perbuatan" value="{{ isset($kasus) ? $kasus->wujud_perbuatan : '' }}" required>
-                        <label for="wujud_perbuatan">Wujud Perbuatan</label>
+                        <input type="text" name="tanggal_nota_dinas" class="form-control border-dark" id="datepicker" placeholder="Tanggal Nota Dinas" value="{{ isset($kasus) ? $kasus->tanggal_nota_dinas : '' }}" required>
+                        <label for="tanggal_nota_dinas">Tanggal Nota Dinas</label>
                     </div>
                 </div>
+
+                <div class="col-lg-6 mb-0">
+                    <center>
+                        <div class="form-label">
+                            <label for="check-box">Tipe Pelanggaran</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input border-dark" type="checkbox" id="disiplin" name="disiplin" value="1" onchange="disiplinChange(this);" {{ isset($kasus) ? ($wujud_perbuatan[$kasus->wujud_perbuatan-1]->jenis_wp == 'disiplin' ? 'checked' : 'disabled') : '' }} disabled>
+                            <label class="form-check-label " for="disiplin">Disiplin</label>
+                          </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input border-dark" type="checkbox" id="kode_etik" name="kode_etik" value="2" onchange="kodeEtikChange(this);" {{ isset($kasus) ? ($wujud_perbuatan[$kasus->wujud_perbuatan-1]->jenis_wp == 'kode etik' ? 'checked' : 'disabled') : '' }} required>
+                            <label class="form-check-label" for="kode_etik">Kode Etik</label>
+                        </div>
+                    </center>
+                </div>
+
                 <div class="col-lg-6 mb-3">
                     <div class="form-floating">
-                        <input type="text" name="tanggal_nota_dinas" class="form-control border-dark" id="datepicker" placeholder="Tanggal Nota Dinas" value="{{ isset($kasus) ? $kasus->tanggal_nota_dinas : '' }}" required readonly>
-                        <label for="tanggal_nota_dinas">Tanggal Nota Dinas</label>
+                        <select class="form-select border-dark" aria-label="Default select example" name="wujud_perbuatan"id="wujud_perbuatan" disabled required>
+                            <option value="">-- Pilih Wujud Perbuatan --</option>
+                        </select>
+                        <label for="jenis_identitas" class="form-label">Wujud Perbuatan</label>
                     </div>
                 </div>
                 <hr>
@@ -674,5 +694,89 @@
             }
 
         })
+
+        if ($('#disiplin').is(':checked')) {
+            console.log('test');
+            document.getElementById("wujud_perbuatan").removeAttribute("disabled");
+            document.getElementById("kode_etik").setAttribute("disabled", "disabled");
+            getValDisiplin()
+        } else if ($('#kode_etik').is(':checked')) {
+            document.getElementById("wujud_perbuatan").removeAttribute("disabled");
+            document.getElementById("disiplin").setAttribute("disabled", "disabled");
+            getValKodeEtik()
+        }
     })
+
+    function disiplinChange(checkbox) {
+        if(checkbox.checked == true){
+            document.getElementById("wujud_perbuatan").removeAttribute("disabled");
+            document.getElementById("kode_etik").removeAttribute("required");
+            document.getElementById("kode_etik").setAttribute("disabled", "disabled");
+            getValDisiplin()
+        }else{
+            document.getElementById("wujud_perbuatan").setAttribute("disabled", "disabled");
+            document.getElementById("kode_etik").setAttribute("required", "required");
+            document.getElementById("kode_etik").removeAttribute("disabled");
+        }
+    }
+
+    function kodeEtikChange(checkbox) {
+        if(checkbox.checked == true){
+            document.getElementById("wujud_perbuatan").removeAttribute("disabled");
+            document.getElementById("disiplin").removeAttribute("required");
+            document.getElementById("disiplin").setAttribute("disabled", "disabled");
+            getValKodeEtik()
+        }else{
+            document.getElementById("wujud_perbuatan").setAttribute("disabled", "disabled");
+            document.getElementById("disiplin").setAttribute("required", "required");
+            document.getElementById("disiplin").removeAttribute("disabled");
+        }
+    }
+
+    function getValDisiplin() {
+        let kasus_wp = `{{ isset($kasus) ? $kasus->wujud_perbuatan : '' }}`;
+        let list_ketdis = new Array();
+        list_ketdis = `{{ $disiplin }}`;
+        list_ketdis = list_ketdis.split('|');
+
+        let list_id_dis = new Array();
+        list_id_dis = `{{ $id_disiplin }}`;
+        list_id_dis = list_id_dis.split('|');
+
+        let html_wp = `<option value="">-- Pilih Wujud Perbuatan --</option>`;
+        for (let index = 0; index < list_ketdis.length; index++) {
+            const el_ketdis = list_ketdis[index];
+            const el_id_dis = list_id_dis[index];
+            if (kasus_wp != '' && kasus_wp == el_id_dis) {
+                html_wp += `<option value="`+el_id_dis+`" selected>`+el_ketdis+`</option>`;
+            } else {
+                html_wp += `<option value="`+el_id_dis+`">`+el_ketdis+`</option>`;
+            }
+        }
+        $('#wujud_perbuatan').html(html_wp);
+    }
+
+    function getValKodeEtik() {
+        let kasus_wp = `{{ isset($kasus) ? $kasus->wujud_perbuatan : '' }}`;
+        let list_ketke = new Array();
+        list_ketke = `{{ $kode_etik }}`;
+        list_ketke = list_ketke.split('|');
+
+        let list_id_ke = new Array();
+        list_id_ke = `{{ $id_kode_etik }}`;
+        list_id_ke = list_id_ke.split('|');
+
+        let html_wp = `<option value="">-- Pilih Wujud Perbuatan --</option>`;
+        for (let index = 0; index < list_ketke.length; index++) {
+            let is_selected = '';
+            const el_ketke = list_ketke[index];
+            const el_id_ke = list_id_ke[index];
+            if (kasus_wp != '' && kasus_wp == el_id_ke) {
+                is_selected = 'selected';
+            }
+            html_wp += `<option value="`+el_id_ke+`" `+is_selected+`>`+el_ketke+`</option>`;
+            // console.log(html);
+        }
+        $('#wujud_perbuatan').html(html_wp);
+    }
 </script>

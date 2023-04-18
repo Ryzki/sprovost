@@ -15,6 +15,7 @@ use App\Models\Sp2hp2History;
 use App\Models\SprinHistory;
 use App\Models\SubProcess;
 use App\Models\Witness;
+use App\Models\WujudPerbuatan;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -63,6 +64,26 @@ class RenderViewController extends Controller
         $agama = Agama::get();
         $jenis_identitas = JenisIdentitas::get();
         $jenis_kelamin = JenisKelamin::get();
+        $wujud_perbuatan = WujudPerbuatan::get();
+
+        $i_dis = 0;
+        $i_ke = 0;
+        foreach ($wujud_perbuatan as $key => $value) {
+            if ($value->jenis_wp == 'disiplin') {
+                $disiplin[$i_dis] = $value->keterangan_wp;
+                $id_disiplin[$i_dis] = $value->id;
+                $i_dis++;
+            } else {
+                $kode_etik[$i_ke] = $value->keterangan_wp;
+                $id_kode_etik[$i_ke] = $value->id;
+                $i_ke++;
+            }
+        }
+
+        $disiplin = implode('|',$disiplin);
+        $id_disiplin = implode('|',$id_disiplin);
+        $kode_etik = implode('|',$kode_etik);
+        $id_kode_etik = implode('|',$id_kode_etik);
 
         $data = [
             'kasus' => $kasus,
@@ -71,6 +92,11 @@ class RenderViewController extends Controller
             'sub_process' => $sub_process,
             'agama' => $agama,
             'jenis_identitas' => $jenis_identitas,
+            'wujud_perbuatan' => $wujud_perbuatan,
+            'disiplin' => $disiplin,
+            'id_disiplin' => $id_disiplin,
+            'kode_etik' => $kode_etik,
+            'id_kode_etik' => $id_kode_etik,
             'jenis_kelamin' => $jenis_kelamin
         ];
 
