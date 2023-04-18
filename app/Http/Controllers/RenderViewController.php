@@ -9,6 +9,7 @@ use App\Models\GelarPerkara;
 use App\Models\JenisIdentitas;
 use App\Models\JenisKelamin;
 use App\Models\LPA;
+use App\Models\Pangkat;
 use App\Models\Process;
 use App\Models\PublicWitness;
 use App\Models\Sp2hp2History;
@@ -97,7 +98,8 @@ class RenderViewController extends Controller
             'id_disiplin' => $id_disiplin,
             'kode_etik' => $kode_etik,
             'id_kode_etik' => $id_kode_etik,
-            'jenis_kelamin' => $jenis_kelamin
+            'jenis_kelamin' => $jenis_kelamin,
+            'pangkats' => Pangkat::all()
         ];
 
         return view('pages.data_pelanggaran.proses.diterima', $data);

@@ -57,6 +57,24 @@
                 @can('manage-auth')
                     <li class="menu-title"><span data-key="t-menu">Settings</span></li>
                     <li class="nav-item">
+                        <a href="{{ route('penyidik.index') }}"
+                            class="nav-link menu-link {{ Request::segment(1) == 'kelola-penyidik' ? 'active' : '' }}"> <i
+                                class="bi bi-card-list"></i> <span data-key="t-dashboard">Kelola Penyidik</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('pangkat.index') }}"
+                            class="nav-link menu-link {{ Request::segment(1) == 'kelola-pangkat' ? 'active' : '' }}"> <i
+                                class="bi bi-card-list"></i> <span data-key="t-dashboard">Kelola Pangkat</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('wujud-perbuatan.index') }}"
+                            class="nav-link menu-link {{ Request::segment(1) == 'kelola-wujud-perbuatan' ? 'active' : '' }}"> <i
+                                class="bi bi-card-list"></i> <span data-key="t-dashboard">Kelola Wujud Perbuatan</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a href="/user" class="nav-link menu-link {{ Request::segment(1) == 'user' ? 'active' : '' }}">
                             <i class="fas fa-users"></i> <span data-key="t-dashboard">User</span>
                         </a>

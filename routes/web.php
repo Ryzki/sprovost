@@ -5,9 +5,12 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\GenerateDocument;
 use App\Http\Controllers\KasusController;
 use App\Http\Controllers\LimpahPoldaController;
+use App\Http\Controllers\PangkatController;
+use App\Http\Controllers\PenyidikController;
 use App\Http\Controllers\RenderViewController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\WujudPerbuatanController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -52,6 +55,45 @@ Route::middleware(['auth'])->group(function (){
     Route::post('data-kasus/update', [KasusController::class, 'updateData'])->name('kasus.update');
     Route::get('data-kasus/detail/{id}', [KasusController::class, 'detail'])->name('kasus.detail');
     Route::post('data-kasus/status/update', [KasusController::class, 'updateStatus'])->name('kasus.update.status');
+
+    // Start Penyidik
+    Route::get('data-penyidik', [PenyidikController::class, 'index'])->name('penyidik.index');
+    Route::post('data-penyidik/data', [PenyidikController::class, 'data'])->name('penyidik.data');
+
+    Route::get('input-data-penyidik', [PenyidikController::class, 'inputPenyidik'])->name('penyidik.input');
+    Route::post('input-data-penyidik/store', [PenyidikController::class, 'storePenyidik'])->name('penyidik.store.penyidik');
+
+     Route::get('edit-data-penyidik/{id}', [PenyidikController::class, 'editPenyidik'])->name('penyidik.edit');
+     Route::post('data-penyidik/update', [PenyidikController::class, 'updateData'])->name('penyidik.update');
+
+     Route::get('data-penyidik/hapus/{id}', [PenyidikController::class, 'hapusData'])->name('penyidik.hapus');
+     // End Penyidik
+
+     // Start Pangkat
+    Route::get('data-pangkat', [PangkatController::class, 'index'])->name('pangkat.index');
+    Route::post('data-pangkat/data', [PangkatController::class, 'data'])->name('pangkat.data');
+
+    Route::get('input-data-pangkat', [PangkatController::class, 'inputPangkat'])->name('pangkat.input');
+    Route::post('input-data-pangkat/store', [PangkatController::class, 'storePangkat'])->name('pangkat.store.pangkat');
+
+    Route::get('edit-data-pangkat/{id}', [PangkatController::class, 'editPangkat'])->name('pangkat.edit');
+    Route::post('data-pangkat/update', [PangkatController::class, 'updateData'])->name('pangkat.update');
+
+    Route::get('data-pangkat/hapus/{id}', [PangkatController::class, 'hapusData'])->name('pangkat.hapus');
+     // End Pangkat
+
+      // Start Wujud Perbuatan
+    Route::get('data-wujud-perbuatan', [WujudPerbuatanController::class, 'index'])->name('wujud-perbuatan.index');
+    Route::post('data-wujud-perbuatan/data', [WujudPerbuatanController::class, 'data'])->name('wujud-perbuatan.data');
+
+    Route::get('input-data-wujud-perbuatan', [WujudPerbuatanController::class, 'inputWujudPerbuatan'])->name('wujud-perbuatan.input');
+    Route::post('input-data-wujud-perbuatan/store', [WujudPerbuatanController::class, 'storeWujudPerbuatan'])->name('wujud-perbuatan.store.pangkat');
+
+    Route::get('edit-data-wujud-perbuatan/{id}', [WujudPerbuatanController::class, 'editWujudPerbuatan'])->name('wujud-perbuatan.edit');
+    Route::post('data-wujud-perbuatan/update', [WujudPerbuatanController::class, 'updateData'])->name('wujud-perbuatan.update');
+
+    Route::get('data-wujud-perbuatan/hapus/{id}', [WujudPerbuatanController::class, 'hapusData'])->name('wujud-perbuatan.hapus');
+     // End Wujud Perbuatan
 
     // View Kasus
     Route::get('data-kasus/view/{kasus_id}/{id}', [RenderViewController::class, 'viewProcess'])->name('kasus.proses.view');

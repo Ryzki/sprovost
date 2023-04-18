@@ -63,14 +63,14 @@
                     </div>
                 </div>
 
-                <div class="col-lg-12 mb-3">
+                <div class="col-lg-6 mb-3">
                     <div class="form-floating">
                         <input type="text" name="tanggal_nota_dinas" class="form-control border-dark" id="datepicker" placeholder="Tanggal Nota Dinas" value="{{ isset($kasus) ? $kasus->tanggal_nota_dinas : '' }}" required>
                         <label for="tanggal_nota_dinas">Tanggal Nota Dinas</label>
                     </div>
                 </div>
 
-                <div class="col-lg-6 mb-0">
+                <div class="col-lg-6 mb-0" style="display: none;">
                     <center>
                         <div class="form-label">
                             <label for="check-box">Tipe Pelanggaran</label>
@@ -195,7 +195,13 @@
                         </div>
                         <div class="col-lg-6 mb-3">
                             <div class="form-floating">
-                                <input type="text" class="form-control border-dark" name="pangkat" id="pangkat" placeholder="Pangkat Terlapor" value="{{ isset($kasus) ? $kasus->pangkat : '' }}" required>
+                                <!-- <input type="text" class="form-control border-dark" name="pangkat" id="pangkat" placeholder="Pangkat Terlapor" value="{{ isset($kasus) ? $kasus->pangkat : '' }}" required> -->
+                                <select class="form-control border-dark" name="pangkat" id="pangkat" >
+                                    <option value="">--- Pilih Pangkat ---</option>
+                                    @foreach($pangkats as $pangkat)
+                                    <option value="{{$pangkat->id}}" {{ $pangkat->id == $kasus->pangkat ? 'selected' : '' }}>{{$pangkat->name}}</option>
+                                    @endforeach
+                                </select>
                                 <label for="pangkat">Pangkat Terlapor</label>
                             </div>
                         </div>
@@ -329,11 +335,11 @@
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Nomor Surat</label>
-                        <input type="text" class="form-control" id="nomor_surat" name="nomor_surat">
+                        <input type="text" class="form-control" id="nomor_surat" name="nomor_surat" value="{{$kasus->no_nota_dinas}}" readonly>
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Tanggal</label>
-                        <input type="date" class="form-control" id="tanggal" name="tanggal">
+                        <input type="date" class="form-control" id="tanggal" name="tanggal" value="{{$kasus->tanggal_nota_dinas}}" readonly>
                     </div>
                     {{-- <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Perihal</label>
@@ -365,7 +371,7 @@
                 <div class="modal-body">
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Nomor Surat</label>
-                        <input type="text" class="form-control" id="nomor_surat" name="nomor_surat">
+                        <input type="text" class="form-control" id="nomor_surat" name="nomor_surat" value="{{$kasus->no_nota_dinas}}" readonly>
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Nomor Agenda</label>
@@ -439,7 +445,7 @@
                 <div class="modal-body">
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Nomor Surat</label>
-                        <input type="text" class="form-control" id="nomor_surat" name="nomor_surat">
+                        <input type="text" class="form-control" id="nomor_surat" name="nomor_surat" value="{{$kasus->no_nota_dinas}}" readonly>
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Nomor Agenda</label>
@@ -694,7 +700,9 @@
             }
 
         })
-
+        // $('select').select2({
+        //         theme: 'bootstrap-5'
+        // })
         if ($('#disiplin').is(':checked')) {
             console.log('test');
             document.getElementById("wujud_perbuatan").removeAttribute("disabled");
