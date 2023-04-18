@@ -227,13 +227,13 @@
                 {{-- Document Download --}}
                 <div class="col-lg-12">
                     @if($kasus->status_id != 8)
-                        <div class="col-lg-12 mb-3">
+                        {{-- <div class="col-lg-12 mb-3">
                             <label for="exampleFormControlInput1" class="form-label">Download Berkas Disposisi</label>
                             <button class="btn btn-primary" style="width: 100%" data-bs-toggle="modal"
                                 data-bs-target="#modal_disposisi" type="button">Download</button>
-                        </div>
+                        </div> --}}
                         <div class="col-lg-12 mb-3">
-                            <label for="exampleFormControlInput1" class="form-label" style="; width: 100%">Download Berkas Lainnya</label>
+                            <label for="exampleFormControlInput1" class="form-label" style="; width: 100%">Download Berkas</label>
                             @foreach ($sub_process as $sb)
                             <p>
                                 <a href="#" class="text-primary generate_document" style="text-decoration: none; width: 100%"  data-process_id="{{$kasus->status_id}}" data-kasus_id="{{$kasus->id}}" data-subprocess_name="{{$sb->name}}" data-subprocess="{{$sb->id}}">
@@ -283,7 +283,7 @@
     </div>
 </div>
 
-<div class="modal fade" id="modal_disposisi" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="lembar_disposisi" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -295,6 +295,7 @@
                 @csrf
                 <input type="hidden" name="kasus_id" value="{{$kasus->id}}">
                 <input type="hidden" name="status_id" value="{{$kasus->status_id}}">
+                <input type="hidden" name="sub_process">
                 <div class="modal-body">
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Nomor Agenda :</label>
@@ -340,6 +341,7 @@
                 @csrf
                 <input type="hidden" name="kasus_id" value="{{$kasus->id}}">
                 <input type="hidden" name="status_id" value="{{$kasus->status_id}}">
+                <input type="hidden" name="sub_process">
                 <div class="modal-body">
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Nomor Surat</label>
@@ -413,6 +415,7 @@
                 @csrf
                 <input type="hidden" name="kasus_id" value="{{$kasus->id}}">
                 <input type="hidden" name="status_id" value="{{$kasus->status_id}}">
+                <input type="hidden" name="sub_process">
                 <div class="modal-body">
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Nomor Surat</label>

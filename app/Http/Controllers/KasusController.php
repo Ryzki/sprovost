@@ -67,141 +67,143 @@ class KasusController extends Controller
 
     public function updateData(Request $request)
     {
-        if ($request->status == '2'){
-            // $status = $this->cek_requirement($request->kasus_id, $request->process_id);
-            // if ($status == true){
-            //     return response()->json([
-            //         'status' => [
-            //             'code' => 400,
-            //             'msg' => 'Harap cetak semua dokumen terlebi dahulu'
-            //         ]
-            //     ], 400);
-            // } else {
-                try {
-                    $data = DataPelanggar::find($request->kasus_id);
-                    $data->status_id = 3;
-                    $data->save();
-
-                    return response()->json([
-                        'status' => [
-                            'code' => 200,
-                            'msg' => 'OK'
-                        ]
-                    ], 200);
-                } catch (\Throwable $th) {
-                    return response()->json([
-                        'status' => [
-                            'code' => 500,
-                            'msg' => 'Terjadi masalah saat merubah status'
-                        ], 'detail' => $th
-                    ], 500);
-                }
-
-            // }
-        } else if ($request->status == 3) {
-            try {
-                $data = DataPelanggar::find($request->kasus_id);
-                $data->status_id = 4;
-                $data->save();
-
-                return response()->json([
-                    'status' => [
-                        'code' => 200,
-                        'msg' => 'OK'
-                    ]
-                ], 200);
-            } catch (\Throwable $th) {
-                return response()->json([
-                    'status' => [
-                        'code' => 500,
-                        'msg' => 'Terjadi masalah saat merubah status'
-                    ], 'detail' => $th
-                ], 500);
-            }
-        } else if ($request->status == 4){
-            if($request->next == 'limpah'){
-                try {
-                    $data = DataPelanggar::find($request->kasus_id);
-                    $data->status_id = 5;
-                    $data->save();
-
-                    return response()->json([
-                        'status' => [
-                            'code' => 200,
-                            'msg' => 'OK'
-                        ]
-                    ], 200);
-                } catch (\Throwable $th) {
-                    return response()->json([
-                        'status' => [
-                            'code' => 500,
-                            'msg' => 'Terjadi masalah saat merubah status'
-                        ], 'detail' => $th
-                    ], 500);
-                }
-            } else {
-                try {
-                    $data = DataPelanggar::find($request->kasus_id);
-                    $data->status_id = 6;
-                    $data->save();
-
-                    return response()->json([
-                        'status' => [
-                            'code' => 200,
-                            'msg' => 'OK'
-                        ]
-                    ], 200);
-                } catch (\Throwable $th) {
-                    return response()->json([
-                        'status' => [
-                            'code' => 500,
-                            'msg' => 'Terjadi masalah saat merubah status'
-                        ], 'detail' => $th
-                    ], 500);
-                }
-            }
-        } else if ($request->status == 6) {
-            try {
-                $data = DataPelanggar::find($request->kasus_id);
-                $data->status_id = 7;
-                $data->save();
-
-                return response()->json([
-                    'status' => [
-                        'code' => 200,
-                        'msg' => 'OK'
-                    ]
-                ], 200);
-            } catch (\Throwable $th) {
-                return response()->json([
-                    'status' => [
-                        'code' => 500,
-                        'msg' => 'Terjadi masalah saat merubah status'
-                    ], 'detail' => $th
-                ], 500);
-            }
-        } else if ($request->status == 7) {
-            try {
-                $data = DataPelanggar::find($request->kasus_id);
-                $data->status_id = 8;
-                $data->save();
-
-                return response()->json([
-                    'status' => [
-                        'code' => 200,
-                        'msg' => 'OK'
-                    ]
-                ], 200);
-            } catch (\Throwable $th) {
-                return response()->json([
-                    'status' => [
-                        'code' => 500,
-                        'msg' => 'Terjadi masalah saat merubah status'
-                    ], 'detail' => $th
-                ], 500);
-            }
-        } else if ($request->status == 'update_data'){
+        if ($request->status == 'update_data')
             return $this->updateDataPelanggar($request);
+
+        $status = $this->cek_requirement($request->kasus_id, $request->process_id);
+        if ($status == false){
+            return response()->json([
+                'status' => [
+                    'code' => 400,
+                    'msg' => 'Harap cetak semua dokumen terlebih dahulu'
+                ]
+            ], 400);
+        } else {
+            if ($request->status == '2'){
+                    try {
+                        $data = DataPelanggar::find($request->kasus_id);
+                        $data->status_id = 3;
+                        $data->save();
+
+                        return response()->json([
+                            'status' => [
+                                'code' => 200,
+                                'msg' => 'OK'
+                            ]
+                        ], 200);
+                    } catch (\Throwable $th) {
+                        return response()->json([
+                            'status' => [
+                                'code' => 500,
+                                'msg' => 'Terjadi masalah saat merubah status'
+                            ], 'detail' => $th
+                        ], 500);
+                    }
+
+                // }
+            } else if ($request->status == 3) {
+                try {
+                    $data = DataPelanggar::find($request->kasus_id);
+                    $data->status_id = 4;
+                    $data->save();
+
+                    return response()->json([
+                        'status' => [
+                            'code' => 200,
+                            'msg' => 'OK'
+                        ]
+                    ], 200);
+                } catch (\Throwable $th) {
+                    return response()->json([
+                        'status' => [
+                            'code' => 500,
+                            'msg' => 'Terjadi masalah saat merubah status'
+                        ], 'detail' => $th
+                    ], 500);
+                }
+            } else if ($request->status == 4){
+                if($request->next == 'limpah'){
+                    try {
+                        $data = DataPelanggar::find($request->kasus_id);
+                        $data->status_id = 5;
+                        $data->save();
+
+                        return response()->json([
+                            'status' => [
+                                'code' => 200,
+                                'msg' => 'OK'
+                            ]
+                        ], 200);
+                    } catch (\Throwable $th) {
+                        return response()->json([
+                            'status' => [
+                                'code' => 500,
+                                'msg' => 'Terjadi masalah saat merubah status'
+                            ], 'detail' => $th
+                        ], 500);
+                    }
+                } else {
+                    try {
+                        $data = DataPelanggar::find($request->kasus_id);
+                        $data->status_id = 6;
+                        $data->save();
+
+                        return response()->json([
+                            'status' => [
+                                'code' => 200,
+                                'msg' => 'OK'
+                            ]
+                        ], 200);
+                    } catch (\Throwable $th) {
+                        return response()->json([
+                            'status' => [
+                                'code' => 500,
+                                'msg' => 'Terjadi masalah saat merubah status'
+                            ], 'detail' => $th
+                        ], 500);
+                    }
+                }
+            } else if ($request->status == 6) {
+                try {
+                    $data = DataPelanggar::find($request->kasus_id);
+                    $data->status_id = 7;
+                    $data->save();
+
+                    return response()->json([
+                        'status' => [
+                            'code' => 200,
+                            'msg' => 'OK'
+                        ]
+                    ], 200);
+                } catch (\Throwable $th) {
+                    return response()->json([
+                        'status' => [
+                            'code' => 500,
+                            'msg' => 'Terjadi masalah saat merubah status'
+                        ], 'detail' => $th
+                    ], 500);
+                }
+            } else if ($request->status == 7) {
+                try {
+                    $data = DataPelanggar::find($request->kasus_id);
+                    $data->status_id = 8;
+                    $data->save();
+
+                    return response()->json([
+                        'status' => [
+                            'code' => 200,
+                            'msg' => 'OK'
+                        ]
+                    ], 200);
+                } catch (\Throwable $th) {
+                    return response()->json([
+                        'status' => [
+                            'code' => 500,
+                            'msg' => 'Terjadi masalah saat merubah status'
+                        ], 'detail' => $th
+                    ], 500);
+                }
+            }
         }
     }
 
@@ -261,13 +263,13 @@ class KasusController extends Controller
     {
         switch ($status_id) {
             case 1:
-                return $this->viewDiterima($kasus_id);
+                return $this->viewDiterima($kasus_id, $status_id);
                 break;
             case 2:
-                return $this->viewDiterima($kasus_id);
+                return $this->viewDiterima($kasus_id, $status_id);
                 break;
             case 3:
-                return $this->viewPulbaket($kasus_id);
+                return $this->viewPulbaket($kasus_id, $status_id);
                 break;
             case 4:
                 return $this->gelarLidik($kasus_id);
@@ -282,7 +284,7 @@ class KasusController extends Controller
                 return $this->sidang_disiplin($kasus_id);
                 break;
             case 8:
-                return $this->viewDiterima($kasus_id);
+                return $this->viewDiterima($kasus_id, $status_id);
                 break;
             default:
                 return 404;
@@ -290,12 +292,12 @@ class KasusController extends Controller
         }
     }
 
-    private function viewDiterima($id)
+    private function viewDiterima($id, $status_id)
     {
         $kasus = DataPelanggar::find($id);
-        $status = Process::find($kasus->status_id);
+        $status = Process::find($status_id);
         $process = Process::where('sort', '<=', $status->id)->get();
-        $sub_process = SubProcess::where('process_id', 2)->get();
+        $sub_process = SubProcess::where('process_id', $status->id)->get();
         $agama = Agama::get();
         $jenis_identitas = JenisIdentitas::get();
         $jenis_kelamin = JenisKelamin::get();
@@ -313,16 +315,16 @@ class KasusController extends Controller
         return view('pages.data_pelanggaran.proses.diterima', $data);
     }
 
-    private function viewPulbaket($id){
+    private function viewPulbaket($id, $status_id){
         $kasus = DataPelanggar::find($id);
 
-        if ($kasus->status_id > 3){
-            $kasus->status_now = $kasus->status_id;
-            $kasus->status_id = 3;
-        }
+        // if ($kasus->status_id > 3){
+        //     $kasus->status_now = $kasus->status_id;
+        //     $kasus->status_id = 3;
+        // }
 
-        $status = Process::find($kasus->status_id);
-        $sub_process = SubProcess::where('process_id', $kasus->status_id)->get();
+        $status = Process::find($status_id);
+        $sub_process = SubProcess::where('process_id', $status->id)->get();
         // $sub_process = SubProcess::where('process_id', 3)->get();
         $sprin = SprinHistory::where('data_pelanggar_id', $id)->with('user')->first();
         $sp2hp2 = Sp2hp2History::where('data_pelanggar_id', $id)->with('user')->first();
@@ -408,9 +410,9 @@ class KasusController extends Controller
     }
 
     private function cek_requirement($kasus_id, $process_id){
-        $cek = DokumenPelanggar::where('data_pelanggar_id', $kasus_id)->where('process_id', $process_id)->get();
-        $subProcess = SubProcess::where('process_id', (int)$process_id + 1)->get();
-        if (count($cek) == count($subProcess) + 1){
+        $documentgenerated = DokumenPelanggar::where('data_pelanggar_id', $kasus_id)->where('process_id', $process_id)->count();
+        $subProcess = SubProcess::where('process_id', (int)$process_id)->count();
+        if ($documentgenerated == $subProcess){
             return true;
         } else {
             return false;

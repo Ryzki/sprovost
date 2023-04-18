@@ -1,8 +1,26 @@
 @extends('partials.master')
 
-@push('css')
+@prepend('styles')
     <link href="{{ asset('assets/css/dashboard.css') }}" rel="stylesheet" type="text/css" />
-@endpush
+    <style>
+        #chartdiv, #chartDonat {
+            width: 100%;
+            height: 500px;
+            color: #ffffff
+        }
+
+        #chartBubble {
+            width: 100%;
+            max-width: 100%;
+            height: 550px;
+            #ffffff
+        }
+
+        /* #chartdiv, #chartDonat, #chartBubble {
+
+        } */
+    </style>
+@endprepend
 
 
 @section('content')

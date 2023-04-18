@@ -33,15 +33,13 @@ class GenerateDocument extends Controller
 
     public function generateDisposisi(Request $request)
     {
-        $kasus = DataPelanggar::find($request->kasus_id);
+        $disposisi = (new DiterimaController)->LembarDisposisi($request);
+        $statusCode = $disposisi->getData()->status->code;
+        $msg = isset($disposisi->getData()->detail) ? $disposisi->getData()->detail : '' ;
 
-        $data = [
-            'tanggal' => $request->tanggal,
-            'surat_dati' => $request->surat_dari,
-            'nomor_surat' => $request->nomor_surat,
-            'perihal' => $kasus->perihal_nota_dinas,
-            'nomor_agenda' => $request->nomor_agenda
-        ];
+        $kasus = $disposisi->getData()->kasus;
+        $data = $disposisi->getData()->document_data;
+        $data = json_decode(json_encode($data), true);
 
         $filename = $kasus->pelapor.' - Lembar Disposisi';
         $path = storage_path('document/'.$filename.'.docx');
@@ -53,99 +51,51 @@ class GenerateDocument extends Controller
         $template->setValue('tanggal', $data['tanggal']);
         $template->setValue('perihal', $data['perihal']);
 
-        $dokumen = DokumenPelanggar::where('data_pelanggar_id', $request->kasus_id)->where('process_id', $request->process_id)->where('sub_process_id', null)->first();
-        if($dokumen == null){
-            DokumenPelanggar::create([
-                'data_pelanggar_id' => $request->kasus_id,
-                'process_id' => 2,
-                'sub_process_id' => null,
-                'created_by' => Auth::user()->id,
-                'status' => 1
-            ]);
-        }
-
-        $data = DataPelanggar::find($request->kasus_id);
-        if($data->status_id < 2){
-            $data->status_id = 2;
-            $data->save();
-        }
-
         $template->saveAs($path);
         return response()->json(['file' => $filename.'.docx']);
-
-        // Convert PDF (Kalau butuh nanti)
-        // $pdfPath = storage_path('app/public/document/disposisi/');
-        // $convert='"C:/Program Files/LibreOffice/program/soffice" --headless --convert-to pdf "'.$path.'" --outdir "'.$pdfPath.'"';
-        // $result=exec($convert);
     }
 
     public function generateDisposisiKaro(Request $request){
-        $kasus = DataPelanggar::find($request->kasus_id);
-        $data = [
-            'tanggal' => $request->tanggal,
-            'no_surat' => $request->nomor_surat,
-            'no_agenda' => $request->nomor_agenda,
-            'perihal' => $kasus->perihal_nota_dinas,
-            'klasifikasi' => strtoupper($request->klasifikasi),
-            'derajat' => strtoupper($request->derajat),
-        ];
+        $disposisi = (new DiterimaController)->DisposisiKaro($request);
+        $statusCode = $disposisi->getData()->status->code;
+        $msg = isset($disposisi->getData()->detail) ? $disposisi->getData()->detail : '' ;
+
+        $kasus = $disposisi->getData()->kasus;
+        $data = $disposisi->getData()->document_data;
+        $data = json_decode(json_encode($data), true);
 
         $filename = "$kasus->pelapor - Lembar Disposisi Karo";
         $path = storage_path('document/'.$filename.'.docx');
         $template = new TemplateProcessor(storage_path('template/template_disposisi_karo.docx'));
-
         $template->setValues($data);
-
-        $dokumen = DokumenPelanggar::where('data_pelanggar_id', $request->kasus_id)->where('process_id', $request->process_id)->where('sub_process_id', null)->first();
-        if($dokumen == null){
-            DokumenPelanggar::create([
-                'data_pelanggar_id' => $request->kasus_id,
-                'process_id' => 2,
-                'sub_process_id' => null,
-                'created_by' => Auth::user()->id,
-                'status' => 1
-            ]);
-        }
-
         $template->saveAs($path);
+
         return response()->json(['file' => $filename.'.docx']);
     }
 
     public function generateDisposisiSesro(Request $request){
-        $kasus = DataPelanggar::find($request->kasus_id);
+        $disposisi = (new DiterimaController)->DisposisiSesro($request);
+        $statusCode = $disposisi->getData()->status->code;
+        $msg = isset($disposisi->getData()->detail) ? $disposisi->getData()->detail : '' ;
 
-        $data = [
-            'tanggal' => $request->tanggal,
-            'no_surat' => $request->nomor_surat,
-            'no_agenda' => $request->nomor_agenda,
-            'perihal' => $kasus->perihal_nota_dinas,
-            'klasifikasi' => strtoupper($request->klasifikasi),
-            'derajat' => strtoupper($request->derajat),
-        ];
+        $kasus = $disposisi->getData()->kasus;
+        $data = $disposisi->getData()->document_data;
+        $data = json_decode(json_encode($data), true);
 
         $filename = "$kasus->pelapor - Lembar Disposisi Sesro";
         $path = storage_path('document/'.$filename.'.docx');
         $template = new TemplateProcessor(storage_path('template/template_disposisi_sesro.docx'));
-
         $template->setValues($data);
-
-        $dokumen = DokumenPelanggar::where('data_pelanggar_id', $request->kasus_id)->where('process_id', $request->process_id)->where('sub_process_id', null)->first();
-        if($dokumen == null){
-            DokumenPelanggar::create([
-                'data_pelanggar_id' => $request->kasus_id,
-                'process_id' => 2,
-                'sub_process_id' => null,
-                'created_by' => Auth::user()->id,
-                'status' => 1
-            ]);
-        }
-
         $template->saveAs($path);
+
         return response()->json(['file' => $filename.'.docx']);
     }
 
     public function generateDisposisiKabag($kasus_id, $process_id, $subprocess){
-        $kasus = DataPelanggar::find($kasus_id);
+        $disposisi = (new DiterimaController)->DisposisiKabag($kasus_id, $process_id, $subprocess);
+        $statusCode = $disposisi->getData()->status->code;
+        $msg = isset($disposisi->getData()->detail) ? $disposisi->getData()->detail : '' ;
+        $kasus = $disposisi->getData()->kasus;
 
         $template_document = new TemplateProcessor(storage_path('template/template_disposisi_kabag.docx'));
         $template_document->setValues(array(
@@ -155,8 +105,8 @@ class GenerateDocument extends Controller
         $filename = "$kasus->pelapor - Surat Pengantar Disposisi Kabag";
         $path = storage_path('document/'.$filename.'.docx');
         $template_document->saveAs($path);
-        return response()->download($path)->deleteFileAfterSend(true);
 
+        return response()->download($path)->deleteFileAfterSend(true);
     }
 
     // Document Pulbaket
@@ -276,6 +226,17 @@ class GenerateDocument extends Controller
         $kasus = DataPelanggar::find($kasus_id);
         $sprin = SprinHistory::where('data_pelanggar_id', $kasus_id)->where('type', 'lidik')->first();
         $penyidik = Penyidik::find($request->penyidik);
+
+        $dokumen = DokumenPelanggar::where('data_pelanggar_id', $kasus_id)->where('process_id', $request->process_id)->where('sub_process_id', $request->sub_process)->first();
+        if($dokumen == null){
+            DokumenPelanggar::create([
+                'data_pelanggar_id' => $kasus_id,
+                'process_id' => $request->process_id,
+                'sub_process_id' => $request->sub_process,
+                'created_by' => Auth::user()->id,
+                'status' => 1
+            ]);
+        }
 
         $template_document = new TemplateProcessor(storage_path('template/template_undangan_klarifikasi.docx'));
         $template_document->setValues(array(
@@ -455,6 +416,16 @@ class GenerateDocument extends Controller
     }
 
     public function laporanHasilPenyelidikan($kasus_id, $process_id, $subprocess){
+        $dokumen = DokumenPelanggar::where('data_pelanggar_id', $kasus_id)->where('process_id', $process_id)->where('sub_process_id', $subprocess)->first();
+        if($dokumen == null){
+            DokumenPelanggar::create([
+                'data_pelanggar_id' => $kasus_id,
+                'process_id' => $process_id,
+                'sub_process_id' => $subprocess,
+                'created_by' => Auth::user()->id,
+                'status' => 1
+            ]);
+        }
         return redirect()->back()->with('msg', 'Proses cetak Laporan Hasil Penyelidikan sedang dalam pengerjaan');
 
         // $kasus = DataPelanggar::find($kasus_id);
@@ -622,6 +593,16 @@ class GenerateDocument extends Controller
     }
 
     public function notulen_hasil_gelar($kasus_id, $process_id, $subprocess){
+        $dokumen = DokumenPelanggar::where('data_pelanggar_id', $kasus_id)->where('process_id', $process_id)->where('sub_process_id', $subprocess)->first();
+        if($dokumen == null){
+            DokumenPelanggar::create([
+                'data_pelanggar_id' => $kasus_id,
+                'process_id' => $process_id,
+                'sub_process_id' => $subprocess,
+                'created_by' => Auth::user()->id,
+                'status' => 1
+            ]);
+        }
         return redirect()->back()->with('msg', 'Proses cetak Notulen Hasil Gelar sedang dalam pengerjaan');
     }
 
@@ -1036,6 +1017,17 @@ class GenerateDocument extends Controller
     }
 
     public function surat_panggilan_terduga($kasus_id, $process_id, $subprocess){
+        $dokumen = DokumenPelanggar::where('data_pelanggar_id', $kasus_id)->where('process_id', $process_id)->where('sub_process_id', $subprocess)->first();
+        if($dokumen == null){
+            DokumenPelanggar::create([
+                'data_pelanggar_id' => $kasus_id,
+                'process_id' => $process_id,
+                'sub_process_id' => $subprocess,
+                'created_by' => Auth::user()->id,
+                'status' => 1
+            ]);
+        }
+
         $template_document = new TemplateProcessor(storage_path('template/template_surat_panggilan_terduga.docx'));
         $filename = 'Surat Panggilan Terduga'.'.docx';
         $path = storage_path('document/'.$filename);
@@ -1045,6 +1037,17 @@ class GenerateDocument extends Controller
     }
 
     public function bap($kasus_id, $process_id, $subprocess){
+        $dokumen = DokumenPelanggar::where('data_pelanggar_id', $kasus_id)->where('process_id', $process_id)->where('sub_process_id', $subprocess)->first();
+        if($dokumen == null){
+            DokumenPelanggar::create([
+                'data_pelanggar_id' => $kasus_id,
+                'process_id' => $process_id,
+                'sub_process_id' => $subprocess,
+                'created_by' => Auth::user()->id,
+                'status' => 1
+            ]);
+        }
+
         $template_document = new TemplateProcessor(storage_path('template/template_bap.docx'));
         $filename = 'Dokumen BAP'.'.docx';
         $path = storage_path('document/'.$filename);
@@ -1054,6 +1057,17 @@ class GenerateDocument extends Controller
     }
 
     public function dp3d($kasus_id, $process_id, $subprocess){
+        $dokumen = DokumenPelanggar::where('data_pelanggar_id', $kasus_id)->where('process_id', $process_id)->where('sub_process_id', $subprocess)->first();
+        if($dokumen == null){
+            DokumenPelanggar::create([
+                'data_pelanggar_id' => $kasus_id,
+                'process_id' => $process_id,
+                'sub_process_id' => $subprocess,
+                'created_by' => Auth::user()->id,
+                'status' => 1
+            ]);
+        }
+
         $template_document = new TemplateProcessor(storage_path('template/template_dp3d.docx'));
         $filename = 'Dokumen DP3D'.'.docx';
         $path = storage_path('document/'.$filename);
@@ -1063,6 +1077,17 @@ class GenerateDocument extends Controller
     }
 
     public function pelimpahan_ankum($kasus_id, $process_id, $subprocess){
+        $dokumen = DokumenPelanggar::where('data_pelanggar_id', $kasus_id)->where('process_id', $process_id)->where('sub_process_id', $subprocess)->first();
+        if($dokumen == null){
+            DokumenPelanggar::create([
+                'data_pelanggar_id' => $kasus_id,
+                'process_id' => $process_id,
+                'sub_process_id' => $subprocess,
+                'created_by' => Auth::user()->id,
+                'status' => 1
+            ]);
+        }
+
         $template_document = new TemplateProcessor(storage_path('template/template_pelimpahan_ankum.docx'));
         $filename = 'Surat Pelimpahan Ke Ankum'.'.docx';
         $path = storage_path('document/'.$filename);
@@ -1074,6 +1099,17 @@ class GenerateDocument extends Controller
 
     //Sidang Disiplin
     public function nota_dina_perangkat_sidang($kasus_id, $process_id, $subprocess){
+        $dokumen = DokumenPelanggar::where('data_pelanggar_id', $kasus_id)->where('process_id', $process_id)->where('sub_process_id', $subprocess)->first();
+        if($dokumen == null){
+            DokumenPelanggar::create([
+                'data_pelanggar_id' => $kasus_id,
+                'process_id' => $process_id,
+                'sub_process_id' => $subprocess,
+                'created_by' => Auth::user()->id,
+                'status' => 1
+            ]);
+        }
+
         $template_document = new TemplateProcessor(storage_path('template/template_perangkat_sidang.docx'));
         $filename = 'Nota Dinas Perangkat Sidang'.'.docx';
         $path = storage_path('document/'.$filename);
@@ -1083,6 +1119,17 @@ class GenerateDocument extends Controller
     }
 
     public function sprin_perangkat_sidang($kasus_id, $process_id, $subprocess){
+        $dokumen = DokumenPelanggar::where('data_pelanggar_id', $kasus_id)->where('process_id', $process_id)->where('sub_process_id', $subprocess)->first();
+        if($dokumen == null){
+            DokumenPelanggar::create([
+                'data_pelanggar_id' => $kasus_id,
+                'process_id' => $process_id,
+                'sub_process_id' => $subprocess,
+                'created_by' => Auth::user()->id,
+                'status' => 1
+            ]);
+        }
+
         $template_document = new TemplateProcessor(storage_path('template/template_perangkat_sidang.docx'));
         $filename = 'SPRIN Perangkat Sidang'.'.docx';
         $path = storage_path('document/'.$filename);
@@ -1092,6 +1139,17 @@ class GenerateDocument extends Controller
     }
 
     public function undangan_sidang_disiplin($kasus_id, $process_id, $subprocess){
+        $dokumen = DokumenPelanggar::where('data_pelanggar_id', $kasus_id)->where('process_id', $process_id)->where('sub_process_id', $subprocess)->first();
+        if($dokumen == null){
+            DokumenPelanggar::create([
+                'data_pelanggar_id' => $kasus_id,
+                'process_id' => $process_id,
+                'sub_process_id' => $subprocess,
+                'created_by' => Auth::user()->id,
+                'status' => 1
+            ]);
+        }
+
         $template_document = new TemplateProcessor(storage_path('template/template_undangan_sidang.docx'));
         $filename = 'Surat Undangan Sidang Disiplin'.'.docx';
         $path = storage_path('document/'.$filename);
@@ -1101,6 +1159,17 @@ class GenerateDocument extends Controller
     }
 
     public function hasil_putusan_sidang_disiplin($kasus_id, $process_id, $subprocess){
+        $dokumen = DokumenPelanggar::where('data_pelanggar_id', $kasus_id)->where('process_id', $process_id)->where('sub_process_id', $subprocess)->first();
+        if($dokumen == null){
+            DokumenPelanggar::create([
+                'data_pelanggar_id' => $kasus_id,
+                'process_id' => $process_id,
+                'sub_process_id' => $subprocess,
+                'created_by' => Auth::user()->id,
+                'status' => 1
+            ]);
+        }
+
         $template_document = new TemplateProcessor(storage_path('template/template_hasil_putusan_sidang.docx'));
         $filename = 'Hasil Putusan Sidang Disiplin'.'.docx';
         $path = storage_path('document/'.$filename);
@@ -1110,6 +1179,17 @@ class GenerateDocument extends Controller
     }
 
     public function nota_hasil_putusan($kasus_id, $process_id, $subprocess){
+        $dokumen = DokumenPelanggar::where('data_pelanggar_id', $kasus_id)->where('process_id', $process_id)->where('sub_process_id', $subprocess)->first();
+        if($dokumen == null){
+            DokumenPelanggar::create([
+                'data_pelanggar_id' => $kasus_id,
+                'process_id' => $process_id,
+                'sub_process_id' => $subprocess,
+                'created_by' => Auth::user()->id,
+                'status' => 1
+            ]);
+        }
+
         $template_document = new TemplateProcessor(storage_path('template/template_nota_hasil_putusan.docx'));
         $filename = 'Nota Hasil Putusan Sidang'.'.docx';
         $path = storage_path('document/'.$filename);

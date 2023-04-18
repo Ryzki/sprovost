@@ -2,10 +2,10 @@
     <div class="col-lg-12 mb-4">
         <div class="d-flex justify-content-between">
             <div>
-                <button type="button" class="btn btn-warning" onclick="getViewProcess(1)">Sebelumnya</button>
+                <button type="button" class="btn btn-warning" onclick="getViewProcess(2)">Sebelumnya</button>
             </div>
             <div>
-                @if ($kasus->status_id > 3 || $kasus->status_now > 3)
+                @if ($kasus->status_id > 3)
                     <button type="button" class="btn btn-primary" onclick="getViewProcess(4)">Selanjutnya</button>
                 @endif
             </div>
@@ -147,7 +147,7 @@
                             {{-- <button class="btn btn-success submit" type="submit" value="update_data" name="type_submit">Update
                                 Data</button> --}}
                             <button class="btn btn-primary submit" type="submit" value="{{$kasus->status_id}}" name="type_submit"
-                                {{ $kasus->status_now > 3 ? 'disabled' : '' }}>Update
+                                {{ $kasus->status_id != 3 ? 'disabled' : '' }}>Update
                                 Status (Gelar Lidik)</button>
                         </div>
                     </div>

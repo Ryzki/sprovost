@@ -7,10 +7,9 @@
     <meta charset="utf-8" />
     <title>Dashboard | Provost</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta content="Minimal Admin & Dashboard Template" name="description" />
-    <meta content="Themesbrand" name="author" />
+    <meta content="Dashboard Provost" name="description" />
     <!-- App favicon -->
-    <link rel="shortcut icon" href="assets/images/favicon.ico">
+    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/icon/favicon.ico') }}">
 
     <!-- jsvectormap css -->
     <link href="{{ asset('assets/libs/jsvectormap/css/jsvectormap.min.css') }}" rel="stylesheet" type="text/css" />
@@ -33,12 +32,12 @@
 
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.2/css/dataTables.bootstrap5.min.css">
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
-
     {{-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet"> --}}
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css">
     {{-- <link rel="stylesheet" href="{{ asset('assets/pelljs/pell.scss') }}"> --}}
+    <link rel="stylesheet" href="{{ asset('assets/css/responsive.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/custom.css') }}">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <style>
         .loader-view {
             margin-left: auto;
@@ -80,7 +79,7 @@
         .f1-step {
             position: relative;
             float: left;
-            width: 20%;
+            width: 25%;
             padding: 0 5px;
         }
 
@@ -178,9 +177,6 @@
             margin: 10px 0;
         }
 
-        /* ==========================================================================
-   WYSIWYG
-   ========================================================================== */
         #editor {
             resize: vertical;
             overflow: auto;
@@ -205,10 +201,11 @@
         }
     </style>
 
+    @stack('styles')
 </head>
 
 <body>
-    <script type="text/javascript" charset="utf-8">
+    {{-- <script type="text/javascript" charset="utf-8">
         let a;
         let time;
         setInterval(() => {
@@ -216,7 +213,7 @@
             time = a.getHours() + ':' + a.getMinutes() + ':' + a.getSeconds();
             document.getElementById('current-time').innerHTML = time;
         }, 1000);
-    </script>
+    </script> --}}
     <div id="layout-wrapper">
         <div class="top-tagbar">
             <div class="w-100">
@@ -276,6 +273,61 @@
         @include('partials.javascript')
 
         @yield('scripts')
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+        <script>
+            @if(Session::has('message'))
+            toastr.options =
+            {
+                "closeButton" : true,
+                "progressBar" : true
+            }
+                    toastr.success("{{ session('message') }}");
+            @endif
+
+            @if(Session::has('error'))
+            toastr.options =
+            {
+                "closeButton" : true,
+                "progressBar" : true
+            }
+                    toastr.error("{{ session('error') }}");
+            @endif
+
+            @if(Session::has('info'))
+            toastr.options =
+            {
+                "closeButton" : true,
+                "progressBar" : true
+            }
+                    toastr.info("{{ session('info') }}");
+            @endif
+
+            @if(Session::has('warning'))
+            toastr.options =
+            {
+                "closeButton" : true,
+                "progressBar" : true
+            }
+                    toastr.warning("{{ session('warning') }}");
+            @endif
+            toastr.options = {
+                "closeButton": false,
+                "debug": false,
+                "newestOnTop": false,
+                "progressBar": true,
+                "positionClass": "toast-bottom-right",
+                "preventDuplicates": true,
+                "onclick": null,
+                "showDuration": "700",
+                "hideDuration": "1000",
+                "timeOut": "5000",
+                "extendedTimeOut": "1000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+            }
+          </script>
 
     </div>
 

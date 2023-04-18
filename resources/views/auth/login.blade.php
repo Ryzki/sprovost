@@ -10,7 +10,7 @@
     <meta content="Minimal Admin & Dashboard Template" name="description" />
     <meta content="Themesbrand" name="author" />
     <!-- App favicon -->
-    <link rel="shortcut icon" href="{{ asset('assets/images/favicon.ico') }}">
+    <link rel="shortcut icon" href="{{ asset('assets/icon/favicon.ico') }}">
 
     <!-- Layout config Js -->
     <script src="{{ asset('assets/js/layout.js') }}"></script>
@@ -32,29 +32,20 @@
         <div class="container-fluid px-0">
             <div class="row g-0">
                 <div class="col-xl-8 col-lg-6">
-                    <div class="h-100 mb-0 p-4 d-flex flex-column justify-content-between">
-                        {{-- <div class="d-flex align-items-center">
+                    {{-- <div class="h-100 mb-0 p-4 d-flex flex-column justify-content-between">
+                        <div class="d-flex align-items-center">
                             <div class="flex-grow-1">
-                                <img src="assets/images/logo-light-full.png" alt="" height="32" />
+                                <img src="assets/images/provos_light.png" alt="" height="32" />
                             </div>
-                        </div> --}}
-
-                        {{-- <div class="text-white mt-4">
-                            <p class="mb-0">&copy;
-                                <script>
-                                    document.write(new Date().getFullYear())
-                                </script> Hybrix. Crafted with <i class="mdi mdi-heart text-danger"></i>
-                                by Themesbrand
-                            </p>
-                        </div> --}}
-                    </div>
+                        </div>
+                    </div> --}}
                 </div>
                 <!--end col-->
                 <div class="col-xl-4 col-lg-6">
-                    <div class="card mb-0 py-5" style="opacity: 0.9;">
-
-                        <div class="card-body p-4 p-sm-5 m-lg-2">
-                            <div class="text-center mt-2">
+                    <div class="card mb-0" style="opacity: 0.9;">
+                        <div class="card-body p-3 p-sm-5 m-lg-2">
+                            <div class="text-center">
+                                <img width="25%" src="{{ asset('assets/images/Provos.png') }}" alt="">
                                 <h5 class="text-primary fs-22">Welcome Back !</h5>
                                 <p class="text-muted">Sign in to continue to Propam Integrated System.</p>
                             </div>

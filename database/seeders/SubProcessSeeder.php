@@ -19,6 +19,14 @@ class SubProcessSeeder extends Seeder
         $subprocess =
         [
             [
+                'process_id' => '1',
+                'name' => 'Lembar Disposisi',
+                'required' => 1
+            ],[
+                'process_id' => '2',
+                'name' => 'Lembar Disposisi',
+                'required' => 0
+            ],[
                 'process_id' => '2',
                 'name' => 'Disposisi Karo',
                 'required' => 0

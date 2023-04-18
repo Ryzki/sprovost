@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\GenerateDocument;
 use App\Http\Controllers\KasusController;
 use App\Http\Controllers\LimpahPoldaController;
@@ -31,9 +32,9 @@ Route::post('login', [AuthController::class, 'loginAction'])->name('login-action
 
 
 Route::middleware(['auth'])->group(function (){
-    Route::get('/', function () {
-        return view('pages.dashboard.index');
-    });
+    // Dashboard
+    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 
     Route::get('data-kasus', [KasusController::class, 'index'])->name('kasus.index');
     Route::post('data-kasus/data', [KasusController::class, 'data'])->name('kasus.data');
@@ -46,6 +47,10 @@ Route::middleware(['auth'])->group(function (){
     Route::get('data-penyidik/{kasus_id}', [KasusController::class, 'getDataPenyidik']);
     Route::get('data-penyidik-riksa/{kasus_id}', [KasusController::class, 'getDataPenyidikRiksa']);
     // End View Kasus
+
+    // Create Kasus
+    Route::get('input-data-kasus', [KasusController::class, 'inputKasus'])->name('kasus.input');
+    Route::post('input-data-kasus/store', [KasusController::class, 'storeKasus'])->name('kasus.store.kasus');
 
     // Download From Ajax
     Route::get('/download-file/{filename}', [GenerateDocument::class, 'downloadFile']);
