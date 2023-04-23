@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Penyidik;
 use App\Models\Pangkat;
 use App\Models\DataPelanggar;
+use App\Models\MasterPenyidik;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use DataTables;
@@ -54,7 +55,7 @@ class PenyidikController extends Controller
             'tim' => $request->tim,
             'unit' => $request->unit,
         ]);
-        
+
         return redirect()->action([PenyidikController::class, 'index']);
     }
 
@@ -65,7 +66,7 @@ class PenyidikController extends Controller
         return Datatables::of($query)->addColumn('action', function ($row) {
             return '<a href="' . route('penyidik.edit', [$row->id]) . '" class="btn btn-info btn-circle"
                   data-toggle="tooltip" data-original-title="Edit"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-    
+
                   <button type="button" onclick="hapus('.$row->id.')" class="btn btn-danger btn-circle sa-params"
                   data-toggle="tooltip" data-user-id="' . $row->id . '" data-original-title="Delete"><i class="fa fa-times" aria-hidden="true"></i></button>';
         })->make(true);
@@ -92,5 +93,10 @@ class PenyidikController extends Controller
     {
       Penyidik::where('id', $id)
             ->delete();
+    }
+
+    public function masterPenyidik(){
+        $data = MasterPenyidik::get();
+        return response()->json(['penyidik' => $data]);
     }
 }

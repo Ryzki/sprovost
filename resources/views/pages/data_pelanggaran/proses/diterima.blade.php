@@ -1,3 +1,17 @@
+{{-- @prepend('styles') --}}
+    <style>
+        .select2-selection__rendered {
+            line-height: 4.5rem !important;
+            padding-left: 1rem !important
+        }
+        .select2-container .select2-selection--single {
+            height: 3.5rem !important;
+        }
+        .select2-selection__arrow {
+            height: 100% !important;
+        }
+    </style>
+{{-- @endprepend --}}
 <div class="row">
     <div class="col-lg-12 mb-4">
         <div class="d-flex justify-content-between">
@@ -87,11 +101,16 @@
                 </div>
 
                 <div class="col-lg-6 mb-3">
-                    <div class="form-floating">
-                        <select class="form-select border-dark" aria-label="Default select example" name="wujud_perbuatan"id="wujud_perbuatan" disabled required>
-                            <option value="">-- Pilih Wujud Perbuatan --</option>
+                    {{-- <div class="form-group">
+                        <label for="wujud_perbuatan">Wujud Perbuatan</label>
+                        <select name="wujud_perbuatan" id="wujud_perbuatan" class="form-select select2" data-placeholder="Silahkan Pilih Wujud Perbuatan">
                         </select>
-                        <label for="jenis_identitas" class="form-label">Wujud Perbuatan</label>
+                    </div> --}}
+                    <div class="form-floating" style="height: 100%">
+                        <select class="form-select border-dark select2" aria-label="Default select example" name="wujud_perbuatan"id="wujud_perbuatan" disabled required style="height: 100% !important" data-placeholder="Silahkan Pilih Wujud Perbuatan">
+                            <option></option>
+                        </select>
+                        <label for="wujud_perbuatan" class="form-label">Wujud Perbuatan</label>
                     </div>
                 </div>
                 <hr>
@@ -196,8 +215,8 @@
                         <div class="col-lg-6 mb-3">
                             <div class="form-floating">
                                 <!-- <input type="text" class="form-control border-dark" name="pangkat" id="pangkat" placeholder="Pangkat Terlapor" value="{{ isset($kasus) ? $kasus->pangkat : '' }}" required> -->
-                                <select class="form-control border-dark" name="pangkat" id="pangkat" >
-                                    <option value="">--- Pilih Pangkat ---</option>
+                                <select class="form-control border-dark select2" name="pangkat" id="pangkat"  data-placeholder="Silahkan Pilih PAngkat">
+                                    <option></option>
                                     @foreach($pangkats as $pangkat)
                                     <option value="{{$pangkat->id}}" {{ $pangkat->id == $kasus->pangkat ? 'selected' : '' }}>{{$pangkat->name}}</option>
                                     @endforeach
@@ -502,9 +521,88 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="lembar_disposisi_karo__sesro" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Generate Disposisi Sesro</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            {{-- <form action="/lembar-disposisi" method="post"> --}}
+            <form action="javascript:void(0)" id="form-disposisi-sesro">
+                @csrf
+                <input type="hidden" name="kasus_id" value="{{$kasus->id}}">
+                <input type="hidden" name="status_id" value="{{$kasus->status_id}}">
+                <input type="hidden" name="sub_process">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Nomor Surat</label>
+                        <input type="text" class="form-control" id="nomor_surat" name="nomor_surat" value="{{$kasus->no_nota_dinas}}" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Nomor Agenda</label>
+                        <input type="text" class="form-control" id="nomor_agenda" name="nomor_agenda">
+                    </div>
+                    <fieldset class="form-group row mb-4">
+                        <legend class="col-form-label">Klasifikasi</legend>
+                        <div class="col-sm-10">
+                          <div class="form-check">
+                            <input class="form-check-input" type="radio" name="klasifikasi" id="klasifikasi1" value="Biasa">
+                            <label class="form-check-label" for="klasifikasi1">
+                              Biasa
+                            </label>
+                          </div>
+                          <div class="form-check">
+                            <input class="form-check-input" type="radio" name="klasifikasi" id="klasifikasi2" value="Rahasia">
+                            <label class="form-check-label" for="klasifikasi2">
+                              Rahasia
+                            </label>
+                          </div>
+                        </div>
+                    </fieldset>
+                    <fieldset class="form-group row mb-4">
+                        <legend class="col-form-label">Derajat</legend>
+                        <div class="col-sm-10">
+                          <div class="form-check">
+                            <input class="form-check-input" type="radio" name="derajat" id="derajat1" value="Biasa">
+                            <label class="form-check-label" for="derajat1">
+                              Biasa
+                            </label>
+                          </div>
+                          <div class="form-check">
+                            <input class="form-check-input" type="radio" name="derajat" id="derajat2" value="Kilat">
+                            <label class="form-check-label" for="derajat2">
+                              Kilat
+                            </label>
+                          </div>
+                        </div>
+                    </fieldset>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Tanggal</label>
+                        <input type="date" class="form-control" id="tanggal" name="tanggal">
+                    </div>
+                    {{-- <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Perihal</label>
+                        <input type="text" class="form-control" id="perihal" name="perihal">
+                    </div> --}}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Generate</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 <script>
     $(document).ready(function(){
+        $('.select2').map((k, v) => {
+            $(v).select2({
+                theme: 'default'
+            })
+        })
+
         $('.submit').on('click', function(){
             var data = $('#form').serializeArray()
             data.push({name: $(this).attr('name'), value: $(this).val()})
@@ -688,7 +786,7 @@
             $('input[name="sub_process"]').val($(this).data('subprocess'))
             $('input[name="process_id"]').val($(this).data('process_id'))
 
-            var subProcess = $(this).data('subprocess_name').split(' ').join('_')
+            var subProcess = $(this).data('subprocess_name').split(' ').join('_').split('/').join('')
             subProcess = subProcess.toLowerCase()
             let kasus_id = $(this).data('kasus_id')
 
@@ -714,32 +812,6 @@
             getValKodeEtik()
         }
     })
-
-    function disiplinChange(checkbox) {
-        if(checkbox.checked == true){
-            document.getElementById("wujud_perbuatan").removeAttribute("disabled");
-            document.getElementById("kode_etik").removeAttribute("required");
-            document.getElementById("kode_etik").setAttribute("disabled", "disabled");
-            getValDisiplin()
-        }else{
-            document.getElementById("wujud_perbuatan").setAttribute("disabled", "disabled");
-            document.getElementById("kode_etik").setAttribute("required", "required");
-            document.getElementById("kode_etik").removeAttribute("disabled");
-        }
-    }
-
-    function kodeEtikChange(checkbox) {
-        if(checkbox.checked == true){
-            document.getElementById("wujud_perbuatan").removeAttribute("disabled");
-            document.getElementById("disiplin").removeAttribute("required");
-            document.getElementById("disiplin").setAttribute("disabled", "disabled");
-            getValKodeEtik()
-        }else{
-            document.getElementById("wujud_perbuatan").setAttribute("disabled", "disabled");
-            document.getElementById("disiplin").setAttribute("required", "required");
-            document.getElementById("disiplin").removeAttribute("disabled");
-        }
-    }
 
     function getValDisiplin() {
         let kasus_wp = `{{ isset($kasus) ? $kasus->wujud_perbuatan : '' }}`;
@@ -774,7 +846,7 @@
         list_id_ke = `{{ $id_kode_etik }}`;
         list_id_ke = list_id_ke.split('|');
 
-        let html_wp = `<option value="">-- Pilih Wujud Perbuatan --</option>`;
+        let html_wp = `<option></option>`;
         for (let index = 0; index < list_ketke.length; index++) {
             let is_selected = '';
             const el_ketke = list_ketke[index];
