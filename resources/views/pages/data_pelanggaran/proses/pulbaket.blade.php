@@ -68,7 +68,7 @@
                         :
                     </div>
                     <div class="col-md-8 col-sm-12">
-                        {{$kasus->wujud_perbuatan}}
+                        {{$kasus->wujudPerbuatan->keterangan_wp}} 
                     </div>
 
                     <div class="col-md-3 col-sm-12">
@@ -225,7 +225,7 @@
                                         <div class="col-lg-4">
                                             <div class="form-outline mb-3">
                                                 <input type="text" class="form-control num" name="nrp"
-                                                    id="nrp" placeholder="NRP" onfocus="mask(this, '9999999')">
+                                                    id="nrp" placeholder="NRP" onfocus="mask(this, '999999999999')">
                                             </div>
                                         </div>
 

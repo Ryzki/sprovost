@@ -413,7 +413,7 @@
                     </fieldset>
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Tanggal</label>
-                        <input type="date" class="form-control" id="tanggal" name="tanggal">
+                        <input type="date" class="form-control" id="tanggal" name="tanggal" value="{{$kasus->tanggal_nota_dinas}}">
                     </div>
                     {{-- <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Perihal</label>
@@ -487,7 +487,7 @@
                     </fieldset>
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Tanggal</label>
-                        <input type="date" class="form-control" id="tanggal" name="tanggal">
+                        <input type="date" class="form-control" id="tanggal" name="tanggal" value="{{$kasus->tanggal_nota_dinas}}">
                     </div>
                     {{-- <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Perihal</label>

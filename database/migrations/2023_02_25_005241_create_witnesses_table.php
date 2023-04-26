@@ -16,8 +16,8 @@ return new class extends Migration
         Schema::create('witnesses', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('data_pelanggar_id');
-            $table->string('nama');
-            $table->string('pangkat');
+            $table->string('nama')->nullable();
+            $table->string('pangkat')->nullable();
             $table->string('nrp')->nullable();
             $table->string('jabatan')->nullable();
             $table->string('kesatuan')->nullable();

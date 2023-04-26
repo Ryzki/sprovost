@@ -182,7 +182,7 @@ class GenerateDocument extends Controller
             'tgl_nd' => Carbon::parse($kasus->created_at)->translatedFormat('d F Y'),
             'perihal_nd' => $kasus->perihal_nota_dinas,
             'pelapor' => $kasus->pelapor,
-            'wujud_perbuatan' => $kasus->wujud_perbuatan,
+            'wujud_perbuatan' => $kasus->wujudPerbuatan->keterangan_wp,
             'terlapor' => $kasus->terlapor,
             'pangkat' => $kasus->pangkatName->name,
             'jabatan' => $kasus->jabatan,
@@ -439,7 +439,7 @@ class GenerateDocument extends Controller
         //     'jabatan' => $kasus->jabatan,
         //     'kwn' => $kasus->kewarganegaraan,
         //     'terlapor' => $kasus->terlapor,
-        //     'wujud_perbuatan' => $kasus->wujud_perbuatan,
+        //     'wujud_perbuatan' => $kasus->wujudPerbuatan->keterangan_wp,
         //     'terlapor' => $kasus->terlapor,
         //     'nrp' => $kasus->nrp,
         //     'jabatan' => $kasus->jabatan,
@@ -887,7 +887,7 @@ class GenerateDocument extends Controller
         $template_document->setValues(array(
             'no_lpa' => $lpa->no_lpa,
             'tgl_lpa' => Carbon::parse($lpa->created_at)->translatedFormat('d F Y'),
-            'wujud_perbuatan' => $kasus->wujud_perbuatan,
+            'wujud_perbuatan' => $kasus->wujudPerbuatan->keterangan_wp,
             'terlapor' => $kasus->terlapor,
             'pangkat' => $kasus->pangkatName->name,
             'jabatan' => $kasus->jabatan,
@@ -958,7 +958,7 @@ class GenerateDocument extends Controller
                     // Data Kasus
                     'terlapor' => strtoupper($kasus->pangkatName->name).' '.strtoupper($kasus->terlapor),
                     'jabatan' => strtoupper($kasus->jabatan).' '.strtoupper($kasus->kesatuan),
-                    'wujud_perbuatan' => strtoupper($kasus->wujud_perbuatan),
+                    'wujud_perbuatan' => strtoupper($kasus->wujudPerbuatan->keterangan_wp),
                     // Data SPRIN & LPA
                     'no_sprin' => $sprin->no_sprin,
                     'tgl_sprin' => Carbon::parse($sprin->created_at)->translatedFormat('d-F-Y'),
@@ -995,7 +995,7 @@ class GenerateDocument extends Controller
                     // Data Kasus
                     'terlapor' => strtoupper($kasus->pangkatName->name).' '.strtoupper($kasus->terlapor),
                     'jabatan' => strtoupper($kasus->jabatan).' '.strtoupper($kasus->kesatuan),
-                    'wujud_perbuatan' => strtoupper($kasus->wujud_perbuatan),
+                    'wujud_perbuatan' => strtoupper($kasus->wujudPerbuatan->keterangan_wp),
                     // Data SPRIN & LPA
                     'no_sprin' => $sprin->no_sprin,
                     'tgl_sprin' => Carbon::parse($sprin->created_at)->translatedFormat('d-F-Y'),

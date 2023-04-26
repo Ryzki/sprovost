@@ -317,7 +317,7 @@
         }
 
         function getValDisiplin() {
-            let kasus_wp = `{{ isset($kasus) ? $kasus->wujud_perbuatan : '' }}`;
+            let kasus_wp = `{{ isset($kasus) ? $kasus->wujudPerbuatan->keterangan_wp : '' }}`;
             let list_ketdis = new Array();
             list_ketdis = `{{ $disiplin }}`;
             list_ketdis = list_ketdis.split('|');
@@ -342,7 +342,7 @@
 
         function getValKodeEtik() {
             console.log('test');
-            let kasus_wp = `{{ isset($kasus) ? $kasus->wujud_perbuatan : '' }}`;
+            let kasus_wp = `{{ isset($kasus) ? $kasus->wujudPerbuatan->keterangan_wp : '' }}`;
             let list_ketke = new Array();
             list_ketke = `{{ $kode_etik }}`;
             list_ketke = list_ketke.split('|');
