@@ -78,7 +78,7 @@
                         :
                     </div>
                     <div class="col-md-8 col-sm-12">
-                        {{$kasus->pangkat}} {{$kasus->terlapor}} {{$kasus->jabatan}}, {{$kasus->kesatuan}}
+                        {{$kasus->pangkatName->name}} {{$kasus->terlapor}} {{$kasus->jabatan}}, {{$kasus->kesatuan}}
                     </div>
 
                     <div class="col-md-3 col-sm-12">
