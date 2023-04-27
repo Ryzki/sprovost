@@ -83,8 +83,8 @@ class DiterimaController extends Controller
             if($dokumen == null){
                 DokumenPelanggar::create([
                     'data_pelanggar_id' => $request->kasus_id,
-                    'process_id' => $request->status_id,
-                    'sub_process_id' => $request->sub_process,
+                    'process_id' => 2,
+                    'sub_process_id' => 2,
                     'created_by' => Auth::user()->id,
                     'status' => 1
                 ]);
