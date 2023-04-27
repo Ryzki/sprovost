@@ -57,8 +57,6 @@ class GenerateDocument extends Controller
 
     public function generateDisposisiKaro(Request $request){
         $disposisi = (new DiterimaController)->DisposisiKaro($request);
-        $statusCode = $disposisi->getData()->status->code;
-        $msg = isset($disposisi->getData()->detail) ? $disposisi->getData()->detail : '' ;
 
         $kasus = $disposisi->getData()->kasus;
         $data = $disposisi->getData()->document_data;
@@ -75,8 +73,6 @@ class GenerateDocument extends Controller
 
     public function generateDisposisiSesro(Request $request){
         $disposisi = (new DiterimaController)->DisposisiSesro($request);
-        $statusCode = $disposisi->getData()->status->code;
-        $msg = isset($disposisi->getData()->detail) ? $disposisi->getData()->detail : '' ;
 
         $kasus = $disposisi->getData()->kasus;
         $data = $disposisi->getData()->document_data;
@@ -91,22 +87,20 @@ class GenerateDocument extends Controller
         return response()->json(['file' => $filename.'.docx']);
     }
 
-    public function generateDisposisiKabag($kasus_id, $process_id, $subprocess){
-        $disposisi = (new DiterimaController)->DisposisiKabag($kasus_id, $process_id, $subprocess);
-        $statusCode = $disposisi->getData()->status->code;
-        $msg = isset($disposisi->getData()->detail) ? $disposisi->getData()->detail : '' ;
+    public function generateDisposisiKabag(Request $request){
+        $disposisi = (new DiterimaController)->DisposisiKabag($request);
+
         $kasus = $disposisi->getData()->kasus;
+        $data = $disposisi->getData()->document_data;
+        $data = json_decode(json_encode($data), true);
 
-        $template_document = new TemplateProcessor(storage_path('template/template_disposisi_kabag.docx'));
-        $template_document->setValues(array(
-            'tgl_ttd' => Carbon::now()->translatedFormat('F Y')
-        ));
-
-        $filename = "$kasus->pelapor - Surat Pengantar Disposisi Kabag";
+        $filename = "$kasus->pelapor - Lembar Disposisi Kabaggakkum";
         $path = storage_path('document/'.$filename.'.docx');
-        $template_document->saveAs($path);
+        $template = new TemplateProcessor(storage_path('template/template_disposisi_kabag.docx'));
+        $template->setValues($data);
+        $template->saveAs($path);
 
-        return response()->download($path)->deleteFileAfterSend(true);
+        return response()->json(['file' => $filename.'.docx']);
     }
 
     // Document Pulbaket

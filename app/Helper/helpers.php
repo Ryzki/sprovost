@@ -1,4 +1,7 @@
 <?php
+
+use App\Models\Disposisi;
+
 function dateToWord($num = '')
 {
     $num    = ( string ) ( ( int ) $num );
@@ -51,5 +54,11 @@ function dateToWord($num = '')
         return 'nol';
     }
     return '';
+}
+
+function getNoAgenda($type, $kasus_id){
+    $noAgenda = Disposisi::where('data_pelanggar_id', $kasus_id)->where('type', $type)->first();
+    $noAgenda = $noAgenda != null ? $noAgenda->no_agenda : '';
+    return "( $noAgenda )";
 }
 ?>

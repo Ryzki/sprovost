@@ -283,7 +283,7 @@
                             <p>
                                 <a href="#" class="text-primary generate_document" style="text-decoration: none; width: 100%"  data-process_id="{{$kasus->status_id}}" data-kasus_id="{{$kasus->id}}" data-subprocess_name="{{$sb->name}}" data-subprocess="{{$sb->id}}">
                                     <i class="mdi mdi-file-document"></i>
-                                    {{$sb->name}}
+                                    {{$sb->name}} {{getNoAgenda(explode(' ',$sb->name)[1], $kasus->id)}}
                                     <span class="mdi mdi-download"></span>
                                 </a>
                             </p>
@@ -345,7 +345,7 @@
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Nomor Agenda :</label>
                         <input type="text" class="form-control" id="nomor_agenda" aria-describedby="emailHelp"
-                            name="nomor_agenda">
+                            name="nomor_agenda" >
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Surat dari :</label>
@@ -394,19 +394,33 @@
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Nomor Agenda</label>
-                        <input type="text" class="form-control" id="nomor_agenda" name="nomor_agenda">
+                        <input type="text" class="form-control" id="nomor_agenda" name="nomor_agenda" value="{{$disposisiKaro != null ? $disposisiKaro->no_agenda : ''}}" @if($disposisiKaro != null) readonly @endif>
                     </div>
                     <fieldset class="form-group row mb-4">
                         <legend class="col-form-label">Klasifikasi</legend>
                         <div class="col-sm-10">
                           <div class="form-check">
-                            <input class="form-check-input" type="radio" name="klasifikasi" id="klasifikasi1" value="Biasa">
+                            <input class="form-check-input" type="radio" name="klasifikasi" id="klasifikasi1" value="Biasa"
+                            @if ($disposisiKaro != null)
+                                @if ($disposisiKaro->klasifikasi == 'Biasa')
+                                    @checked(true)
+                                @else
+                                    @disabled(true)
+                                @endif
+                            @endif>
                             <label class="form-check-label" for="klasifikasi1">
                               Biasa
                             </label>
                           </div>
                           <div class="form-check">
-                            <input class="form-check-input" type="radio" name="klasifikasi" id="klasifikasi2" value="Rahasia">
+                            <input class="form-check-input" type="radio" name="klasifikasi" id="klasifikasi2" value="Rahasia"
+                            @if ($disposisiKaro != null)
+                                @if ($disposisiKaro->klasifikasi == 'Rahasia')
+                                    @checked(true)
+                                @else
+                                    @disabled(true)
+                                @endif
+                            @endif>
                             <label class="form-check-label" for="klasifikasi2">
                               Rahasia
                             </label>
@@ -417,13 +431,27 @@
                         <legend class="col-form-label">Derajat</legend>
                         <div class="col-sm-10">
                           <div class="form-check">
-                            <input class="form-check-input" type="radio" name="derajat" id="derajat1" value="Biasa">
+                            <input class="form-check-input" type="radio" name="derajat" id="derajat1" value="Biasa"
+                            @if ($disposisiKaro != null)
+                                @if ($disposisiKaro->derajat == 'Biasa')
+                                    @checked(true)
+                                @else
+                                    @disabled(true)
+                                @endif
+                            @endif>
                             <label class="form-check-label" for="derajat1">
                               Biasa
                             </label>
                           </div>
                           <div class="form-check">
-                            <input class="form-check-input" type="radio" name="derajat" id="derajat2" value="Kilat">
+                            <input class="form-check-input" type="radio" name="derajat" id="derajat2" value="Kilat"
+                            @if ($disposisiKaro != null)
+                                @if ($disposisiKaro->derajat == 'Kilat')
+                                    @checked(true)
+                                @else
+                                    @disabled(true)
+                                @endif
+                            @endif>
                             <label class="form-check-label" for="derajat2">
                               Kilat
                             </label>
@@ -476,19 +504,33 @@
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Nomor Agenda</label>
-                        <input type="text" class="form-control" id="nomor_agenda" name="nomor_agenda">
+                        <input type="text" class="form-control" id="nomor_agenda" name="nomor_agenda" value="{{$disposisiSesro != null ? $disposisiSesro->no_agenda : ''}}" @if($disposisiSesro != null) readonly @endif>
                     </div>
                     <fieldset class="form-group row mb-4">
                         <legend class="col-form-label">Klasifikasi</legend>
                         <div class="col-sm-10">
                           <div class="form-check">
-                            <input class="form-check-input" type="radio" name="klasifikasi" id="klasifikasi1" value="Biasa">
+                            <input class="form-check-input" type="radio" name="klasifikasi" id="klasifikasi1" value="Biasa"
+                            @if ($disposisiKaro != null)
+                                @if ($disposisiKaro->klasifikasi == 'Biasa')
+                                    @checked(true)
+                                @else
+                                    @disabled(true)
+                                @endif
+                            @endif>
                             <label class="form-check-label" for="klasifikasi1">
                               Biasa
                             </label>
                           </div>
                           <div class="form-check">
-                            <input class="form-check-input" type="radio" name="klasifikasi" id="klasifikasi2" value="Rahasia">
+                            <input class="form-check-input" type="radio" name="klasifikasi" id="klasifikasi2" value="Rahasia"
+                            @if ($disposisiKaro != null)
+                                @if ($disposisiKaro->klasifikasi == 'Rahasia')
+                                    @checked(true)
+                                @else
+                                    @disabled(true)
+                                @endif
+                            @endif>
                             <label class="form-check-label" for="klasifikasi2">
                               Rahasia
                             </label>
@@ -499,13 +541,27 @@
                         <legend class="col-form-label">Derajat</legend>
                         <div class="col-sm-10">
                           <div class="form-check">
-                            <input class="form-check-input" type="radio" name="derajat" id="derajat1" value="Biasa">
+                            <input class="form-check-input" type="radio" name="derajat" id="derajat1" value="Biasa"
+                            @if ($disposisiKaro != null)
+                                @if ($disposisiKaro->derajat == 'Biasa')
+                                    @checked(true)
+                                @else
+                                    @disabled(true)
+                                @endif
+                            @endif>
                             <label class="form-check-label" for="derajat1">
                               Biasa
                             </label>
                           </div>
                           <div class="form-check">
-                            <input class="form-check-input" type="radio" name="derajat" id="derajat2" value="Kilat">
+                            <input class="form-check-input" type="radio" name="derajat" id="derajat2" value="Kilat"
+                            @if ($disposisiKaro != null)
+                                @if ($disposisiKaro->derajat == 'Kilat')
+                                    @checked(true)
+                                @else
+                                    @disabled(true)
+                                @endif
+                            @endif>
                             <label class="form-check-label" for="derajat2">
                               Kilat
                             </label>
@@ -537,15 +593,15 @@
         </div>
     </div>
 </div>
-<div class="modal fade" id="lembar_disposisi_karo__sesro" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="disposisi_kabag_gakkum" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Generate Disposisi Sesro</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Generate Disposisi Kabaggakkum</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             {{-- <form action="/lembar-disposisi" method="post"> --}}
-            <form action="javascript:void(0)" id="form-disposisi-sesro">
+            <form action="javascript:void(0)" id="form-disposisi-kabag">
                 @csrf
                 <input type="hidden" name="kasus_id" value="{{$kasus->id}}">
                 <input type="hidden" name="status_id" value="{{$kasus->status_id}}">
@@ -557,19 +613,33 @@
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Nomor Agenda</label>
-                        <input type="text" class="form-control" id="nomor_agenda" name="nomor_agenda">
+                        <input type="text" class="form-control" id="nomor_agenda" name="nomor_agenda" value="{{$disposisiKabag != null ? $disposisiKabag->no_agenda : ''}}" @if($disposisiKabag != null) readonly @endif>
                     </div>
                     <fieldset class="form-group row mb-4">
                         <legend class="col-form-label">Klasifikasi</legend>
                         <div class="col-sm-10">
                           <div class="form-check">
-                            <input class="form-check-input" type="radio" name="klasifikasi" id="klasifikasi1" value="Biasa">
+                            <input class="form-check-input" type="radio" name="klasifikasi" id="klasifikasi1" value="Biasa"
+                            @if ($disposisiKaro != null)
+                                @if ($disposisiKaro->klasifikasi == 'Biasa')
+                                    @checked(true)
+                                @else
+                                    @disabled(true)
+                                @endif
+                            @endif>
                             <label class="form-check-label" for="klasifikasi1">
                               Biasa
                             </label>
                           </div>
                           <div class="form-check">
-                            <input class="form-check-input" type="radio" name="klasifikasi" id="klasifikasi2" value="Rahasia">
+                            <input class="form-check-input" type="radio" name="klasifikasi" id="klasifikasi2" value="Rahasia"
+                            @if ($disposisiKaro != null)
+                                @if ($disposisiKaro->klasifikasi == 'Rahasia')
+                                    @checked(true)
+                                @else
+                                    @disabled(true)
+                                @endif
+                            @endif>
                             <label class="form-check-label" for="klasifikasi2">
                               Rahasia
                             </label>
@@ -580,13 +650,27 @@
                         <legend class="col-form-label">Derajat</legend>
                         <div class="col-sm-10">
                           <div class="form-check">
-                            <input class="form-check-input" type="radio" name="derajat" id="derajat1" value="Biasa">
+                            <input class="form-check-input" type="radio" name="derajat" id="derajat1" value="Biasa"
+                            @if ($disposisiKaro != null)
+                                @if ($disposisiKaro->derajat == 'Biasa')
+                                    @checked(true)
+                                @else
+                                    @disabled(true)
+                                @endif
+                            @endif>
                             <label class="form-check-label" for="derajat1">
                               Biasa
                             </label>
                           </div>
                           <div class="form-check">
-                            <input class="form-check-input" type="radio" name="derajat" id="derajat2" value="Kilat">
+                            <input class="form-check-input" type="radio" name="derajat" id="derajat2" value="Kilat"
+                            @if ($disposisiKaro != null)
+                                @if ($disposisiKaro->derajat == 'Kilat')
+                                    @checked(true)
+                                @else
+                                    @disabled(true)
+                                @endif
+                            @endif>
                             <label class="form-check-label" for="derajat2">
                               Kilat
                             </label>
@@ -594,7 +678,7 @@
                         </div>
                     </fieldset>
                     <div class="mb-3">
-                        <label for="exampleInputPassword1" class="form-label">Tanggal</label>
+                        <label for="exampleInputPassword1" class="form-label">Tanggal Diterima</label>
                         <input type="date" class="form-control" id="tanggal" name="tanggal">
                     </div>
                     {{-- <div class="mb-3">
@@ -777,8 +861,8 @@
                             timerProgressBar: true,
                         })
 
-                        // window.location.reload()
-                        $(this).parentsUntil('.modal').parent().modal('hide')
+                        window.location.reload()
+                        // $(this).parentsUntil('.modal').parent().modal('hide')
                     }, 2500);
 
                 },
@@ -797,6 +881,53 @@
                 }
             })
         })
+
+        $('#form-disposisi-kabag').on('submit', function() {
+            var data = $(this).serializeArray()
+            $.ajax({
+                url: `/lembar-disposisi-kabag`,
+                method: 'POST',
+                data: data,
+                beforeSend: () => {
+                    $.LoadingOverlay("show");
+                },
+                success:(res) => {
+                    window.location.href = `/download-file/${res.file}`
+
+                    setTimeout(() => {
+                        $.LoadingOverlay("hide");
+                        Swal.fire({
+                            title: 'Berhasil',
+                            text: 'Berhasil generate dan download dokumen',
+                            icon: 'success',
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 3000,
+                            timerProgressBar: true,
+                        })
+
+                        window.location.reload()
+                        // $(this).parentsUntil('.modal').parent().modal('hide')
+                    }, 2500);
+
+                },
+                error: (xhr) => {
+                    $.LoadingOverlay("hide");
+                    Swal.fire({
+                        title: `Terjadi Kesalahan`,
+                        text: "Terjadi kesalahan ketika generate file",
+                        icon: 'error',
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                    })
+                }
+            })
+        })
+
 
         $('.generate_document').on('click', function(){
             $('input[name="sub_process"]').val($(this).data('subprocess'))

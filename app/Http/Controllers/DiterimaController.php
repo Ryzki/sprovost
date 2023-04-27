@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\DataPelanggar;
+use App\Models\Disposisi;
 use App\Models\DokumenPelanggar;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -64,6 +65,7 @@ class DiterimaController extends Controller
 
 
     public function DisposisiKaro(Request $request){
+
         try {
             $kasus = DataPelanggar::find($request->kasus_id);
             $data = [
@@ -92,6 +94,17 @@ class DiterimaController extends Controller
             if($data->status_id < 2){
                 $data->status_id = 2;
                 $data->save();
+            }
+
+            $disposisi = Disposisi::where('data_pelanggar_id', $request->kasus_id)->where('type', 'Karo')->first();
+            if($disposisi == null){
+                Disposisi::create([
+                    'data_pelanggar_id' => $request->kasus_id,
+                    'no_agenda' => $request->nomor_agenda,
+                    'klasifikasi' => $request->klasifikasi,
+                    'derajat' => $request->derajat,
+                    'type' => 'Karo'
+                ]);
             }
 
             return response()->json([
@@ -140,6 +153,17 @@ class DiterimaController extends Controller
                 ]);
             }
 
+            $disposisi = Disposisi::where('data_pelanggar_id', $request->kasus_id)->where('type', 'Sesro')->first();
+            if($disposisi == null){
+                Disposisi::create([
+                    'data_pelanggar_id' => $request->kasus_id,
+                    'no_agenda' => $request->nomor_agenda,
+                    'klasifikasi' => $request->klasifikasi,
+                    'derajat' => $request->derajat,
+                    'type' => 'Sesro'
+                ]);
+            }
+
             return response()->json([
                 'status' => [
                     'code' => 200,
@@ -161,25 +185,44 @@ class DiterimaController extends Controller
         }
     }
 
-    public function DisposisiKabag($kasus_id, $process_id, $subprocess){
+    public function DisposisiKabag(Request $request){
         try {
-            $kasus = DataPelanggar::find($kasus_id);
-            $dokumen = DokumenPelanggar::where('data_pelanggar_id', $kasus_id)->where('process_id', $process_id)->where('sub_process_id', $subprocess)->first();
+            $kasus = DataPelanggar::find($request->kasus_id);
+            $data = [
+                'tgl_diterima' => $request->tanggal,
+                'no_agenda' => $request->nomor_agenda,
+                'klasifikasi' => strtoupper($request->klasifikasi),
+                'derajat' => strtoupper($request->derajat),
+            ];
+
+            $dokumen = DokumenPelanggar::where('data_pelanggar_id', $request->kasus_id)->where('process_id', $request->status_id)->where('sub_process_id', $request->sub_process)->first();
             if($dokumen == null){
                 DokumenPelanggar::create([
-                    'data_pelanggar_id' => $kasus_id,
-                    'process_id' => $process_id,
-                    'sub_process_id' => $subprocess,
+                    'data_pelanggar_id' => $request->kasus_id,
+                    'process_id' => $request->status_id,
+                    'sub_process_id' => $request->sub_process,
                     'created_by' => Auth::user()->id,
                     'status' => 1
                 ]);
             }
+
+            $disposisi = Disposisi::where('data_pelanggar_id', $request->kasus_id)->where('type', 'Kabag')->first();
+            if($disposisi == null){
+                Disposisi::create([
+                    'data_pelanggar_id' => $request->kasus_id,
+                    'no_agenda' => $request->nomor_agenda,
+                    'klasifikasi' => $request->klasifikasi,
+                    'derajat' => $request->derajat,
+                    'type' => 'Kabag'
+                ]);
+            }
+
             return response()->json([
                 'status' => [
                     'code' => 200,
                     'msg' => 'Success Processing Data',
                 ],
-                'document_data' => null,
+                'document_data' => $data,
                 'kasus' => $kasus,
             ], 200);
         } catch (\Throwable $th) {

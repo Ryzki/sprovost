@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Agama;
 use App\Models\DataPelanggar;
+use App\Models\Disposisi;
 use App\Models\GelarPerkara;
 use App\Models\JenisIdentitas;
 use App\Models\JenisKelamin;
@@ -66,6 +67,9 @@ class RenderViewController extends Controller
         $jenis_identitas = JenisIdentitas::get();
         $jenis_kelamin = JenisKelamin::get();
         $wujud_perbuatan = WujudPerbuatan::get();
+        $disposisiKaro = Disposisi::where('data_pelanggar_id', $id)->where('type', 'Karo')->first();
+        $disposisiSesro = Disposisi::where('data_pelanggar_id', $id)->where('type', 'Sesro')->first();
+        $disposisiKabag = Disposisi::where('data_pelanggar_id', $id)->where('type', 'Kabag')->first();
 
         $i_dis = 0;
         $i_ke = 0;
@@ -99,7 +103,10 @@ class RenderViewController extends Controller
             'kode_etik' => $kode_etik,
             'id_kode_etik' => $id_kode_etik,
             'jenis_kelamin' => $jenis_kelamin,
-            'pangkats' => Pangkat::all()
+            'pangkats' => Pangkat::all(),
+            'disposisiKaro' => $disposisiKaro,
+            'disposisiSesro' => $disposisiSesro,
+            'disposisiKabag' => $disposisiKabag,
         ];
 
         return view('pages.data_pelanggaran.proses.diterima', $data);

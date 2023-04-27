@@ -112,7 +112,7 @@ Route::middleware(['auth'])->group(function (){
     Route::post('/lembar-disposisi', [GenerateDocument::class, 'generateDisposisi']);
     Route::post('/lembar-disposisi-karo', [GenerateDocument::class, 'generateDisposisiKaro']);
     Route::post('/lembar-disposisi-sesro', [GenerateDocument::class, 'generateDisposisiSesro']);
-    Route::get('/print/disposisi_kabag_gakkum/{id}/{process_id}/{subprocess}', [GenerateDocument::class, 'generateDisposisiKabag']);
+    Route::post('/lembar-disposisi-kabag', [GenerateDocument::class, 'generateDisposisiKabag']);
 
     // Generate Pulbaket
     Route::get('/surat-perintah/{id}/generated', [GenerateDocument::class, 'SuratPerintah']);

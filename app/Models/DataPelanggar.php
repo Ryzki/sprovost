@@ -40,4 +40,9 @@ class DataPelanggar extends Model
     {
         return $this->hasOne(WujudPerbuatan::class, 'id', 'wujud_perbuatan');
     }
+
+    public function disposisi()
+    {
+        return $this->hasMany(Disposisi::class, 'data_pelanggar_id', 'id');
+    }
 }
