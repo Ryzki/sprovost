@@ -431,8 +431,16 @@
                         </div>
                     </fieldset>
                     <div class="mb-3">
-                        <label for="exampleInputPassword1" class="form-label">Tanggal</label>
-                        <input type="date" class="form-control" id="tanggal" name="tanggal" value="{{$kasus->tanggal_nota_dinas}}">
+                        <div class="row">
+                            <div class="col-6">
+                                <label for="exampleInputPassword1" class="form-label">Tanggal Diterima</label>
+                                <input type="date" class="form-control" id="tanggal" name="tanggal">
+                            </div>
+                            <div class="col-6">
+                                <label for="exampleInputPassword1" class="form-label">Jam Diterima</label>
+                                <input type="time" class="form-control" id="jam" name="jam">
+                            </div>
+                        </div>
                     </div>
                     {{-- <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Perihal</label>
@@ -505,8 +513,16 @@
                         </div>
                     </fieldset>
                     <div class="mb-3">
-                        <label for="exampleInputPassword1" class="form-label">Tanggal</label>
-                        <input type="date" class="form-control" id="tanggal" name="tanggal" value="{{$kasus->tanggal_nota_dinas}}">
+                        <div class="row">
+                            <div class="col-6">
+                                <label for="exampleInputPassword1" class="form-label">Tanggal Diterima</label>
+                                <input type="date" class="form-control" id="tanggal" name="tanggal">
+                            </div>
+                            <div class="col-6">
+                                <label for="exampleInputPassword1" class="form-label">Jam Diterima</label>
+                                <input type="time" class="form-control" id="jam" name="jam">
+                            </div>
+                        </div>
                     </div>
                     {{-- <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Perihal</label>
@@ -715,7 +731,7 @@
                             timerProgressBar: true,
                         })
 
-                        // window.location.reload()
+                        window.location.reload()
                         $(this).parentsUntil('.modal').parent().modal('hide')
                     }, 2500);
 

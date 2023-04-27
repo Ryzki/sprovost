@@ -11,6 +11,7 @@ use PhpOffice\PhpWord\TemplateProcessor;
 
 class DiterimaController extends Controller
 {
+    /** GA DIPAKE */
     public function LembarDisposisi(Request $request)
     {
         try {
@@ -61,11 +62,14 @@ class DiterimaController extends Controller
         }
     }
 
+
     public function DisposisiKaro(Request $request){
         try {
             $kasus = DataPelanggar::find($request->kasus_id);
             $data = [
-                'tanggal' => $request->tanggal,
+                'tgl_diterima' => $request->tanggal,
+                'jam' => $request->jam,
+                'tanggal' => Carbon::parse($kasus->tanggal_nota_dinas)->translatedFormat('d F Y'),
                 'no_surat' => $request->nomor_surat,
                 'no_agenda' => $request->nomor_agenda,
                 'perihal' => $kasus->perihal_nota_dinas,
@@ -83,6 +87,13 @@ class DiterimaController extends Controller
                     'status' => 1
                 ]);
             }
+
+            $data = DataPelanggar::find($request->kasus_id);
+            if($data->status_id < 2){
+                $data->status_id = 2;
+                $data->save();
+            }
+
             return response()->json([
                 'status' => [
                     'code' => 200,
@@ -108,7 +119,9 @@ class DiterimaController extends Controller
         try {
             $kasus = DataPelanggar::find($request->kasus_id);
             $data = [
-                'tanggal' => $request->tanggal,
+                'tgl_diterima' => $request->tanggal,
+                'jam' => $request->jam,
+                'tanggal' => Carbon::parse($kasus->tanggal_nota_dinas)->translatedFormat('d F Y'),
                 'no_surat' => $request->nomor_surat,
                 'no_agenda' => $request->nomor_agenda,
                 'perihal' => $kasus->perihal_nota_dinas,

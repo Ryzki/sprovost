@@ -20,12 +20,8 @@ class SubProcessSeeder extends Seeder
         [
             [
                 'process_id' => '1',
-                'name' => 'Lembar Disposisi',
+                'name' => 'Disposisi Karo',
                 'required' => 1
-            ],[
-                'process_id' => '2',
-                'name' => 'Lembar Disposisi',
-                'required' => 0
             ],[
                 'process_id' => '2',
                 'name' => 'Disposisi Karo',
