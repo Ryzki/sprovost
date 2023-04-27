@@ -16,16 +16,16 @@ return new class extends Migration
         Schema::create('witnesses', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('data_pelanggar_id');
-            $table->string('nama');
-            $table->string('pangkat');
-            $table->string('nrp');
-            $table->string('jabatan');
-            $table->string('kesatuan');
-            $table->string('ttl');
-            $table->string('warga_negara');
-            $table->integer('agama');
-            $table->string('alamat');
-            $table->string('no_telp');
+            $table->string('nama')->nullable();
+            $table->string('pangkat')->nullable();
+            $table->string('nrp')->nullable();
+            $table->string('jabatan')->nullable();
+            $table->string('kesatuan')->nullable();
+            $table->string('ttl')->nullable();
+            $table->string('warga_negara')->nullable();
+            $table->integer('agama')->nullable();
+            $table->string('alamat')->nullable();
+            $table->string('no_telp')->nullable();
             $table->timestamps();
         });
     }

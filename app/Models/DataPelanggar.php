@@ -30,4 +30,14 @@ class DataPelanggar extends Model
     {
         return $this->hasOne(JenisIdentitas::class, 'id', 'jenis_identitas');
     }
+
+    public function pangkatName()
+    {
+        return $this->hasOne(Pangkat::class, 'id', 'pangkat');
+    }
+
+    public function wujudPerbuatan()
+    {
+        return $this->hasOne(WujudPerbuatan::class, 'id', 'wujud_perbuatan');
+    }
 }
