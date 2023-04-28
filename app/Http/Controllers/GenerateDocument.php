@@ -462,6 +462,7 @@ class GenerateDocument extends Controller
         // return response()->download($path)->deleteFileAfterSend(true);
     }
 
+    /** GA DIPAKE */
     public function nd_permohonan_gelar_perkara(Request $request, $kasus_id){
         $hari = Carbon::parse($request->tgl)->translatedFormat('l');
         $tgl = Carbon::parse($request->tgl)->translatedFormat('d F Y');
@@ -556,6 +557,22 @@ class GenerateDocument extends Controller
         $hari = Carbon::parse($request->tgl)->translatedFormat('l');
         $tgl = Carbon::parse($request->tgl)->translatedFormat('d F Y');
         $kasus = DataPelanggar::find($kasus_id);
+        $thn = Carbon::now()->translatedFormat('Y');
+
+        $bln_romawi = array(
+            '01' => 'I',
+            '02' => 'II',
+            '03' => 'III',
+            '04' => 'IV',
+            '05' => 'V',
+            '06' => 'VI',
+            '07' => 'VII',
+            '08' => 'VIII',
+            '09' => 'IX',
+            '10' => 'X',
+            '11' => 'XI',
+            '12' => 'XII',
+        );
 
         $dokumen = DokumenPelanggar::where('data_pelanggar_id', $kasus_id)->where('process_id', $request->process_id)->where('sub_process_id', $request->sub_process)->first();
         if($dokumen == null){
@@ -574,6 +591,9 @@ class GenerateDocument extends Controller
 
         $template_document = new TemplateProcessor(storage_path('template/undangan_gelar.docx'));
         $template_document->setValues(array(
+            'no_undangan' => $request->no_undangan,
+            'bulan_surat' => $bln_romawi[Carbon::now()->translatedFormat('m')],
+            'thn_surat' => $thn,
             'tgl_ttd' => Carbon::now()->translatedFormat('F Y'),
             'hari' => $hari,
             'tgl' => $tgl,

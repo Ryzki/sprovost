@@ -149,8 +149,8 @@
                         <div class="col-lg-12" style="float: right;">
                             <button class="btn btn-info text-white dropdown-toggle" id="actionButton" data-bs-toggle="dropdown" {{ $kasus->status_id > 4 ? 'disabled' : '' }}>Update Status</button>
                             <ul class="dropdown-menu" aria-labelledby="actionButton" id="ActionListBtn">
-                                <li><a class="dropdown-item submit" href="javascript:void(0)" data-next="limpah">Limpah Polda / Jajaran</a></li>
-                                <li><a class="dropdown-item submit" href="javascript:void(0)" data-next="sidik">Sidik / LPA</a></li>
+                                <li><a class="dropdown-item submit" href="javascript:void(0)" data-next="limpah" data-process_id="{{$kasus->status_id}}">Limpah Polda / Jajaran</a></li>
+                                <li><a class="dropdown-item submit" href="javascript:void(0)" data-next="sidik" data-process_id="{{$kasus->status_id}}">Sidik / LPA</a></li>
                             </ul>
                         </div>
                     </div>
@@ -241,6 +241,11 @@
                 <input type="hidden" name="sub_process">
                 <input type="hidden" name="process_id">
                 <div class="modal-body">
+                    <div class="form-group">
+                        <label for="no_undangan" class="form-label">No. Undangan Gelar Perkara</label>
+                        <input type="text" class="form-control" name="no_undangan">
+                    </div>
+
                     <div class="row mb-4">
                         <div class="col-md-6 col-12">
                             <div class="form-group">
@@ -620,9 +625,13 @@
                 name: 'next',
                 value: $(this).data('next')
             })
+            data.push({
+                name: 'process_id',
+                value: $(this).data('process_id')
+            })
 
             $.ajax({
-                url: `/limpah-polda`,
+                url: `/data-kasus/update`,
                 method: 'POST',
                 data: data,
                 beforeSend: () => {
