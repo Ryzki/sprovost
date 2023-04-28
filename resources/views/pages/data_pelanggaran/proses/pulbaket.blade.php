@@ -68,7 +68,7 @@
                         :
                     </div>
                     <div class="col-md-8 col-sm-12">
-                        {{$kasus->wujudPerbuatan->keterangan_wp}} 
+                        {{$kasus->wujudPerbuatan->keterangan_wp}}
                     </div>
 
                     <div class="col-md-3 col-sm-12">
@@ -225,7 +225,7 @@
                                         <div class="col-lg-4">
                                             <div class="form-outline mb-3">
                                                 <input type="text" class="form-control num" name="nrp"
-                                                    id="nrp" placeholder="NRP" onfocus="mask(this, '999999999999')">
+                                                    id="nrp" placeholder="NRP" onfocus="mask(this, '99999999')">
                                             </div>
                                         </div>
 
@@ -415,12 +415,16 @@
                     <div class="card card-data-penyidik">
                         <div class="card-header">Pilih Penyidik</div>
                         <div class="card-body">
-                            {{-- <div class="mb-3 form-group"> --}}
+                            <div class="mb-3 form-group">
                                 <select name="penyidik" id="select-penyidik" class="form-select select-penyidik" data-placeholder="Silahkan Pilih Penyidik">
 
                                 </select>
                                 <hr>
-                            {{-- </div> --}}
+                            </div>
+                            <div class="form-group">
+                                <label for="no_telp_penyidik">No. Telepon Penyidik</label>
+                                <input type="text" class="form-control" name="no_telp_penyidik" onfocus="mask(this, '99999999999999')">
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -494,7 +498,7 @@
                                         <div class="col-md-6 col-12">
                                             <div class="form-group">
                                                 <label for="nrp">NRP</label>
-                                                <input type="text" name="nrp" class="form-control" placeholder="Masukan NRP" onclick="mask(this, '9999999')" onchange="mask(this, '9999999')">
+                                                <input type="text" name="nrp" class="form-control" placeholder="Masukan NRP" onclick="mask(this, '99999999')" onchange="mask(this, '99999999')" onfocus="mask(this, '99999999')">
                                             </div>
                                         </div>
                                         <div class="col-md-6 col-12">
@@ -656,9 +660,23 @@
 
         $('#form-generate-sprin').on('submit', function(){
             var data = new FormData()
+            let valid = true
             const elemPenyelidik = $('#form_input_anggota').find('.form_penyelidik')
+
             for (let i = 0; i < elemPenyelidik.length; i++) {
                 var nrp = $(elemPenyelidik).find('input[name="nrp"]')[i].value
+                if(nrp.length != 8){
+                    Swal.fire({
+                        title: `Panjang NRP harus 8 digit`,
+                        icon: 'error',
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                    })
+                    valid = false;
+                }
                 nrp = nrp.split('_').join('');
                 data.append(`pangkat[${i}]`, $(elemPenyelidik).find('input[name="pangkat"]')[i].value)
                 data.append(`nama[${i}]`, $(elemPenyelidik).find('input[name="nama_penyelidik"]')[i].value)
@@ -671,50 +689,52 @@
             data.append('process_id', $('input[name="process_id"]').val())
             data.append('sub_process', $('input[name="sub_process"]').val())
 
-            $.ajax({
-                url: `/surat-perintah/{{ $kasus->id }}/not_generated`,
-                method: 'POST',
-                headers: {
-                    "X-CSRF-TOKEN": $('input[name="_token"]').val()
-                },
-                data: data,
-                processData : false,
-                contentType: false,
-                beforeSend: () => {
-                    $.LoadingOverlay("show");
-                },
-                success:(res) => {
-                    window.location.href = `/download-file/${res.file}`
-                    $.LoadingOverlay("hide");
-                    Swal.fire({
-                        title: 'Berhasil',
-                        text: 'Berhasil generate dan download dokumen',
-                        icon: 'success',
-                        toast: true,
-                        position: 'top-end',
-                        showConfirmButton: false,
-                        timer: 3000,
-                        timerProgressBar: true,
-                    })
+            if(valid == true){
+                $.ajax({
+                    url: `/surat-perintah/{{ $kasus->id }}/not_generated`,
+                    method: 'POST',
+                    headers: {
+                        "X-CSRF-TOKEN": $('input[name="_token"]').val()
+                    },
+                    data: data,
+                    processData : false,
+                    contentType: false,
+                    beforeSend: () => {
+                        $.LoadingOverlay("show");
+                    },
+                    success:(res) => {
+                        window.location.href = `/download-file/${res.file}`
+                        $.LoadingOverlay("hide");
+                        Swal.fire({
+                            title: 'Berhasil',
+                            text: 'Berhasil generate dan download dokumen',
+                            icon: 'success',
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 3000,
+                            timerProgressBar: true,
+                        })
 
-                    setTimeout(() => {
-                        window.location.reload()
-                    }, 2000);
-                },
-                error: (xhr) => {
-                    $.LoadingOverlay("hide");
-                    Swal.fire({
-                        title: `Terjadi Kesalahan`,
-                        text: xhr.responseJSON.status.msg,
-                        icon: 'error',
-                        toast: true,
-                        position: 'top-end',
-                        showConfirmButton: false,
-                        timer: 3000,
-                        timerProgressBar: true,
-                    })
-                }
-            })
+                        setTimeout(() => {
+                            window.location.reload()
+                        }, 2000);
+                    },
+                    error: (xhr) => {
+                        $.LoadingOverlay("hide");
+                        Swal.fire({
+                            title: `Terjadi Kesalahan`,
+                            text: xhr.responseJSON.status.msg,
+                            icon: 'error',
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 3000,
+                            timerProgressBar: true,
+                        })
+                    }
+                })
+            }
         })
 
         $('#form-generate-undangan').on('submit', function(){
@@ -983,7 +1003,7 @@
     })
 
     function mask(el, maskVal){
-        $(el).inputmask({"mask": maskVal});
+        $(el).inputmask({"mask": maskVal, placeholder: ''});
     }
 
     function tambahAnggota() {
@@ -1005,7 +1025,7 @@
 
                 <div class="col-lg-4">
                     <div class="form-outline mb-3">
-                        <input type="text" class="form-control" name="nrp" id="nrp" placeholder="NRP" onfocus="mask(this, '9999999')">
+                        <input type="text" class="form-control" name="nrp" id="nrp" placeholder="NRP" onfocus="mask(this, '99999999')">
                     </div>
                 </div>
 
@@ -1094,7 +1114,7 @@
             <div class="col-md-6 col-12">
                 <div class="form-group">
                     <label for="nrp">NRP</label>
-                    <input type="text" name="nrp" class="form-control" placeholder="Masukan NRP" onclick="mask(this, '9999999')" onchange="mask(this, '9999999')">
+                    <input type="text" name="nrp" class="form-control" placeholder="Masukan NRP" onclick="mask(this, '99999999')" onfocus="mask(this, '99999999')" onchange="mask(this, '99999999')">
                 </div>
             </div>
             <div class="col-md-6 col-12">

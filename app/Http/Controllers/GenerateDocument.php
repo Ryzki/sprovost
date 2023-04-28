@@ -109,6 +109,7 @@ class GenerateDocument extends Controller
         $kasus = DataPelanggar::find($kasus_id);
         $sprinHistory = SprinHistory::where('data_pelanggar_id', $kasus_id)->where('type', 'lidik')->first();
         $penyelidik = Penyidik::where('data_pelanggar_id', $kasus_id)->where('type', 'lidik')->get();
+
         if ($sprinHistory == null){
             $sprinHistory = SprinHistory::create([
                 'data_pelanggar_id' => $kasus_id,
@@ -249,6 +250,7 @@ class GenerateDocument extends Controller
             'kesatuan_terlapor' => strtoupper($kasus->kesatuan),
             'pangkat_penyidik'=> strtoupper($penyidik->pangkat),
             'penyelidik'=> strtoupper($penyidik->name),
+            'no_telp' => $request->no_telp_penyidik,
             'jabatan_penyelidik'=> strtoupper($penyidik->jabatan),
             'kesatuan_penyelidik'=> strtoupper($penyidik->kesatuan),
             'hari_pertemuan' => Carbon::parse($request->tgl_pertemuan)->translatedFormat('l'),
