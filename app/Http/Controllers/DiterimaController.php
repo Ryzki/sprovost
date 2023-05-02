@@ -132,7 +132,6 @@ class DiterimaController extends Controller
         try {
             $kasus = DataPelanggar::find($request->kasus_id);
             $data = [
-                'tgl_diterima' => $request->tanggal,
                 'jam' => $request->jam,
                 'tanggal' => Carbon::parse($kasus->tanggal_nota_dinas)->translatedFormat('d F Y'),
                 'no_surat' => $request->nomor_surat,
@@ -140,6 +139,7 @@ class DiterimaController extends Controller
                 'perihal' => $kasus->perihal_nota_dinas,
                 'klasifikasi' => strtoupper($request->klasifikasi),
                 'derajat' => strtoupper($request->derajat),
+                'tgl_diterima' => Carbon::parse($request->tanggal)->translatedFormat('d F Y'),
             ];
 
             $dokumen = DokumenPelanggar::where('data_pelanggar_id', $request->kasus_id)->where('process_id', $request->status_id)->where('sub_process_id', $request->sub_process)->first();
@@ -189,10 +189,18 @@ class DiterimaController extends Controller
         try {
             $kasus = DataPelanggar::find($request->kasus_id);
             $data = [
-                'tgl_diterima' => $request->tanggal,
+                'jam' => $request->jam,
+                'tanggal' => Carbon::parse($kasus->tanggal_nota_dinas)->translatedFormat('d F Y'),
+                'no_surat' => $request->nomor_surat,
                 'no_agenda' => $request->nomor_agenda,
+                'perihal' => $kasus->perihal_nota_dinas,
                 'klasifikasi' => strtoupper($request->klasifikasi),
                 'derajat' => strtoupper($request->derajat),
+                'tgl_diterima' => Carbon::parse($request->tanggal)->translatedFormat('d F Y'),
+                // 'tgl_diterima' => $request->tanggal,
+                // 'no_agenda' => $request->nomor_agenda,
+                // 'klasifikasi' => strtoupper($request->klasifikasi),
+                // 'derajat' => strtoupper($request->derajat),
             ];
 
             $dokumen = DokumenPelanggar::where('data_pelanggar_id', $request->kasus_id)->where('process_id', $request->status_id)->where('sub_process_id', $request->sub_process)->first();

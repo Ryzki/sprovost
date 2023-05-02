@@ -121,9 +121,11 @@ class RenderViewController extends Controller
         $sp2hp2 = Sp2hp2History::where('data_pelanggar_id', $id)->with('user')->first();
         $agama = Agama::get();
         $saksi = Witness::where('data_pelanggar_id', $id)->get();
+        $pangkat = Pangkat::all();
 
         $data = [
             'kasus' => $kasus,
+            'pangkats' => $pangkat,
             'status' => $status,
             'sub_process' => $sub_process,
             'sprin' => $sprin,

@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('disposisis', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('data_pelanggar_id');
-            $table->bigInteger('no_agenda');
+            $table->string('no_agenda');
             $table->string('klasifikasi');
             $table->string('derajat');
             $table->string('type');

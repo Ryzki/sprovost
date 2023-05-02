@@ -804,7 +804,64 @@
 
         $('#container_saksi').append(html);
     }
+    function tambahAnggota() {
+        var addAnggota = localStorage.getItem('addAnggota')
 
+        let inHtml =
+            `<div class="row form_penyelidik">
+                <div class="col-lg-4">
+                    <div class="form-outline mb-3">
+                        <input type="text" class="form-control" name="pangkat" id="pangkat" placeholder="Pangkat Penyelidik">
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="form-outline mb-3">
+                        <input type="text" class="form-control" name="nama_penyelidik" id="nama_penyidik" placeholder="Nama Penyelidik">
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="form-outline mb-3">
+                        <input type="text" class="form-control" name="nrp" id="nrp" placeholder="NRP" onfocus="mask(this, '99999999')">
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="form-outline mb-3">
+                        <input type="text" class="form-control" name="jabatan" id="jabatan" placeholder="Jabatan Penyelidik">
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="form-outline mb-3">
+                        <input type="text" class="form-control" name="kesatuan" id="kesatuan" placeholder="Kesatuan Penyelidik">
+                    </div>
+                </div>
+
+                <div class="d-flex mb-3 justify-content-end">
+                    <span onclick="removeAnggota($(this))" class="text-danger" style="cursor: pointer"> <i class="far fa-minus-square"></i>
+                        Anggota </span>
+                </div>
+            </div>
+        <hr>`;
+        addAnggota = parseInt(addAnggota) + 1
+        localStorage.setItem('addAnggota', addAnggota)
+
+        if(addAnggota <= 5){
+            $('#form_input_anggota').append(inHtml);
+        } else {
+            Swal.fire({
+                title: `Tidak bisa menambahkan lebih dari 5`,
+                icon: 'error',
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+            })
+        }
+    }
     function removeSaksi(el){
         $(el).parent().parent().next().remove()
         $(el).parent().parent().remove()
