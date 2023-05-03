@@ -28,7 +28,7 @@ class GenerateDocument extends Controller
     public function downloadFile($filename)
     {
         $path = storage_path('document/'.$filename);
-        return response()->download($path)->deleteFileAfterSend(true);
+        return response()->download($path)->deleteFileAfterSend(false);
     }
 
     public function generateDisposisi(Request $request)
@@ -61,13 +61,7 @@ class GenerateDocument extends Controller
         $kasus = $disposisi->getData()->kasus;
         $data = $disposisi->getData()->document_data;
         $data = json_decode(json_encode($data), true);
-        $data['no_agenda'] = $request->nomor_agenda;
-        $data['klasifikasi'] = $request->klasifikasi;
-        $data['derajat'] = $request->derajat;
-        $data['no_agenda'] = $request->nomor_agenda;
-        $data['tgl_diterima'] = Carbon::parse($request->tanggal)->translatedFormat('d F Y');
-        $data['jam'] = $request->jam;
-        $data['created_at'] = Carbon::parse($data['created_at'])->translatedFormat('d F Y');
+
         $filename = "$kasus->pelapor - Lembar Disposisi Karo";
         $path = storage_path('document/'.$filename.'.docx');
         $template = new TemplateProcessor(storage_path('template/template_disposisi_karo.docx'));
@@ -82,15 +76,8 @@ class GenerateDocument extends Controller
 
         $kasus = $disposisi->getData()->kasus;
         $data = $disposisi->getData()->document_data;
-        // dd($data);
         $data = json_decode(json_encode($data), true);
-        // $data['no_agenda'] = $request->nomor_agenda;
-        // $data['klasifikasi'] = $request->klasifikasi;
-        // $data['derajat'] = $request->derajat;
-        // $data['no_agenda'] = $request->nomor_agenda;
-        // $data['tgl_diterima'] = Carbon::parse($request->tanggal)->translatedFormat('d F Y');
-        // $data['jam'] = $request->jam;
-        // $data['created_at'] = Carbon::parse($data['created_at'])->translatedFormat('d F Y');
+
         $filename = "$kasus->pelapor - Lembar Disposisi Sesro";
         $path = storage_path('document/'.$filename.'.docx');
         $template = new TemplateProcessor(storage_path('template/template_disposisi_sesro.docx'));
@@ -370,6 +357,7 @@ class GenerateDocument extends Controller
             foreach ($dataSaksi as $saksi) {
                 $agama = Agama::where('id', $saksi->agama)->first();
                 $template_document = new TemplateProcessor(storage_path('template/template_bai.docx'));
+
                 $template_document->setValues(array(
                     'saksi' => strtoupper($saksi->nama),
                     'pangkat_saksi' => strtoupper($saksi->pangkat),
@@ -602,6 +590,8 @@ class GenerateDocument extends Controller
         $gelarPerkara->pimpinan = $request->pimpinan;
         $gelarPerkara->save();
 
+        $pimpinan = Penyidik::where('id', $request->pimpinan)->where('data_pelanggar_id', $kasus_id)->first();
+
         $template_document = new TemplateProcessor(storage_path('template/undangan_gelar.docx'));
         $template_document->setValues(array(
             'no_undangan' => $request->no_undangan,
@@ -612,7 +602,7 @@ class GenerateDocument extends Controller
             'tgl' => $tgl,
             'jam' => $request->jam,
             'tempat' => $request->tempat,
-            'pimpinan' => $request->pimpinan
+            'pimpinan' => "$pimpinan->pangkat $pimpinan->name",
         ));
 
         $filename = "$kasus->pelapor - Undangan Gelar Perkara.docx";
@@ -759,52 +749,38 @@ class GenerateDocument extends Controller
     }
 
     public function limpah_polda(Request $request){
-        (new KasusController())->updateData($request);
+        $kasus = DataPelanggar::find($request->kasus_id);
+        $gelarPerkara = GelarPerkara::where('data_pelanggar_id', $request->kasus_id)->with(['penyidik', 'pemapar', 'operator', 'notulen'])->first();
+        $sprin = SprinHistory::where('data_pelanggar_id', $request->kasus_id)->where('type', 'lidik')->first();
 
-        if ($request->next == 'limpah'){
-            $kasus = DataPelanggar::find($request->kasus_id);
-            $gelarPerkara = GelarPerkara::where('data_pelanggar_id', $request->kasus_id)->with(['penyidik', 'pemapar', 'operator', 'notulen'])->first();
-            $sprin = SprinHistory::where('data_pelanggar_id', $request->kasus_id)->where('type', 'lidik')->first();
+        $template_document = new TemplateProcessor(storage_path('template/template_limpah.docx'));
+        $template_document->setValues(array(
+            'no_nd' => $kasus->no_nota_dinas,
+            'tgl_nd' => Carbon::parse($kasus->tangal_nota_dinas)->translatedFormat('d F Y'),
+            'sprin_lidik' => $sprin->no_sprin,
+            'tgl_sprin_lidik' => Carbon::parse($sprin->created_at)->translatedFormat('d F Y'),
+            'tgl_hasil_gp' => Carbon::parse($gelarPerkara->updated_at)->translatedFormat('d F Y'),
+            'perihal' => $kasus->perihal_nota_dinas,
+            'pangkat' => strtoupper($kasus->pangkatName->name),
+            'terlapor' => strtoupper($kasus->terlapor),
+            'jabatan' => strtoupper($kasus->jabatan),
+            'kesatuan' => strtoupper($kasus->kesatuan),
+            'lokasi_gp' => $gelarPerkara->tempat_pelaksanaan,
+            'pimpinan_gp' => strtoupper($gelarPerkara->penyidik->pangkat).' '.strtoupper($gelarPerkara->penyidik->name),
+            'jabatan_gp' => strtoupper($gelarPerkara->penyidik->jabatan).' '.strtoupper($gelarPerkara->penyidik->kesatuan),
+            'keterangan_hasil' => $gelarPerkara->keterangan_hasil,
+            'pelapor' => $kasus->nama_korban,
+            'landasan_hukum' => $gelarPerkara->landasan_hukum,
+            'tgl_ttd' => Carbon::now()->translatedFormat('F Y'),
+        ));
 
-            $template_document = new TemplateProcessor(storage_path('template/template_limpah.docx'));
-            $template_document->setValues(array(
-                'no_nd' => $kasus->no_nota_dinas,
-                'tgl_nd' => Carbon::parse($kasus->tangal_nota_dinas)->translatedFormat('d F Y'),
-                'sprin_lidik' => $sprin->no_sprin,
-                'tgl_sprin_lidik' => Carbon::parse($sprin->created_at)->translatedFormat('d F Y'),
-                'tgl_hasil_gp' => Carbon::parse($gelarPerkara->updated_at)->translatedFormat('d F Y'),
-                'perihal' => $kasus->perihal_nota_dinas,
-                'pangkat' => strtoupper($kasus->pangkatName->name),
-                'terlapor' => strtoupper($kasus->terlapor),
-                'jabatan' => strtoupper($kasus->jabatan),
-                'kesatuan' => strtoupper($kasus->kesatuan),
-                'lokasi_gp' => $gelarPerkara->tempat_pelaksanaan,
-                'pimpinan_gp' => strtoupper($gelarPerkara->penyidik->pangkat).' '.strtoupper($gelarPerkara->penyidik->name),
-                'jabatan_gp' => strtoupper($gelarPerkara->penyidik->jabatan).' '.strtoupper($gelarPerkara->penyidik->kesatuan),
-                'keterangan_hasil' => $gelarPerkara->keterangan_hasil,
-                'pelapor' => $kasus->nama_korban,
-                'landasan_hukum' => $gelarPerkara->landasan_hukum,
-                'tgl_ttd' => Carbon::now()->translatedFormat('F Y'),
-            ));
+        $filename = "$kasus->pelapor - Surat Limpah.docx";
+        $path = storage_path('document/'.$filename);
+        $template_document->saveAs($path);
 
-            $dokumen = DokumenPelanggar::where('data_pelanggar_id', $request->kasus_id)->where('process_id', $request->process_id)->where('sub_process_id', $request->sub_process)->first();
-            if($dokumen == null){
-                DokumenPelanggar::create([
-                    'data_pelanggar_id' => $request->kasus_id,
-                    'process_id' => $request->process_id,
-                    'sub_process_id' => $request->sub_process,
-                    'created_by' => Auth::user()->id,
-                    'status' => 1
-                ]);
-            }
-
-            $filename = "$kasus->pelapor - Surat Limpah.docx";
-            $path = storage_path('document/'.$filename);
-            $template_document->saveAs($path);
-
-            return response()->json(['file' => $filename]);
-            // return response()->download($path)->deleteFileAfterSend(true);
-        }
+        return $filename;
+        //  response()->json(['file' => $filename]);
+        // return response()->download($path)->deleteFileAfterSend(true);
     }
 
     // End of Document Gelar Lidik
@@ -843,7 +819,8 @@ class GenerateDocument extends Controller
         $path = storage_path('document/'.$filename);
         $template_document->saveAs($path);
 
-        return response()->download($path)->deleteFileAfterSend(true);
+        return response()->json(['file' => $filename]);
+        //response()->download($path)->deleteFileAfterSend(true);
     }
 
     public function sprin_riksa(Request $request, $kasus_id){
@@ -954,14 +931,14 @@ class GenerateDocument extends Controller
         $sprin = SprinHistory::where('data_pelanggar_id', $kasus_id)->where('type', 'riksa')->first();
         $lpa = LPA::where('data_pelanggar_id', $kasus_id)->first();
         $gelarPerkara = GelarPerkara::where('data_pelanggar_id', $kasus_id)->first();
-        
+
 
         $file = array();
         $kasus = DataPelanggar::find($kasus_id);
 
         if (count($dataSaksi) == 0){
+            $template_document = new TemplateProcessor(storage_path('template/template_surat_panggilan_saksi.docx'));
             for ($i=0; $i < count($request->nama) ; $i++) {
-                $template_document = new TemplateProcessor(storage_path('template/template_surat_panggilan_saksi.docx'));
                 PublicWitness::create([
                     'data_pelanggar_id' => $kasus_id,
                     'nama' => strtoupper($request->nama[$i]),
@@ -987,6 +964,7 @@ class GenerateDocument extends Controller
                     // Data Pemeriksa
                     'penyidik' => strtoupper($penyidik1->pangkat).' '.strtoupper($penyidik1->name),
                     'jabatan_penyidik' => strtoupper($penyidik1->jabatan).' '.strtoupper($penyidik1->kesatuan),
+                    'no_telp' => $request->no_telp_penyidik,
                     // Data Kasus
                     'terlapor' => strtoupper($kasus->pangkatName->name).' '.strtoupper($kasus->terlapor),
                     'jabatan' => strtoupper($kasus->jabatan).' '.strtoupper($kasus->kesatuan),
@@ -1008,7 +986,6 @@ class GenerateDocument extends Controller
             }
         } else {
             foreach ($dataSaksi as $saksi) {
-                $agama = Agama::where('id', $saksi->agama)->first();
                 $template_document = new TemplateProcessor(storage_path('template/template_surat_panggilan_saksi.docx'));
                 $template_document->setValues(array(
                     'nama_saksi' => strtoupper($saksi->nama),
@@ -1024,6 +1001,7 @@ class GenerateDocument extends Controller
                     // Data Pemeriksa
                     'penyidik' => strtoupper($penyidik1->pangkat).' '.strtoupper($penyidik1->name),
                     'jabatan_penyidik' => strtoupper($penyidik1->jabatan).' '.strtoupper($penyidik1->kesatuan),
+                    'no_telp' => $request->no_telp_penyidik,
                     // Data Kasus
                     'terlapor' => strtoupper($kasus->pangkatName->name).' '.strtoupper($kasus->terlapor),
                     'jabatan' => strtoupper($kasus->jabatan).' '.strtoupper($kasus->kesatuan),
@@ -1090,12 +1068,12 @@ class GenerateDocument extends Controller
                 'status' => 1
             ]);
         }
-        $data = DataPelanggar::find($kasus_id);
+        $kasus = DataPelanggar::find($kasus_id);
         $template_document = new TemplateProcessor(storage_path('template/template_bap.docx'));
         $filename = 'Dokumen BAP'.'.docx';
         $template_document->setValues(array(
-            'no_nota_dinas' => $data->no_nota_dinas,
-            'tanggal_nota_dinas' => Carbon::parse($data->created_at)->translatedFormat('d F Y'),
+            'no_nota_dinas' => $kasus->no_nota_dinas,
+            'tanggal_nota_dinas' => Carbon::parse($kasus->created_at)->translatedFormat('d F Y'),
             'wujud_perbuatan' => $kasus->wujudPerbuatan->keterangan_wp,
             'terlapor' => $kasus->terlapor,
             'pangkat' => $kasus->pangkatName->name,

@@ -96,34 +96,16 @@
 
             <div class="row align-items-center justify-content-center">
                 @if ($kasus->status_now != 8)
-                    <h4 class="">Download Berkas</h4>
-                    <div class="col-lg-12 mb-3 mt-4">
-                        <div class="row align-items-end justify-content-center">
-                            @foreach ($sub_process as $sb)
-                                @if($sb->required == 1)
-                                    <div class="col-md-3 col-sm-12">
-                                        <h6>Berkas {{$sb->name}}</h6>
-                                    </div>
-                                    <div class="col-md-1">
-                                        :
-                                    </div>
-                                    <div class="col-md-8 col-sm-12">
-                                        <a href="#!" class="text-primary modal-toggle" style="text-decoration: none; width: 100%"  data-process_id="{{$kasus->status_id}}" data-kasus_id="{{$kasus->id}}" data-subprocess_name="{{$sb->name}}" data-subprocess="{{$sb->id}}">
-                                            <i class="mdi mdi-file-document"></i>
-                                            Download Berkas {{$sb->name}}
-                                            <span class="mdi mdi-download"></span>
-                                        </a>
-                                    </div>
-                                @endif
-                            @endforeach
-                        </div>
-                    </div>
-                    @if ($sprin != null)
-                        <h4 class="mt-4">Download Berkas Lainnya</h4>
+                    @if($kasus->status_id == 5)
+                        <h2 class="text-center text-warning mt-4">
+                            <i class="mdi mdi-information"></i> Kasus telah dilimpahkan ke Polda / Jajaran
+                        </h2>
+                    @else
+                        <h4 class="">Download Berkas</h4>
                         <div class="col-lg-12 mb-3 mt-4">
                             <div class="row align-items-end justify-content-center">
                                 @foreach ($sub_process as $sb)
-                                    @if ($sb->required != 1)
+                                    @if($sb->required == 1)
                                         <div class="col-md-3 col-sm-12">
                                             <h6>Berkas {{$sb->name}}</h6>
                                         </div>
@@ -131,7 +113,7 @@
                                             :
                                         </div>
                                         <div class="col-md-8 col-sm-12">
-                                            <a href="#" class="text-primary modal-toggle" style="text-decoration: none; width: 100%"  data-process_id="{{$kasus->status_id}}" data-kasus_id="{{$kasus->id}}" data-subprocess_name="{{$sb->name}}" data-subprocess="{{$sb->id}}">
+                                            <a href="#!" class="text-primary modal-toggle" style="text-decoration: none; width: 100%"  data-process_id="{{$kasus->status_id}}" data-kasus_id="{{$kasus->id}}" data-subprocess_name="{{$sb->name}}" data-subprocess="{{$sb->id}}">
                                                 <i class="mdi mdi-file-document"></i>
                                                 Download Berkas {{$sb->name}}
                                                 <span class="mdi mdi-download"></span>
@@ -141,16 +123,40 @@
                                 @endforeach
                             </div>
                         </div>
-                    @endif
-                    <div class="row mt-5">
-                        <div class="col-lg-12" style="float: right;">
-                            {{-- <button class="btn btn-success submit" type="submit" value="update_data" name="type_submit">Update
-                                Data</button> --}}
-                            <button class="btn btn-primary submit" type="submit" value="{{$kasus->status_id}}" name="type_submit"
-                                {{ $kasus->status_id != 3 ? 'disabled' : '' }}>Update
-                                Status (Gelar Lidik)</button>
+                        @if ($sprin != null)
+                            <h4 class="mt-4">Download Berkas Lainnya</h4>
+                            <div class="col-lg-12 mb-3 mt-4">
+                                <div class="row align-items-end justify-content-center">
+                                    @foreach ($sub_process as $sb)
+                                        @if ($sb->required != 1)
+                                            <div class="col-md-3 col-sm-12">
+                                                <h6>Berkas {{$sb->name}}</h6>
+                                            </div>
+                                            <div class="col-md-1">
+                                                :
+                                            </div>
+                                            <div class="col-md-8 col-sm-12">
+                                                <a href="#" class="text-primary modal-toggle" style="text-decoration: none; width: 100%"  data-process_id="{{$kasus->status_id}}" data-kasus_id="{{$kasus->id}}" data-subprocess_name="{{$sb->name}}" data-subprocess="{{$sb->id}}">
+                                                    <i class="mdi mdi-file-document"></i>
+                                                    Download Berkas {{$sb->name}}
+                                                    <span class="mdi mdi-download"></span>
+                                                </a>
+                                            </div>
+                                        @endif
+                                    @endforeach
+                                </div>
+                            </div>
+                        @endif
+                        <div class="row mt-5">
+                            <div class="col-lg-12" style="float: right;">
+                                {{-- <button class="btn btn-success submit" type="submit" value="update_data" name="type_submit">Update
+                                    Data</button> --}}
+                                <button class="btn btn-primary submit" type="submit" value="{{$kasus->status_id}}" name="type_submit"
+                                    {{ $kasus->status_id != 3 ? 'disabled' : '' }}>Update
+                                    Status (Gelar Lidik)</button>
+                            </div>
                         </div>
-                    </div>
+                    @endif
                 @else
                     <h2 class="text-center text-info mt-4">
                         <i class="mdi mdi-information"></i> Kasus ini telah selesai

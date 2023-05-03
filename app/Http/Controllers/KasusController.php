@@ -208,12 +208,9 @@ class KasusController extends Controller
                         $data->status_id = 5;
                         $data->save();
 
-                        return response()->json([
-                            'status' => [
-                                'code' => 200,
-                                'msg' => 'OK'
-                            ]
-                        ], 200);
+                        $documentLimpah = (new GenerateDocument)->limpah_polda($request);
+
+                        return response()->json(['file' => $documentLimpah]);
                     } catch (\Throwable $th) {
                         return response()->json([
                             'status' => [

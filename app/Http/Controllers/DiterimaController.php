@@ -65,16 +65,16 @@ class DiterimaController extends Controller
 
 
     public function DisposisiKaro(Request $request){
-
         try {
+            $disposisi = Disposisi::where('data_pelanggar_id', $request->kasus_id)->where('type', 'Karo')->first();
             $kasus = DataPelanggar::find($request->kasus_id);
             $data = [
-                'tgl_diterima' => $request->tanggal,
+                'tgl_diterima' => Carbon::parse($request->tanggal)->translatedFormat('d F Y'),
                 'jam' => $request->jam,
-                'tanggal' => Carbon::parse($kasus->tanggal_nota_dinas)->translatedFormat('d F Y'),
-                'no_surat' => $request->nomor_surat,
+                'created_at' => Carbon::parse($kasus->created_at)->translatedFormat('d F Y'),
+                'no_nota_dinas' => $kasus->no_nota_dinas,
                 'no_agenda' => $request->nomor_agenda,
-                'perihal' => $kasus->perihal_nota_dinas,
+                'perihal_nota_dinas' => $kasus->perihal_nota_dinas,
                 'klasifikasi' => strtoupper($request->klasifikasi),
                 'derajat' => strtoupper($request->derajat),
             ];
@@ -90,13 +90,11 @@ class DiterimaController extends Controller
                 ]);
             }
 
-            $data = DataPelanggar::find($request->kasus_id);
-            if($data->status_id < 2){
-                $data->status_id = 2;
-                $data->save();
+            if($kasus->status_id < 2){
+                $kasus->status_id = 2;
+                $kasus->save();
             }
 
-            $disposisi = Disposisi::where('data_pelanggar_id', $request->kasus_id)->where('type', 'Karo')->first();
             if($disposisi == null){
                 Disposisi::create([
                     'data_pelanggar_id' => $request->kasus_id,
@@ -133,7 +131,7 @@ class DiterimaController extends Controller
             $kasus = DataPelanggar::find($request->kasus_id);
             $data = [
                 'jam' => $request->jam,
-                'tanggal' => Carbon::parse($kasus->tanggal_nota_dinas)->translatedFormat('d F Y'),
+                'tanggal' => Carbon::parse($kasus->created_at)->translatedFormat('d F Y'),
                 'no_surat' => $request->nomor_surat,
                 'no_agenda' => $request->nomor_agenda,
                 'perihal' => $kasus->perihal_nota_dinas,
@@ -190,7 +188,7 @@ class DiterimaController extends Controller
             $kasus = DataPelanggar::find($request->kasus_id);
             $data = [
                 'jam' => $request->jam,
-                'tanggal' => Carbon::parse($kasus->tanggal_nota_dinas)->translatedFormat('d F Y'),
+                'tanggal' => Carbon::parse($kasus->created_at)->translatedFormat('d F Y'),
                 'no_surat' => $request->nomor_surat,
                 'no_agenda' => $request->nomor_agenda,
                 'perihal' => $kasus->perihal_nota_dinas,

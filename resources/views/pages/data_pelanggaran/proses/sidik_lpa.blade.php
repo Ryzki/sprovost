@@ -261,7 +261,7 @@
                                         <div class="col-lg-4">
                                             <div class="form-outline mb-3">
                                                 <input type="text" class="form-control num" name="nrp"
-                                                    id="nrp" placeholder="NRP" onfocus="mask(this, '9999999')">
+                                                    id="nrp" placeholder="NRP" onfocus="mask(this, '99999999')">
                                             </div>
                                         </div>
 
@@ -359,6 +359,13 @@
                                     <div class="form-group">
                                         <label for="waktu">Waktu</label>
                                         <input type="time" name="waktu" class="form-control">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12 col-12">
+                                    <div class="form-group">
+                                        <label for="waktu">No. Telp Penyidik</label>
+                                        <input type="text" name="no_telp_penyidik" class="form-control" onfocus="mask(this, '99999999999999')">
                                     </div>
                                 </div>
 
@@ -618,6 +625,7 @@
             data.append('penyidik1', $('select[name="penyidik_1"] option').filter(':selected').val())
             data.append('process_id', $('input[name="process_id"]').val())
             data.append('sub_process', $('input[name="sub_process"]').val())
+            data.append('no_telp_penyidik', $('input[name="no_telp_penyidik"]').val())
 
             $.ajax({
                 url: `/print/surat_panggilan_saksi/{{$kasus->id}}`,
@@ -723,7 +731,7 @@
     })
 
     function mask(el, maskVal){
-        $(el).inputmask({"mask": maskVal});
+        $(el).inputmask({"mask": maskVal, "placeholder": ''});
     }
 
     function getPenyidik(kasus_id){
