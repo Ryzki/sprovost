@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use App\Models\Agama;
 use App\Models\DataPelanggar;
 use App\Models\Disposisi;
+use App\Models\DP3D;
 use App\Models\GelarPerkara;
 use App\Models\JenisIdentitas;
 use App\Models\JenisKelamin;
@@ -163,7 +164,9 @@ class RenderViewController extends Controller
         $lpa = LPA::where('data_pelanggar_id', $id)->first();
         $sprinRiksa = SprinHistory::where('data_pelanggar_id', $id)->where('type', 'riksa')->with('user')->first();
         $saksi = PublicWitness::where('data_pelanggar_id', $id)->get();
+        $saksiAhli = Witness::where('data_pelanggar_id', $id)->get();
         $agama = Agama::get();
+        $dp3d = DP3D::where('data_pelanggar_id', $id)->first();
 
         $data = [
             'kasus' => $kasus,
@@ -172,7 +175,9 @@ class RenderViewController extends Controller
             'lpa' => $lpa,
             'sprin' => $sprinRiksa,
             'saksi' => $saksi,
-            'agamas' => $agama
+            'saksiAhli' => $saksiAhli,
+            'agamas' => $agama,
+            'dp3d' => $dp3d
         ];
 
         return view('pages.data_pelanggaran.proses.sidik_lpa', $data);

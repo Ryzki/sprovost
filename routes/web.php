@@ -140,9 +140,10 @@ Route::middleware(['auth'])->group(function (){
     Route::POST('/print/sprin_riksa/{id}/not_generated', [GenerateDocument::class, 'sprin_riksa']);
     Route::GET('/print/sprin_riksa/{id}/generated', [GenerateDocument::class, 'sprin_riksa']);
     Route::POST('/print/surat_panggilan_saksi/{id}', [GenerateDocument::class, 'surat_panggilan_saksi']);
-    Route::get('/print/surat_panggilan_terduga/{id}/{process_id}/{subprocess}', [GenerateDocument::class, 'surat_panggilan_terduga']);
-    Route::get('/print/bap/{id}/{process_id}/{subprocess}', [GenerateDocument::class, 'bap']);
-    Route::get('/print/dp3d/{id}/{process_id}/{subprocess}', [GenerateDocument::class, 'dp3d']);
+    Route::POST('/print/surat_panggilan_terduga/{id}', [GenerateDocument::class, 'surat_panggilan_terduga']);
+    Route::post('/print/bap/{id}', [GenerateDocument::class, 'bap']);
+    Route::POST('/print/dp3d/{id}/not-generated', [GenerateDocument::class, 'dp3d']);
+    Route::GET('/print/dp3d/{id}/generated', [GenerateDocument::class, 'dp3d']);
     Route::get('/print/surat_pelimpahan_ke_ankum/{id}/{process_id}/{subprocess}', [GenerateDocument::class, 'pelimpahan_ankum']);
 
     // Sidang Disiplin

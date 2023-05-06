@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Agama;
 use App\Models\DataPelanggar;
 use App\Models\DokumenPelanggar;
+use App\Models\DP3D;
 use App\Models\GelarPerkara;
 use App\Models\LPA;
 use App\Models\Penyidik;
@@ -28,7 +29,7 @@ class GenerateDocument extends Controller
     public function downloadFile($filename)
     {
         $path = storage_path('document/'.$filename);
-        return response()->download($path)->deleteFileAfterSend(false);
+        return response()->download($path)->deleteFileAfterSend(true);
     }
 
     public function generateDisposisi(Request $request)
@@ -560,21 +561,6 @@ class GenerateDocument extends Controller
         $kasus = DataPelanggar::find($kasus_id);
         $thn = Carbon::now()->translatedFormat('Y');
 
-        $bln_romawi = array(
-            '01' => 'I',
-            '02' => 'II',
-            '03' => 'III',
-            '04' => 'IV',
-            '05' => 'V',
-            '06' => 'VI',
-            '07' => 'VII',
-            '08' => 'VIII',
-            '09' => 'IX',
-            '10' => 'X',
-            '11' => 'XI',
-            '12' => 'XII',
-        );
-
         $dokumen = DokumenPelanggar::where('data_pelanggar_id', $kasus_id)->where('process_id', $request->process_id)->where('sub_process_id', $request->sub_process)->first();
         if($dokumen == null){
             DokumenPelanggar::create([
@@ -595,7 +581,7 @@ class GenerateDocument extends Controller
         $template_document = new TemplateProcessor(storage_path('template/undangan_gelar.docx'));
         $template_document->setValues(array(
             'no_undangan' => $request->no_undangan,
-            'bulan_surat' => $bln_romawi[Carbon::now()->translatedFormat('m')],
+            'bulan_surat' => getBulanRomawi(Carbon::now()->translatedFormat('m')),
             'thn_surat' => $thn,
             'tgl_ttd' => Carbon::now()->translatedFormat('F Y'),
             'hari' => $hari,
@@ -1026,84 +1012,261 @@ class GenerateDocument extends Controller
         return response()->json(['file' => $file]);
     }
 
-    public function surat_panggilan_terduga($kasus_id, $process_id, $subprocess){
-        $dokumen = DokumenPelanggar::where('data_pelanggar_id', $kasus_id)->where('process_id', $process_id)->where('sub_process_id', $subprocess)->first();
+    public function surat_panggilan_terduga(Request $request, $kasus_id){
+        $dokumen = DokumenPelanggar::where('data_pelanggar_id', $kasus_id)->where('process_id', $request->process_id)->where('sub_process_id', $request->sub_process)->first();
         if($dokumen == null){
             DokumenPelanggar::create([
                 'data_pelanggar_id' => $kasus_id,
-                'process_id' => $process_id,
-                'sub_process_id' => $subprocess,
+                'process_id' => $request->process_id,
+                'sub_process_id' => $request->sub_process,
                 'created_by' => Auth::user()->id,
                 'status' => 1
             ]);
         }
 
         $template_document = new TemplateProcessor(storage_path('template/template_surat_panggilan_terduga.docx'));
-        $filename = 'Surat Panggilan Terduga'.'.docx';
         $kasus = DataPelanggar::find($kasus_id);
+        $penyidik = Penyidik::where('id', $request->penyidik_1)->where('data_pelanggar_id', $kasus_id)->first();
+        $sprin = SprinHistory::where('data_pelanggar_id', $kasus_id)->where('type', 'riksa')->first();
+
         $template_document->setValues(array(
             'no_nota_dinas' => $kasus->no_nota_dinas,
             'tanggal_nota_dinas' => Carbon::parse($kasus->created_at)->translatedFormat('d F Y'),
             'wujud_perbuatan' => $kasus->wujudPerbuatan->keterangan_wp,
+            'no_sprin_riksa' => $sprin->no_sprin,
+            'tanggal_sprin_riksa' => Carbon::parse($sprin->created_at)->translatedFormat('d F Y'),
             'terlapor' => $kasus->terlapor,
             'nrp' => $kasus->nrp,
             'pangkat' => $kasus->pangkatName->name,
             'jabatan' => $kasus->jabatan,
-            'kesatuan' => $kasus->kesatuan
+            'kesatuan' => $kasus->kesatuan,
+            'penyidik' => strtoupper($penyidik->pangkat).' '.strtoupper($penyidik->name),
+            'jabatan_penyidik' => strtoupper($penyidik->jabatan),
+            'hari' => Carbon::parse($request->tgl)->translatedFormat('l'),
+            'tgl' => Carbon::parse($request->tgl)->translatedFormat('d F Y'),
+            'jam' => $request->waktu,
+            'lokasi' => $request->lokasi,
+            'kronologi' => $kasus->kronologi,
+            'tgl_ttd' => Carbon::now()->translatedFormat('F Y'),
         ));
+        $filename = "$kasus->pelapor - Surat Panggilan Terduga.docx";
         $path = storage_path('document/'.$filename);
         $template_document->saveAs($path);
 
-        return response()->download($path)->deleteFileAfterSend(true);
+        return response()->json(['file' => $filename]);
     }
 
-    public function bap($kasus_id, $process_id, $subprocess){
-        $dokumen = DokumenPelanggar::where('data_pelanggar_id', $kasus_id)->where('process_id', $process_id)->where('sub_process_id', $subprocess)->first();
+    public function bap(Request $request, $kasus_id){
+        $dokumen = DokumenPelanggar::where('data_pelanggar_id', $kasus_id)->where('process_id', $request->process_id)->where('sub_process_id', $request->sub_process)->first();
         if($dokumen == null){
             DokumenPelanggar::create([
                 'data_pelanggar_id' => $kasus_id,
-                'process_id' => $process_id,
-                'sub_process_id' => $subprocess,
+                'process_id' => $request->process_id,
+                'sub_process_id' => $request->sub_process,
                 'created_by' => Auth::user()->id,
                 'status' => 1
             ]);
         }
+
+        $penyidik1 = Penyidik::where('id', $request->penyidik1)->where('data_pelanggar_id', $kasus_id)->first();
+        $penyidik2 = Penyidik::where('id', $request->penyidik2)->where('data_pelanggar_id', $kasus_id)->first();
+        $dataSaksi = Witness::where('data_pelanggar_id', $kasus_id)->get();
+        $sprin = SprinHistory::where('data_pelanggar_id', $kasus_id)->where('type', 'riksa')->first();
+        $lpa = LPA::where('data_pelanggar_id', $kasus_id)->first();
+
+        $file = array();
         $kasus = DataPelanggar::find($kasus_id);
-        $template_document = new TemplateProcessor(storage_path('template/template_bap.docx'));
-        $filename = 'Dokumen BAP'.'.docx';
-        $template_document->setValues(array(
-            'no_nota_dinas' => $kasus->no_nota_dinas,
-            'tanggal_nota_dinas' => Carbon::parse($kasus->created_at)->translatedFormat('d F Y'),
-            'wujud_perbuatan' => $kasus->wujudPerbuatan->keterangan_wp,
-            'terlapor' => $kasus->terlapor,
-            'pangkat' => $kasus->pangkatName->name,
-            'jabatan' => $kasus->jabatan,
-            'kesatuan' => $kasus->kesatuan
-        ));
-        $path = storage_path('document/'.$filename);
-        $template_document->saveAs($path);
 
-        return response()->download($path)->deleteFileAfterSend(true);
-    }
+        if (count($dataSaksi) == 0){
+            for ($i=0; $i < count($request->nama) ; $i++) {
+                $template_document = new TemplateProcessor(storage_path('template/template_bap.docx'));
+                Witness::create([
+                    'data_pelanggar_id' => $kasus_id,
+                    'nama' => strtoupper($request->nama[$i]),
+                    'pangkat' => $request->pangkat[$i],
+                    'nrp' => strtoupper($request->nrp[$i]),
+                    'jabatan' => strtoupper($request->jabatan[$i]),
+                    'warga_negara' => $request->warga_negara[$i],
+                    'kesatuan' => $request->kesatuan[$i],
+                    'agama' => $request->agama[$i],
+                    'alamat' => $request->alamat[$i],
+                    'ttl' => $request->ttl[$i],
+                    'no_telp' => $request->no_telp[$i],
+                ]);
 
-    public function dp3d($kasus_id, $process_id, $subprocess){
-        $dokumen = DokumenPelanggar::where('data_pelanggar_id', $kasus_id)->where('process_id', $process_id)->where('sub_process_id', $subprocess)->first();
-        if($dokumen == null){
-            DokumenPelanggar::create([
-                'data_pelanggar_id' => $kasus_id,
-                'process_id' => $process_id,
-                'sub_process_id' => $subprocess,
-                'created_by' => Auth::user()->id,
-                'status' => 1
-            ]);
+                $template_document->setValues(array(
+                    'saksi' => strtoupper($request->nama[$i]),
+                    'pangkat_saksi' => strtoupper($request->pangkat[$i]),
+                    'nrp_saksi' => $request->nrp[$i],
+                    'jabatan_saksi' => strtoupper($request->jabatan[$i]),
+                    'kesatuan_saksi' => strtoupper($request->kesatuan[$i]),
+                    'ttl_saksi' => $request->ttl[$i],
+                    'warga_negara_saksi' => strtoupper($request->warga_negara[$i]),
+                    'agama_saksi' => $request->agamaText[$i],
+                    'alamat_saksi' => $request->alamat[$i],
+                    'no_telp_saksi' => $request->no_telp[$i],
+                ));
+
+                $template_document->setValues(array(
+                    'hari' => Carbon::now()->translatedFormat('l'),
+                    'tanggal' => dateToWord(Carbon::now()->translatedFormat('d')),
+                    'bulan' => Carbon::now()->translatedFormat('F'),
+                    'tahun' => dateToWord(Carbon::now()->translatedFormat('Y')),
+                    'tgl' => Carbon::now()->translatedFormat('d-F-Y'),
+                    'jam' => date('H:i') . ' WIB',
+                    // Data Pemeriksa
+                    'pemeriksa1' => strtoupper($penyidik1->name),
+                    'pangkat1' => strtoupper($penyidik1->pangkat),
+                    'nrp1' => $penyidik1->nrp,
+                    'jabatan1' => strtoupper($penyidik1->jabatan),
+                    'kesatuan1' => strtoupper($penyidik1->kesatuan),
+                    'pemeriksa2' => strtoupper($penyidik2->name),
+                    'pangkat2' => strtoupper($penyidik2->pangkat),
+                    'nrp2' => $penyidik2->nrp,
+                    'jabatan2' => strtoupper($penyidik2->jabatan),
+                    'kesatuan2' => strtoupper($penyidik2->kesatuan),
+                    // Data Kasus
+                    'pangkat' => strtoupper($kasus->pangkatName->name),
+                    'terlapor' => strtoupper($kasus->terlapor),
+                    'jabatan' => strtoupper($kasus->jabatan),
+                    'kesatuan' => strtoupper($kasus->kesatuan),
+                    'wujud_perbuatan' => $kasus->wujudPerbuatan->keterangan_wp,
+                    'kronologi' => strtoupper($kasus->kronologi),
+                    'no_lpa' => strtoupper($lpa->no_lpa),
+                    'tgl_lpa' => Carbon::parse($lpa->created_at)->translatedFormat('d F Y'),
+                    // Data SPRIN
+                    'no_sprin' => $sprin->no_sprin,
+                    'tgl_sprin' => Carbon::parse($sprin->created_at)->translatedFormat('d-F-Y'),
+                ));
+
+                $filename = $kasus->pelapor.' - '.'BAP - '.$request->pangkat[$i].' '.$request->nama[$i].'.docx';
+                $path = storage_path('document/'.$filename);
+                $template_document->saveAs($path);
+                array_push($file, $filename);
+            }
+        } else {
+            foreach ($dataSaksi as $saksi) {
+                $agama = Agama::where('id', $saksi->agama)->first();
+                $template_document = new TemplateProcessor(storage_path('template/template_bap.docx'));
+
+                $template_document->setValues(array(
+                    'saksi' => strtoupper($saksi->nama),
+                    'pangkat_saksi' => strtoupper($saksi->pangkat),
+                    'nrp_saksi' => $saksi->nrp,
+                    'jabatan_saksi' => strtoupper($saksi->jabatan),
+                    'kesatuan_saksi' => strtoupper($saksi->kesatuan),
+                    'ttl_saksi' => $saksi->ttl,
+                    'warga_negara_saksi' => strtoupper($saksi->warga_negara),
+                    'agama_saksi' => $agama->name,
+                    'alamat_saksi' => $saksi->alamat,
+                    'no_telp_saksi' => $saksi->no_telp,
+                ));
+
+                $template_document->setValues(array(
+                    'hari' => Carbon::now()->translatedFormat('l'),
+                    'tanggal' => dateToWord(Carbon::now()->translatedFormat('d')),
+                    'bulan' => Carbon::now()->translatedFormat('F'),
+                    'tahun' => dateToWord(Carbon::now()->translatedFormat('Y')),
+                    'tgl' => Carbon::now()->translatedFormat('d-F-Y'),
+                    'jam' => date('H:i') . ' WIB',
+                    // Data Pemeriksa
+                    'pemeriksa1' => strtoupper($penyidik1->name),
+                    'pangkat1' => strtoupper($penyidik1->pangkat),
+                    'nrp1' => $penyidik1->nrp,
+                    'jabatan1' => strtoupper($penyidik1->jabatan),
+                    'kesatuan1' => strtoupper($penyidik1->kesatuan),
+                    'pemeriksa2' => strtoupper($penyidik2->name),
+                    'pangkat2' => strtoupper($penyidik2->pangkat),
+                    'nrp2' => $penyidik2->nrp,
+                    'jabatan2' => strtoupper($penyidik2->jabatan),
+                    'kesatuan2' => strtoupper($penyidik2->kesatuan),
+                    // Data Kasus
+                    'pangkat' => strtoupper($kasus->pangkatName->name),
+                    'terlapor' => strtoupper($kasus->terlapor),
+                    'jabatan' => strtoupper($kasus->jabatan),
+                    'kesatuan' => strtoupper($kasus->kesatuan),
+                    'wujud_perbuatan' => $kasus->wujudPerbuatan->keterangan_wp,
+                    'kronologi' => strtoupper($kasus->kronologi),
+                    'no_lpa' => strtoupper($lpa->no_lpa),
+                    'tgl_lpa' => Carbon::parse($lpa->created_at)->translatedFormat('d F Y'),
+                    // Data SPRIN
+                    'no_sprin' => $sprin->no_sprin,
+                    'tgl_sprin' => Carbon::parse($sprin->created_at)->translatedFormat('d-F-Y'),
+                ));
+
+                $filename = $kasus->pelapor.' - BAP - '.$saksi->pangkat.' '.$saksi->nama.'.docx';
+                $path = storage_path('document/'.$filename);
+                $template_document->saveAs($path);
+                array_push($file, $filename);
+            }
         }
 
+        return response()->json(['file' => $file]);
+    }
+
+    public function dp3d(Request $request, $kasus_id){
+        $kasus = DataPelanggar::find($kasus_id);
+        $lpa = LPA::where('data_pelanggar_id', $kasus_id)->first();
+        $dp3d = DP3D::where('data_pelanggar_id', $kasus_id)->first();
         $template_document = new TemplateProcessor(storage_path('template/template_dp3d.docx'));
-        $filename = 'Dokumen DP3D'.'.docx';
+
+        if($dp3d == null){
+            $dokumen = DokumenPelanggar::where('data_pelanggar_id', $kasus_id)->where('process_id', $request->process_id)->where('sub_process_id', $request->sub_process)->first();
+            if($dokumen == null){
+                DokumenPelanggar::create([
+                    'data_pelanggar_id' => $kasus_id,
+                    'process_id' => $request->process_id,
+                    'sub_process_id' => $request->sub_process,
+                    'created_by' => Auth::user()->id,
+                    'status' => 1
+                ]);
+            }
+
+            DP3D::create([
+                'data_pelanggar_id' => $kasus_id,
+                'no_dp3d' => $request->no_dp3d,
+                'pasal' => $request->pasal,
+            ]);
+
+            $template_document->setValues(array(
+                'no_dp3d' => $request->no_dp3d,
+                'no_lpa' => $lpa->no_lpa,
+                'tgl_lpa' => Carbon::parse($lpa->created_at)->translatedFormat('d F Y'),
+                'terlapor' => strtoupper($kasus->terlapor),
+                'pangkat' => strtoupper($kasus->pangkatName->name),
+                'nrp' => $kasus->nrp,
+                'jabatan' => strtoupper($kasus->jabatan),
+                'kesatuan' => strtoupper($kasus->kesatuan),
+                'wujud_perbuatan' => $kasus->wujudPerbuatan->keterangan_wp,
+                'pasal' => $request->pasal,
+                'tgl' => Carbon::now()->translatedFormat('d F Y'),
+            ));
+        } else {
+            $template_document->setValues(array(
+                'no_dp3d' => $dp3d->no_dp3d,
+                'no_lpa' => $lpa->no_lpa,
+                'tgl_lpa' => Carbon::parse($lpa->created_at)->translatedFormat('d F Y'),
+                'terlapor' => strtoupper($kasus->terlapor),
+                'pangkat' => strtoupper($kasus->pangkatName->name),
+                'nrp' => $kasus->nrp,
+                'jabatan' => strtoupper($kasus->jabatan),
+                'kesatuan' => strtoupper($kasus->kesatuan),
+                'wujud_perbuatan' => $kasus->wujudPerbuatan->keterangan_wp,
+                'pasal' => $dp3d->pasal,
+                'tgl' => Carbon::now()->translatedFormat('d F Y'),
+            ));
+        }
+
+
+        $filename = "$kasus->pelapor - Dokumen DP3D.docx";
         $path = storage_path('document/'.$filename);
         $template_document->saveAs($path);
 
-        return response()->download($path)->deleteFileAfterSend(true);
+        if ($request->method() == 'GET'){
+            return response()->download($path)->deleteFileAfterSend(true);
+        } else {
+            return response()->json(['file' => $filename]);
+        }
     }
 
     public function pelimpahan_ankum($kasus_id, $process_id, $subprocess){
@@ -1118,8 +1281,30 @@ class GenerateDocument extends Controller
             ]);
         }
 
+        $kasus = DataPelanggar::find($kasus_id);
+        $lpa = LPA::where('data_pelanggar_id', $kasus_id)->first();
+        $dp3d = DP3D::where('data_pelanggar_id', $kasus_id)->first();
+
         $template_document = new TemplateProcessor(storage_path('template/template_pelimpahan_ankum.docx'));
-        $filename = 'Surat Pelimpahan Ke Ankum'.'.docx';
+        $template_document->setValues(array(
+            'tgl' => Carbon::now()->translatedFormat('d F Y'),
+            'bulan_surat' => getBulanRomawi(Carbon::now()->translatedFormat('m')),
+            'thn_surat' => Carbon::now()->translatedFormat('Y'),
+            'pangkat' => strtoupper($kasus->pangkatName->name),
+            'terlapor' => strtoupper($kasus->terlapor),
+            'nrp' => $kasus->nrp,
+            'no_lpa' => $lpa->no_lpa,
+            'tgl_lpa' => $lpa->created_at,
+            'wujud_perbuatan' => $kasus->wujudPerbuatan->keterangan_wp,
+            'kronologi' => $kasus->kronologi,
+            'jabatan' => $kasus->jabatan,
+            'kesatuan' => $kasus->kesatuan,
+            'pasal' => $dp3d->pasal,
+            'no_dp3d' => $dp3d->no_dp3d,
+            'tgl_dp3d' => Carbon::parse($dp3d->created_at)->translatedFormat('d F Y'),
+        ));
+
+        $filename = "$kasus->pelapor - Surat Pelimpahan Ke Ankum.docx";
         $path = storage_path('document/'.$filename);
         $template_document->saveAs($path);
 

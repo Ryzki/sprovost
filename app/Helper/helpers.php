@@ -61,4 +61,23 @@ function getNoAgenda($type, $kasus_id){
     $noAgenda = $noAgenda != null ? $noAgenda->no_agenda : '';
     return "( $noAgenda )";
 }
+
+function getBulanRomawi($bulan){
+    $bln_romawi = array(
+        '01' => 'I',
+        '02' => 'II',
+        '03' => 'III',
+        '04' => 'IV',
+        '05' => 'V',
+        '06' => 'VI',
+        '07' => 'VII',
+        '08' => 'VIII',
+        '09' => 'IX',
+        '10' => 'X',
+        '11' => 'XI',
+        '12' => 'XII',
+    );
+
+    return $bln_romawi[$bulan];
+}
 ?>
