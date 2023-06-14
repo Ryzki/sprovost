@@ -133,6 +133,214 @@
     </div>
 </div>
 
+<div class="modal fade" id="sprin_perangkat_sidang" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Pembuatan SPRIN Riksa</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="javascript:void(0)" id="form-generate-sprin">
+                @csrf
+                <input type="hidden" name="status" value="{{$status->id}}">
+                <input type="hidden" name="sub_process">
+                <input type="hidden" name="process_id">
+                <div class="modal-body">
+                    <div class="row justify-content-between align-items-center">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1" class="form-label">Tanggal Cetak Surat SPRIN</label>
+                                <input type="text" class="form-control" id="exampleInputEmail1"
+                                    aria-describedby="emailHelp"
+                                    value="{{ !empty($sprin) ? date('d-m-Y H:i', strtotime($sprin->created_at)) . ' WIB' : '-' }}"
+                                    readonly style="border:none">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1" class="form-label">Dicetak Oleh</label>
+                                <input type="text" class="form-control" id="exampleInputEmail1"
+                                    aria-describedby="emailHelp"
+                                    value="{{ !empty($sprin) ? $sprin->user[0]->name: '-' }}"
+                                    readonly style="border:none">
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    @if ($sprin == null)
+                        <div class="form-group">
+                            <label for="no_sprin" class="form-label">No. SPRIN</label>
+                            <input type="text" class="form-control" name="no_sprin" value="{{!empty($sprin) ? $sprin->no_sprin : ''}}" placeholder="{{!empty($sprin) ? '' : 'Masukan Nomor SPRIN'}}">
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="tgl_sidang">Tanggal Pelaksanaan Sidang</label>
+                                    <input type="date" name="tgl_sidang" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="waktu_sidang">Waktu Pelaksanaan Sidang</label>
+                                    <input type="time" name="waktu_sidang" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="lokasi_sidang">Lokasi Sidang</label>
+                                <input type="text" class="form-control" name="lokasi_sidang" required>
+                            </div>
+                        </div>
+                    @else
+                        <div class="row justify-content-around items-center mt-4">
+                            <p>
+                                <a href="/print/sprin_perangkat_sidang/{{$kasus->id}}/generated" class="text-primary" style="text-decoration: none; width: 100%">
+                                    <i class="mdi mdi-file-document"></i>
+                                    Download Ulang SPRIN Sidang
+                                    <span class="mdi mdi-download"></span>
+                                </a>
+                            </p>
+                        </div>
+                    @endif
+                </div>
+                <div class="modal-footer">
+                    @if ($sprin == null)
+                        <button type="submit" class="btn btn-primary">Buat Surat</button>
+                    @else
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal" aria-label="Close">Close</button>
+                    @endif
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="undangan_sidang_disiplin" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Pembuatan Undangan Sidang</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="javascript:void(0)" id="form-generate-undangan">
+                @csrf
+                <input type="hidden" name="status" value="{{$status->id}}">
+                <input type="hidden" name="sub_process">
+                <input type="hidden" name="process_id">
+                <div class="modal-body">
+                    <div class="row mb-4">
+                        {{-- <div class="col-md-6 col-12">
+                            <div class="form-group">
+                                <label for="no_undangan" class="form-label">No. Undangan</label>
+                                <input type="number" class="form-control" name="no_undangan" placeholder='Masukan Nomor Undangan'>
+                            </div>
+                        </div> --}}
+                        <div class="col-md-6 col-12">
+                            <div class="form-group">
+                                <label for="tgl" class="form-label">Tanggal Sidang</label>
+                                <input type="date" class="form-control" name="tgl" value="{{!empty($sidang) ? $sidang->tgl_sidang : ''}}" @empty(!$sidang) readonly @endempty placeholder='Pilih Tanggal'>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-12">
+                            <div class="form-group">
+                                <label for="jam" class="form-label">Jam Pelaksanaan Sidang</label>
+                                <input type="time" class="form-control" name="jam" value="{{!empty($sidang) ? $sidang->waktu_sidang : ''}}" @empty(!$sidang) readonly @endempty>
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="lokasi" class="form-label">Ruang Sidang</label>
+                                <input type="text" class="form-control" name="lokasi" value="{{!empty($sidang) ? $sidang->lokasi_sidang : ''}}" @empty(!$sidang) readonly @endempty>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Buat Surat</button>
+                    {{-- <button type="button" class="btn btn-danger" data-bs-dismiss="modal" aria-label="Close">Close</button> --}}
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="hasil_putusan_sidang_disiplin" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Hasil Putusan Sidang Disiplin</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="javascript:void(0)" id="form-generate-hasil-putusan">
+                @csrf
+                <input type="hidden" name="status" value="{{$status->id}}">
+                <input type="hidden" name="sub_process">
+                <input type="hidden" name="process_id">
+                <div class="modal-body">
+                    <div class="card">
+                        <div class="card-header">
+                            <h6>
+                                Tanggal Pelaksanaan Sidang
+                            </h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-4 col-12">
+                                    <p class="font-weight-bold">Tanggal Sidang</p>
+                                    <p> {{!empty($sidang) ? $sidang->tgl_sidang : '-'}} </p>
+                                </div>
+                                <div class="col-md-4 col-12">
+                                    <p class="font-weight-bold">Waktu Sidang</p>
+                                    <p> {{!empty($sidang) ? \Carbon\Carbon::parse($sidang->waktu_sidang)->translatedFormat('H:i') : '-'}} </p>
+                                </div>
+                                <div class="col-md-4 col-12">
+                                    <p class="font-weight-bold">Lokasi Sidang</p>
+                                    <p> {{!empty($sidang) ? $sidang->lokasi_sidang : '-'}} </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card mt-3">
+                        <div class="card-header">
+                            <h6>Hasil Putusan Sidang</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label for="">Hasil Putusan</label>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="hasil_sidang" id="hasil_sidang1" value="Terbukti">
+                                            <label class="form-check-label" for="hasil_sidang1">
+                                              Terbukti
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="hasil_sidang" id="hasil_sidang2" value="Tidak Terbukti">
+                                            <label class="form-check-label" for="hasil_sidang2">
+                                              Tidak Terbukti
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <label for="hukuman">Hukuman Disiplin</label>
+                                    <input type="text" name="hukuman" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Buat Surat</button>
+                    {{-- <button type="button" class="btn btn-danger" data-bs-dismiss="modal" aria-label="Close">Close</button> --}}
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <script>
     $(document).ready(function() {
         $('.generate_document').on('click', function(){
@@ -150,6 +358,151 @@
                 window.location.href = url
             }
 
+        })
+
+        $('#form-generate-sprin').on('submit', function() {
+            var data = $(this).serializeArray()
+            $.ajax({
+                url: `/print/sprin_perangkat_sidang/{{ $kasus->id }}/not-generated`,
+                method: 'POST',
+                data: data,
+                beforeSend: () => {
+                    $.LoadingOverlay("show");
+                },
+                success:(res) => {
+                    window.location.href = `/download-file/${res.file}`
+                    $.LoadingOverlay("hide");
+                    Swal.fire({
+                        title: 'Berhasil',
+                        text: 'Berhasil generate dan download dokumen',
+                        icon: 'success',
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                    })
+                    setTimeout(() => {
+                        window.location.reload()
+                    }, 1500);
+                },
+                error: (xhr) => {
+                    $.LoadingOverlay("hide");
+                    Swal.fire({
+                        title: `Terjadi Kesalahan`,
+                        text: xhr.responseJSON.status.msg,
+                        icon: 'error',
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                    })
+                }
+            })
+        })
+
+        $('#form-generate-undangan').on('submit', function(){
+            var data = $(this).serializeArray()
+            $.ajax({
+                url: `/print/undangan_sidang_disiplin/{{ $kasus->id }}`,
+                method: 'POST',
+                data: data,
+                beforeSend: () => {
+                    $.LoadingOverlay("show");
+                },
+                success:(res) => {
+                    console.log(res)
+                    window.location.href = `/download-file/${res.file}`
+
+                    var tempDownload = document.createElement("a");
+                    tempDownload.style.display = 'none';
+
+                    document.body.appendChild( tempDownload );
+
+                    for( var n = 0; n < res.file_undangan_saksi.length; n++ )
+                    {
+                        var download = res.file_undangan_saksi[n];
+                        tempDownload.setAttribute( 'href', `/download-file/${res.file_undangan_saksi[n]}` );
+                        tempDownload.setAttribute( 'download', res.file_undangan_saksi );
+
+                        tempDownload.click();
+                    }
+
+                    $.LoadingOverlay("hide");
+                    Swal.fire({
+                        title: 'Berhasil',
+                        text: 'Berhasil generate dan download dokumen',
+                        icon: 'success',
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                    })
+
+                    // setTimeout(() => {
+                    //     // window.location.reload()
+                    // }, 2000);
+                },
+                error: (xhr) => {
+                    $.LoadingOverlay("hide");
+                    Swal.fire({
+                        title: `Terjadi Kesalahan`,
+                        text: xhr.responseJSON.status.msg,
+                        icon: 'error',
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                    })
+                }
+            })
+        })
+
+        $('#form-generate-hasil-putusan').on('submit', function(){
+            var data = $(this).serializeArray()
+            $.ajax({
+                url: `/print/hasil_putusan_sidang_disiplin/{{ $kasus->id }}`,
+                method: 'POST',
+                data: data,
+                beforeSend: () => {
+                    $.LoadingOverlay("show");
+                },
+                success:(res) => {
+                    window.location.href = `/download-file/${res.file}`
+
+                    $.LoadingOverlay("hide");
+                    Swal.fire({
+                        title: 'Berhasil',
+                        text: 'Berhasil generate dan download dokumen',
+                        icon: 'success',
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                    })
+
+                    // setTimeout(() => {
+                    //     // window.location.reload()
+                    // }, 2000);
+                },
+                error: (xhr) => {
+                    $.LoadingOverlay("hide");
+                    Swal.fire({
+                        title: `Terjadi Kesalahan`,
+                        text: xhr.responseJSON.status.msg,
+                        icon: 'error',
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                    })
+                }
+            })
         })
 
         $('.submit').on('click', function(){

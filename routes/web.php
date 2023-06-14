@@ -148,8 +148,9 @@ Route::middleware(['auth'])->group(function (){
 
     // Sidang Disiplin
     Route::get('/print/nota_dina_perangkat_sidang/{id}/{process_id}/{subprocess}', [GenerateDocument::class, 'nota_dina_perangkat_sidang']);
-    Route::get('/print/sprin_perangkat_sidang/{id}/{process_id}/{subprocess}', [GenerateDocument::class, 'sprin_perangkat_sidang']);
-    Route::get('/print/undangan_sidang_disiplin/{id}/{process_id}/{subprocess}', [GenerateDocument::class, 'undangan_sidang_disiplin']);
-    Route::get('/print/hasil_putusan_sidang_disiplin/{id}/{process_id}/{subprocess}', [GenerateDocument::class, 'hasil_putusan_sidang_disiplin']);
+    Route::POST('/print/sprin_perangkat_sidang/{id}/not-generated', [GenerateDocument::class, 'sprin_perangkat_sidang']);
+    Route::GET('/print/sprin_perangkat_sidang/{id}/generated', [GenerateDocument::class, 'sprin_perangkat_sidang']);
+    Route::POST('/print/undangan_sidang_disiplin/{id}', [GenerateDocument::class, 'undangan_sidang_disiplin']);
+    Route::POST('/print/hasil_putusan_sidang_disiplin/{id}', [GenerateDocument::class, 'hasil_putusan_sidang_disiplin']);
     Route::get('/print/nota_hasil_putusan/{id}/{process_id}/{subprocess}', [GenerateDocument::class, 'nota_hasil_putusan']);
 });

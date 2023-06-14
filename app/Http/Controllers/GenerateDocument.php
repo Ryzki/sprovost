@@ -10,6 +10,7 @@ use App\Models\GelarPerkara;
 use App\Models\LPA;
 use App\Models\Penyidik;
 use App\Models\PublicWitness;
+use App\Models\SidangDisiplin;
 use App\Models\Sp2hp2History;
 use App\Models\SprinHistory;
 use App\Models\Witness;
@@ -1333,64 +1334,203 @@ class GenerateDocument extends Controller
         return response()->download($path)->deleteFileAfterSend(true);
     }
 
-    public function sprin_perangkat_sidang($kasus_id, $process_id, $subprocess){
-        $dokumen = DokumenPelanggar::where('data_pelanggar_id', $kasus_id)->where('process_id', $process_id)->where('sub_process_id', $subprocess)->first();
-        if($dokumen == null){
-            DokumenPelanggar::create([
+    public function sprin_perangkat_sidang(Request $request, $kasus_id){
+        $kasus = DataPelanggar::find($kasus_id);
+        $sprinHistory = SprinHistory::where('data_pelanggar_id', $kasus_id)->where('type', 'sidang')->first();
+        $dp3d = DP3D::where('data_pelanggar_id', $kasus_id)->first();
+        $sidang = SidangDisiplin::where('data_pelanggar_id', $kasus_id)->first();
+
+        if ($sprinHistory == null){
+            $sprinHistory = SprinHistory::create([
                 'data_pelanggar_id' => $kasus_id,
-                'process_id' => $process_id,
-                'sub_process_id' => $subprocess,
+                'no_sprin' => $request->no_sprin,
                 'created_by' => Auth::user()->id,
-                'status' => 1
+                'type' => 'sidang'
             ]);
+
+
+            $dokumen = DokumenPelanggar::where('data_pelanggar_id', $kasus_id)->where('process_id', $request->process_id)->where('sub_process_id', $request->sub_process)->first();
+            if($dokumen == null){
+                DokumenPelanggar::create([
+                    'data_pelanggar_id' => $kasus_id,
+                    'process_id' => $request->process_id,
+                    'sub_process_id' => $request->sub_process,
+                    'created_by' => Auth::user()->id,
+                    'status' => 1
+                ]);
+            }
+
+            if($sidang == null){
+                $sidang = SidangDisiplin::create([
+                    'data_pelanggar_id' => $kasus_id,
+                    'tgl_sidang' => $request->tgl_sidang,
+                    'waktu_sidang' => $request->waktu_sidang,
+                    'lokasi_sidang' => $request->lokasi_sidang
+                ]);
+            }
         }
 
+
         $template_document = new TemplateProcessor(storage_path('template/template_perangkat_sidang.docx'));
-        $filename = 'SPRIN Perangkat Sidang'.'.docx';
+
+        $template_document->setValues(array(
+            'no_sprin' => $request->no_sprin != '' ? $request->no_sprin : $sprinHistory->no_sprin,
+            'terlapor' => strtoupper($kasus->terlapor),
+            'pangkat' => strtoupper($kasus->pangkatName->name),
+            'nrp' => $kasus->nrp,
+            'jabatan' => strtoupper($kasus->jabatan.' '.$kasus->kesatuan),
+            'tgl_sidang' => Carbon::parse($request->tgl_sidang != '' ? $request->tgl_sidang : $sidang->tgl_sidang)->translatedFormat('d F Y'),
+            'waktu_sidang' => $request->waktu_sidang != '' ? $request->waktu_sidang : Carbon::parse($sidang->waktu_sidang)->translatedFormat('H:i'),
+            'ruang_sidang' => $request->lokasi_sidang != '' ? $request->lokasi_sidang : $sidang->lokasi_sidang,
+            'tgl_ttd' => Carbon::now()->translatedFormat('F Y'),
+            'no_dp3d' => $dp3d->no_dp3d,
+            'tgl_dp3d' => Carbon::parse($dp3d->created_at)->translatedFormat('d F Y')
+        ));
+
+        $filename = $kasus->pelapor.' - SPRIN Perangkat Sidang'.'.docx';
         $path = storage_path('document/'.$filename);
         $template_document->saveAs($path);
 
-        return response()->download($path)->deleteFileAfterSend(true);
+        if ($request->method() == 'GET'){
+            return response()->download($path)->deleteFileAfterSend(true);
+        } else {
+            return response()->json(['file' => $filename]);
+        }
     }
 
-    public function undangan_sidang_disiplin($kasus_id, $process_id, $subprocess){
-        $dokumen = DokumenPelanggar::where('data_pelanggar_id', $kasus_id)->where('process_id', $process_id)->where('sub_process_id', $subprocess)->first();
+    public function undangan_sidang_disiplin(Request $request, $kasus_id){
+        $kasus = DataPelanggar::find($kasus_id);
+        $sprinHistory = SprinHistory::where('data_pelanggar_id', $kasus_id)->where('type', 'sidang')->first();
+        $saksi = Witness::where('data_pelanggar_id', $kasus_id)->get();
+        $saksiUmum = PublicWitness::where('data_pelanggar_id', $kasus_id)->get();
+        $undanganSaksi = array();
+
+        $dokumen = DokumenPelanggar::where('data_pelanggar_id', $kasus_id)->where('process_id', $request->process_id)->where('sub_process_id', $request->sub_process)->first();
         if($dokumen == null){
             DokumenPelanggar::create([
                 'data_pelanggar_id' => $kasus_id,
-                'process_id' => $process_id,
-                'sub_process_id' => $subprocess,
+                'process_id' => $request->process_id,
+                'sub_process_id' => $request->sub_process,
                 'created_by' => Auth::user()->id,
                 'status' => 1
             ]);
         }
 
         $template_document = new TemplateProcessor(storage_path('template/template_undangan_sidang.docx'));
-        $filename = 'Surat Undangan Sidang Disiplin'.'.docx';
-        $path = storage_path('document/'.$filename);
+        $template_document->setValues(array(
+            'tgl_ttd' => Carbon::now()->translatedFormat('d F Y'),
+            'hari' => Carbon::parse($request->tgl)->translatedFormat('l'),
+            'tgl' => Carbon::parse($request->tgl)->translatedFormat('d F Y'),
+            'jam' => $request->jam,
+            'lokasi' => $request->lokasi,
+            'terlapor' => strtoupper($kasus->terlapor),
+            'pangkat' => strtoupper($kasus->pangkatName->name),
+            'nrp' => $kasus->nrp,
+            'jabatan' => strtoupper($kasus->jabatan),
+            'kesatuan' => strtoupper($kasus->kesatuan),
+            'no_sprin' => $sprinHistory->no_sprin,
+            'tgl_sprin' => Carbon::parse($sprinHistory->crated_at)->translatedFormat('d F Y')
+        ));
+
+        $filenameTerlapor = $kasus->pelapor.' - Surat Undangan Sidang Disiplin'.'.docx';
+        $path = storage_path('document/'.$filenameTerlapor);
         $template_document->saveAs($path);
 
-        return response()->download($path)->deleteFileAfterSend(true);
+        // Undangan Saksi
+        foreach ($saksi as $val) {
+            $template_saksi = new TemplateProcessor(storage_path('template/template_undangan_saksi_sidang.docx'));
+            $template_saksi->setValues(array(
+                'tgl_ttd' => Carbon::now()->translatedFormat('d F Y'),
+                'hari' => Carbon::parse($request->tgl)->translatedFormat('l'),
+                'tgl' => Carbon::parse($request->tgl)->translatedFormat('d F Y'),
+                'jam' => $request->jam,
+                'lokasi' => $request->lokasi,
+                'terlapor' => strtoupper($kasus->terlapor),
+                'pangkat' => strtoupper($kasus->pangkatName->name),
+                'nrp' => $kasus->nrp,
+                'jabatan' => strtoupper($kasus->jabatan),
+                'kesatuan' => strtoupper($kasus->kesatuan),
+                'no_sprin' => $sprinHistory->no_sprin,
+                'tgl_sprin' => Carbon::parse($sprinHistory->crated_at)->translatedFormat('d F Y'),
+                'saksi' => $val->nama,
+                'alamat' => $val->alamat
+            ));
+            $filename = $kasus->pelapor.' - Surat Undangan Sidang Disiplin (Saksi - '.$val->nama.').docx';
+            $path = storage_path('document/'.$filename);
+            $template_saksi->saveAs($path);
+            array_push($undanganSaksi, $filename);
+        }
+
+        foreach ($saksiUmum as $val) {
+            $template_saksi = new TemplateProcessor(storage_path('template/template_undangan_saksi_sidang.docx'));
+            $template_saksi->setValues(array(
+                'tgl_ttd' => Carbon::now()->translatedFormat('d F Y'),
+                'hari' => Carbon::parse($request->tgl)->translatedFormat('l'),
+                'tgl' => Carbon::parse($request->tgl)->translatedFormat('d F Y'),
+                'jam' => $request->jam,
+                'lokasi' => $request->lokasi,
+                'terlapor' => strtoupper($kasus->terlapor),
+                'pangkat' => strtoupper($kasus->pangkatName->name),
+                'nrp' => $kasus->nrp,
+                'jabatan' => strtoupper($kasus->jabatan),
+                'kesatuan' => strtoupper($kasus->kesatuan),
+                'no_sprin' => $sprinHistory->no_sprin,
+                'tgl_sprin' => Carbon::parse($sprinHistory->crated_at)->translatedFormat('d F Y'),
+                'saksi' => $val->nama,
+                'alamat' => $val->alamat
+            ));
+            $filename = $kasus->pelapor.' - Surat Undangan Sidang Disiplin (Saksi - '.$val->nama.').docx';
+            $path = storage_path('document/'.$filename);
+            $template_saksi->saveAs($path);
+            array_push($undanganSaksi, $filename);
+        }
+
+        return response()->json(['file' => $filenameTerlapor, 'file_undangan_saksi' => $undanganSaksi]);
     }
 
-    public function hasil_putusan_sidang_disiplin($kasus_id, $process_id, $subprocess){
-        $dokumen = DokumenPelanggar::where('data_pelanggar_id', $kasus_id)->where('process_id', $process_id)->where('sub_process_id', $subprocess)->first();
+    public function hasil_putusan_sidang_disiplin(Request $request, $kasus_id){
+        $kasus = DataPelanggar::find($kasus_id);
+        $dp3d = DP3D::where('data_pelanggar_id', $kasus_id)->first();
+        $dokumen = DokumenPelanggar::where('data_pelanggar_id', $kasus_id)->where('process_id', $request->process_id)->where('sub_process_id', $request->sub_process)->first();
+
         if($dokumen == null){
             DokumenPelanggar::create([
                 'data_pelanggar_id' => $kasus_id,
-                'process_id' => $process_id,
-                'sub_process_id' => $subprocess,
+                'process_id' => $request->process_id,
+                'sub_process_id' => $request->sub_process,
                 'created_by' => Auth::user()->id,
                 'status' => 1
             ]);
         }
 
+        $sidang = SidangDisiplin::where('data_pelanggar_id', $kasus_id)->first();
+        $sidang->hasil_sidang = $request->hasil_sidang;
+        $sidang->hukuman_disiplin = $request->hukuman;
+        $sidang->save();
+
         $template_document = new TemplateProcessor(storage_path('template/template_hasil_putusan_sidang.docx'));
-        $filename = 'Hasil Putusan Sidang Disiplin'.'.docx';
+        $template_document->setValues(array(
+            'tgl_ttd' => Carbon::now()->translatedFormat('l'). ', '.Carbon::now()->translatedFormat('d F Y'),
+            'no_dp3d' => $dp3d->no_dp3d,
+            'tgl_dp3d' => Carbon::parse($dp3d->created_at)->translatedFormat('d F Y'),
+            'terlapor' => strtoupper($kasus->terlapor),
+            'pangkat' => strtoupper($kasus->pangkatName->name),
+            'nrp' => $kasus->nrp,
+            'jabatan' => strtoupper($kasus->jabatan),
+            'kesatuan' => strtoupper($kasus->kesatuan),
+            'kronologi' => $kasus->kronologi,
+            'pasal' => $dp3d->pasal,
+            'hari_sidang' => Carbon::parse($sidang->tgl_sidang)->translatedFormat('l'),
+            'tgl_sidang' => Carbon::parse($sidang->tgl_sidang)->translatedFormat('d F Y'),
+            'hasil_sidang' => $request->hasil_sidang,
+            'jenis_hukuman' => $request->hukuman
+        ));
+
+        $filename = $kasus->pelapor.' - Hasil Putusan Sidang Disiplin'.'.docx';
         $path = storage_path('document/'.$filename);
         $template_document->saveAs($path);
 
-        return response()->download($path)->deleteFileAfterSend(true);
+        return response()->json(['file' => $filename]);
     }
 
     public function nota_hasil_putusan($kasus_id, $process_id, $subprocess){

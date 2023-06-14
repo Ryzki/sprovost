@@ -14,6 +14,7 @@ use App\Models\LPA;
 use App\Models\Pangkat;
 use App\Models\Process;
 use App\Models\PublicWitness;
+use App\Models\SidangDisiplin;
 use App\Models\Sp2hp2History;
 use App\Models\SprinHistory;
 use App\Models\SubProcess;
@@ -187,11 +188,15 @@ class RenderViewController extends Controller
         $kasus = DataPelanggar::find($id);
         $status = Process::find($kasus->status_id);
         $sub_process = SubProcess::where('process_id', $kasus->status_id)->get();
+        $sprin = SprinHistory::where('data_pelanggar_id', $id)->where('type', 'sidang')->with('user')->first();
+        $sidang = SidangDisiplin::where('data_pelanggar_id', $id)->first();
 
         $data = [
             'kasus' => $kasus,
             'status' => $status,
             'sub_process' => $sub_process,
+            'sprin' => $sprin,
+            'sidang' => $sidang
         ];
 
         return view('pages.data_pelanggaran.proses.sidang_disiplin', $data);

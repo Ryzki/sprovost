@@ -96,10 +96,6 @@ class SubProcessSeeder extends Seeder
                 'required' => 0
             ],[
                 'process_id' => '7',
-                'name' => 'NOTA DINA PERANGKAT SIDANG',
-                'required' => 0
-            ],[
-                'process_id' => '7',
                 'name' => 'SPRIN PERANGKAT SIDANG',
                 'required' => 0
             ],[
