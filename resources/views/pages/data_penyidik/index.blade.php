@@ -13,7 +13,8 @@
                 <div class="card-header align-items-center d-flex">
                     <h4 class="card-title mb-0 flex-grow-1">Data Penyidik</h4>
                     <div class="float-right">
-                        <a href="{{ route('penyidik.input') }}" class="btn btn-primary"><span class="fa fa-plus"></span> Tambah Penyidik</a>
+                        <a href="{{ route('penyidik.input') }}" class="btn btn-primary"><span class="fa fa-plus"></span>
+                            Tambah Penyidik</a>
                     </div>
                 </div><!-- end card header -->
 
@@ -44,13 +45,13 @@
 @section('scripts')
     <script src="https://cdn.datatables.net/1.13.2/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.2/js/dataTables.bootstrap5.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
     <script>
         $(document).ready(function() {
             getData()
         });
 
-        function hapus(id){
+        function hapus(id) {
             $.confirm({
                 title: 'Perhatian!',
                 content: 'Apa kamu yakin akan menghapus data ini?',
@@ -59,16 +60,16 @@
                 buttons: {
                     yes: {
                         keys: ['y'],
-                        action: function () {
-                            var url = "{{route('penyidik.hapus', ':id')}}";
+                        action: function() {
+                            var url = "{{ route('penyidik.hapus', ':id') }}";
                             url = url.replace(':id', id);
                             var table = $('#data-data').DataTable();
                             var $button = $(this);
                             $.ajax({
                                 type: "GET",
                                 url: url,
-                                success: function (response) {
-                                    table.row( $button.parents('tr') ).remove().draw();
+                                success: function(response) {
+                                    table.row($button.parents('tr')).remove().draw();
                                     $.confirm({
                                         title: 'Perhatian!',
                                         content: 'Data anda berhasil di hapus!',
@@ -77,20 +78,18 @@
                                         buttons: {
                                             tryAgain: {
                                                 text: 'OK',
-                                                action: function(){
-                                                }
+                                                action: function() {}
                                             },
                                         }
                                     });
                                 },
-                                error: function (e) {
-                                }
+                                error: function(e) {}
                             });
                         }
                     },
                     no: {
                         keys: ['N'],
-                        action: function () {
+                        action: function() {
                             $(this).hide();
                         }
                     },
@@ -110,9 +109,8 @@
                         data._token = '{{ csrf_token() }}'
                     }
                 },
-                columns: [
-                    {
-                        data: 'data_pelanggar.no_nota_dinas',
+                columns: [{
+                        data: 'data_pelanggars.no_nota_dinas',
                         name: 'no_nota_dinas'
                     },
                     {
@@ -124,8 +122,8 @@
                         name: 'nrp'
                     },
                     {
-                        data: 'pangkat.name',
-                        name: 'id_pangkat'
+                        data: 'pangkats.name',
+                        name: 'pangkats.name'
                     },
                     {
                         data: 'jabatan',

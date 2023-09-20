@@ -27,7 +27,7 @@ class PenyidikController extends Controller
             'data_pelanggars' => $data_pelanggar,
         ];
 
-        return view('pages.data_penyidik.input_penyidik.input',$data);
+        return view('pages.data_penyidik.input_penyidik.input', $data);
     }
 
     public function editPenyidik($id)
@@ -41,7 +41,7 @@ class PenyidikController extends Controller
             'penyidik' => $penyidik,
         ];
 
-        return view('pages.data_penyidik.input_penyidik.input',$data);
+        return view('pages.data_penyidik.input_penyidik.input', $data);
     }
 
     public function storePenyidik(Request $request)
@@ -61,13 +61,13 @@ class PenyidikController extends Controller
 
     public function data(Request $request)
     {
-        $query = Penyidik::select('*')->orderBy('id','desc')->with('dataPelanggar', 'pangkat')->get();
+        $query = Penyidik::select('*')->orderBy('id', 'desc')->with('data_pelanggars', 'pangkats')->get();
 
         return Datatables::of($query)->addColumn('action', function ($row) {
             return '<a href="' . route('penyidik.edit', [$row->id]) . '" class="btn btn-info btn-circle"
                   data-toggle="tooltip" data-original-title="Edit"><i class="fa fa-pencil" aria-hidden="true"></i></a>
 
-                  <button type="button" onclick="hapus('.$row->id.')" class="btn btn-danger btn-circle sa-params"
+                  <button type="button" onclick="hapus(' . $row->id . ')" class="btn btn-danger btn-circle sa-params"
                   data-toggle="tooltip" data-user-id="' . $row->id . '" data-original-title="Delete"><i class="fa fa-times" aria-hidden="true"></i></button>';
         })->make(true);
     }
@@ -86,16 +86,16 @@ class PenyidikController extends Controller
         ]);
 
         return redirect()->action([PenyidikController::class, 'index']);
-
     }
 
     public function hapusData($id)
     {
-      Penyidik::where('id', $id)
+        Penyidik::where('id', $id)
             ->delete();
     }
 
-    public function masterPenyidik(){
+    public function masterPenyidik()
+    {
         $data = MasterPenyidik::get();
         return response()->json(['penyidik' => $data]);
     }
