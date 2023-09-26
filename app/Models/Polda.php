@@ -8,5 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Polda extends Model
 {
     use HasFactory;
-    protected $fillable = [ 'name' ];
+    protected $table = 'poldas';
+
+    protected $guarded = [];
 }

@@ -12,6 +12,7 @@ use App\Models\JenisIdentitas;
 use App\Models\JenisKelamin;
 use App\Models\LPA;
 use App\Models\Pangkat;
+use App\Models\Polda;
 use App\Models\Process;
 use App\Models\PublicWitness;
 use App\Models\SidangDisiplin;
@@ -146,13 +147,15 @@ class RenderViewController extends Controller
         // $sprin = SprinHistory::where('data_pelanggar_id', $id)->where('type', 'lidik')->with('user')->first();
         $sprinGelar = SprinHistory::where('data_pelanggar_id', $id)->where('type', 'gelar')->with('user')->first();
         $gelarPerkara = GelarPerkara::where('data_pelanggar_id', $id)->with('penyidik')->first();
+        $polda = Polda::all();
         // dd($gelarPerkara);
         $data = [
             'kasus' => $kasus,
             'status' => $status,
             'sub_process' => $sub_process,
             'sprinGelar' => $sprinGelar,
-            'gelarPerkara' => $gelarPerkara
+            'gelarPerkara' => $gelarPerkara,
+            'poldas' => $polda
         ];
 
         return view('pages.data_pelanggaran.proses.gelarlidik', $data);

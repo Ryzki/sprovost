@@ -75,7 +75,7 @@
 
                         <div class="col-lg-6 mb-3">
                             <div class="form-floating">
-                                <input type="number" class="form-control border-dark" name="umur" id="umur" placeholder="Umur Pelapor" value="{{ isset($kasus) ? $kasus->umur : '' }}" required>
+                                <input type="number" class="form-control border-dark" name="umur" id="umur" placeholder="Umur Pelapor" value="{{ isset($kasus) ? $kasus->umur : '' }}">
                                 <label for="umur">Umur</label>
                             </div>
                         </div>
@@ -97,7 +97,7 @@
 
                         <div class="col-lg-6 mb-3">
                             <div class="form-floating">
-                                <input type="text" name="pekerjaan" class="form-control border-dark" placeholder="Pekerjaan Pelapor" value="{{ isset($kasus) ? $kasus->pekerjaan : '' }}" required>
+                                <input type="text" name="pekerjaan" class="form-control border-dark" placeholder="Pekerjaan Pelapor" value="{{ isset($kasus) ? $kasus->pekerjaan : '' }}">
                                 <label for="pekerjaan" class="form-label">Pekerjaan</label>
                             </div>
 
@@ -118,7 +118,7 @@
 
                         <div class="col-lg-6 mb-3">
                             <div class="form-floating">
-                                <input type="text" name="no_identitas" id="no_identitas" placeholder="1234-5678-9012-1234" class="form-control border-dark" value="{{ isset($kasus) ? $kasus->no_identitas : '' }}" required>
+                                <input type="text" name="no_identitas" id="no_identitas" placeholder="1234-5678-9012-1234" class="form-control border-dark" value="{{ isset($kasus) ? $kasus->no_identitas : '' }}">
                                 <label for="no_identitas" class="form-label">No Identitas</label>
                             </div>
                         </div>

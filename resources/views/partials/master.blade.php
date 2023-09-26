@@ -201,6 +201,13 @@
             box-shadow: none;
             outline: 0 none;
         }
+
+        .format-pre pre {
+            background: #49483e;
+            color: #f7f7f7;
+            padding: 10px;
+            font-size: 14px;
+        }
     </style>
 
     @stack('styles')

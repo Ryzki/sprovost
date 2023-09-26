@@ -151,11 +151,11 @@ class KasusController extends Controller
             return $this->updateDataPelanggar($request);
 
         $status = $this->cek_requirement($request->kasus_id, $request->process_id);
-        if ($status == false){
+        if ($status['status'] != false){
             return response()->json([
                 'status' => [
                     'code' => 400,
-                    'msg' => 'Harap cetak semua dokumen terlebih dahulu'
+                    'msg' => "Harap cetak semua dokumen terlebih dahulu : <br><br>".$status['data']
                 ]
             ], 400);
         } else {
@@ -202,7 +202,7 @@ class KasusController extends Controller
                     ], 500);
                 }
             } else if ($request->status == 4){
-                if($request->next == 'limpah'){
+                if($request->next == 'limpah_modal'){
                     try {
                         $data = DataPelanggar::find($request->kasus_id);
                         $data->status_id = 5;
@@ -340,12 +340,22 @@ class KasusController extends Controller
     }
 
     private function cek_requirement($kasus_id, $process_id){
-        $documentgenerated = DokumenPelanggar::where('data_pelanggar_id', $kasus_id)->where('process_id', $process_id)->count();
-        $subProcess = SubProcess::where('process_id', (int)$process_id)->count();
-        if ($documentgenerated == $subProcess){
-            return true;
+        $documentgenerated = DokumenPelanggar::where('data_pelanggar_id', $kasus_id)->where('process_id', $process_id);
+        $subProcess = SubProcess::where('process_id', (int)$process_id);
+
+        if ($documentgenerated->count() == $subProcess->count()){
+            return ['status' => true, 'data' => null];
         } else {
-            return false;
+            $arrSubProcessId = [];
+            foreach ($documentgenerated->get() as $val) {
+                array_push($arrSubProcessId, $val->sub_process_id);
+            }
+
+            $documentNotGenerated = '';
+            foreach ($subProcess->whereNotIn('id',$arrSubProcessId)->get() as $docVal) {
+                $documentNotGenerated .= "- $docVal->name <br>";
+            };
+            return ['status' => false, 'data' => $documentNotGenerated];
         }
     }
 }

@@ -443,6 +443,37 @@
     </div>
 </div>
 
+<div class="modal fade" id="limpah_polda" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Limpah Polda</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="javascript:void(0)" id="form-laporan-gelar">
+                @csrf
+                <input type="hidden" name="status" value="{{$status->id}}">
+                <input type="hidden" name="sub_process">
+                <input type="hidden" name="process_id">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="polda_id">Pilih Polda</label>
+                        <select name="polda_id" id="polda_id" class="form-select select-polda" data-placeholder="Silahkan Pilih Polda" required>
+                            <option></option>
+                            @foreach ($poldas as $polda)
+                                <option value="{{$polda->id}}">{{$polda->name}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary submit" data-next="limpah_modal" data-process_id="{{$kasus->status_id}}">Buat Dokumen</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <script>
     $(document).ready(function(){
         // tinymce.remove();
@@ -472,6 +503,12 @@
         // });
 
         $('.select-penyidik').map((k, v) => {
+            $(v).select2({
+                theme: 'bootstrap-5'
+            })
+        })
+
+        $('.select-polda').map((k, v) => {
             $(v).select2({
                 theme: 'bootstrap-5'
             })
@@ -621,31 +658,55 @@
 
         $('.submit').on('click', function(){
             var data = $('#form').serializeArray()
-            data.push({
-                name: 'next',
-                value: $(this).data('next')
-            })
-            data.push({
-                name: 'process_id',
-                value: $(this).data('process_id')
-            })
+            if($(this).data('next') == 'limpah'){
+                $('#limpah_polda').modal('toggle')
+            } else if($(this).data('next') == 'limpah_modal') {
+                data.push({
+                    name: 'polda_id',
+                    value: $('#limpah_polda').find('.select-polda').val()
+                })
 
-            $.ajax({
-                url: `/data-kasus/update`,
-                method: 'POST',
-                data: data,
-                beforeSend: () => {
-                    $.LoadingOverlay("show");
-                },
-                success:(res) => {
-                    if ($(this).data('next') == 'limpah'){
-                        window.location.href = `/download-file/${res.file}`
+                data.push({
+                    name: 'next',
+                    value: $(this).data('next')
+                })
 
-                        setTimeout(() => {
+                data.push({
+                    name: 'process_id',
+                    value: $(this).data('process_id')
+                })
+
+                $.ajax({
+                    url: `/data-kasus/update`,
+                    method: 'POST',
+                    data: data,
+                    beforeSend: () => {
+                        $.LoadingOverlay("show");
+                    },
+                    success:(res) => {
+                        if ($(this).data('next') == 'limpah'){
+                            window.location.href = `/download-file/${res.file}`
+
+                            setTimeout(() => {
+                                $.LoadingOverlay("hide");
+                                Swal.fire({
+                                    title: 'Berhasil',
+                                    text: 'Berhasil generate dan download dokumen',
+                                    icon: 'success',
+                                    toast: true,
+                                    position: 'top-end',
+                                    showConfirmButton: false,
+                                    timer: 3000,
+                                    timerProgressBar: true,
+                                })
+
+                                window.location.reload()
+                            }, 2500);
+                        } else {
                             $.LoadingOverlay("hide");
                             Swal.fire({
                                 title: 'Berhasil',
-                                text: 'Berhasil generate dan download dokumen',
+                                text: 'Berhasil rubah status',
                                 icon: 'success',
                                 toast: true,
                                 position: 'top-end',
@@ -655,37 +716,94 @@
                             })
 
                             window.location.reload()
-                        }, 2500);
-                    } else {
+                        }
+                    },
+                    error: (xhr) => {
                         $.LoadingOverlay("hide");
+                        // console.log(xhr.responseJSON.status.msg)
                         Swal.fire({
-                            title: 'Berhasil',
-                            text: 'Berhasil rubah status',
-                            icon: 'success',
+                            title: `Terjadi Kesalahan`,
+                            html: '<span>' + xhr.responseJSON.status.msg + '</span>',
+                            // text: `${xhr.responseJSON.status.msg}`,
+                            icon: 'error',
                             toast: true,
                             position: 'top-end',
                             showConfirmButton: false,
                             timer: 3000,
                             timerProgressBar: true,
                         })
-
-                        window.location.reload()
                     }
-                },
-                error: (xhr) => {
-                    $.LoadingOverlay("hide");
-                    Swal.fire({
-                        title: `Terjadi Kesalahan`,
-                        text: xhr.responseJSON.status.msg,
-                        icon: 'error',
-                        toast: true,
-                        position: 'top-end',
-                        showConfirmButton: false,
-                        timer: 3000,
-                        timerProgressBar: true,
-                    })
-                }
-            })
+                })
+            } else {
+                data.push({
+                    name: 'next',
+                    value: $(this).data('next')
+                })
+                data.push({
+                    name: 'process_id',
+                    value: $(this).data('process_id')
+                })
+
+                $.ajax({
+                    url: `/data-kasus/update`,
+                    method: 'POST',
+                    data: data,
+                    beforeSend: () => {
+                        $.LoadingOverlay("show");
+                    },
+                    success:(res) => {
+                        if ($(this).data('next') == 'limpah'){
+                            window.location.href = `/download-file/${res.file}`
+
+                            setTimeout(() => {
+                                $.LoadingOverlay("hide");
+                                Swal.fire({
+                                    title: 'Berhasil',
+                                    text: 'Berhasil generate dan download dokumen',
+                                    icon: 'success',
+                                    toast: true,
+                                    position: 'top-end',
+                                    showConfirmButton: false,
+                                    timer: 3000,
+                                    timerProgressBar: true,
+                                })
+
+                                window.location.reload()
+                            }, 2500);
+                        } else {
+                            $.LoadingOverlay("hide");
+                            Swal.fire({
+                                title: 'Berhasil',
+                                text: 'Berhasil rubah status',
+                                icon: 'success',
+                                toast: true,
+                                position: 'top-end',
+                                showConfirmButton: false,
+                                timer: 3000,
+                                timerProgressBar: true,
+                            })
+
+                            window.location.reload()
+                        }
+                    },
+                    error: (xhr) => {
+                        $.LoadingOverlay("hide");
+                        // console.log(xhr.responseJSON.status.msg)
+                        Swal.fire({
+                            title: `Terjadi Kesalahan`,
+                            html: '<span>' + xhr.responseJSON.status.msg + '</span>',
+                            // text: `${xhr.responseJSON.status.msg}`,
+                            icon: 'error',
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 3000,
+                            timerProgressBar: true,
+                        })
+                    }
+                })
+            }
+            
         })
     })
 

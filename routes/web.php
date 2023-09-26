@@ -131,7 +131,6 @@ Route::middleware(['auth'])->group(function (){
     Route::POST('/print/undangan_gelar/{id}', [GenerateDocument::class, 'berkas_undangan_gelar']);
     Route::get('/print/notulen_hasil_gelar/{id}/{process_id}/{subprocess}', [GenerateDocument::class, 'notulen_hasil_gelar']);
     Route::POST('/print/laporan_hasil_gelar/{id}', [GenerateDocument::class, 'laporan_hasil_gelar']);
-
     Route::post('/limpah-polda', [GenerateDocument::class, 'limpah_polda']);
 
     // Generate Sidik / LPA

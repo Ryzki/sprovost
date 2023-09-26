@@ -28,27 +28,27 @@
     <div class="row">
         <div class="col col-md-4 col-xl-4">
             <div class="card bg-c-blue order-card">
-                <div class="card-block">
+                <div class="card-body">
                     <h6 class="m-b-20">Total Pelanggar</h6>
-                    <h2 class="text-right"><i class="fa fa-gavel f-left"></i><span>486</span></h2>
+                    <h2 class="text-right"><i class="fa fa-gavel f-left mr-3"></i><span>  {{count($pelanggar)}}</span></h2>
                 </div>
             </div>
         </div>
 
         <div class="col col-md-4 col-xl-4">
             <div class="card bg-c-green order-card">
-                <div class="card-block">
+                <div class="card-body">
                     <h6 class="m-b-20">Total Pengaduan Diproses</h6>
-                    <h2 class="text-right"><i class="fa fa-refresh f-left"></i><span>486</span></h2>
+                    <h2 class="text-right"><i class="fa fa-chart-line f-left"></i><span>  {{count($pengaduan_diproses)}}</span></h2>
                 </div>
             </div>
         </div>
 
         <div class="col col-md-4 col-xl-4">
             <div class="card bg-c-yellow order-card">
-                <div class="card-block">
+                <div class="card-body">
                     <h6 class="m-b-20">Total Polda</h6>
-                    <h2 class="text-right"><i class="fa fa-institution f-left"></i><span>486</span></h2>
+                    <h2 class="text-right"><i class="fa fa-building f-left"></i><span>  {{count($polda)}}</span></h2>
                 </div>
             </div>
         </div>
@@ -60,6 +60,7 @@
             <canvas id="lineChartPelanggar"></canvas>
         </div>
         <div class="col-4">
+            <h5 class="text-center">Total Pelanggaran Berdasarkan Pangkat</h5>
             <canvas id="donatChartPelanggar"></canvas>
         </div>
 
@@ -107,13 +108,18 @@
         });
 
         function lineChartPelanggar() {
-            var labels = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des', ''];
-            var users = [100, 50, 11, 34, 86, 56, 2, 36, 50, 20, 10, 150];
+            var labels = [];
+            var users = [];
+
+            @foreach($kasus_by_month as $key => $val)
+                labels.push(`{{$key}}`)
+                users.push(`{{$val}}`)
+            @endforeach
 
             const data = {
                 labels: labels,
                 datasets: [{
-                    label: 'Statistik Jumlah Pelanggar tahun 2022',
+                    label: 'Statistik Jumlah Pelanggar tahun '+new Date().getFullYear(),
                     backgroundColor: 'rgb(255, 99, 132)',
                     borderColor: 'rgb(255, 99, 132)',
                     data: users,
@@ -133,19 +139,21 @@
         }
 
         function donatChartPelanggar() {
-            var labels = ['Metro Jaya', 'Jabar', 'Jateng', 'Jatim'];
-            var users = [50, 20, 75, 25];
+            var labels = [];
+            var users = [];
+            var background = [];
+            var fillColor = ['#008FFB', '#00E396', '#775DD0', '#FEB019', '#FF4560'];
+            @foreach($kasus_by_pangkat as $key => $val)
+                labels.push(`{{$key}}`)
+                users.push(`{{$val}}`)
+                background.push(fillColor[Math.floor(Math.random()*fillColor.length)])
+            @endforeach
 
             const data = {
                 labels: labels,
                 datasets: [{
-                    label: 'Jumlah Pelanggar',
-                    backgroundColor: [
-                        'rgb(255, 99, 132)',
-                        'rgb(54, 162, 235)',
-                        'rgb(50, 205, 50)',
-                        'rgb(255, 255, 0)'
-                    ],
+                    label: 'Total Pelanggaran',
+                    backgroundColor: background,
                     data: users,
                 }]
             };

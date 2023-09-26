@@ -1142,9 +1142,11 @@
                 },
                 error: (xhr) => {
                     $.LoadingOverlay("hide");
+                    // console.log(xhr.responseJSON.status.msg)
                     Swal.fire({
                         title: `Terjadi Kesalahan`,
-                        text: xhr.responseJSON.status.msg,
+                        html: '<span>' + xhr.responseJSON.status.msg + '</span>',
+                        // text: `${xhr.responseJSON.status.msg}`,
                         icon: 'error',
                         toast: true,
                         position: 'top-end',

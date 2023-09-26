@@ -9,4 +9,10 @@ class Pangkat extends Model
 {
     use HasFactory;
     protected $fillable = [ 'name' ];
+
+    public function hasPelanggar()
+    {
+        return $this->belongsTo(DataPelanggar::class, 'id', 'pangkat');
+    }
 }
+
