@@ -23,6 +23,7 @@ use App\Models\WujudPerbuatan;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use DataTables;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 
 class KasusController extends Controller
@@ -80,6 +81,19 @@ class KasusController extends Controller
 
     public function storeKasus(Request $request){
         $no_pengaduan = "123456"; //generate otomatis
+        $currentYear = Carbon::now()->translatedFormat('Y');
+        $totalData = DB::table('data_pelanggars')->select('*')->whereYear('created_at', $currentYear)->count();
+        if($totalData == 0){
+            $number = '0001';
+        } else if (strlen($totalData) < 4){
+            $number = sprintf("%04d", (int)$totalData+1);
+        } else {
+            $number = $totalData;
+        }
+
+        $transNumber = "$currentYear$number";
+        return $transNumber;
+
         $DP = DataPelanggar::create([
             // Pelapor
             'no_nota_dinas' => $request->no_nota_dinas,
@@ -151,7 +165,7 @@ class KasusController extends Controller
             return $this->updateDataPelanggar($request);
 
         $status = $this->cek_requirement($request->kasus_id, $request->process_id);
-        if ($status['status'] != false){
+        if ($status['status'] == false){
             return response()->json([
                 'status' => [
                     'code' => 400,
