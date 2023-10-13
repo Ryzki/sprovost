@@ -21,11 +21,11 @@
                 </div>
                 <div class="f1-step active">
                     <div class="f1-step-icon"><i class="fa fa-user"></i></div>
-                    <p>Diterima</p>
+                    <p>Disposisi Diterima</p>
                 </div>
                 <div class="f1-step active">
                     <div class="f1-step-icon"><i class="fa fa-home"></i></div>
-                    <p>Pulbaket</p>
+                    <p>Penyelidikan</p>
                 </div>
                 <div class="f1-step">
                     <div class="f1-step-icon"><i class="fa fa-key"></i></div>
@@ -33,7 +33,7 @@
                 </div>
                 <div class="f1-step">
                     <div class="f1-step-icon"><i class="fa fa-key"></i></div>
-                    <p>Sidik / LPA</p>
+                    <p>Pemberkasan</p>
                 </div>
                 <div class="f1-step">
                     <div class="f1-step-icon"><i class="fa fa-address-book"></i></div>

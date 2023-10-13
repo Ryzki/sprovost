@@ -36,11 +36,11 @@
                 </div>
                 <div class="f1-step active">
                     <div class="f1-step-icon"><i class="fa fa-user"></i></div>
-                    <p>Diterima</p>
+                    <p>Disposisi Diterima</p>
                 </div>
                 <div class="f1-step">
                     <div class="f1-step-icon"><i class="fa fa-home"></i></div>
-                    <p>Pulbaket</p>
+                    <p>Penyelidikan</p>
                 </div>
                 <div class="f1-step">
                     <div class="f1-step-icon"><i class="fa fa-key"></i></div>
@@ -48,7 +48,7 @@
                 </div>
                 <div class="f1-step">
                     <div class="f1-step-icon"><i class="fa fa-key"></i></div>
-                    <p>Sidik / LPA</p>
+                    <p>Pemberkasan</p>
                 </div>
                 <div class="f1-step">
                     <div class="f1-step-icon"><i class="fa fa-address-book"></i></div>
@@ -302,7 +302,7 @@
                                     Data</button> --}}
                                 <button class="btn btn-primary submit" type="submit" value="{{$kasus->status_id}}" name="status"
                                     {{ $kasus->status_id > 2 || $kasus->status_id == 1 ? 'disabled' : '' }}>Update
-                                    Status (Pulbaket)</button>
+                                    Status (Penyelidikan)</button>
                             </div>
 
                             <div class="col-6">

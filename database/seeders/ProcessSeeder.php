@@ -21,11 +21,11 @@ class ProcessSeeder extends Seeder
         ]);
 
         Process::create([
-            'name' => 'Disposisi'
+            'name' => 'Disposisi Diterima'
         ]);
 
         Process::create([
-            'name' => 'Pulbaket / Lidik'
+            'name' => 'Penyelidikan'
         ]);
 
         Process::create([
@@ -37,7 +37,7 @@ class ProcessSeeder extends Seeder
         ]);
 
         Process::create([
-            'name' => 'Sidik / LPA'
+            'name' => 'Pemberkasan'
         ]);
 
         Process::create([

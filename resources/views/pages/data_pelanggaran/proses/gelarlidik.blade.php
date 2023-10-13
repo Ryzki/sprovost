@@ -21,11 +21,11 @@
                 </div>
                 <div class="f1-step active">
                     <div class="f1-step-icon"><i class="fa fa-user"></i></div>
-                    <p>Diterima</p>
+                    <p>Disposisi Diterima</p>
                 </div>
                 <div class="f1-step active">
                     <div class="f1-step-icon"><i class="fa fa-home"></i></div>
-                    <p>Pulbaket</p>
+                    <p>Penyelidikan</p>
                 </div>
                 <div class="f1-step active">
                     <div class="f1-step-icon"><i class="fa fa-key"></i></div>
@@ -39,7 +39,7 @@
                 </div>
                 <div class="f1-step">
                     <div class="f1-step-icon"><i class="fa fa-key"></i></div>
-                    <p>Sidik / LPA</p>
+                    <p>Pemberkasan</p>
                 </div>
                 <div class="f1-step">
                     <div class="f1-step-icon"><i class="fa fa-address-book"></i></div>
@@ -150,7 +150,7 @@
                             <button class="btn btn-info text-white dropdown-toggle" id="actionButton" data-bs-toggle="dropdown" {{ $kasus->status_id > 4 ? 'disabled' : '' }}>Update Status</button>
                             <ul class="dropdown-menu" aria-labelledby="actionButton" id="ActionListBtn">
                                 <li><a class="dropdown-item submit" href="javascript:void(0)" data-next="limpah" data-process_id="{{$kasus->status_id}}">Limpah Polda / Jajaran</a></li>
-                                <li><a class="dropdown-item submit" href="javascript:void(0)" data-next="sidik" data-process_id="{{$kasus->status_id}}">Sidik / LPA</a></li>
+                                <li><a class="dropdown-item submit" href="javascript:void(0)" data-next="sidik" data-process_id="{{$kasus->status_id}}">Pemberkasan</a></li>
                             </ul>
                         </div>
                     </div>
@@ -803,7 +803,7 @@
                     }
                 })
             }
-            
+
         })
     })
 
