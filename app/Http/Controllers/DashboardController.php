@@ -28,9 +28,12 @@ class DashboardController extends Controller
 
         $currentYear = Carbon::now()->translatedFormat('Y');
         foreach (range(1,12) as $month) {
-            $monthStr = date('M', mktime(0, 0, 0, $month, 10));;
+            $monthStr = date('M', mktime(0, 0, 0, $month, 10));
+            // dump($monthStr);
             $data['kasus_by_month'][$monthStr] = (int)DataPelanggar::whereMonth('created_at','=',$month)->whereYear('created_at', $currentYear)->count();
         }
+
+        // dd($data['kasus_by_month']);
 
         return view('pages.dashboard.index',$data);
     }

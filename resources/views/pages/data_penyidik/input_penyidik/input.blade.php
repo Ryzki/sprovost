@@ -3,6 +3,7 @@
 @prepend('styles')
     <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
 @endprepend
 
 @section('content')
@@ -26,18 +27,6 @@
         @csrf
         <div class="row">
             <input type="hidden" name="id" id="id" value="{{ isset($penyidik) ? $penyidik->id : '' }}">
-            <div class="col-lg-6 mb-3">
-                <label for="no_nota_dinas" class="form-label">No. Nota Dinas</label>
-                <select name="data_pelanggar_id" id="data_pelanggar_id" class="form-control">
-                    @foreach ($data_pelanggars as $pelanggar)
-                        <option value="{{ $pelanggar->id }}"
-                            @if (isset($penyidik)) @if ($penyidik->data_pelanggar_id == $pelanggar->id)
-                                        "selected"; @endif
-                            @endif
-                            >{{ $pelanggar->no_nota_dinas }}</option>
-                    @endforeach
-                </select>
-            </div>
             <div class="col-lg-6 mb-3">
                 <label for="perihal_nota_dinas" class="form-label">Nama</label>
                 <input type="text" name="name" class="form-control border-dark" placeholder="Nama"
@@ -97,6 +86,10 @@
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script type="text/javascript">
-        $(document).ready(function() {});
+        $(document).ready(function() {
+            $('#pangkat').select2({
+                theme: 'bootstrap-5',
+            })
+        });
     </script>
 @endsection

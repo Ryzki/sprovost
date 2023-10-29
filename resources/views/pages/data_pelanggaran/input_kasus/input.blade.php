@@ -30,13 +30,13 @@
                     </div>
                 </div>
 
-                <div class="col-lg-6 mb-0">
+                <div class="col-lg-6 mb-0" style="display:none !important">
                     <center>
                         <div class="form-label">
                             <label for="check-box">Tipe Pelanggaran</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input border-dark" type="checkbox" id="disiplin" name="jenis_wp" value="1" onchange='disiplinChange(this);'>
+                            <input class="form-check-input border-dark" type="checkbox" id="disiplin" name="jenis_wp" value="1" checked onchange='disiplinChange(this);'>
                             <label class="form-check-label " for="disiplin">Disiplin</label>
                           </div>
                         <div class="form-check form-check-inline">
@@ -129,7 +129,7 @@
                                     <option value="">-- Pilih Jenis Identitas --</option>
                                     @if (isset($jenis_identitas))
                                         @foreach ($jenis_identitas as $key => $ji)
-                                            <option value="{{ $ji->id }}" {{ isset($kasus) ? ($kasus->jenis_identitas == $ji->id ? 'selected' : '') : '' }}>{{ $ji->name }}</option>
+                                            <option value="{{ $ji->id }}" {{ isset($kasus) ? ($kasus->jenis_identitas == $ji->id ? 'selected' : '') : ($ji->id == '1' ? 'selected' : '') }}>{{ $ji->name }}</option>
                                         @endforeach
                                     @endif
                                 </select>

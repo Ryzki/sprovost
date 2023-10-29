@@ -5,8 +5,10 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\GenerateDocument;
 use App\Http\Controllers\KasusController;
 use App\Http\Controllers\LimpahPoldaController;
+use App\Http\Controllers\NotaDinasHasilSidang;
 use App\Http\Controllers\PangkatController;
 use App\Http\Controllers\PenyidikController;
+use App\Http\Controllers\PulbaketController;
 use App\Http\Controllers\RenderViewController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
@@ -105,6 +107,11 @@ Route::middleware(['auth'])->group(function (){
     Route::get('input-data-kasus', [KasusController::class, 'inputKasus'])->name('kasus.input');
     Route::post('input-data-kasus/store', [KasusController::class, 'storeKasus'])->name('kasus.store.kasus');
 
+    // Nota Dinas Hasil Putusan Sidang
+    Route::get('nd-hasil-sidang', [NotaDinasHasilSidang::class, 'index'])->name('nd-hasil-putusan-sidang');
+    Route::post('nd-hasil-sidang/data', [NotaDinasHasilSidang::class, 'data'])->name('nd-hasil-putusan-sidang.data');
+    Route::post('nd-hasil-sidang/print', [NotaDinasHasilSidang::class, 'print'])->name('nd-hasil-putusan-sidang.print');
+
     // Download From Ajax
     Route::get('/download-file/{filename}', [GenerateDocument::class, 'downloadFile']);
 
@@ -121,9 +128,10 @@ Route::middleware(['auth'])->group(function (){
     Route::get('/print/sp2hp2/{id}/{process_id}/{subprocess}', [GenerateDocument::class, 'sp2hp']);
     Route::post('/print/bai/{id}', [GenerateDocument::class, 'bai']);
     // Route::get('/print/bai-anggota/{id}/{process_id}/{subprocess}', [GenerateDocument::class, 'bai_anggota']);
-    Route::get('/print/laporan_hasil_penyelidikan/{id}/{process_id}/{subprocess}', [GenerateDocument::class, 'laporanHasilPenyelidikan']);
+    Route::POST('/print/laporan_hasil_penyelidikan/{id}', [PulbaketController::class, 'laporanHasilPenyelidikan']);
     Route::POST('/print/nd_permohonan_gelar_perkara/{id}', [GenerateDocument::class, 'nd_permohonan_gelar_perkara']);
     Route::post('/print/undangan_klarifikasi/{id}', [GenerateDocument::class, 'undangan_klarifikasi']);
+    Route::POST('/data-penyelidik', [PulbaketController::class, 'dataPenyelidik'])->name('pulbaket.data-penyelidik');
 
     // Generate Gelar Lidik
     Route::POST('/print/sprin_gelar/{id}/not-generated', [GenerateDocument::class, 'sprin_gelar']);
@@ -151,5 +159,5 @@ Route::middleware(['auth'])->group(function (){
     Route::GET('/print/sprin_perangkat_sidang/{id}/generated', [GenerateDocument::class, 'sprin_perangkat_sidang']);
     Route::POST('/print/undangan_sidang_disiplin/{id}', [GenerateDocument::class, 'undangan_sidang_disiplin']);
     Route::POST('/print/hasil_putusan_sidang_disiplin/{id}', [GenerateDocument::class, 'hasil_putusan_sidang_disiplin']);
-    Route::get('/print/nota_hasil_putusan/{id}/{process_id}/{subprocess}', [GenerateDocument::class, 'nota_hasil_putusan']);
+    // Route::get('/print/nota_hasil_putusan/{id}/{process_id}/{subprocess}', [GenerateDocument::class, 'nota_hasil_putusan']);
 });

@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="row">
-        <div class="col-xl-12 col-md-6">
+        <div class="col-md-3">
             <!-- card -->
             <div class="card card-animate">
                 <div class="card-body">
@@ -12,27 +12,123 @@
                             <h4 class="fs-22 fw-semibold mb-3"><span class="counter-value"
                                     data-target="{{ count($kasuss) }}">0</span></h4>
                             <div class="d-flex align-items-center gap-2">
-                                <h5 class="text-success fs-12 mb-0">
-                                    <i class="ri-arrow-right-up-line fs-13 align-middle"></i> +18.30 %
+                                <h5 class="{{$all_growth < 0 ? 'text-danger' : 'text-success'}} fs-12 mb-0">
+                                    <i class="{{$all_growth < 0 ? 'ri-arrow-left-down-line' : 'ri-arrow-right-up-line' }} fs-13 align-middle"></i> {{$all_growth}} %
                                 </h5>
-                                <p class="text-muted mb-0">than last week</p>
+                                <p class="text-muted mb-0">than last month</p>
                             </div>
                         </div>
                         <div class="avatar-sm flex-shrink-0">
                             <span class="avatar-title bg-soft-success rounded fs-3">
-                                <i class="bx bx-dollar-circle text-success"></i>
+                                <i class="fa fa-gavel text-success"></i>
                             </span>
                         </div>
                     </div>
                 </div><!-- end card body -->
                 <div class="animation-effect-6 text-success opacity-25 fs-18">
-                    <i class="bi bi-currency-dollar"></i>
+                    <i class="fa fa-gavel"></i>
                 </div>
                 <div class="animation-effect-4 text-success opacity-25 fs-18">
-                    <i class="bi bi-currency-pound"></i>
+                    <i class="mdi mdi-gavel"></i>
                 </div>
-                <div class="animation-effect-3 text-success opacity-25 fs-18">
-                    <i class="bi bi-currency-euro"></i>
+            </div><!-- end card -->
+        </div>
+
+        <div class="col-md-3">
+            <!-- card -->
+            <div class="card card-animate">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div class="flex-grow-1">
+                            <p class="text-uppercase fw-medium text-muted text-truncate fs-13">Total Kasus Diproses</p>
+                            <h4 class="fs-22 fw-semibold mb-3"><span class="counter-value"
+                                    data-target="{{ count($kasus_diproses) }}">0</span></h4>
+                            {{-- <div class="d-flex align-items-center gap-2">
+                                <h5 class="text-success fs-12 mb-0">
+                                    <i class="ri-arrow-right-up-line fs-13 align-middle"></i> +18.30 %
+                                </h5>
+                                <p class="text-muted mb-0">than last week</p>
+                            </div> --}}
+                        </div>
+                        <div class="avatar-sm flex-shrink-0">
+                            <span class="avatar-title bg-soft-warning rounded fs-3">
+                                <i class="bx bx-pie-chart-alt-2 text-warning"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div><!-- end card body -->
+                <div class="animation-effect-6 text-warning opacity-25 fs-18">
+                    <i class="bi bi-pie-chart-fill"></i>
+                </div>
+                <div class="animation-effect-4 text-warning opacity-25 fs-18">
+                    <i class="mdi mdi-chart-box"></i>
+                </div>
+            </div><!-- end card -->
+        </div>
+
+        <div class="col-md-3">
+            <!-- card -->
+            <div class="card card-animate">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div class="flex-grow-1">
+                            <p class="text-uppercase fw-medium text-muted text-truncate fs-13">Total Kasus Selesai</p>
+                            <h4 class="fs-22 fw-semibold mb-3"><span class="counter-value"
+                                    data-target="{{ count($kasus_selesai) }}">0</span></h4>
+                            {{-- <div class="d-flex align-items-center gap-2">
+                                <h5 class="text-success fs-12 mb-0">
+                                    <i class="ri-arrow-right-up-line fs-13 align-middle"></i> +18.30 %
+                                </h5>
+                                <p class="text-muted mb-0">than last week</p>
+                            </div> --}}
+                        </div>
+                        <div class="avatar-sm flex-shrink-0">
+                            <span class="avatar-title bg-soft-primary rounded fs-3">
+                                <i class="bx bx-check-circle text-primary"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div><!-- end card body -->
+                <div class="animation-effect-6 text-primary opacity-25 fs-18">
+                    <i class="bi bi-check-circle"></i>
+                </div>
+                <div class="animation-effect-4 text-primary opacity-25 fs-18">
+                    <i class="mdi mdi-check-decagram"></i>
+                </div>
+            </div><!-- end card -->
+        </div>
+
+        <div class="col-md-3">
+            <!-- card -->
+            <div class="card card-animate">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div class="flex-grow-1">
+                            <p class="text-uppercase fw-medium text-muted text-truncate fs-13">Total Kasus Dihentikan</p>
+                            <h4 class="fs-22 fw-semibold mb-3"><span class="counter-value"
+                                    data-target="{{ count($kasus_dihentikan) }}">0</span></h4>
+                            {{-- <div class="d-flex align-items-center gap-2">
+                                <h5 class="text-success fs-12 mb-0">
+                                    <i class="ri-arrow-right-up-line fs-13 align-middle"></i> +18.30 %
+                                </h5>
+                                <p class="text-muted mb-0">than last week</p>
+                            </div> --}}
+                        </div>
+                        <div class="avatar-sm flex-shrink-0">
+                            <span class="avatar-title bg-soft-danger rounded fs-3">
+                                <i class="mdi mdi-progress-alert text-danger"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div><!-- end card body -->
+                <div class="animation-effect-6 text-danger opacity-25 fs-18">
+                    <i class="mdi mdi-alert"></i>
+                </div>
+                <div class="animation-effect-4 text-danger opacity-25 fs-18">
+                    <i class="mdi mdi-alert-box"></i>
+                </div>
+                <div class="animation-effect-3 text-danger opacity-25 fs-18">
+                    <i class="mdi mdi-alert-circle"></i>
                 </div>
             </div><!-- end card -->
         </div>
@@ -43,7 +139,6 @@
             <div class="card">
                 <div class="card-header align-items-center d-flex">
                     <h4 class="card-title mb-0 flex-grow-1">Data Kasus</h4>
-
                 </div><!-- end card header -->
 
                 <div class="card-body">
@@ -81,7 +176,6 @@
             var table = $('#data-data').DataTable({
                 processing: true,
                 serverSide: true,
-                searching: false,
                 ajax: {
                     url: "{{ route('kasus.data') }}",
                     method: "post",

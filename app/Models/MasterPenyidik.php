@@ -8,5 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class MasterPenyidik extends Model
 {
     use HasFactory;
-    protected $fillable = ['name', 'nrp', 'pangkat', 'jabatan', 'tim', 'unit' ];
+    protected $fillable = ['name', 'nrp', 'pangkat', 'jabatan', 'tim', 'unit', 'kesatuan'];
+
+    public function pangkats()
+    {
+        return $this->hasOne(Pangkat::class, 'id', 'pangkat');
+    }
 }

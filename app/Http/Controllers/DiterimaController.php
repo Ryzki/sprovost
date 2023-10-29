@@ -12,58 +12,6 @@ use PhpOffice\PhpWord\TemplateProcessor;
 
 class DiterimaController extends Controller
 {
-    /** GA DIPAKE */
-    public function LembarDisposisi(Request $request)
-    {
-        try {
-            $kasus = DataPelanggar::find($request->kasus_id);
-            $document_data = [
-                'tanggal' => $request->tanggal,
-                'surat_dati' => $request->surat_dari,
-                'nomor_surat' => $request->nomor_surat,
-                'perihal' => $kasus->perihal_nota_dinas,
-                'nomor_agenda' => $request->nomor_agenda
-            ];
-
-            $dokumen = DokumenPelanggar::where('data_pelanggar_id', $request->kasus_id)->where('process_id', 2)->where('sub_process_id', 2)->first();
-            if($dokumen == null){
-                DokumenPelanggar::create([
-                    'data_pelanggar_id' => $request->kasus_id,
-                    'process_id' => 2,
-                    'sub_process_id' => 2,
-                    'created_by' => Auth::user()->id,
-                    'status' => 1
-                ]);
-            }
-
-            $data = DataPelanggar::find($request->kasus_id);
-            if($data->status_id < 2){
-                $data->status_id = 2;
-                $data->save();
-            }
-
-            return response()->json([
-                'status' => [
-                    'code' => 200,
-                    'msg' => 'Success Processing Data',
-                ],
-                'document_data' => $document_data,
-                'kasus' => $data,
-            ], 200);
-        } catch (\Throwable $th) {
-            return response()->json([
-                'status' => [
-                    'code' => 500,
-                    'msg' => 'Error'
-                ],
-                'detail' => $th,
-                'document_data' => null,
-                'kasus' => null,
-            ], 500);
-        }
-    }
-
-
     public function DisposisiKaro(Request $request){
         try {
             $disposisi = Disposisi::where('data_pelanggar_id', $request->kasus_id)->where('type', 'Karo')->first();

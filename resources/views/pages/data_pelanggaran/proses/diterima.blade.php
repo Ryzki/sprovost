@@ -271,7 +271,7 @@
 
                 {{-- Document Download --}}
                 <div class="col-lg-12">
-                    @if($kasus->status_id != 8)
+                    @if($kasus->status_id != 8 && $kasus->status_id != 9)
                         {{-- <div class="col-lg-12 mb-3">
                             <label for="exampleFormControlInput1" class="form-label">Download Berkas Disposisi</label>
                             <button class="btn btn-primary" style="width: 100%" data-bs-toggle="modal"
@@ -293,7 +293,7 @@
                 </div>
             </div>
 
-            @if ($kasus->status_id != 8)
+            @if ($kasus->status_id != 8 && $kasus->status_id != 9)
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="row">
@@ -315,14 +315,14 @@
                     </div>
                 </div>
             @else
-            <div class="row">
-                <div class="col-6">
-                    <button class="btn btn-update-diterima btn-success" type="submit" value="update_data"
-                        name="type_submit">
-                        <i class="far fa-upload"></i> Update Data
-                    </button>
+                <div class="row">
+                    <div class="col-6">
+                        <button class="btn btn-update-diterima btn-success" type="submit" value="update_data" disabled
+                            name="type_submit">
+                            <i class="far fa-upload"></i> Update Data
+                        </button>
+                    </div>
                 </div>
-            </div>
             @endif
         </form>
     </div>
@@ -824,16 +824,7 @@
                 },
                 error: (xhr) => {
                     $.LoadingOverlay("hide");
-                    Swal.fire({
-                        title: `Terjadi Kesalahan`,
-                        text: "Terjadi kesalahan ketika generate file",
-                        icon: 'error',
-                        toast: true,
-                        position: 'top-end',
-                        showConfirmButton: false,
-                        timer: 3000,
-                        timerProgressBar: true,
-                    })
+                    onAjaxError(xhr)
                 }
             })
         })
@@ -870,16 +861,7 @@
                 },
                 error: (xhr) => {
                     $.LoadingOverlay("hide");
-                    Swal.fire({
-                        title: `Terjadi Kesalahan`,
-                        text: "Terjadi kesalahan ketika generate file",
-                        icon: 'error',
-                        toast: true,
-                        position: 'top-end',
-                        showConfirmButton: false,
-                        timer: 3000,
-                        timerProgressBar: true,
-                    })
+                    onAjaxError(xhr)
                 }
             })
         })
@@ -916,16 +898,7 @@
                 },
                 error: (xhr) => {
                     $.LoadingOverlay("hide");
-                    Swal.fire({
-                        title: `Terjadi Kesalahan`,
-                        text: "Terjadi kesalahan ketika generate file",
-                        icon: 'error',
-                        toast: true,
-                        position: 'top-end',
-                        showConfirmButton: false,
-                        timer: 3000,
-                        timerProgressBar: true,
-                    })
+                    onAjaxError(xhr)
                 }
             })
         })

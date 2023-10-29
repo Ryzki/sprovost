@@ -88,7 +88,57 @@
                         :
                     </div>
                     <div class="col-md-8 col-sm-12">
-                        {{date('l, F Y', strtotime($kasus->tanggal_kejadian)) }}
+                        {{\Carbon\Carbon::parse($kasus->tanggal_kejadian)->translatedFormat('l, F Y')}}
+                    </div>
+
+                    <div class="col-md-3 col-sm-12">
+                        Tgl. SPRIN Lidik
+                    </div>
+                    <div class="col-md-1">
+                        :
+                    </div>
+                    <div class="col-md-8 col-sm-12">
+                        {{$sprin != null ? \carbon\Carbon::parse($sprin->created_at)->translatedFormat('d, F Y') : ' - '}}
+                    </div>
+
+                    <div class="col-md-3 col-sm-12">
+                        Tgl. Undangan Klarifikasi
+                    </div>
+                    <div class="col-md-1">
+                        :
+                    </div>
+                    <div class="col-md-8 col-sm-12">
+                        {{$undanganKlarifikasi != null ? \carbon\Carbon::parse($undanganKlarifikasi->tgl_pertemuan)->translatedFormat('d, F Y') : ' - '}}, Pukul : {{$undanganKlarifikasi != null ? \carbon\Carbon::parse($undanganKlarifikasi->jam_pertemuan)->translatedFormat('G:i').' WIB' : ' - '}}
+                    </div>
+
+                    <div class="col-md-3 col-sm-12">
+                        Hasil Penyelidikan
+                    </div>
+                    <div class="col-md-1">
+                        :
+                    </div>
+                    <div class="col-md-8 col-sm-12">
+                        {{$gelarPerkara != null ? $gelarPerkara->hasil_gelar : ' - '}}
+                    </div>
+
+                    <div class="col-md-3 col-sm-12">
+                        Pasal Dilanggar
+                    </div>
+                    <div class="col-md-1">
+                        :
+                    </div>
+                    <div class="col-md-8 col-sm-12">
+                        {{$gelarPerkara != null ? $gelarPerkara->landasan_hukum : ' - '}}
+                    </div>
+
+                    <div class="col-md-3 col-sm-12">
+                        Saran Penyidik
+                    </div>
+                    <div class="col-md-1">
+                        :
+                    </div>
+                    <div class="col-md-8 col-sm-12">
+                        {{$gelarPerkara != null ? ($gelarPerkara->saran_penyidik != null ? $gelarPerkara->saran_penyidik : ' - ') : ' - '}}
                     </div>
                 </div>
             </div>
@@ -217,7 +267,7 @@
                                 <label for="exampleInputEmail1" class="form-label">Tanggal Cetak Surat SPRIN</label>
                                 <input type="text" class="form-control" id="exampleInputEmail1"
                                     aria-describedby="emailHelp"
-                                    value="{{ !empty($sprin) ? date('d-m-Y H:i', strtotime($sprin->created_at)) . ' WIB' : '-' }}"
+                                    value="{{ !empty($sprinRiksa) ? date('d-m-Y H:i', strtotime($sprinRiksa->created_at)) . ' WIB' : '-' }}"
                                     readonly style="border:none">
                             </div>
                         </div>
@@ -226,75 +276,104 @@
                                 <label for="exampleInputEmail1" class="form-label">Dicetak Oleh</label>
                                 <input type="text" class="form-control" id="exampleInputEmail1"
                                     aria-describedby="emailHelp"
-                                    value="{{ !empty($sprin) ? $sprin->user[0]->name: '-' }}"
+                                    value="{{ !empty($sprinRiksa) ? $sprinRiksa->user[0]->name: '-' }}"
                                     readonly style="border:none">
                             </div>
                         </div>
                     </div>
                     <hr>
-                    @if ($sprin == null)
+                    @if ($sprinRiksa == null)
                         <div class="form-group">
                             <label for="no_sprin" class="form-label">No. SPRIN</label>
-                            <input type="text" class="form-control" name="no_sprin" value="{{!empty($sprin) ? $sprin->no_sprin : ''}}" placeholder="{{!empty($sprin) ? '' : 'Masukan Nomor SPRIN'}}">
+                            <input type="text" class="form-control" name="no_sprin" value="{{!empty($sprinRiksa) ? $sprinRiksa->no_sprin : ''}}" placeholder="{{!empty($sprinRiksa) ? '' : 'Masukan Nomor SPRIN'}}">
                         </div>
 
                         <!-- Input data penyidik -->
-                        <div class="card card-data-penyidik">
+                        {{-- <div class="card card-data-penyidik">
                             <div class="card-header">Input Data Penyelidik</div>
                             <div class="card-body">
                                 <div class="mb-3" id="form_input_anggota">
-                                    <div class="row form_penyelidik">
-                                        <div class="col-lg-4">
-                                            <div class="form-outline mb-3">
-                                                <input type="text" class="form-control" name="pangkat"
-                                                    id="pangkat" placeholder="Pangkat Penyelidik">
+                                    <div class="form_penyelidik">
+                                        <div class="row">
+                                            <div class="col-lg-4">
+                                                <div class="form-outline mb-3">
+                                                    <select name="pangkat" class="form-control form-select select-pangkat" data-placeholder="Pangkat Penyelidik">
+                                                        <option></option>
+                                                        @foreach ($pangkats as $item)
+                                                            <option value="{{$item->name}}">{{$item->name}}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-4">
+                                                <div class="form-outline mb-3">
+                                                    <input type="text" class="form-control" name="nama_penyelidik"
+                                                        id="nama_penyidik" placeholder="Nama Penyelidik">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-4">
+                                                <div class="form-outline mb-3">
+                                                    <input type="text" class="form-control num" name="nrp"
+                                                        id="nrp" placeholder="NRP" onfocus="mask(this, '99999999')">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-4">
+                                                <div class="form-outline mb-3">
+                                                    <input type="text" class="form-control" name="jabatan"
+                                                        id="jabatan" placeholder="Jabatan Penyelidik">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-4">
+                                                <div class="form-outline mb-3">
+                                                    <input type="text" class="form-control" name="kesatuan"
+                                                        id="kesatuan" placeholder="Kesatuan Penyelidik">
+                                                </div>
                                             </div>
                                         </div>
-
-                                        <div class="col-lg-4">
-                                            <div class="form-outline mb-3">
-                                                <input type="text" class="form-control" name="nama_penyelidik"
-                                                    id="nama_penyidik" placeholder="Nama Penyelidik">
-                                            </div>
-                                        </div>
-
-                                        <div class="col-lg-4">
-                                            <div class="form-outline mb-3">
-                                                <input type="text" class="form-control num" name="nrp"
-                                                    id="nrp" placeholder="NRP" onfocus="mask(this, '99999999')">
-                                            </div>
-                                        </div>
-
-                                        <div class="col-lg-4">
-                                            <div class="form-outline mb-3">
-                                                <input type="text" class="form-control" name="jabatan"
-                                                    id="jabatan" placeholder="Jabatan Penyelidik">
-                                            </div>
-                                        </div>
-
-                                        <div class="col-lg-4">
-                                            <div class="form-outline mb-3">
-                                                <input type="text" class="form-control" name="kesatuan"
-                                                    id="kesatuan" placeholder="Kesatuan Penyelidik">
-                                            </div>
-                                        </div>
-
-                                        {{-- <div class="col-lg-12">
-                                            <div class="form-outline mb-3">
-                                                <label for="tipe_tim" class="form-label">Jabatan TIM : </label>
-                                                <select name="tipe_tim" id="tipe_tim" class="form-control"
-                                                    disabeled>
-                                                    <option value="1" class="text-center" selected>Ketua</option>
-                                                </select>
-                                            </div>
-                                        </div> --}}
                                     </div>
                                     <hr>
                                 </div>
 
                                 <div class="d-flex mb-3 justify-content-between">
-                                    <span onclick="tambahAnggota()" class="text-primary" style="cursor: pointer"> <i class="far fa-plus-square"></i>
+                                    <span onclick="tambahAnggota(this)" class="text-primary" style="cursor: pointer"> <i class="far fa-plus-square"></i>
                                         Anggota </span>
+                                </div>
+                            </div>
+                        </div> --}}
+                        <div class="card card-data-penyidik">
+                            <div class="card-header">Unit Pemeriksa</div>
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label for="">Pilih Unit Pemeriksa</label>
+                                    <select name="unit_pemeriksa" id="" class="form-control form-select" data-placeholder="Silahkan Pilih Unit Pemeriksa">
+                                        <option></option>
+                                        @foreach ($unit as $item)
+                                            <option value="{{$item->unit}}">{{$item->unit}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <div class="container mt-5" id="preview_anggota" style="display: none">
+                                    <h6>Preview Anggota Unit</h6>
+                                    <div class="table-responsive table-card px-3">
+                                        <table class="table table-centered align-middle table-nowrap mb-0" id="data-data">
+                                            <thead class="text-muted table-light">
+                                                <tr>
+                                                    <th scope="col">Nama</th>
+                                                    <th scope="col">NRP</th>
+                                                    <th scope="col">Pangkat</th>
+                                                    <th scope="col">Jabatan</th>
+                                                    <th scope="col">Tim</th>
+                                                    <th scope="col">Unit</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -311,7 +390,7 @@
                     @endif
                 </div>
                 <div class="modal-footer">
-                    @if ($sprin == null)
+                    @if ($sprinRiksa == null)
                         <button type="submit" class="btn btn-primary">Buat Surat</button>
                     @else
                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal" aria-label="Close">Close</button>
@@ -412,7 +491,7 @@
                                             <div class="form-group">
                                                 <label for="agama">Agama</label>
                                                 <select name="agama" class="form-select">
-                                                    <option value="0" selected disabled>----- Harap Pilih Agama -----</option>
+                                                    <option selected disabled>----- Harap Pilih Agama -----</option>
                                                     @foreach ($agamas as $agama)
                                                         <option value="{{$agama->id}}">{{$agama->name}}</option>
                                                     @endforeach
@@ -541,7 +620,7 @@
                 <input type="hidden" name="sub_process">
                 <input type="hidden" name="process_id">
                 <div class="modal-body">
-                    {{-- @if (count($saksi) == 0) --}}
+                    @if ($bap == null)
                         <div class="card" id="data-penyidik">
                             <div class="card-header">
                                 Pilih Penyidik
@@ -550,18 +629,46 @@
                                 <div class="col-md-6 col-12">
                                     <div class="form-group">
                                         <label for="">Penyidik 1</label>
-                                        <select name="penyidik_1" class="form-select select-penyidik" data-placeholder="Silahkan Pilih Penyidik Pertama"></select>
+                                        <select name="penyidik_1" id="select_penyidik_1" class="form-select select-penyidik" data-placeholder="Silahkan Pilih Penyidik Pertama"></select>
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-12">
                                     <div class="form-group">
                                         <label for="">Penyidik 2</label>
-                                        <select name="penyidik_2" class="form-select select-penyidik" data-placeholder="Silahkan Pilih Penyidik Kedua"></select>
+                                        <select name="penyidik_2" id="select_penyidik_2" class="form-select select-penyidik" data-placeholder="Silahkan Pilih Penyidik Kedua"></select>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    {{-- @endif --}}
+                    @else
+                        <div class="card" id="data-penyidik">
+                            <div class="card-header">
+                                Pilih Penyidik
+                            </div>
+                            <div class="card-body row">
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label for="">Penyidik 1</label>
+                                        <input type="text" class="form-control" disabled value="{{$penyidik1->pangkat}} {{$penyidik1->name}} - {{$penyidik1->jabatan}}">
+                                        <select name="penyidik_1" hidden>
+                                            <option value="{{$bap->penyidik1}}" selected></option>
+                                        </select>
+                                        {{-- <input name="penyidik1" type="hidden" value="{{$bai->penyidik1}}"/> --}}
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group">
+                                        <label for="">Penyidik 2</label>
+                                        <input type="text" class="form-control" disabled value="{{$penyidik2->pangkat}} {{$penyidik2->name}} - {{$penyidik2->jabatan}}">
+                                        <select name="penyidik_2" hidden>
+                                            <option value="{{$bap->penyidik2}}" selected></option>
+                                        </select>
+                                        {{-- <input name="penyidik2" type="hidden" value="{{$bai->penyidik2}}"/> --}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
                     @if (count($saksiAhli) == 0)
                         <div class="card" id="data-saksi">
                             <div class="card-header" id="header-saksi" style="cursor: pointer">Tambah Saksi <br> <small class="text-info">*click untuk menambahkan saksi</small></div>
@@ -614,7 +721,7 @@
                                             <div class="form-group">
                                                 <label for="agama">Agama</label>
                                                 <select name="agama" class="form-select">
-                                                    <option value="0" selected disabled>----- Harap Pilih Agama -----</option>
+                                                    <option selected disabled>----- Harap Pilih Agama -----</option>
                                                     @foreach ($agamas as $agama)
                                                         <option value="{{$agama->id}}">{{$agama->name}}</option>
                                                     @endforeach
@@ -687,7 +794,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="pasal">Pasal yang dilanggar</label>
-                                    <textarea name="pasal" class="form-control" id="" cols="30" rows="5"></textarea>
+                                    <textarea name="pasal" class="form-control" id="" cols="30" rows="5">{{$gelarPerkara->landasan_hukum}}</textarea>
                                 </div>
                             </div>
                         </div>
@@ -713,11 +820,9 @@
 
 <script>
     $(document).ready(function() {
-        $('.select-penyidik').map((k, v) => {
-            console.log($(v))
-            $(v).select2({
-                theme: 'bootstrap-5'
-            })
+        $('select[name="unit_pemeriksa"]').select2({
+            theme: 'bootstrap-5',
+            dropdownParent : $('#sprin_riksa .modal-content')
         })
 
         $('#header-saksi').on('click', function(){
@@ -738,8 +843,15 @@
 
             if ($(`#${subProcess}`).length > 0){
                 if (subProcess == 'surat_panggilan_saksi' || subProcess == 'bap' || subProcess == 'surat_panggilan_terduga'){
-                    getPenyidik(kasus_id)
+                    getPenyidik(kasus_id, subProcess)
                 }
+                if(subProcess == 'sprin_riksa'){
+                    $('.select-pangkat').select2({
+                        theme: 'bootstrap-5',
+                        dropdownParent : $('#sprin_riksa .modal-content')
+                    })
+                }
+
                 $(`#${subProcess}`).modal('show')
             } else {
                 let url = `/print/${subProcess}/${kasus_id}/${$(this).data('process_id')}/${$(this).data('subprocess')}`
@@ -777,16 +889,7 @@
                 },
                 error: (xhr) => {
                     $.LoadingOverlay("hide");
-                    Swal.fire({
-                        title: `Terjadi Kesalahan`,
-                        text: xhr.responseJSON.status.msg,
-                        icon: 'error',
-                        toast: true,
-                        position: 'top-end',
-                        showConfirmButton: false,
-                        timer: 3000,
-                        timerProgressBar: true,
-                    })
+                    onAjaxError(xhr)
                 }
             })
         })
@@ -797,7 +900,7 @@
             for (let i = 0; i < elemPenyelidik.length; i++) {
                 var nrp = $(elemPenyelidik).find('input[name="nrp"]')[i].value
                 nrp = nrp.split('_').join('');
-                data.append(`pangkat[${i}]`, $(elemPenyelidik).find('input[name="pangkat"]')[i].value)
+                data.append(`pangkat[${i}]`, $(elemPenyelidik).find('select[name="pangkat"] option').filter(':selected')[i].value)
                 data.append(`nama[${i}]`, $(elemPenyelidik).find('input[name="nama_penyelidik"]')[i].value)
                 data.append(`nrp[${i}]`, nrp)
                 data.append(`jabatan[${i}]`, $(elemPenyelidik).find('input[name="jabatan"]')[i].value)
@@ -807,6 +910,7 @@
             data.append('no_sprin', $('input[name="no_sprin"]').val())
             data.append('process_id', $('input[name="process_id"]').val())
             data.append('sub_process', $('input[name="sub_process"]').val())
+            data.append('unit_pemeriksa', $('select[name="unit_pemeriksa"] option').filter(':selected').val())
 
             $.ajax({
                 url: `/print/sprin_riksa/{{ $kasus->id }}/not_generated`,
@@ -840,16 +944,7 @@
                 },
                 error: (xhr) => {
                     $.LoadingOverlay("hide");
-                    Swal.fire({
-                        title: `Terjadi Kesalahan`,
-                        text: xhr.responseJSON.status.msg,
-                        icon: 'error',
-                        toast: true,
-                        position: 'top-end',
-                        showConfirmButton: false,
-                        timer: 3000,
-                        timerProgressBar: true,
-                    })
+                    onAjaxError(xhr)
                 }
             })
         })
@@ -875,6 +970,9 @@
             data.append('process_id', $('#form-generate-sp-saksi').find('input[name="process_id"]').val())
             data.append('sub_process', $('#form-generate-sp-saksi').find('input[name="sub_process"]').val())
             data.append('no_telp_penyidik', $('#form-generate-sp-saksi').find('input[name="no_telp_penyidik"]').val())
+            data.append('tgl', $('#form-generate-sp-saksi').find('input[name="tgl"]').val())
+            data.append('waktu', $('#form-generate-sp-saksi').find('input[name="waktu"]').val())
+            data.append('lokasi', $('#form-generate-sp-saksi').find('textarea[name="lokasi"]').val())
 
             $.ajax({
                 url: `/print/surat_panggilan_saksi/{{$kasus->id}}`,
@@ -916,22 +1014,13 @@
                     })
 
                     setTimeout(() => {
-                        // window.location.reload()
+                        window.location.reload()
                     }, 1000);
 
                 },
                 error: (xhr) => {
                     $.LoadingOverlay("hide");
-                    Swal.fire({
-                        title: `Terjadi Kesalahan`,
-                        text: xhr.responseJSON.status.msg,
-                        icon: 'error',
-                        toast: true,
-                        position: 'top-end',
-                        showConfirmButton: false,
-                        timer: 3000,
-                        timerProgressBar: true,
-                    })
+                    onAjaxError(xhr)
                 }
             })
         })
@@ -964,22 +1053,13 @@
                     })
 
                     setTimeout(() => {
-                        // window.location.reload()
+                        window.location.reload()
                     }, 1000);
 
                 },
                 error: (xhr) => {
                     $.LoadingOverlay("hide");
-                    Swal.fire({
-                        title: `Terjadi Kesalahan`,
-                        text: xhr.responseJSON.status.msg,
-                        icon: 'error',
-                        toast: true,
-                        position: 'top-end',
-                        showConfirmButton: false,
-                        timer: 3000,
-                        timerProgressBar: true,
-                    })
+                    onAjaxError(xhr)
                 }
             })
         })
@@ -994,7 +1074,8 @@
                 telp = telp.split('_').join('')
 
                 data.append(`nama[${i}]`, $(elem).find('input[name="nama"]')[i].value)
-                data.append(`pangkat[${i}]`, $(elem).find('input[name="pangkat"]')[i].value)
+                data.append(`pangkat[${i}]`, $(elem).find('select[name="pangkat"] option').filter(':selected')[i].value)
+                // data.append(`pangkat[${i}]`, $(elem).find('input[name="pangkat"]')[i].value)
                 data.append(`nrp[${i}]`, nrp)
                 data.append(`jabatan[${i}]`, $(elem).find('input[name="jabatan"]')[i].value)
                 data.append(`kesatuan[${i}]`, $(elem).find('input[name="kesatuan"]')[i].value)
@@ -1057,16 +1138,7 @@
                 },
                 error: (xhr) => {
                     $.LoadingOverlay("hide");
-                    Swal.fire({
-                        title: `Terjadi Kesalahan`,
-                        text: xhr.responseJSON.status.msg,
-                        icon: 'error',
-                        toast: true,
-                        position: 'top-end',
-                        showConfirmButton: false,
-                        timer: 3000,
-                        timerProgressBar: true,
-                    })
+                    onAjaxError(xhr)
                 }
             })
         })
@@ -1100,16 +1172,17 @@
                 },
                 error: (xhr) => {
                     $.LoadingOverlay("hide");
-                    Swal.fire({
-                        title: `Terjadi Kesalahan`,
-                        text: xhr.responseJSON.status.msg,
-                        icon: 'error',
-                        toast: true,
-                        position: 'top-end',
-                        showConfirmButton: false,
-                        timer: 3000,
-                        timerProgressBar: true,
-                    })
+                    onAjaxError(xhr)
+                    // Swal.fire({
+                    //     title: `Terjadi Kesalahan`,
+                    //     text: xhr.responseJSON.status.msg,
+                    //     icon: 'error',
+                    //     toast: true,
+                    //     position: 'top-end',
+                    //     showConfirmButton: false,
+                    //     timer: 3000,
+                    //     timerProgressBar: true,
+                    // })
                 }
             })
         })
@@ -1157,13 +1230,63 @@
                 }
             })
         })
+
+        $('select[name="unit_pemeriksa"]').on('change', function(){
+            $('#data-data').DataTable().destroy()
+
+            var table = $('#data-data').DataTable({
+                processing: true,
+                serverSide: true,
+                searching: false,
+                ajax: {
+                    url: "{{ route('penyidik.data') }}",
+                    method: "post",
+                    data: function(data) {
+                        data._token = '{{ csrf_token() }}'
+                        data.unit = $('select[name="unit_pemeriksa"] option').filter(':selected').val()
+                    }
+                },
+                columns: [
+                    {
+                        data: 'name',
+                        name: 'name'
+                    },
+                    {
+                        data: 'nrp',
+                        name: 'nrp'
+                    },
+                    {
+                        data: 'pangkats.name',
+                        name: 'pangkats.name'
+                    },
+                    {
+                        data: 'jabatan',
+                        name: 'jabatan'
+                    },
+                    {
+                        data: 'tim',
+                        name: 'tim'
+                    },
+                    {
+                        data: 'unit',
+                        name: 'unit'
+                    },
+                ]
+            });
+            $('#kt_search').on('click', function(e) {
+                e.preventDefault();
+                table.table().draw();
+            });
+
+            $('#preview_anggota').fadeIn()
+        })
     })
 
     function mask(el, maskVal){
         $(el).inputmask({"mask": maskVal, "placeholder": ''});
     }
 
-    function getPenyidik(kasus_id){
+    function getPenyidik(kasus_id, modal_id){
         $.ajax({
             url: `{{url('data-penyidik-riksa/${kasus_id}')}}`,
             method: 'GET',
@@ -1175,6 +1298,11 @@
 
                 $('.select-penyidik').map((k, v) => {
                     $(v).html(option)
+                })
+
+                $('.select-penyidik').select2({
+                    theme: 'bootstrap-5',
+                    dropdownParent : $(`#${modal_id} .modal-content`)
                 })
             }
         })
@@ -1211,7 +1339,7 @@
                 <div class="form-group">
                     <label for="agama">Agama</label>
                     <select name="agama" class="form-select">
-                        <option value="0" selected disabled>----- Harap Pilih Agama -----</option>
+                        <option selected disabled>----- Harap Pilih Agama -----</option>
                         @foreach ($agamas as $agama)
                             <option value="{{$agama->id}}">{{$agama->name}}</option>
                         @endforeach
@@ -1241,64 +1369,19 @@
 
         $('#container_saksi').append(html);
     }
-    function tambahAnggota() {
+    function tambahAnggota(el) {
         var addAnggota = localStorage.getItem('addAnggota')
+        let parentEl = $(el).parent().parent().find('#form_input_anggota')
+        $('.select-pangkat').select2('destroy')
+        let duplicateForm = $(el).parent().parent().find('#form_input_anggota').children()[0]
+        $(duplicateForm).clone(false).appendTo(parentEl).find('input').val('')
 
-        let inHtml =
-            `<div class="row form_penyelidik">
-                <div class="col-lg-4">
-                    <div class="form-outline mb-3">
-                        <input type="text" class="form-control" name="pangkat" id="pangkat" placeholder="Pangkat Penyelidik">
-                    </div>
-                </div>
-
-                <div class="col-lg-4">
-                    <div class="form-outline mb-3">
-                        <input type="text" class="form-control" name="nama_penyelidik" id="nama_penyidik" placeholder="Nama Penyelidik">
-                    </div>
-                </div>
-
-                <div class="col-lg-4">
-                    <div class="form-outline mb-3">
-                        <input type="text" class="form-control" name="nrp" id="nrp" placeholder="NRP" onfocus="mask(this, '99999999')">
-                    </div>
-                </div>
-
-                <div class="col-lg-4">
-                    <div class="form-outline mb-3">
-                        <input type="text" class="form-control" name="jabatan" id="jabatan" placeholder="Jabatan Penyelidik">
-                    </div>
-                </div>
-
-                <div class="col-lg-4">
-                    <div class="form-outline mb-3">
-                        <input type="text" class="form-control" name="kesatuan" id="kesatuan" placeholder="Kesatuan Penyelidik">
-                    </div>
-                </div>
-
-                <div class="d-flex mb-3 justify-content-end">
-                    <span onclick="removeAnggota($(this))" class="text-danger" style="cursor: pointer"> <i class="far fa-minus-square"></i>
-                        Anggota </span>
-                </div>
-            </div>
-        <hr>`;
-        addAnggota = parseInt(addAnggota) + 1
-        localStorage.setItem('addAnggota', addAnggota)
-
-        if(addAnggota <= 5){
-            $('#form_input_anggota').append(inHtml);
-        } else {
-            Swal.fire({
-                title: `Tidak bisa menambahkan lebih dari 5`,
-                icon: 'error',
-                toast: true,
-                position: 'top-end',
-                showConfirmButton: false,
-                timer: 3000,
-                timerProgressBar: true,
-            })
-        }
+        $('.select-pangkat').select2({
+            theme: 'bootstrap-5',
+            dropdownParent : $('#sprin_riksa .modal-content')
+        })
     }
+
     function removeSaksi(el){
         $(el).parent().parent().next().remove()
         $(el).parent().parent().remove()

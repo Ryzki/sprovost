@@ -45,4 +45,8 @@ class DataPelanggar extends Model
     {
         return $this->hasMany(Disposisi::class, 'data_pelanggar_id', 'id');
     }
+
+    public function sidangDisiplin(){
+        return $this->hasOne(SidangDisiplin::class, 'data_pelanggar_id', 'id');
+    }
 }

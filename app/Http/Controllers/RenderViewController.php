@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 
 use App\Models\Agama;
+use App\Models\BAI;
+use App\Models\BAP;
 use App\Models\DataPelanggar;
 use App\Models\Disposisi;
 use App\Models\DP3D;
@@ -12,6 +14,7 @@ use App\Models\JenisIdentitas;
 use App\Models\JenisKelamin;
 use App\Models\LPA;
 use App\Models\Pangkat;
+use App\Models\Penyidik;
 use App\Models\Polda;
 use App\Models\Process;
 use App\Models\PublicWitness;
@@ -19,10 +22,12 @@ use App\Models\SidangDisiplin;
 use App\Models\Sp2hp2History;
 use App\Models\SprinHistory;
 use App\Models\SubProcess;
+use App\Models\UndanganKlarifikasiHistories;
 use App\Models\Witness;
 use App\Models\WujudPerbuatan;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class RenderViewController extends Controller
 {
@@ -40,19 +45,22 @@ class RenderViewController extends Controller
                 return $this->viewPulbaket($kasus_id, $status_id);
                 break;
             case 4:
-                return $this->gelarLidik($kasus_id);
+                return $this->gelarLidik($kasus_id, $status_id);
                 break;
             case 5:
-                return $this->gelarLidik($kasus_id);
+                return $this->gelarLidik($kasus_id, $status_id);
                 break;
             case 6:
-                return $this->sidik($kasus_id);
+                return $this->sidik($kasus_id, $status_id);
                 break;
             case 7:
-                return $this->sidang_disiplin($kasus_id);
+                return $this->sidang_disiplin($kasus_id, $status_id);
                 break;
             case 8:
                 return $this->viewDiterima($kasus_id, $status_id);
+                break;
+            case 9:
+                return $this->gelarLidik($kasus_id, $status_id);
                 break;
             default:
                 return 404;
@@ -63,6 +71,9 @@ class RenderViewController extends Controller
     private function viewDiterima($id, $status_id)
     {
         $kasus = DataPelanggar::find($id);
+        if($kasus->status_id == 8 || $kasus->status_id == 5){
+            $status_id = $kasus->status_id;
+        }
         $status = Process::find($status_id);
         $process = Process::where('sort', '<=', $status->id)->get();
         $sub_process = SubProcess::where('process_id', $status->id)->get();
@@ -117,14 +128,29 @@ class RenderViewController extends Controller
 
     private function viewPulbaket($id, $status_id){
         $kasus = DataPelanggar::find($id);
+        if($kasus->status_id == 8 || $kasus->status_id == 5){
+            $status_id = $kasus->status_id;
+        }
         $status = Process::find($status_id);
         $sub_process = SubProcess::where('process_id', $status->id)->get();
         // $sub_process = SubProcess::where('process_id', 3)->get();
-        $sprin = SprinHistory::where('data_pelanggar_id', $id)->with('user')->first();
+        $sprin = SprinHistory::where('data_pelanggar_id', $id)->where('type', 'lidik')->with('user')->first();
         $sp2hp2 = Sp2hp2History::where('data_pelanggar_id', $id)->with('user')->first();
         $agama = Agama::get();
         $saksi = Witness::where('data_pelanggar_id', $id)->get();
         $pangkat = Pangkat::all();
+        $bai = BAI::where('data_pelanggar_id', $id)->first();
+        $undanganKlarifikasi = UndanganKlarifikasiHistories::where('data_pelanggar_id', $id)->latest()->first();
+        $gelarPerkara = GelarPerkara::where('data_pelanggar_id', $id)->first();
+        $unit = DB::table('master_penyidiks')->select('unit')->groupBy('unit')->get();
+
+        if($bai != null){
+            $penyidik1 = Penyidik::where('id', $bai->penyidik1)->first();
+            $penyidik2 = Penyidik::where('id', $bai->penyidik2)->first();
+        } else {
+            $penyidik1 = null;
+            $penyidik2 = null;
+        }
 
         $data = [
             'kasus' => $kasus,
@@ -134,54 +160,92 @@ class RenderViewController extends Controller
             'sprin' => $sprin,
             'sp2hp2' => $sp2hp2,
             'agamas' => $agama,
-            'saksi' => $saksi
+            'saksi' => $saksi,
+            'bai' => $bai,
+            'penyidik1' => $penyidik1,
+            'penyidik2' => $penyidik2,
+            'undanganKlarifikasi' => $undanganKlarifikasi,
+            'gelarPerkara' => $gelarPerkara,
+            'unit' => $unit
         ];
 
         return view('pages.data_pelanggaran.proses.pulbaket', $data);
     }
 
-    private function gelarLidik($id){
+    private function gelarLidik($id, $status_id){
         $kasus = DataPelanggar::find($id);
-        $status = Process::find($kasus->status_id);
-        $sub_process = SubProcess::where('process_id', $kasus->status_id)->get();
-        // $sprin = SprinHistory::where('data_pelanggar_id', $id)->where('type', 'lidik')->with('user')->first();
+        if($kasus->status_id == 8 || $kasus->status_id == 5){
+            $status_id = $kasus->status_id;
+        }
+        $status = Process::find($status_id);
+        $sub_process = SubProcess::where('process_id', $status_id)->get();
+        $sprin = SprinHistory::where('data_pelanggar_id', $id)->where('type', 'lidik')->with('user')->first();
         $sprinGelar = SprinHistory::where('data_pelanggar_id', $id)->where('type', 'gelar')->with('user')->first();
         $gelarPerkara = GelarPerkara::where('data_pelanggar_id', $id)->with('penyidik')->first();
         $polda = Polda::all();
-        // dd($gelarPerkara);
+        $undanganKlarifikasi = UndanganKlarifikasiHistories::where('data_pelanggar_id', $id)->latest()->first();
+
         $data = [
             'kasus' => $kasus,
             'status' => $status,
             'sub_process' => $sub_process,
             'sprinGelar' => $sprinGelar,
             'gelarPerkara' => $gelarPerkara,
-            'poldas' => $polda
+            'poldas' => $polda,
+            'sprin' => $sprin,
+            'undanganKlarifikasi' => $undanganKlarifikasi
         ];
 
         return view('pages.data_pelanggaran.proses.gelarlidik', $data);
     }
 
-    private function sidik($id){
+    private function sidik($id, $status_id){
         $kasus = DataPelanggar::find($id);
-        $status = Process::find($kasus->status_id);
-        $sub_process = SubProcess::where('process_id', $kasus->status_id)->get();
+        if($kasus->status_id == 8 || $kasus->status_id == 5){
+            $status_id = $kasus->status_id;
+        }
+        $status = Process::find($status_id);
+        $sub_process = SubProcess::where('process_id', $status_id)->get();
         $lpa = LPA::where('data_pelanggar_id', $id)->first();
         $sprinRiksa = SprinHistory::where('data_pelanggar_id', $id)->where('type', 'riksa')->with('user')->first();
+        $sprin = SprinHistory::where('data_pelanggar_id', $id)->where('type', 'lidik')->with('user')->first();
         $saksi = PublicWitness::where('data_pelanggar_id', $id)->get();
         $saksiAhli = Witness::where('data_pelanggar_id', $id)->get();
         $agama = Agama::get();
         $dp3d = DP3D::where('data_pelanggar_id', $id)->first();
+        $undanganKlarifikasi = UndanganKlarifikasiHistories::where('data_pelanggar_id', $id)->latest()->first();
+        $gelarPerkara = GelarPerkara::where('data_pelanggar_id', $id)->with('penyidik')->first();
+        $pangkat = Pangkat::all();
+        $unit = DB::table('master_penyidiks')->select('unit')->groupBy('unit')->get();
+
+        $bap = BAP::where('data_pelanggar_id', $id)->first();
+        if($bap != null){
+            $penyidik1 = Penyidik::where('id', $bap->penyidik1)->first();
+            $penyidik2 = Penyidik::where('id', $bap->penyidik2)->first();
+        } else {
+            $penyidik1 = null;
+            $penyidik2 = null;
+        }
+
 
         $data = [
+            'pangkats' => $pangkat,
             'kasus' => $kasus,
             'status' => $status,
             'sub_process' => $sub_process,
             'lpa' => $lpa,
-            'sprin' => $sprinRiksa,
+            'sprinRiksa' => $sprinRiksa,
+            'sprin' => $sprin,
             'saksi' => $saksi,
             'saksiAhli' => $saksiAhli,
             'agamas' => $agama,
-            'dp3d' => $dp3d
+            'dp3d' => $dp3d,
+            'penyidik1' => $penyidik1,
+            'penyidik2' => $penyidik2,
+            'bap' => $bap,
+            'undanganKlarifikasi' => $undanganKlarifikasi,
+            'gelarPerkara' => $gelarPerkara,
+            'unit' => $unit
         ];
 
         return view('pages.data_pelanggaran.proses.sidik_lpa', $data);
@@ -189,6 +253,9 @@ class RenderViewController extends Controller
 
     private function sidang_disiplin($id){
         $kasus = DataPelanggar::find($id);
+        if($kasus->status_id == 8 || $kasus->status_id == 5){
+            $status_id = $kasus->status_id;
+        }
         $status = Process::find($kasus->status_id);
         $sub_process = SubProcess::where('process_id', $kasus->status_id)->get();
         $sprin = SprinHistory::where('data_pelanggar_id', $id)->where('type', 'sidang')->with('user')->first();

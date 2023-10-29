@@ -20,7 +20,7 @@ class GelarPerkara extends Model
         'pemapar',
         'hasil_gelar',
         'landasan_hukum',
-        'keterangan_hasil'
+        'saran_penyidik'
     ];
 
     public function penyidik()
@@ -28,17 +28,17 @@ class GelarPerkara extends Model
         return $this->hasOne(Penyidik::class, 'id', 'pimpinan');
     }
 
-    public function operator()
+    public function operatorDetail()
     {
         return $this->hasOne(Penyidik::class, 'id', 'operator');
     }
 
-    public function notulen()
+    public function notulenDetail()
     {
         return $this->hasOne(Penyidik::class, 'id', 'notulen');
     }
 
-    public function pemapar()
+    public function pemaparDetail()
     {
         return $this->hasOne(Penyidik::class, 'id', 'pemapar');
     }

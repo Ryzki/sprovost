@@ -190,6 +190,20 @@
                                 <input type="text" class="form-control" name="lokasi_sidang" required>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="no_nd_rehabpers">Nomor Nota Dinas Bag. Rehabpers</label>
+                                    <input type="text" name="no_nd_rehabpers" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="tgl_nd_rehabpers">Tanggal Nota Dinas Bag. Rehabpers</label>
+                                    <input type="date" name="tgl_nd_rehabpers" class="form-control" required>
+                                </div>
+                            </div>
+                        </div>
                     @else
                         <div class="row justify-content-around items-center mt-4">
                             <p>
@@ -324,9 +338,20 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6 col-12">
+                                <div class="col-md-6 col-12" id="pilihan_hukuman">
                                     <label for="hukuman">Hukuman Disiplin</label>
-                                    <input type="text" name="hukuman" class="form-control">
+                                    <select name="hukuman[]" id="hukuman" class="form-control form-select" multiple="multiple">
+                                        <option value="Teguran Tertulis">Teguran Tertulis</option>
+                                        <option value="Penundaan mengikuti pendidikan">Penundaan mengikuti pendidikan</option>
+                                        <option value="Penundaan kenaikan gaji berkala">Penundaan kenaikan gaji berkala</option>
+                                        <option value="Penundaan kenaikan pangkat">Penundaan kenaikan pangkat</option>
+                                        <option value="Mutasi yang bersifat demosi">Mutasi yang bersifat demosi</option>
+                                        <option value="Pembebasan dari jabatan">Pembebasan dari jabatan</option>
+                                        <option value="Penempatan pada tempat khusus">Penempatan pada tempat khusus</option>
+                                        <option value="Ganti rugi">Ganti rugi</option>
+                                        <option value="Tidak Terbukti">Tidak Terbukti</option>
+                                    </select>
+                                    {{-- <textarea name="hukuman" id="hukuman" cols="30" rows="2" class="form-control"></textarea> --}}
                                 </div>
                             </div>
                         </div>
@@ -343,6 +368,11 @@
 
 <script>
     $(document).ready(function() {
+        $('#hukuman').select2({
+            theme: 'bootstrap-5',
+            dropdownParent : $('#hasil_putusan_sidang_disiplin .modal-content')
+        })
+
         $('.generate_document').on('click', function(){
             $('input[name="sub_process"]').val($(this).data('subprocess'))
             $('input[name="process_id"]').val($(this).data('process_id'))
@@ -388,16 +418,17 @@
                 },
                 error: (xhr) => {
                     $.LoadingOverlay("hide");
-                    Swal.fire({
-                        title: `Terjadi Kesalahan`,
-                        text: xhr.responseJSON.status.msg,
-                        icon: 'error',
-                        toast: true,
-                        position: 'top-end',
-                        showConfirmButton: false,
-                        timer: 3000,
-                        timerProgressBar: true,
-                    })
+                    onAjaxError(xhr)
+                    // Swal.fire({
+                    //     title: `Terjadi Kesalahan`,
+                    //     text: xhr.responseJSON.status.msg,
+                    //     icon: 'error',
+                    //     toast: true,
+                    //     position: 'top-end',
+                    //     showConfirmButton: false,
+                    //     timer: 3000,
+                    //     timerProgressBar: true,
+                    // })
                 }
             })
         })
@@ -485,22 +516,23 @@
                         timerProgressBar: true,
                     })
 
-                    // setTimeout(() => {
-                    //     // window.location.reload()
-                    // }, 2000);
+                    setTimeout(() => {
+                        window.location.reload()
+                    }, 2000);
                 },
                 error: (xhr) => {
                     $.LoadingOverlay("hide");
-                    Swal.fire({
-                        title: `Terjadi Kesalahan`,
-                        text: xhr.responseJSON.status.msg,
-                        icon: 'error',
-                        toast: true,
-                        position: 'top-end',
-                        showConfirmButton: false,
-                        timer: 3000,
-                        timerProgressBar: true,
-                    })
+                    onAjaxError(xhr)
+                    // Swal.fire({
+                    //     title: `Terjadi Kesalahan`,
+                    //     text: xhr.responseJSON.status.msg,
+                    //     icon: 'error',
+                    //     toast: true,
+                    //     position: 'top-end',
+                    //     showConfirmButton: false,
+                    //     timer: 3000,
+                    //     timerProgressBar: true,
+                    // })
                 }
             })
         })
@@ -568,5 +600,22 @@
 
         })
 
+        $('input[name="hasil_sidang"]').on('click', function(){
+            let selected_val = $(this).val()
+            if(selected_val == 'Tidak Terbukti'){
+                $('#pilihan_hukuman').fadeOut()
+                setTimeout(() => {
+                    $('#hukuman option:selected').prop("selected", false)
+                    $('#hukuman').select2('destroy')
+                }, 750)
+            } else {
+                $('#pilihan_hukuman').fadeIn()
+                $('#hukuman').select2({
+                    theme: 'bootstrap-5',
+                    dropdownParent : $('#hasil_putusan_sidang_disiplin .modal-content')
+                })
+            }
+            // console.log($('#hukuman option').filter(':selected').val())
+        })
     })
 </script>

@@ -31,6 +31,16 @@ class KasusController extends Controller
     public function index()
     {
         $data['kasuss'] = DataPelanggar::all();
+        $data['kasus_dihentikan'] = DataPelanggar::where('status_id', 9)->get();
+        $data['kasus_selesai'] = DataPelanggar::where('status_id', 8)->get();
+        $data['kasus_diproses'] = DataPelanggar::whereNotIn('status_id', [8,9])->get();
+
+        $currentMonth = Carbon::now()->translatedFormat('m');
+        $lastMonth = Carbon::now()->subMonth()->translatedFormat('m');
+
+        $countKasusLastMonth = DataPelanggar::whereMonth('created_at', $lastMonth)->count();
+        $countKasusCurrentMonth = DataPelanggar::whereMonth('created_at', $currentMonth)->count();
+        $data['all_growth'] = $countKasusLastMonth != 0 ? ($countKasusCurrentMonth - $countKasusLastMonth) / $countKasusLastMonth*100 : 100;
 
         return view('pages.data_pelanggaran.index', $data);
     }
@@ -92,12 +102,11 @@ class KasusController extends Controller
         }
 
         $transNumber = "$currentYear$number";
-        return $transNumber;
 
         $DP = DataPelanggar::create([
             // Pelapor
             'no_nota_dinas' => $request->no_nota_dinas,
-            'no_pengaduan' => $no_pengaduan,
+            'no_pengaduan' => $transNumber,
             'perihal_nota_dinas' => $request->perihal_nota_dinas,
             'wujud_perbuatan' => $request->wujud_perbuatan,
             'tanggal_nota_dinas' => Carbon::create($request->tanggal_nota_dinas)->format('Y-m-d'),
@@ -165,7 +174,7 @@ class KasusController extends Controller
             return $this->updateDataPelanggar($request);
 
         $status = $this->cek_requirement($request->kasus_id, $request->process_id);
-        if ($status['status'] == false){
+        if ($status['status'] == false && (isset($request->next) && $request->next != 'restorative_justice')){
             return response()->json([
                 'status' => [
                     'code' => 400,
@@ -217,6 +226,12 @@ class KasusController extends Controller
                 }
             } else if ($request->status == 4){
                 if($request->next == 'limpah_modal'){
+                    $this->validate($request,[
+                        'polda_id' => 'required'
+                    ], [
+                        'polda_id' => 'Harap pilih Polda yang akan dituju'
+                    ]);
+                    DB::beginTransaction();
                     try {
                         $data = DataPelanggar::find($request->kasus_id);
                         $data->status_id = 5;
@@ -224,7 +239,29 @@ class KasusController extends Controller
 
                         $documentLimpah = (new GenerateDocument)->limpah_polda($request);
 
+                        DB::commit();
                         return response()->json(['file' => $documentLimpah]);
+                    } catch (\Throwable $th) {
+                        DB::rollBack();
+                        return response()->json([
+                            'status' => [
+                                'code' => 500,
+                                'msg' => 'Terjadi masalah saat merubah status'
+                            ], 'detail' => $th
+                        ], 500);
+                    }
+                } else if ($request->next == 'restorative_justice') {
+                    try {
+                        $data = DataPelanggar::find($request->kasus_id);
+                        $data->status_id = 9;
+                        $data->save();
+
+                        $gelarPerkara = GelarPerkara::where('data_pelanggar_id', $request->kasus_id)->first();
+                        $gelarPerkara->hasil_gelar = Process::where('id', 9)->first()->name;
+                        $gelarPerkara->save();
+
+                        $sp2hp = (new GenerateDocument)->sp2hp($request->kasus_id,$request->process_id,12);
+                        return response()->json(['file' => $sp2hp]);
                     } catch (\Throwable $th) {
                         return response()->json([
                             'status' => [
@@ -304,7 +341,7 @@ class KasusController extends Controller
             $data_pelanggar = DataPelanggar::where('id', $request->kasus_id)->first();
             $data_pelanggar->update([
                 'no_nota_dinas' => $request->no_nota_dinas,
-                'no_pengaduan' => $no_pengaduan,
+                // 'no_pengaduan' => $no_pengaduan,
                 'perihal_nota_dinas' => $request->perihal_nota_dinas,
                 'wujud_perbuatan' => $request->wujud_perbuatan,
                 'tanggal_nota_dinas' => Carbon::create($request->tanggal_nota_dinas)->format('Y-m-d'),

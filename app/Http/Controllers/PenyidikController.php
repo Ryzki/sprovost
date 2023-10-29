@@ -14,7 +14,7 @@ class PenyidikController extends Controller
 {
     public function index()
     {
-        $data['penyidiks'] = Penyidik::get();
+        $data['penyidiks'] = MasterPenyidik::get();
         return view('pages.data_penyidik.index', $data);
     }
 
@@ -33,7 +33,7 @@ class PenyidikController extends Controller
     public function editPenyidik($id)
     {
         $pangkat = Pangkat::get();
-        $penyidik = Penyidik::where('id', $id)->first();
+        $penyidik = MasterPenyidik::where('id', $id)->first();
         $data_pelanggar = DataPelanggar::get();
         $data = [
             'pangkats' => $pangkat,
@@ -46,8 +46,7 @@ class PenyidikController extends Controller
 
     public function storePenyidik(Request $request)
     {
-        $DP = Penyidik::create([
-            'data_pelanggar_id' => $request->data_pelanggar_id,
+        $DP = MasterPenyidik::create([
             'name' => $request->name,
             'nrp' => $request->nrp,
             'pangkat' => $request->pangkat,
@@ -61,9 +60,13 @@ class PenyidikController extends Controller
 
     public function data(Request $request)
     {
-        $query = Penyidik::select('*')->orderBy('id', 'desc')->with('data_pelanggars', 'pangkats')->get();
+        $query = MasterPenyidik::select('*')->orderBy('id', 'desc')->with('pangkats');
 
-        return Datatables::of($query)->addColumn('action', function ($row) {
+        if(isset($request->unit)){
+            $query->where('unit', $request->unit);
+        }
+
+        return Datatables::of($query->get())->addColumn('action', function ($row) {
             return '<a href="' . route('penyidik.edit', [$row->id]) . '" class="btn btn-info btn-circle"
                   data-toggle="tooltip" data-original-title="Edit"><i class="fa fa-pencil" aria-hidden="true"></i></a>
 
@@ -74,7 +77,7 @@ class PenyidikController extends Controller
 
     public function updateData(Request $request)
     {
-        $data_penyidik = Penyidik::where('id', $request->id)->first();
+        $data_penyidik = MasterPenyidik::where('id', $request->id)->first();
         $data_penyidik->update([
             'data_pelanggar' => $request->kasus_id,
             'name' => $request->name,
@@ -90,7 +93,7 @@ class PenyidikController extends Controller
 
     public function hapusData($id)
     {
-        Penyidik::where('id', $id)
+        MasterPenyidik::where('id', $id)
             ->delete();
     }
 

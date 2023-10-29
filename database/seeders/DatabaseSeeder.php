@@ -56,7 +56,9 @@ class DatabaseSeeder extends Seeder
             PoldaSeeder::class,
             PangkatSeeder::class,
             WujudPerbuatanSeeder::class,
-            MasterPenyidikSeeder::class
+            MasterPenyidikSeeder::class,
+            AddWabprofToPolda::class,
+            RemoveSubProcess::class
         ]);
     }
 }

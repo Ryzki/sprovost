@@ -16,6 +16,14 @@
             #ffffff
         }
 
+        #lineChartPelanggar{
+            max-width: 100%;
+        }
+
+        #chart {
+            max-width: 650px;
+            margin: 35px auto;
+        }
         /* #chartdiv, #chartDonat, #chartBubble {
 
         } */
@@ -26,70 +34,106 @@
 @section('content')
     {{-- STAT --}}
     <div class="row">
-        <div class="col col-md-4 col-xl-4">
-            <div class="card bg-c-blue order-card">
-                <div class="card-body">
-                    <h6 class="m-b-20">Total Pelanggar</h6>
-                    <h2 class="text-right"><i class="fa fa-gavel f-left mr-3"></i><span>  {{count($pelanggar)}}</span></h2>
-                </div>
-            </div>
-        </div>
+        <div class="col">
 
-        <div class="col col-md-4 col-xl-4">
-            <div class="card bg-c-green order-card">
-                <div class="card-body">
-                    <h6 class="m-b-20">Total Pengaduan Diproses</h6>
-                    <h2 class="text-right"><i class="fa fa-chart-line f-left"></i><span>  {{count($pengaduan_diproses)}}</span></h2>
-                </div>
-            </div>
-        </div>
+            <div class="h-100">
+                <div class="row">
+                    <div class="col-xl-4">
+                        <div class="row">
+                            <div class="col-xl-12 col-md-6">
+                                <!-- card -->
+                                <div class="card card-animate">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between">
+                                            <div class="flex-grow-1">
+                                                <p class="text-uppercase fw-medium text-muted text-truncate fs-13">Total Kasus</p>
+                                                <h4 class="fs-22 fw-semibold mb-3"><span class="counter-value"
+                                                        data-target="{{ count($pelanggar) }}">0</span></h4>
+                                            </div>
+                                            <div class="avatar-sm flex-shrink-0">
+                                                <span class="avatar-title bg-soft-success rounded fs-3">
+                                                    <i class="fa fa-gavel text-success"></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div><!-- end card body -->
+                                    <div class="animation-effect-6 text-success opacity-25 fs-18">
+                                        <i class="fa fa-gavel"></i>
+                                    </div>
+                                    <div class="animation-effect-4 text-success opacity-25 fs-18">
+                                        <i class="mdi mdi-gavel"></i>
+                                    </div>
+                                </div><!-- end card -->
+                            </div><!-- end col -->
 
-        <div class="col col-md-4 col-xl-4">
-            <div class="card bg-c-yellow order-card">
-                <div class="card-body">
-                    <h6 class="m-b-20">Total Polda</h6>
-                    <h2 class="text-right"><i class="fa fa-building f-left"></i><span>  {{count($polda)}}</span></h2>
-                </div>
-            </div>
-        </div>
-    </div>
+                            <div class="col-xl-12 col-md-6">
+                                <!-- card -->
+                                <div class="card card-animate">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between">
+                                            <div class="avatar-sm flex-shrink-0">
+                                                <span class="avatar-title bg-soft-info rounded fs-3">
+                                                    <i class="bx bx-pie-chart-alt-2 text-info"></i>
+                                                </span>
+                                            </div>
+                                            <div class="text-end flex-grow-1">
+                                                <p class="text-uppercase fw-medium text-muted text-truncate fs-13">Total Pengaduan Diprores</p>
+                                                <h4 class="fs-22 fw-semibold mb-3"><span class="counter-value" data-target="{{count($pengaduan_diproses)}}">0</span></h4>
+                                            </div>
+                                        </div>
+                                    </div><!-- end card body -->
+                                    <div class="animation-effect-6 text-info opacity-25 fs-18">
+                                        <i class="bi bi-pie-chart-fill"></i>
+                                    </div>
+                                    <div class="animation-effect-4 text-info opacity-25 fs-18">
+                                        <i class="mdi mdi-chart-box"></i>
+                                    </div>
+                                </div><!-- end card -->
+                            </div><!-- end col -->
 
-    {{-- Line Chart --}}
-    <div class="row mb-5">
-        <div class="col-8">
-            <canvas id="lineChartPelanggar"></canvas>
-        </div>
-        <div class="col-4">
-            <h5 class="text-center">Total Pelanggaran Berdasarkan Pangkat</h5>
-            <canvas id="donatChartPelanggar"></canvas>
-        </div>
+                            <div class="col-xl-12 col-md-6">
+                                <!-- card -->
+                                <div class="card card-animate">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between">
+                                            <div class="flex-grow-1">
+                                                <p class="text-uppercase fw-medium text-muted text-truncate fs-13">Total Polda</p>
+                                                <h4 class="fs-22 fw-semibold mb-3"><span class="counter-value" data-target="{{count($polda)}}">0</span></h4>
+                                            </div>
+                                            <div class="avatar-sm flex-shrink-0">
+                                                <span class="avatar-title bg-soft-warning rounded fs-3">
+                                                    <i class="bx bx-user-circle text-warning"></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div><!-- end card body -->
+                                    <div class="animation-effect-6 text-warning opacity-25 fs-18">
+                                        <i class="bi bi-person"></i>
+                                    </div>
+                                    <div class="animation-effect-4 text-warning opacity-25 fs-18">
+                                        <i class="bi bi-person-fill"></i>
+                                    </div>
+                                    <div class="animation-effect-3 text-warning opacity-25 fs-18">
+                                        <i class="bi bi-people"></i>
+                                    </div>
+                                </div><!-- end card -->
+                            </div><!-- end col -->
+                        </div> <!-- end row-->
+                    </div>
+                    <div class="col-xl-8">
+                        <div class="card card-animate">
+                            <div class="card-header border-0 align-items-center d-flex">
+                                <h4 class="card-title mb-0 flex-grow-1">Statistik Jumlah Pelanggar Tahun {{\Carbon\Carbon::now()->translatedFormat('Y')}}</h4>
+                            </div><!-- end card header -->
 
-    </div>
+                            <div class="card-body p-0 pb-2">
+                                <div id="lineChartPelanggar"></div>
 
-    {{-- DataTable list pelanggar --}}
-    <div class="row mb-5">
-        <div class="card">
-            <div class="card-header align-items-center d-flex">
-                <h4 class="card-title mb-0 flex-grow-1">List Pelanggar</h4>
-
-            </div><!-- end card header -->
-
-            <div class="card-body">
-                <div class="table-responsive table-card px-3">
-                    <table class="table table-centered align-middle table-nowrap mb-0" id="data-data">
-                        <thead class="text-muted table-light">
-                            <tr>
-                                <th scope="col">No Nota Dinas</th>
-                                <th scope="col">Tanggal</th>
-                                <th scope="col">Pelapor</th>
-                                <th scope="col">Terlapor</th>
-                                <th scope="col">Pangkat</th>
-                                <th scope="col">Nama Korban</th>
-                                <th scope="col">Status</th>
-                            </tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
+                                <div id="chart">
+                                </div>
+                            </div><!-- end card body -->
+                        </div><!-- end card -->
+                    </div><!-- end col -->
                 </div>
             </div>
         </div>
@@ -99,50 +143,75 @@
 @section('scripts')
     <script src="https://cdn.datatables.net/1.13.2/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.2/js/dataTables.bootstrap5.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    {{-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> --}}
     <script>
         $(document).ready(function() {
             getData();
             lineChartPelanggar();
-            donatChartPelanggar();
+            // donatChartPelanggar();
         });
 
         function lineChartPelanggar() {
-            var labels = [];
-            var users = [];
+            var month = [];
+            var data = [];
 
             @foreach($kasus_by_month as $key => $val)
-                labels.push(`{{$key}}`)
-                users.push(`{{$val}}`)
+                month.push(`{{$key}}`)
+                data.push(`{{$val}}`)
             @endforeach
 
-            const data = {
-                labels: labels,
-                datasets: [{
-                    label: 'Statistik Jumlah Pelanggar tahun '+new Date().getFullYear(),
-                    backgroundColor: 'rgb(255, 99, 132)',
-                    borderColor: 'rgb(255, 99, 132)',
-                    data: users,
-                }]
+            var options = {
+                series: [{
+                    name: 'Data Pelanggaran',
+                    data: data
+                }],
+                chart: {
+                    height: 300,
+                    type: 'line',
+                    toolbar:{
+                        show:false
+                    }
+                },
+                forecastDataPoints: {
+                    count: 5
+                },
+                stroke: {
+                    width: 5,
+                    curve: 'smooth'
+                },
+                xaxis: {
+                    type: 'category',
+                    categories: month,
+                    tickAmount: month.length,
+                    // labels: month
+                },
+                fill: {
+                    type: 'gradient',
+                    gradient: {
+                        shade: 'dark',
+                        gradientToColors: [ '#FDD835'],
+                        shadeIntensity: 1,
+                        type: 'horizontal',
+                        opacityFrom: 1,
+                        opacityTo: 1,
+                        stops: [0, 100, 100, 100]
+                    },
+                },
+                yaxis: {
+                    min: 0,
+                    max: 40
+                }
             };
 
-            const config = {
-                type: 'line',
-                data: data,
-                options: {}
-            };
-
-            const myChart = new Chart(
-                document.getElementById('lineChartPelanggar'),
-                config
-            );
+            var chart = new ApexCharts(document.querySelector("#lineChartPelanggar"), options);
+            chart.render();
         }
 
         function donatChartPelanggar() {
             var labels = [];
             var users = [];
             var background = [];
-            var fillColor = ['#008FFB', '#00E396', '#775DD0', '#FEB019', '#FF4560'];
+            var fillColor = ['#6fa8dc', '#18d3ef', '#3d85c6', '#72c7f1', '#9fc5e8'];
             @foreach($kasus_by_pangkat as $key => $val)
                 labels.push(`{{$key}}`)
                 users.push(`{{$val}}`)

@@ -23,7 +23,6 @@
                         <table class="table table-centered align-middle table-nowrap mb-0" id="data-data">
                             <thead class="text-muted table-light">
                                 <tr>
-                                    <th scope="col">No. Nota Dinas</th>
                                     <th scope="col">Nama</th>
                                     <th scope="col">NRP</th>
                                     <th scope="col">Pangkat</th>
@@ -101,7 +100,7 @@
             var table = $('#data-data').DataTable({
                 processing: true,
                 serverSide: true,
-                searching: false,
+                searching: true,
                 ajax: {
                     url: "{{ route('penyidik.data') }}",
                     method: "post",
@@ -109,10 +108,7 @@
                         data._token = '{{ csrf_token() }}'
                     }
                 },
-                columns: [{
-                        data: 'data_pelanggars.no_nota_dinas',
-                        name: 'no_nota_dinas'
-                    },
+                columns: [
                     {
                         data: 'name',
                         name: 'name'
