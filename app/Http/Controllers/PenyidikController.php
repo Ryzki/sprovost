@@ -60,7 +60,7 @@ class PenyidikController extends Controller
 
     public function data(Request $request)
     {
-        $query = MasterPenyidik::select('*')->orderBy('id', 'desc')->with('pangkats');
+        $query = MasterPenyidik::select('*')->orderBy('pangkat', 'desc')->with('pangkats');
 
         if(isset($request->unit)){
             $query->where('unit', $request->unit);
@@ -99,7 +99,7 @@ class PenyidikController extends Controller
 
     public function masterPenyidik()
     {
-        $data = MasterPenyidik::with('pangkats')->get();
+        $data = MasterPenyidik::with('pangkats')->orderBy('pangkat', 'desc')->get();
         return response()->json($data);
     }
 }

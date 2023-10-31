@@ -197,6 +197,8 @@
 
                     <div class="row">
                         <div class="col-lg-12" style="float: right;">
+                            <a class="btn btn-info text-white submit" href="javascript:void(0)" data-next="limpah" data-process_id="{{$kasus->status_id}}">Limpah Wabprof / Jajaran</a></li>
+                            <a class="btn btn-success text-white submit" href="javascript:void(0)" data-next="limpah" data-process_id="{{$kasus->status_id}}">Limpah Wabprof / Jajaran</a></li>
                             <button class="btn btn-info text-white dropdown-toggle" id="actionButton" data-bs-toggle="dropdown" {{ $kasus->status_id > 4 ? 'disabled' : '' }}>Update Status</button>
                             <ul class="dropdown-menu" aria-labelledby="actionButton" id="ActionListBtn">
                                 <li><a class="dropdown-item submit" href="javascript:void(0)" data-next="limpah" data-process_id="{{$kasus->status_id}}">Limpah Wabprof / Jajaran</a></li>
@@ -364,7 +366,7 @@
 </div>
 
 <div class="modal fade" id="laporan_hasil_gelar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Pembuatan Dokumen Laporan Hasil Gelar Perkara</h5>
