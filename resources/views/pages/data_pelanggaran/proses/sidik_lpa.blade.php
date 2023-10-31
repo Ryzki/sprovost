@@ -833,6 +833,14 @@
             }
         })
 
+        $('input[type="time"]').on('keydown', function(){
+                return false
+        })
+
+        $('input[type="date"]').on('keydown', function(){
+            return false
+        })
+
         $('.generate_document').on('click', function(){
             $('input[name="sub_process"]').val($(this).data('subprocess'))
             $('input[name="process_id"]').val($(this).data('process_id'))

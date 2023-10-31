@@ -815,6 +815,13 @@
     $(document).ready(function(){
         localStorage.setItem('addAnggota', 0)
 
+        $('input[type="time"]').on('keydown', function(){
+                return false
+        })
+
+        $('input[type="date"]').on('keydown', function(){
+            return false
+        })
         // $('.select-penyidik').map((k, v) => {
         //     $(v).select2({
         //         theme: 'bootstrap-5'
