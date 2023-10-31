@@ -198,7 +198,7 @@
                     <div class="row">
                         <div class="col-lg-12" style="float: right;">
                             <a class="btn btn-info text-white submit" href="javascript:void(0)" data-next="limpah" data-process_id="{{$kasus->status_id}}">Limpah Wabprof / Jajaran</a></li>
-                            <a class="btn btn-success text-white submit" href="javascript:void(0)" data-next="sidik" data-process_id="{{$kasus->status_id}}">Pemberkasan</a></li>
+                            <a class="btn btn-success text-white submit" href="javascript:void(0)" data-next="sidik" data-process_id="{{$kasus->status_id}}">Update Status Pemberkasan</a></li>
                             {{-- <button class="btn btn-info text-white dropdown-toggle" id="actionButton" data-bs-toggle="dropdown" {{ $kasus->status_id > 4 ? 'disabled' : '' }}>Update Status</button>
                             <ul class="dropdown-menu" aria-labelledby="actionButton" id="ActionListBtn">
                                 <li><a class="dropdown-item submit" href="javascript:void(0)" data-next="limpah" data-process_id="{{$kasus->status_id}}">Limpah Wabprof / Jajaran</a></li>
