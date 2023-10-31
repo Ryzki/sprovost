@@ -536,7 +536,7 @@
                     @endif
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" {{$gelarPerkara->pimpinan == null ? 'disabled' : ''}} class="btn btn-primary">Buat Dokumen</button>
+                    <button type="submit" {{!isset($gelarPerkara->pimpinan) ? 'disabled' : ''}} class="btn btn-primary">Buat Dokumen</button>
                 </div>
             </form>
         </div>
