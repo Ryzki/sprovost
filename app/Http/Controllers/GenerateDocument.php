@@ -727,7 +727,8 @@ class GenerateDocument extends Controller
             $gelarPerkara->pimpinan = $request->pimpinan;
             $gelarPerkara->save();
 
-            $pimpinan = Penyidik::where('id', $request->pimpinan)->where('data_pelanggar_id', $kasus_id)->first();
+            // $pimpinan = Penyidik::where('id', $request->pimpinan)->where('data_pelanggar_id', $kasus_id)->first();
+            $pimpinan = MasterPenyidik::where('id', $request->pimpinan)->first();
 
             $template_document = new TemplateProcessor(storage_path('template/undangan_gelar.docx'));
             $template_document->setValues(array(
@@ -739,7 +740,7 @@ class GenerateDocument extends Controller
                 'tgl' => $tgl,
                 'jam' => $request->jam,
                 'tempat' => $request->tempat,
-                'pimpinan' => "$pimpinan->pangkat $pimpinan->name",
+                'pimpinan' => $pimpinan->pangkats->name." ".$pimpinan->name,
             ));
 
             $filename = "$kasus->pelapor - Undangan Gelar Perkara.docx";
@@ -796,7 +797,8 @@ class GenerateDocument extends Controller
             $sprinLidik = SprinHistory::where('data_pelanggar_id', $kasus_id)->where('type', 'lidik')->first();
             $sprinGelar = SprinHistory::where('data_pelanggar_id', $kasus_id)->where('type', 'gelar')->first();
 
-            $pimpinan = Penyidik::where('id', $request->pimpinan)->where('data_pelanggar_id', $kasus_id)->first();
+            $pimpinan = MasterPenyidik::where('id', $request->pimpinan)->first();
+            // $pimpinan = Penyidik::where('id', $request->pimpinan)->where('data_pelanggar_id', $kasus_id)->first();
             $pemapar = Penyidik::where('id', $request->pemapar)->where('data_pelanggar_id', $kasus_id)->first();
             $notulen = Penyidik::where('id', $request->notulen)->where('data_pelanggar_id', $kasus_id)->first();
             $operator = Penyidik::where('id', $request->operator)->where('data_pelanggar_id', $kasus_id)->first();
@@ -817,7 +819,7 @@ class GenerateDocument extends Controller
                 'tgl_nd' => Carbon::parse($dataPelanggaran->tanggal_nota_dinas)->translatedFormat('d F Y'),
                 'no_sprin_lidik' => $sprinLidik->no_sprin,
                 'tgl_sprin_lidik' => Carbon::parse($sprinLidik->created_at)->translatedFormat('d F Y'),
-                'pangkat_pimpinan' => strtoupper($pimpinan->pangkat),
+                'pangkat_pimpinan' => strtoupper($pimpinan->pangkats->name),
                 'nama_pimpinan' => strtoupper($pimpinan->name),
                 'jabatan_pimpinan' => strtoupper($pimpinan->jabatan),
                 'kesatuan_pimpinan' => strtoupper($pimpinan->kesatuan),
@@ -981,7 +983,7 @@ class GenerateDocument extends Controller
                 'wujud_perbuatan' => strtoupper($kasus->wujudPerbuatan->keterangan_wp),
                 'lokasi_gp' => $gelarPerkara->tempat_pelaksanaan,
                 'hasil_gp' => $gelarPerkara->hasil_gelar,
-                'pimpinan_gp' => strtoupper($gelarPerkara->penyidik->pangkat).' '.strtoupper($gelarPerkara->penyidik->name),
+                'pimpinan_gp' => strtoupper($gelarPerkara->penyidik->pangkats->name).' '.strtoupper($gelarPerkara->penyidik->name),
                 'jabatan_gp' => strtoupper($gelarPerkara->penyidik->jabatan).' '.strtoupper($gelarPerkara->penyidik->kesatuan),
                 'keterangan_hasil' => $gelarPerkara->hasil_gelar == 'Cukup Bukti' ? 'terbukti melakukan pelanggaran KEPP' : 'tidak terbukti melakukan pelanggaran KEPP',
                 'pelapor' => $kasus->nama_korban,
@@ -1050,7 +1052,8 @@ class GenerateDocument extends Controller
             }
 
             $gelarPerkara = GelarPerkara::where('data_pelanggar_id', $kasus_id)->first();
-            $penyidik = Penyidik::where('data_pelanggar_id', $kasus_id)->where('id', $gelarPerkara->pimpinan)->first();
+            // $penyidik = Penyidik::where('data_pelanggar_id', $kasus_id)->where('id', $gelarPerkara->pimpinan)->first();
+            $penyidik = MasterPenyidik::where('id', $gelarPerkara->pimpinan)->first();
 
             $template_document = new TemplateProcessor(storage_path('template/template_lpa.docx'));
             $template_document->setValues(array(
@@ -1064,7 +1067,7 @@ class GenerateDocument extends Controller
                 'jam' => date('H:i') . ' WIB',
                 'no_laporan' => $lpa == null ? $request->no_lpa : $lpa->no_lpa,
                 'nama' => strtoupper($penyidik->name),
-                'pangkat' => strtoupper($penyidik->pangkat),
+                'pangkat' => strtoupper($penyidik->pangkats->name),
                 'nrp' => $penyidik->nrp,
                 'jabatan' => strtoupper($penyidik->jabatan),
                 'kesatuan' => strtoupper($penyidik->kesatuan),

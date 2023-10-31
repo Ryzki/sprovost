@@ -399,7 +399,7 @@
                                                 <div class="form-group mb-4">
                                                     <label for="pimpinan">Pimpinan</label>
                                                     <input type="hidden" name="pimpinan" value="{{ $gelarPerkara != null ? ($gelarPerkara->pimpinan != null ? $gelarPerkara->pimpinan : '') : '' }}" class="form-control" readonly>
-                                                    <input type="text" name="pimpinan_text" value="{{ $gelarPerkara != null ? ($gelarPerkara->pimpinan != null ? $gelarPerkara->penyidik->pangkat.' '.$gelarPerkara->penyidik->name : '') : '' }}" class="form-control" readonly>
+                                                    <input type="text" name="pimpinan_text" value="{{ $gelarPerkara != null ? ($gelarPerkara->pimpinan != null ? $gelarPerkara->penyidik->pangkats->name.' '.$gelarPerkara->penyidik->name : '') : '' }}" class="form-control" readonly>
                                                     {{-- <select name="pimpinan" id="select-pimpinan" class="form-select select-penyidik" data-placeholder="Silahkan Pilih Pimpinan">
                                                     </select> --}}
                                                 </div>
@@ -872,20 +872,27 @@
 
     function getPenyidik(kasus_id, modal_id){
         let url = ''
-        // if(modal_id == 'undangan_gelar'){
-        //     url = `{{url('master-penyidik')}}`
-        // } else {
+        if(modal_id == 'undangan_gelar'){
+            url = `{{url('master-penyidik')}}`
+        } else {
             url = `{{url('data-penyidik/${kasus_id}')}}`
-        // }
+        }
 
         $.ajax({
             url: url,
             method: 'GET',
             success: (res) => {
                 var option = '<option><option>'
-                res.map((v, k) => {
-                    option += `<option value="${v.id}"> ${v.pangkat} ${v.name} (${v.jabatan}) </option>`
-                })
+
+                if(modal_id != 'undangan_gelar'){
+                    res.map((v, k) => {
+                        option += `<option value="${v.id}"> ${v.pangkat} ${v.name} (${v.jabatan}) </option>`
+                    })
+                } else {
+                    res.map((v, k) => {
+                        option += `<option value="${v.id}"> ${v.pangkats.name} ${v.name} (${v.jabatan}) </option>`
+                    })
+                }
 
                 $('.select-penyidik').map((k, v) => {
                     $(v).html(option)

@@ -25,7 +25,7 @@ class GelarPerkara extends Model
 
     public function penyidik()
     {
-        return $this->hasOne(Penyidik::class, 'id', 'pimpinan');
+        return $this->hasOne(MasterPenyidik::class, 'id', 'pimpinan');
     }
 
     public function operatorDetail()

@@ -99,7 +99,7 @@ class PenyidikController extends Controller
 
     public function masterPenyidik()
     {
-        $data = MasterPenyidik::get();
+        $data = MasterPenyidik::with('pangkats')->get();
         return response()->json($data);
     }
 }
