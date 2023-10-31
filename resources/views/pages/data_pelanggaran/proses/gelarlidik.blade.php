@@ -356,7 +356,7 @@
                     @endif
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" {{$gelarPerkara->tgl_pelaksanaan == null ? 'disabled' : ''}} class="btn btn-primary">Buat Dokumen</button>
+                    <button type="submit" {{!isset($gelarPerkara->tgl_pelaksanaan) ? 'disabled' : ''}} class="btn btn-primary">Buat Dokumen</button>
                 </div>
             </form>
         </div>
