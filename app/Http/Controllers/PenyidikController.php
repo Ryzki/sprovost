@@ -99,7 +99,8 @@ class PenyidikController extends Controller
 
     public function masterPenyidik()
     {
-        $data = MasterPenyidik::with('pangkats')->orderByRaw("pangkat::integer", 'asc')->get();
+        $data = MasterPenyidik::with('pangkats')->get();
+        // $data = MasterPenyidik::with('pangkats')->select('')
         return response()->json($data);
     }
 }
