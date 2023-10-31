@@ -871,8 +871,15 @@
     })
 
     function getPenyidik(kasus_id, modal_id){
+        let url = ''
+        if(modal_id == 'undangan_gelar'){
+            url = `{{url('master-penyidik')}}`
+        } else {
+            url = `{{url('data-penyidik/${kasus_id}')}}`
+        }
+
         $.ajax({
-            url: `{{url('data-penyidik/${kasus_id}')}}`,
+            url: url,
             method: 'GET',
             success: (res) => {
                 var option = '<option><option>'

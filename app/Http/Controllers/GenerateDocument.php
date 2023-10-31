@@ -969,6 +969,7 @@ class GenerateDocument extends Controller
             $template_document->setValues(array(
                 'no_nd' => $kasus->no_nota_dinas,
                 'tgl_nd' => Carbon::parse($kasus->tangal_nota_dinas)->translatedFormat('d F Y'),
+                'perihal_nd' => $kasus->perihal_nota_dinas,
                 'sprin_lidik' => $sprin->no_sprin,
                 'tgl_sprin_lidik' => Carbon::parse($sprin->created_at)->translatedFormat('d F Y'),
                 'tgl_hasil_gp' => Carbon::parse($gelarPerkara->updated_at)->translatedFormat('d F Y'),
@@ -1378,7 +1379,7 @@ class GenerateDocument extends Controller
         $sprin = SprinHistory::where('data_pelanggar_id', $kasus_id)->where('type', 'riksa')->first();
 
         $template_document->setValues(array(
-            'no_nota_dinas' => $kasus->no_nota_dinas,
+            'no_nota_dinas' => $kasus->no_pengaduan,
             'tanggal_nota_dinas' => Carbon::parse($kasus->created_at)->translatedFormat('d F Y'),
             'wujud_perbuatan' => $kasus->wujudPerbuatan->keterangan_wp,
             'no_sprin_riksa' => $sprin->no_sprin,

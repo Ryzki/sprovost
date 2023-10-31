@@ -69,6 +69,7 @@ Route::middleware(['auth'])->group(function (){
      Route::post('data-penyidik/update', [PenyidikController::class, 'updateData'])->name('penyidik.update');
 
      Route::get('data-penyidik/hapus/{id}', [PenyidikController::class, 'hapusData'])->name('penyidik.hapus');
+     Route::get('master-penyidik', [PenyidikController::class, 'masterPenyidik'])->name('penyidik.master');
      // End Penyidik
 
      // Start Pangkat

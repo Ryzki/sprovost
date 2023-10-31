@@ -137,7 +137,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Pembuatan SPRIN Riksa</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Pembuatan SPRIN Perangkat Sidang</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form action="javascript:void(0)" id="form-generate-sprin">

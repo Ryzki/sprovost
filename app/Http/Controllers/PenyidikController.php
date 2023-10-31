@@ -100,6 +100,6 @@ class PenyidikController extends Controller
     public function masterPenyidik()
     {
         $data = MasterPenyidik::get();
-        return response()->json(['penyidik' => $data]);
+        return response()->json($data);
     }
 }
