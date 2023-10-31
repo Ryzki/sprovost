@@ -251,7 +251,7 @@ class KasusController extends Controller
                         ], 500);
                     }
                 } else if ($request->next == 'restorative_justice') {
-                    try {
+                    // try {
                         $data = DataPelanggar::find($request->kasus_id);
                         $data->status_id = 9;
                         $data->save();
@@ -262,14 +262,14 @@ class KasusController extends Controller
 
                         $sp2hp = (new GenerateDocument)->sp2hp($request->kasus_id,$request->process_id,12);
                         return response()->json(['file' => $sp2hp]);
-                    } catch (\Throwable $th) {
-                        return response()->json([
-                            'status' => [
-                                'code' => 500,
-                                'msg' => 'Terjadi masalah saat merubah status'
-                            ], 'detail' => $th
-                        ], 500);
-                    }
+                    // } catch (\Throwable $th) {
+                    //     return response()->json([
+                    //         'status' => [
+                    //             'code' => 500,
+                    //             'msg' => 'Terjadi masalah saat merubah status'
+                    //         ], 'detail' => $th
+                    //     ], 500);
+                    // }
                 } else {
                     try {
                         $data = DataPelanggar::find($request->kasus_id);
