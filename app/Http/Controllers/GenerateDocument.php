@@ -951,7 +951,7 @@ class GenerateDocument extends Controller
             ]);
         }
 
-        if($dataPelanggaran->status_id != 9){
+        if($dataPelanggaran->status_id != 10){
             return response()->download($path)->deleteFileAfterSend(true);
         } else {
             return $filename;
