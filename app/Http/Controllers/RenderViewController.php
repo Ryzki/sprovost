@@ -13,6 +13,7 @@ use App\Models\GelarPerkara;
 use App\Models\JenisIdentitas;
 use App\Models\JenisKelamin;
 use App\Models\LPA;
+use App\Models\MasterPenyidik;
 use App\Models\Pangkat;
 use App\Models\Penyidik;
 use App\Models\Polda;
@@ -217,6 +218,7 @@ class RenderViewController extends Controller
         $gelarPerkara = GelarPerkara::where('data_pelanggar_id', $id)->with('penyidik')->first();
         $pangkat = Pangkat::all();
         $unit = DB::table('master_penyidiks')->select('unit')->groupBy('unit')->get();
+        $penyidikLPA = Penyidik::where('data_pelanggar_id', $id)->get();
 
         $bap = BAP::where('data_pelanggar_id', $id)->first();
         if($bap != null){
@@ -259,14 +261,24 @@ class RenderViewController extends Controller
         $status = Process::find($kasus->status_id);
         $sub_process = SubProcess::where('process_id', $kasus->status_id)->get();
         $sprin = SprinHistory::where('data_pelanggar_id', $id)->where('type', 'sidang')->with('user')->first();
+        $sprinLidik = SprinHistory::where('data_pelanggar_id', $id)->where('type', 'lidik')->with('user')->first();
         $sidang = SidangDisiplin::where('data_pelanggar_id', $id)->first();
+        $dp3d = DP3D::where('data_pelanggar_id', $id)->first();
+        $undanganKlarifikasi = UndanganKlarifikasiHistories::where('data_pelanggar_id', $id)->latest()->first();
+        $gelarPerkara = GelarPerkara::where('data_pelanggar_id', $id)->with('penyidik')->first();
+        $dp3d = DP3D::where('data_pelanggar_id', $id)->first();
 
         $data = [
             'kasus' => $kasus,
             'status' => $status,
             'sub_process' => $sub_process,
             'sprin' => $sprin,
-            'sidang' => $sidang
+            'sprinLidik' => $sprinLidik,
+            'sidang' => $sidang,
+            'dp3d' => $dp3d,
+            'undanganKlarifikasi' => $undanganKlarifikasi,
+            'gelarPerkara' => $gelarPerkara,
+            'dp3d' => $dp3d
         ];
 
         return view('pages.data_pelanggaran.proses.sidang_disiplin', $data);

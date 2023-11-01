@@ -1561,7 +1561,7 @@ class GenerateDocument extends Controller
                         'jabatan' => strtoupper($kasus->jabatan),
                         'kesatuan' => strtoupper($kasus->kesatuan),
                         'wujud_perbuatan' => $kasus->wujudPerbuatan->keterangan_wp,
-                        'kronologi' => strtoupper($kasus->kronologi),
+                        'kronologi' => $kasus->kronologi,
                         'no_lpa' => strtoupper($lpa->no_lpa),
                         'tgl_lpa' => Carbon::parse($lpa->created_at)->translatedFormat('d F Y'),
                         // Data SPRIN
@@ -1940,7 +1940,7 @@ class GenerateDocument extends Controller
     public function hasil_putusan_sidang_disiplin(Request $request, $kasus_id){
         $this->validate($request, [
             'hasil_sidang' => 'required',
-            'hukuman' => 'required'
+            'hukuman' => 'required_if:hasil_sidang,==,Terbukti'
         ],[
             'hasil_sidang' => 'Kolom Hasil Putusan Sidang wajib diisi',
             'hukuman' => 'Kolom Hukuman Disiplin wajib diisi'
@@ -1963,10 +1963,12 @@ class GenerateDocument extends Controller
             }
 
             $hukuman = '';
-            for ($i=0; $i < count($request->hukuman); $i++) {
-                $hukuman .= $request->hukuman[$i].',';
+            if($request->hukuman != null){
+                for ($i=0; $i < count($request->hukuman); $i++) {
+                    $hukuman .= $request->hukuman[$i].',';
+                }
+                $hukuman = rtrim($hukuman, ',');
             }
-            $hukuman = rtrim($hukuman, ',');
 
             $sidang = SidangDisiplin::where('data_pelanggar_id', $kasus_id)->first();
             $sidang->hasil_sidang = $request->hasil_sidang;
@@ -1977,12 +1979,20 @@ class GenerateDocument extends Controller
             $kasus->save();
 
             $template_document = new TemplateProcessor(storage_path('template/template_hasil_putusan_sidang.docx'));
-            $template_document->cloneRow('no', count($request->hukuman));
 
-            for ($i=0; $i < count($request->hukuman); $i++) {
+            if($request->hukuman != null){
+                $template_document->cloneRow('no', count($request->hukuman));
+
+                for ($i=0; $i < count($request->hukuman); $i++) {
+                    $template_document->setValues(array(
+                        'no#'.$i+1 => '-',
+                        'jenis_hukuman#'.$i+1 => $request->hukuman[$i],
+                    ));
+                }
+            } else {
                 $template_document->setValues(array(
-                    'no#'.$i+1 => '-',
-                    'jenis_hukuman#'.$i+1 => $request->hukuman[$i],
+                    'no' => '',
+                    'jenis_hukuman' => '',
                 ));
             }
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\DataPelanggar;
+use Exception;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 
@@ -14,7 +15,9 @@ class NotaDinasHasilSidang extends Controller
 
     public function data(Request $request)
     {
-        $query = DataPelanggar::where('print_nd', 0)->where('status_id', 8)->orderBy('id', 'desc')->with('status')->get();
+        $query = DataPelanggar::where('print_nd', 0)->where('status_id', 8)->orderBy('id', 'desc')->with('status')->whereHas('sidangDisiplin', function($sidang){
+            $sidang->where('hasil_sidang', 'Terbukti');
+        })->get();
 
         return DataTables::of($query)
             ->editColumn('no_nota_dinas', function($query) {
@@ -29,7 +32,7 @@ class NotaDinasHasilSidang extends Controller
     {
         $this->validate($request, [
             'month_start' => 'required',
-            'month_end' => 'required|after:month_start'
+            'month_end' => 'required|after_or_equal:month_start'
         ],[
             'month_start' => 'Form bulan mulai periode sidang wajib diisi',
             'month_end.required' => 'Form bulan akhir periode sidang wajib diisi',
@@ -55,11 +58,15 @@ class NotaDinasHasilSidang extends Controller
                         ;
             })->with('pangkatName')->with('sidangDisiplin')->get();
 
-            $generateDocument = (new GenerateDocument)->nota_hasil_putusan($data, $request);
+            if(count($data) > 0){
+                $generateDocument = (new GenerateDocument)->nota_hasil_putusan($data, $request);
 
-            foreach ($data as $val) {
-                $val->print_nd = 1;
-                $val->save();
+                foreach ($data as $val) {
+                    $val->print_nd = 1;
+                    $val->save();
+                }
+            } else {
+                throw new Exception('Tidak ada data yang bisa ditampilkan', 422);
             }
 
             return response()->json([
@@ -72,9 +79,11 @@ class NotaDinasHasilSidang extends Controller
         } catch (\Throwable $th) {
             return response()->json([
                 'status' => [
-                    'code' => 500,
-                    'msg' => 'Terjadi masalah saat mencetak dokumen'
-                ], 'detail' => $th
+                    'code' => $th->getCode(),
+                    'msg' => $th->getMessage(),
+                ],
+                'detail' => $th,
+                'message' => $th->getMessage()
             ], 500);
         }
     }

@@ -88,7 +88,97 @@
                         :
                     </div>
                     <div class="col-md-8 col-sm-12">
-                        {{date('l, F Y', strtotime($kasus->tanggal_kejadian)) }}
+                        {{\Carbon\Carbon::parse($kasus->tanggal_kejadian)->translatedFormat('l, F Y')}}
+                    </div>
+
+                    <div class="col-md-3 col-sm-12">
+                        Tgl. SPRIN Lidik
+                    </div>
+                    <div class="col-md-1">
+                        :
+                    </div>
+                    <div class="col-md-8 col-sm-12">
+                        {{$sprinLidik != null ? \carbon\Carbon::parse($sprinLidik->created_at)->translatedFormat('d, F Y') : ' - '}}
+                    </div>
+
+                    <div class="col-md-3 col-sm-12">
+                        Tgl. Undangan Klarifikasi
+                    </div>
+                    <div class="col-md-1">
+                        :
+                    </div>
+                    <div class="col-md-8 col-sm-12">
+                        {{$undanganKlarifikasi != null ? \carbon\Carbon::parse($undanganKlarifikasi->tgl_pertemuan)->translatedFormat('d, F Y') : ' - '}}, Pukul : {{$undanganKlarifikasi != null ? \carbon\Carbon::parse($undanganKlarifikasi->jam_pertemuan)->translatedFormat('G:i').' WIB' : ' - '}}
+                    </div>
+
+                    <div class="col-md-3 col-sm-12">
+                        Hasil Penyelidikan
+                    </div>
+                    <div class="col-md-1">
+                        :
+                    </div>
+                    <div class="col-md-8 col-sm-12">
+                        {{$gelarPerkara != null ? $gelarPerkara->hasil_gelar : ' - '}}
+                    </div>
+
+                    <div class="col-md-3 col-sm-12">
+                        Pasal Dilanggar
+                    </div>
+                    <div class="col-md-1">
+                        :
+                    </div>
+                    <div class="col-md-8 col-sm-12">
+                        {{$gelarPerkara != null ? $gelarPerkara->landasan_hukum : ' - '}}
+                    </div>
+
+                    <div class="col-md-3 col-sm-12">
+                        Saran Penyidik
+                    </div>
+                    <div class="col-md-1">
+                        :
+                    </div>
+                    <div class="col-md-8 col-sm-12">
+                        {{$gelarPerkara != null ? ($gelarPerkara->saran_penyidik != null ? $gelarPerkara->saran_penyidik : ' - ') : ' - '}}
+                    </div>
+
+                    <div class="col-md-3 col-sm-12">
+                        No. DP3D
+                    </div>
+                    <div class="col-md-1">
+                        :
+                    </div>
+                    <div class="col-md-8 col-sm-12">
+                        {{$dp3d != null ? $dp3d->no_dp3d : ' - '}}
+                    </div>
+
+                    <div class="col-md-3 col-sm-12">
+                        Tanggal Sidang
+                    </div>
+                    <div class="col-md-1">
+                        :
+                    </div>
+                    <div class="col-md-8 col-sm-12">
+                        {{$sidang != null ? \carbon\Carbon::parse($sidang->tgl_sidang)->translatedFormat('d, F Y') : ' - '}}, Pukul : {{$sidang != null ? \carbon\Carbon::parse($sidang->waktu_sidang)->translatedFormat('G:i').' WIB' : ' - '}}
+                    </div>
+
+                    <div class="col-md-3 col-sm-12">
+                        Hasil Putusan Sidang
+                    </div>
+                    <div class="col-md-1">
+                        :
+                    </div>
+                    <div class="col-md-8 col-sm-12">
+                        {{$sidang != null ? $sidang->hasil_sidang : ' - '}}
+                    </div>
+
+                    <div class="col-md-3 col-sm-12">
+                        Hukuman Disiplin
+                    </div>
+                    <div class="col-md-1">
+                        :
+                    </div>
+                    <div class="col-md-8 col-sm-12">
+                        {{$sidang != null ? $sidang->hukuman_disiplin : ' - '}}
                     </div>
                 </div>
             </div>
@@ -624,6 +714,20 @@
                 })
             }
             // console.log($('#hukuman option').filter(':selected').val())
+        })
+
+        $('#hukuman').on('change', function(){
+            let val = $(this).val()
+            if(val.includes('Tidak Terbukti')){
+                $('#pilihan_hukuman').fadeOut()
+                setTimeout(() => {
+                    $('#hukuman option:selected').prop("selected", false)
+                    $('#hukuman').select2('destroy')
+                }, 750)
+
+                $('input[name="hasil_sidang"][value="Tidak Terbukti"]').prop('checked', true)
+                $('input[name="hasil_sidang"][value="Terbukti"]').prop('checked', false)
+            }
         })
     })
 </script>

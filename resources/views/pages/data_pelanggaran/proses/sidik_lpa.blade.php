@@ -140,6 +140,16 @@
                     <div class="col-md-8 col-sm-12">
                         {{$gelarPerkara != null ? ($gelarPerkara->saran_penyidik != null ? $gelarPerkara->saran_penyidik : ' - ') : ' - '}}
                     </div>
+
+                    <div class="col-md-3 col-sm-12">
+                        No. LPA
+                    </div>
+                    <div class="col-md-1">
+                        :
+                    </div>
+                    <div class="col-md-8 col-sm-12">
+                        {{$lpa != null ? $lpa->no_lpa : ' - '}}
+                    </div>
                 </div>
             </div>
             <hr>
@@ -255,148 +265,162 @@
                 <h5 class="modal-title" id="exampleModalLabel">Pembuatan SPRIN Riksa</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form action="javascript:void(0)" id="form-generate-sprin">
-                @csrf
-                <input type="hidden" name="status" value="{{$status->id}}">
-                <input type="hidden" name="sub_process">
-                <input type="hidden" name="process_id">
-                <div class="modal-body">
-                    <div class="row justify-content-between align-items-center">
-                        <div class="col">
-                            <div class="form-group">
-                                <label for="exampleInputEmail1" class="form-label">Tanggal Cetak Surat SPRIN</label>
-                                <input type="text" class="form-control" id="exampleInputEmail1"
-                                    aria-describedby="emailHelp"
-                                    value="{{ !empty($sprinRiksa) ? date('d-m-Y H:i', strtotime($sprinRiksa->created_at)) . ' WIB' : '-' }}"
-                                    readonly style="border:none">
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="form-group">
-                                <label for="exampleInputEmail1" class="form-label">Dicetak Oleh</label>
-                                <input type="text" class="form-control" id="exampleInputEmail1"
-                                    aria-describedby="emailHelp"
-                                    value="{{ !empty($sprinRiksa) ? $sprinRiksa->user[0]->name: '-' }}"
-                                    readonly style="border:none">
-                            </div>
-                        </div>
+            @if ($lpa == null)
+                <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                    <symbol id="info-fill" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+                    </symbol>
+                </svg>
+                <div class="alert alert-warning d-flex align-items-center alert-dismissible fade show" role="alert">
+                    <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Info:"><use xlink:href="#info-fill"/></svg>
+                    <div>
+                        Harap Buat Dokumen LPA Terlebih Dahulu
                     </div>
-                    <hr>
-                    @if ($sprinRiksa == null)
-                        <div class="form-group">
-                            <label for="no_sprin" class="form-label">No. SPRIN</label>
-                            <input type="text" class="form-control" name="no_sprin" value="{{!empty($sprinRiksa) ? $sprinRiksa->no_sprin : ''}}" placeholder="{{!empty($sprinRiksa) ? '' : 'Masukan Nomor SPRIN'}}">
+                </div>
+            @else
+                <form action="javascript:void(0)" id="form-generate-sprin">
+                    @csrf
+                    <input type="hidden" name="status" value="{{$status->id}}">
+                    <input type="hidden" name="sub_process">
+                    <input type="hidden" name="process_id">
+                    <div class="modal-body">
+                        <div class="row justify-content-between align-items-center">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1" class="form-label">Tanggal Cetak Surat SPRIN</label>
+                                    <input type="text" class="form-control" id="exampleInputEmail1"
+                                        aria-describedby="emailHelp"
+                                        value="{{ !empty($sprinRiksa) ? date('d-m-Y H:i', strtotime($sprinRiksa->created_at)) . ' WIB' : '-' }}"
+                                        readonly style="border:none">
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1" class="form-label">Dicetak Oleh</label>
+                                    <input type="text" class="form-control" id="exampleInputEmail1"
+                                        aria-describedby="emailHelp"
+                                        value="{{ !empty($sprinRiksa) ? $sprinRiksa->user[0]->name: '-' }}"
+                                        readonly style="border:none">
+                                </div>
+                            </div>
                         </div>
+                        <hr>
+                        @if ($sprinRiksa == null)
+                            <div class="form-group">
+                                <label for="no_sprin" class="form-label">No. SPRIN</label>
+                                <input type="text" class="form-control" name="no_sprin" value="{{!empty($sprinRiksa) ? $sprinRiksa->no_sprin : ''}}" placeholder="{{!empty($sprinRiksa) ? '' : 'Masukan Nomor SPRIN'}}">
+                            </div>
 
-                        <!-- Input data penyidik -->
-                        {{-- <div class="card card-data-penyidik">
-                            <div class="card-header">Input Data Penyelidik</div>
-                            <div class="card-body">
-                                <div class="mb-3" id="form_input_anggota">
-                                    <div class="form_penyelidik">
-                                        <div class="row">
-                                            <div class="col-lg-4">
-                                                <div class="form-outline mb-3">
-                                                    <select name="pangkat" class="form-control form-select select-pangkat" data-placeholder="Pangkat Penyelidik">
-                                                        <option></option>
-                                                        @foreach ($pangkats as $item)
-                                                            <option value="{{$item->name}}">{{$item->name}}</option>
-                                                        @endforeach
-                                                    </select>
+                            <!-- Input data penyidik -->
+                            {{-- <div class="card card-data-penyidik">
+                                <div class="card-header">Input Data Penyelidik</div>
+                                <div class="card-body">
+                                    <div class="mb-3" id="form_input_anggota">
+                                        <div class="form_penyelidik">
+                                            <div class="row">
+                                                <div class="col-lg-4">
+                                                    <div class="form-outline mb-3">
+                                                        <select name="pangkat" class="form-control form-select select-pangkat" data-placeholder="Pangkat Penyelidik">
+                                                            <option></option>
+                                                            @foreach ($pangkats as $item)
+                                                                <option value="{{$item->name}}">{{$item->name}}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
                                                 </div>
-                                            </div>
 
-                                            <div class="col-lg-4">
-                                                <div class="form-outline mb-3">
-                                                    <input type="text" class="form-control" name="nama_penyelidik"
-                                                        id="nama_penyidik" placeholder="Nama Penyelidik">
+                                                <div class="col-lg-4">
+                                                    <div class="form-outline mb-3">
+                                                        <input type="text" class="form-control" name="nama_penyelidik"
+                                                            id="nama_penyidik" placeholder="Nama Penyelidik">
+                                                    </div>
                                                 </div>
-                                            </div>
 
-                                            <div class="col-lg-4">
-                                                <div class="form-outline mb-3">
-                                                    <input type="text" class="form-control num" name="nrp"
-                                                        id="nrp" placeholder="NRP" onfocus="mask(this, '99999999')">
+                                                <div class="col-lg-4">
+                                                    <div class="form-outline mb-3">
+                                                        <input type="text" class="form-control num" name="nrp"
+                                                            id="nrp" placeholder="NRP" onfocus="mask(this, '99999999')">
+                                                    </div>
                                                 </div>
-                                            </div>
 
-                                            <div class="col-lg-4">
-                                                <div class="form-outline mb-3">
-                                                    <input type="text" class="form-control" name="jabatan"
-                                                        id="jabatan" placeholder="Jabatan Penyelidik">
+                                                <div class="col-lg-4">
+                                                    <div class="form-outline mb-3">
+                                                        <input type="text" class="form-control" name="jabatan"
+                                                            id="jabatan" placeholder="Jabatan Penyelidik">
+                                                    </div>
                                                 </div>
-                                            </div>
 
-                                            <div class="col-lg-4">
-                                                <div class="form-outline mb-3">
-                                                    <input type="text" class="form-control" name="kesatuan"
-                                                        id="kesatuan" placeholder="Kesatuan Penyelidik">
+                                                <div class="col-lg-4">
+                                                    <div class="form-outline mb-3">
+                                                        <input type="text" class="form-control" name="kesatuan"
+                                                            id="kesatuan" placeholder="Kesatuan Penyelidik">
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
+                                        <hr>
                                     </div>
-                                    <hr>
-                                </div>
 
-                                <div class="d-flex mb-3 justify-content-between">
-                                    <span onclick="tambahAnggota(this)" class="text-primary" style="cursor: pointer"> <i class="far fa-plus-square"></i>
-                                        Anggota </span>
-                                </div>
-                            </div>
-                        </div> --}}
-                        <div class="card card-data-penyidik">
-                            <div class="card-header">Unit Pemeriksa</div>
-                            <div class="card-body">
-                                <div class="form-group">
-                                    <label for="">Pilih Unit Pemeriksa</label>
-                                    <select name="unit_pemeriksa" id="" class="form-control form-select" data-placeholder="Silahkan Pilih Unit Pemeriksa">
-                                        <option></option>
-                                        @foreach ($unit as $item)
-                                            <option value="{{$item->unit}}">{{$item->unit}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-
-                                <div class="container mt-5" id="preview_anggota" style="display: none">
-                                    <h6>Preview Anggota Unit</h6>
-                                    <div class="table-responsive table-card px-3">
-                                        <table class="table table-centered align-middle table-nowrap mb-0" id="data-data">
-                                            <thead class="text-muted table-light">
-                                                <tr>
-                                                    <th scope="col">Nama</th>
-                                                    <th scope="col">NRP</th>
-                                                    <th scope="col">Pangkat</th>
-                                                    <th scope="col">Jabatan</th>
-                                                    <th scope="col">Tim</th>
-                                                    <th scope="col">Unit</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody></tbody>
-                                        </table>
+                                    <div class="d-flex mb-3 justify-content-between">
+                                        <span onclick="tambahAnggota(this)" class="text-primary" style="cursor: pointer"> <i class="far fa-plus-square"></i>
+                                            Anggota </span>
                                     </div>
                                 </div>
+                            </div> --}}
+                            <div class="card card-data-penyidik">
+                                <div class="card-header">Unit Pemeriksa</div>
+                                <div class="card-body">
+                                    <div class="form-group">
+                                        <label for="">Pilih Unit Pemeriksa</label>
+                                        <select name="unit_pemeriksa" id="" class="form-control form-select" data-placeholder="Silahkan Pilih Unit Pemeriksa">
+                                            <option></option>
+                                            @foreach ($unit as $item)
+                                                <option value="{{$item->unit}}">{{$item->unit}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
+                                    <div class="container mt-5" id="preview_anggota" style="display: none">
+                                        <h6>Preview Anggota Unit</h6>
+                                        <div class="table-responsive table-card px-3">
+                                            <table class="table table-centered align-middle table-nowrap mb-0" id="data-data">
+                                                <thead class="text-muted table-light">
+                                                    <tr>
+                                                        <th scope="col">Nama</th>
+                                                        <th scope="col">NRP</th>
+                                                        <th scope="col">Pangkat</th>
+                                                        <th scope="col">Jabatan</th>
+                                                        <th scope="col">Tim</th>
+                                                        <th scope="col">Unit</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody></tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    @else
-                        <div class="row justify-content-around items-center mt-4">
-                            <p>
-                                <a href="/print/sprin_riksa/{{$kasus->id}}/generated" class="text-primary" style="text-decoration: none; width: 100%">
-                                    <i class="mdi mdi-file-document"></i>
-                                    Download Ulang SPRIN Riksa
-                                    <span class="mdi mdi-download"></span>
-                                </a>
-                            </p>
-                        </div>
-                    @endif
-                </div>
-                <div class="modal-footer">
-                    @if ($sprinRiksa == null)
-                        <button type="submit" class="btn btn-primary">Buat Surat</button>
-                    @else
-                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal" aria-label="Close">Close</button>
-                    @endif
-                </div>
-            </form>
+                        @else
+                            <div class="row justify-content-around items-center mt-4">
+                                <p>
+                                    <a href="/print/sprin_riksa/{{$kasus->id}}/generated" class="text-primary" style="text-decoration: none; width: 100%">
+                                        <i class="mdi mdi-file-document"></i>
+                                        Download Ulang SPRIN Riksa
+                                        <span class="mdi mdi-download"></span>
+                                    </a>
+                                </p>
+                            </div>
+                        @endif
+                    </div>
+                    <div class="modal-footer">
+                        @if ($sprinRiksa == null)
+                            <button type="submit" class="btn btn-primary">Buat Surat</button>
+                        @else
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal" aria-label="Close">Close</button>
+                        @endif
+                    </div>
+                </form>
+            @endif
         </div>
     </div>
 </div>
@@ -408,136 +432,150 @@
                 <h5 class="modal-title" id="exampleModalLabel">Pembuatan Surat Panggilan Saksi</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form action="javascript:void(0)" id="form-generate-sp-saksi">
-                @csrf
-                <input type="hidden" name="status" value="{{$status->id}}">
-                <input type="hidden" name="sub_process">
-                <input type="hidden" name="process_id">
-                <div class="modal-body">
-                    {{-- @if (count($saksi) == 0) --}}
-                        <div class="card" id="data-dihadap">
-                            <div class="card-header">
-                                Form yang akan dihadap
-                            </div>
-                            <div class="card-body row">
-                                <div class="col-md-4 col-12">
-                                    <div class="form-group">
-                                        <label for="">Pilih Penyidik</label>
-                                        <select name="penyidik_1" class="form-select select-penyidik" data-placeholder="Silahkan Pilih Penyidik Pertama"></select>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-4 col-12">
-                                    <div class="form-group">
-                                        <label for="tgl">Tanggal</label>
-                                        <input type="date" name="tgl" class="form-control">
-                                    </div>
-                                </div>
-
-                                <div class="col-md-4 col-12">
-                                    <div class="form-group">
-                                        <label for="waktu">Waktu</label>
-                                        <input type="time" name="waktu" class="form-control">
-                                    </div>
-                                </div>
-
-                                <div class="col-md-12 col-12">
-                                    <div class="form-group">
-                                        <label for="waktu">No. Telp Penyidik</label>
-                                        <input type="text" name="no_telp_penyidik" class="form-control" onfocus="mask(this, '99999999999999')">
-                                    </div>
-                                </div>
-
-                                <div class="col-md-12 col-12">
-                                    <div class="form-group">
-                                        <label for="">Lokasi</label>
-                                        <textarea name="lokasi" class="form-control" cols="15" rows="2"></textarea>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    {{-- @endif --}}
-                    @if (count($saksi) == 0)
-                        <div class="card" id="data-saksi">
-                            <div class="card-header" id="header-saksi" style="cursor: pointer">Tambah Saksi <br> <small class="text-info">*click untuk menambahkan saksi</small></div>
-                            <div class="card-body" id="body-saksi" style="display:none">
-                                <div class="mb-3" id="container_saksi">
-                                    <div class="row mb-3 form_saksi">
-                                        <div class="col-md-6 col-12">
-                                            <div class="form-group">
-                                                <label for="nama">Nama</label>
-                                                <input type="text" name="nama" class="form-control" placeholder="Masukan Nama">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-12">
-                                            <div class="form-group">
-                                                <label for="pekerjaan">Pekerjaan</label>
-                                                <input type="text" name="pekerjaan" class="form-control" placeholder="Masukan Pekerjaan">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-12">
-                                            <div class="form-group">
-                                                <label for="ttl">Tempat Tanggal Lahir</label>
-                                                <input type="text" name="ttl" class="form-control" placeholder="Masukan Tempat Tanggal Lahir">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-12">
-                                            <div class="form-group">
-                                                <label for="warga_negara">Warga Negara</label>
-                                                <input type="text" name="warga_negara" class="form-control" placeholder="Masukan Warga Negara">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-12">
-                                            <div class="form-group">
-                                                <label for="agama">Agama</label>
-                                                <select name="agama" class="form-select">
-                                                    <option selected disabled>----- Harap Pilih Agama -----</option>
-                                                    @foreach ($agamas as $agama)
-                                                        <option value="{{$agama->id}}">{{$agama->name}}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-12">
-                                            <div class="form-group">
-                                                <label for="no_telp">No. Telp</label>
-                                                <input type="text" name="no_telp" class="form-control" placeholder="Masukan Nomor Telepon"onclick="mask(this, '999999999999999')" onchange="mask(this, '999999999999999')">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-12">
-                                            <div class="form-group">
-                                                <label for="alamat">Alamat</label>
-                                                <textarea name="alamat" class="form-control" cols="8" rows="5"></textarea>
-                                                {{-- <input type="text" name="agama" class="form-control" placeholder="Masukan Warga Negara"> --}}
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <hr>
-                                </div>
-
-                                <div class="d-flex mb-3 mt-5 justify-content-between">
-                                    <span onclick="tambahSaksi()" class="text-primary" style="cursor: pointer"> <i class="far fa-plus-square"></i>
-                                        Saksi </span>
-                                </div>
-                            </div>
-                        </div>
-                    @else
-                        <div class="card">
-                            <div class="card-header" style="cursor: pointer">List Data Saksi</div>
-                            <ul class="list-group">
-                                @foreach ($saksi as $s)
-                                    <li class="list-group-item" style="background-color: #a0d7fffb">
-                                        <p> {{$s->nama}} - {{$s->no_telp}} </p>
-                                    </li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
+            @if ($sprinRiksa == null)
+                <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                    <symbol id="info-fill" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+                    </symbol>
+                </svg>
+                <div class="alert alert-warning d-flex align-items-center alert-dismissible fade show" role="alert">
+                    <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Info:"><use xlink:href="#info-fill"/></svg>
+                    <div>
+                        Harap Buat Dokumen SPRIN Riksa Terlebih Dahulu
+                    </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Buat Dokumen</button>
-                </div>
-            </form>
+            @else
+                <form action="javascript:void(0)" id="form-generate-sp-saksi">
+                    @csrf
+                    <input type="hidden" name="status" value="{{$status->id}}">
+                    <input type="hidden" name="sub_process">
+                    <input type="hidden" name="process_id">
+                    <div class="modal-body">
+                        {{-- @if (count($saksi) == 0) --}}
+                            <div class="card" id="data-dihadap">
+                                <div class="card-header">
+                                    Form yang akan dihadap
+                                </div>
+                                <div class="card-body row">
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group">
+                                            <label for="">Pilih Penyidik</label>
+                                            <select name="penyidik_1" class="form-select select-penyidik" data-placeholder="Silahkan Pilih Penyidik Pertama"></select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group">
+                                            <label for="tgl">Tanggal</label>
+                                            <input type="date" name="tgl" class="form-control">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group">
+                                            <label for="waktu">Waktu</label>
+                                            <input type="time" name="waktu" class="form-control">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12 col-12">
+                                        <div class="form-group">
+                                            <label for="waktu">No. Telp Penyidik</label>
+                                            <input type="text" name="no_telp_penyidik" class="form-control" onfocus="mask(this, '99999999999999')">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12 col-12">
+                                        <div class="form-group">
+                                            <label for="">Lokasi</label>
+                                            <textarea name="lokasi" class="form-control" cols="15" rows="2"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {{-- @endif --}}
+                        @if (count($saksi) == 0)
+                            <div class="card" id="data-saksi">
+                                <div class="card-header" id="header-saksi" style="cursor: pointer">Tambah Saksi <br> <small class="text-info">*click untuk menambahkan saksi</small></div>
+                                <div class="card-body" id="body-saksi" style="display:none">
+                                    <div class="mb-3" id="container_saksi">
+                                        <div class="row mb-3 form_saksi">
+                                            <div class="col-md-6 col-12">
+                                                <div class="form-group">
+                                                    <label for="nama">Nama</label>
+                                                    <input type="text" name="nama" class="form-control" placeholder="Masukan Nama">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-12">
+                                                <div class="form-group">
+                                                    <label for="pekerjaan">Pekerjaan</label>
+                                                    <input type="text" name="pekerjaan" class="form-control" placeholder="Masukan Pekerjaan">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-12">
+                                                <div class="form-group">
+                                                    <label for="ttl">Tempat Tanggal Lahir</label>
+                                                    <input type="text" name="ttl" class="form-control" placeholder="Masukan Tempat Tanggal Lahir">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-12">
+                                                <div class="form-group">
+                                                    <label for="warga_negara">Warga Negara</label>
+                                                    <input type="text" name="warga_negara" class="form-control" placeholder="Masukan Warga Negara">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-12">
+                                                <div class="form-group">
+                                                    <label for="agama">Agama</label>
+                                                    <select name="agama" class="form-select">
+                                                        <option selected disabled>----- Harap Pilih Agama -----</option>
+                                                        @foreach ($agamas as $agama)
+                                                            <option value="{{$agama->id}}">{{$agama->name}}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-12">
+                                                <div class="form-group">
+                                                    <label for="no_telp">No. Telp</label>
+                                                    <input type="text" name="no_telp" class="form-control" placeholder="Masukan Nomor Telepon"onclick="mask(this, '999999999999999')" onchange="mask(this, '999999999999999')">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-12">
+                                                <div class="form-group">
+                                                    <label for="alamat">Alamat</label>
+                                                    <textarea name="alamat" class="form-control" cols="8" rows="5"></textarea>
+                                                    {{-- <input type="text" name="agama" class="form-control" placeholder="Masukan Warga Negara"> --}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                    </div>
+
+                                    <div class="d-flex mb-3 mt-5 justify-content-between">
+                                        <span onclick="tambahSaksi()" class="text-primary" style="cursor: pointer"> <i class="far fa-plus-square"></i>
+                                            Saksi </span>
+                                    </div>
+                                </div>
+                            </div>
+                        @else
+                            <div class="card">
+                                <div class="card-header" style="cursor: pointer">List Data Saksi</div>
+                                <ul class="list-group">
+                                    @foreach ($saksi as $s)
+                                        <li class="list-group-item" style="background-color: #a0d7fffb">
+                                            <p> {{$s->nama}} - {{$s->no_telp}} </p>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Buat Dokumen</button>
+                    </div>
+                </form>
+            @endif
         </div>
     </div>
 </div>
@@ -549,60 +587,74 @@
                 <h5 class="modal-title" id="exampleModalLabel">Pembuatan Surat Panggilan Terduga</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form action="javascript:void(0)" id="form-generate-sp-terduga">
-                @csrf
-                <input type="hidden" name="status" value="{{$status->id}}">
-                <input type="hidden" name="sub_process">
-                <input type="hidden" name="process_id">
-                <div class="modal-body">
-                    {{-- @if (count($saksi) == 0) --}}
-                        <div class="card" id="data-dihadap">
-                            <div class="card-header">
-                                Form yang akan dihadap
-                            </div>
-                            <div class="card-body row">
-                                <div class="col-md-4 col-12">
-                                    <div class="form-group">
-                                        <label for="">Pilih Penyidik</label>
-                                        <select name="penyidik_1" class="form-select select-penyidik" data-placeholder="Silahkan Pilih Penyidik Pertama"></select>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-4 col-12">
-                                    <div class="form-group">
-                                        <label for="tgl">Tanggal</label>
-                                        <input type="date" name="tgl" class="form-control">
-                                    </div>
-                                </div>
-
-                                <div class="col-md-4 col-12">
-                                    <div class="form-group">
-                                        <label for="waktu">Waktu</label>
-                                        <input type="time" name="waktu" class="form-control">
-                                    </div>
-                                </div>
-
-                                <div class="col-md-12 col-12">
-                                    <div class="form-group">
-                                        <label for="waktu">No. Telp Penyidik</label>
-                                        <input type="text" name="no_telp_penyidik" class="form-control" onfocus="mask(this, '99999999999999')">
-                                    </div>
-                                </div>
-
-                                <div class="col-md-12 col-12">
-                                    <div class="form-group">
-                                        <label for="">Lokasi</label>
-                                        <textarea name="lokasi" class="form-control" cols="15" rows="2"></textarea>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    {{-- @endif --}}
+            @if ($sprinRiksa == null)
+                <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                    <symbol id="info-fill" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+                    </symbol>
+                </svg>
+                <div class="alert alert-warning d-flex align-items-center alert-dismissible fade show" role="alert">
+                    <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Info:"><use xlink:href="#info-fill"/></svg>
+                    <div>
+                        Harap Buat Dokumen SPRIN Riksa Terlebih Dahulu
+                    </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Buat Dokumen</button>
-                </div>
-            </form>
+            @else
+                <form action="javascript:void(0)" id="form-generate-sp-terduga">
+                    @csrf
+                    <input type="hidden" name="status" value="{{$status->id}}">
+                    <input type="hidden" name="sub_process">
+                    <input type="hidden" name="process_id">
+                    <div class="modal-body">
+                        {{-- @if (count($saksi) == 0) --}}
+                            <div class="card" id="data-dihadap">
+                                <div class="card-header">
+                                    Form yang akan dihadap
+                                </div>
+                                <div class="card-body row">
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group">
+                                            <label for="">Pilih Penyidik</label>
+                                            <select name="penyidik_1" class="form-select select-penyidik" data-placeholder="Silahkan Pilih Penyidik Pertama"></select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group">
+                                            <label for="tgl">Tanggal</label>
+                                            <input type="date" name="tgl" class="form-control">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group">
+                                            <label for="waktu">Waktu</label>
+                                            <input type="time" name="waktu" class="form-control">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12 col-12">
+                                        <div class="form-group">
+                                            <label for="waktu">No. Telp Penyidik</label>
+                                            <input type="text" name="no_telp_penyidik" class="form-control" onfocus="mask(this, '99999999999999')">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12 col-12">
+                                        <div class="form-group">
+                                            <label for="">Lokasi</label>
+                                            <textarea name="lokasi" class="form-control" cols="15" rows="2"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {{-- @endif --}}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Buat Dokumen</button>
+                    </div>
+                </form>
+            @endif
         </div>
     </div>
 </div>
@@ -614,160 +666,174 @@
                 <h5 class="modal-title" id="exampleModalLabel">Pembuatan Berkas BAP</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form action="javascript:void(0)" id="form-generate-bap">
-                @csrf
-                <input type="hidden" name="status" value="{{$status->id}}">
-                <input type="hidden" name="sub_process">
-                <input type="hidden" name="process_id">
-                <div class="modal-body">
-                    @if ($bap == null)
-                        <div class="card" id="data-penyidik">
-                            <div class="card-header">
-                                Pilih Penyidik
-                            </div>
-                            <div class="card-body row">
-                                <div class="col-md-6 col-12">
-                                    <div class="form-group">
-                                        <label for="">Penyidik 1</label>
-                                        <select name="penyidik_1" id="select_penyidik_1" class="form-select select-penyidik" data-placeholder="Silahkan Pilih Penyidik Pertama"></select>
-                                    </div>
+            @if ($sprinRiksa == null)
+                <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                    <symbol id="info-fill" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+                    </symbol>
+                </svg>
+                <div class="alert alert-warning d-flex align-items-center alert-dismissible fade show" role="alert">
+                    <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Info:"><use xlink:href="#info-fill"/></svg>
+                    <div>
+                        Harap Buat Dokumen SPRIN Riksa Terlebih Dahulu
+                    </div>
+                </div>
+            @else
+                <form action="javascript:void(0)" id="form-generate-bap">
+                    @csrf
+                    <input type="hidden" name="status" value="{{$status->id}}">
+                    <input type="hidden" name="sub_process">
+                    <input type="hidden" name="process_id">
+                    <div class="modal-body">
+                        @if ($bap == null)
+                            <div class="card" id="data-penyidik">
+                                <div class="card-header">
+                                    Pilih Penyidik
                                 </div>
-                                <div class="col-md-6 col-12">
-                                    <div class="form-group">
-                                        <label for="">Penyidik 2</label>
-                                        <select name="penyidik_2" id="select_penyidik_2" class="form-select select-penyidik" data-placeholder="Silahkan Pilih Penyidik Kedua"></select>
+                                <div class="card-body row">
+                                    <div class="col-md-6 col-12">
+                                        <div class="form-group">
+                                            <label for="">Penyidik 1</label>
+                                            <select name="penyidik_1" id="select_penyidik_1" class="form-select select-penyidik" data-placeholder="Silahkan Pilih Penyidik Pertama"></select>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-                    @else
-                        <div class="card" id="data-penyidik">
-                            <div class="card-header">
-                                Pilih Penyidik
-                            </div>
-                            <div class="card-body row">
-                                <div class="col-md-6 col-12">
-                                    <div class="form-group">
-                                        <label for="">Penyidik 1</label>
-                                        <input type="text" class="form-control" disabled value="{{$penyidik1->pangkat}} {{$penyidik1->name}} - {{$penyidik1->jabatan}}">
-                                        <select name="penyidik_1" hidden>
-                                            <option value="{{$bap->penyidik1}}" selected></option>
-                                        </select>
-                                        {{-- <input name="penyidik1" type="hidden" value="{{$bai->penyidik1}}"/> --}}
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-12">
-                                    <div class="form-group">
-                                        <label for="">Penyidik 2</label>
-                                        <input type="text" class="form-control" disabled value="{{$penyidik2->pangkat}} {{$penyidik2->name}} - {{$penyidik2->jabatan}}">
-                                        <select name="penyidik_2" hidden>
-                                            <option value="{{$bap->penyidik2}}" selected></option>
-                                        </select>
-                                        {{-- <input name="penyidik2" type="hidden" value="{{$bai->penyidik2}}"/> --}}
+                                    <div class="col-md-6 col-12">
+                                        <div class="form-group">
+                                            <label for="">Penyidik 2</label>
+                                            <select name="penyidik_2" id="select_penyidik_2" class="form-select select-penyidik" data-placeholder="Silahkan Pilih Penyidik Kedua"></select>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    @endif
-                    @if (count($saksiAhli) == 0)
-                        <div class="card" id="data-saksi">
-                            <div class="card-header" id="header-saksi" style="cursor: pointer">Tambah Saksi <br> <small class="text-info">*click untuk menambahkan saksi</small></div>
-                            <div class="card-body" id="body-saksi" style="display:none">
-                                <div class="mb-3" id="container_saksi">
-                                    <div class="row mb-3 form_saksi">
-                                        <div class="col-md-6 col-12">
-                                            <div class="form-group">
-                                                <label for="nama">Nama</label>
-                                                <input type="text" name="nama" class="form-control" placeholder="Masukan Nama">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-12">
-                                            <div class="form-group">
-                                                <label for="pangkat">Pangkat</label>
-                                                <input type="text" name="pangkat" class="form-control" placeholder="Masukan Pangkat">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-12">
-                                            <div class="form-group">
-                                                <label for="jabatan">Jabatan</label>
-                                                <input type="text" name="jabatan" class="form-control" placeholder="Masukan Jabatan">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-12">
-                                            <div class="form-group">
-                                                <label for="nrp">NRP</label>
-                                                <input type="text" name="nrp" class="form-control" placeholder="Masukan NRP" onclick="mask(this, '99999999')" onchange="mask(this, '99999999')" onfocus="mask(this, '99999999')">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-12">
-                                            <div class="form-group">
-                                                <label for="kesatuan">Kesatuan</label>
-                                                <input type="text" name="kesatuan" class="form-control" placeholder="Masukan Kesatuan">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-12">
-                                            <div class="form-group">
-                                                <label for="ttl">Tempat Tanggal Lahir</label>
-                                                <input type="text" name="ttl" class="form-control" placeholder="Masukan Tempat Tanggal Lahir">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-12">
-                                            <div class="form-group">
-                                                <label for="warga_negara">Warga Negara</label>
-                                                <input type="text" name="warga_negara" class="form-control" placeholder="Masukan Warga Negara">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-12">
-                                            <div class="form-group">
-                                                <label for="agama">Agama</label>
-                                                <select name="agama" class="form-select">
-                                                    <option selected disabled>----- Harap Pilih Agama -----</option>
-                                                    @foreach ($agamas as $agama)
-                                                        <option value="{{$agama->id}}">{{$agama->name}}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-12">
-                                            <div class="form-group">
-                                                <label for="alamat">Alamat</label>
-                                                <textarea name="alamat" class="form-control" cols="8" rows="5"></textarea>
-                                                {{-- <input type="text" name="agama" class="form-control" placeholder="Masukan Warga Negara"> --}}
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-12">
-                                            <div class="form-group">
-                                                <label for="no_telp">No. Telp</label>
-                                                <input type="text" name="no_telp" class="form-control" placeholder="Masukan Nomor Telepon"onclick="mask(this, '999999999999999')" onchange="mask(this, '999999999999999')">
-                                            </div>
+                        @else
+                            <div class="card" id="data-penyidik">
+                                <div class="card-header">
+                                    Pilih Penyidik
+                                </div>
+                                <div class="card-body row">
+                                    <div class="col-md-6 col-12">
+                                        <div class="form-group">
+                                            <label for="">Penyidik 1</label>
+                                            <input type="text" class="form-control" disabled value="{{$penyidik1->pangkat}} {{$penyidik1->name}} - {{$penyidik1->jabatan}}">
+                                            <select name="penyidik_1" hidden>
+                                                <option value="{{$bap->penyidik1}}" selected></option>
+                                            </select>
+                                            {{-- <input name="penyidik1" type="hidden" value="{{$bai->penyidik1}}"/> --}}
                                         </div>
                                     </div>
-                                    <hr>
+                                    <div class="col-md-6 col-12">
+                                        <div class="form-group">
+                                            <label for="">Penyidik 2</label>
+                                            <input type="text" class="form-control" disabled value="{{$penyidik2->pangkat}} {{$penyidik2->name}} - {{$penyidik2->jabatan}}">
+                                            <select name="penyidik_2" hidden>
+                                                <option value="{{$bap->penyidik2}}" selected></option>
+                                            </select>
+                                            {{-- <input name="penyidik2" type="hidden" value="{{$bai->penyidik2}}"/> --}}
+                                        </div>
+                                    </div>
                                 </div>
+                            </div>
+                        @endif
+                        @if (count($saksiAhli) == 0)
+                            <div class="card" id="data-saksi">
+                                <div class="card-header" id="header-saksi" style="cursor: pointer">Tambah Saksi <br> <small class="text-info">*click untuk menambahkan saksi</small></div>
+                                <div class="card-body" id="body-saksi" style="display:none">
+                                    <div class="mb-3" id="container_saksi">
+                                        <div class="row mb-3 form_saksi">
+                                            <div class="col-md-6 col-12">
+                                                <div class="form-group">
+                                                    <label for="nama">Nama</label>
+                                                    <input type="text" name="nama" class="form-control" placeholder="Masukan Nama">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-12">
+                                                <div class="form-group">
+                                                    <label for="pangkat">Pangkat</label>
+                                                    <input type="text" name="pangkat" class="form-control" placeholder="Masukan Pangkat">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-12">
+                                                <div class="form-group">
+                                                    <label for="jabatan">Jabatan</label>
+                                                    <input type="text" name="jabatan" class="form-control" placeholder="Masukan Jabatan">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-12">
+                                                <div class="form-group">
+                                                    <label for="nrp">NRP</label>
+                                                    <input type="text" name="nrp" class="form-control" placeholder="Masukan NRP" onclick="mask(this, '99999999')" onchange="mask(this, '99999999')" onfocus="mask(this, '99999999')">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-12">
+                                                <div class="form-group">
+                                                    <label for="kesatuan">Kesatuan</label>
+                                                    <input type="text" name="kesatuan" class="form-control" placeholder="Masukan Kesatuan">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-12">
+                                                <div class="form-group">
+                                                    <label for="ttl">Tempat Tanggal Lahir</label>
+                                                    <input type="text" name="ttl" class="form-control" placeholder="Masukan Tempat Tanggal Lahir">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-12">
+                                                <div class="form-group">
+                                                    <label for="warga_negara">Warga Negara</label>
+                                                    <input type="text" name="warga_negara" class="form-control" placeholder="Masukan Warga Negara">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-12">
+                                                <div class="form-group">
+                                                    <label for="agama">Agama</label>
+                                                    <select name="agama" class="form-select">
+                                                        <option selected disabled>----- Harap Pilih Agama -----</option>
+                                                        @foreach ($agamas as $agama)
+                                                            <option value="{{$agama->id}}">{{$agama->name}}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-12">
+                                                <div class="form-group">
+                                                    <label for="alamat">Alamat</label>
+                                                    <textarea name="alamat" class="form-control" cols="8" rows="5"></textarea>
+                                                    {{-- <input type="text" name="agama" class="form-control" placeholder="Masukan Warga Negara"> --}}
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-12">
+                                                <div class="form-group">
+                                                    <label for="no_telp">No. Telp</label>
+                                                    <input type="text" name="no_telp" class="form-control" placeholder="Masukan Nomor Telepon"onclick="mask(this, '999999999999999')" onchange="mask(this, '999999999999999')">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                    </div>
 
-                                <div class="d-flex mb-3 mt-5 justify-content-between">
-                                    <span onclick="tambahSaksi()" class="text-primary" style="cursor: pointer"> <i class="far fa-plus-square"></i>
-                                        Saksi </span>
+                                    <div class="d-flex mb-3 mt-5 justify-content-between">
+                                        <span onclick="tambahSaksi()" class="text-primary" style="cursor: pointer"> <i class="far fa-plus-square"></i>
+                                            Saksi </span>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    @else
-                        <div class="card">
-                            <div class="card-header" style="cursor: pointer">List Data Saksi</div>
-                            <ul class="list-group">
-                                @foreach ($saksiAhli as $s)
-                                    <li class="list-group-item" style="background-color: #a0d7fffb">
-                                        <p> {{$s->pangkat}} {{$s->nama}} {{$s->jabatan}} {{$s->kesatuan}} - {{$s->nrp}} </p>
-                                    </li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Buat Dokumen</button>
-                </div>
-            </form>
+                        @else
+                            <div class="card">
+                                <div class="card-header" style="cursor: pointer">List Data Saksi</div>
+                                <ul class="list-group">
+                                    @foreach ($saksiAhli as $s)
+                                        <li class="list-group-item" style="background-color: #a0d7fffb">
+                                            <p> {{$s->pangkat}} {{$s->nama}} {{$s->jabatan}} {{$s->kesatuan}} - {{$s->nrp}} </p>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Buat Dokumen</button>
+                    </div>
+                </form>
+            @endif
         </div>
     </div>
 </div>
@@ -779,41 +845,55 @@
                 <h5 class="modal-title" id="exampleModalLabel">Pembuatan Berkas DP3D</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form action="javascript:void(0)" id="form-generate-dp3d">
-                @csrf
-                <input type="hidden" name="status" value="{{$status->id}}">
-                <input type="hidden" name="sub_process">
-                <input type="hidden" name="process_id">
-                <div class="modal-body">
-                    @if ($dp3d == null)
-                        <div class="card" id="data-dihadap">
-                            <div class="card-body">
-                                <div class="form-group">
-                                    <label for="no_dp3d">Nomor DP3D</label>
-                                    <input type="text" name="no_dp3d" class="form-control">
-                                </div>
-                                <div class="form-group">
-                                    <label for="pasal">Pasal yang dilanggar</label>
-                                    <textarea name="pasal" class="form-control" id="" cols="30" rows="5">{{$gelarPerkara->landasan_hukum}}</textarea>
+            @if ($lpa == null)
+                <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                    <symbol id="info-fill" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+                    </symbol>
+                </svg>
+                <div class="alert alert-warning d-flex align-items-center alert-dismissible fade show" role="alert">
+                    <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Info:"><use xlink:href="#info-fill"/></svg>
+                    <div>
+                        Harap Buat Dokumen LPA Terlebih Dahulu
+                    </div>
+                </div>
+            @else
+                <form action="javascript:void(0)" id="form-generate-dp3d">
+                    @csrf
+                    <input type="hidden" name="status" value="{{$status->id}}">
+                    <input type="hidden" name="sub_process">
+                    <input type="hidden" name="process_id">
+                    <div class="modal-body">
+                        @if ($dp3d == null)
+                            <div class="card" id="data-dihadap">
+                                <div class="card-body">
+                                    <div class="form-group">
+                                        <label for="no_dp3d">Nomor DP3D</label>
+                                        <input type="text" name="no_dp3d" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="pasal">Pasal yang dilanggar</label>
+                                        <textarea name="pasal" class="form-control" id="" cols="30" rows="5">{{$gelarPerkara->landasan_hukum}}</textarea>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    @else
-                        <a href="/print/dp3d/{{$kasus->id}}/generated" class="text-primary" style="text-decoration: none; width: 100%">
-                            <i class="mdi mdi-file-document"></i>
-                            Download Ulang DP3D
-                            <span class="mdi mdi-download"></span>
-                        </a>
-                    @endif
-                </div>
-                <div class="modal-footer">
-                    @if ($dp3d == null)
-                        <button type="submit" class="btn btn-primary">Buat Dokumen</button>
-                    @else
-                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal" aria-label="Close">Close</button>
-                    @endif
-                </div>
-            </form>
+                        @else
+                            <a href="/print/dp3d/{{$kasus->id}}/generated" class="text-primary" style="text-decoration: none; width: 100%">
+                                <i class="mdi mdi-file-document"></i>
+                                Download Ulang DP3D
+                                <span class="mdi mdi-download"></span>
+                            </a>
+                        @endif
+                    </div>
+                    <div class="modal-footer">
+                        @if ($dp3d == null)
+                            <button type="submit" class="btn btn-primary">Buat Dokumen</button>
+                        @else
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal" aria-label="Close">Close</button>
+                        @endif
+                    </div>
+                </form>
+            @endif
         </div>
     </div>
 </div>
