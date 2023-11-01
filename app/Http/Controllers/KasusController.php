@@ -257,7 +257,7 @@ class KasusController extends Controller
                         $data->save();
 
                         $gelarPerkara = GelarPerkara::where('data_pelanggar_id', $request->kasus_id)->first();
-                        $gelarPerkara->hasil_gelar = Process::where('id', 9)->first()->name;
+                        $gelarPerkara->hasil_gelar = Process::where('id', 10)->first()->name;
                         $gelarPerkara->save();
 
                         $sp2hp = (new GenerateDocument)->sp2hp($request->kasus_id,$request->process_id,12);

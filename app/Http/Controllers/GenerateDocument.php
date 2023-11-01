@@ -911,7 +911,7 @@ class GenerateDocument extends Controller
             case 'Tidak Cukup Bukti':
                 $keterangan = 'oleh karena Tidak cukup bukti';
                 break;
-            case 'Dihentikan':
+            case 'Dihentikan (RJ)':
                 $keterangan = 'oleh karena adanya pencabutan laporan dan kesepakatan bersama';
                 break;
             default:
