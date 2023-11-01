@@ -33,9 +33,13 @@
 
 @section('content')
     {{-- STAT --}}
-    <div class="row">
+    <center>
+        <span class="logo-lg">
+            <img src="{{asset('assets/images/Tagline-Propam.png')}}" alt="" height="50">
+        </span>
+    </center>
+    <div class="row mt-4">
         <div class="col">
-
             <div class="h-100">
                 <div class="row">
                     <div class="col-xl-4">
@@ -138,6 +142,102 @@
             </div>
         </div>
     </div>
+
+    {{-- Dumas per status, limpah, unit --}}
+    <div class="row">
+        <div class="col-xl-4">
+            <!-- card -->
+            <div class="card card-animate">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div class="flex-grow-1">
+                            <p class="text-uppercase fw-medium text-muted text-truncate fs-13">Data Dumas Berdasarkan Status</p>
+                            {{-- <h4 class="fs-22 fw-semibold mb-3"><span class="counter-value" data-target="{{ count($pelanggar) }}">0</span></h4> --}}
+                        </div>
+                        <div class="avatar-sm flex-shrink-0">
+                            <span class="avatar-title bg-soft-success rounded fs-3">
+                                <i class="fa fa-gavel text-success"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div><!-- end card body -->
+                <div class="animation-effect-6 text-success opacity-25 fs-18">
+                    <i class="fa fa-gavel"></i>
+                </div>
+                <div class="animation-effect-4 text-success opacity-25 fs-18">
+                    <i class="mdi mdi-gavel"></i>
+                </div>
+            </div><!-- end card -->
+        </div>
+        <div class="col-xl-4">
+            <!-- card -->
+            <div class="card card-animate">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div class="flex-grow-1">
+                            <p class="text-uppercase fw-medium text-muted text-truncate fs-13">Total Limpah Wabprof / Jajaran</p>
+                            {{-- <h4 class="fs-22 fw-semibold mb-3"><span class="counter-value" data-target="{{count($pengaduan_diproses)}}">0</span></h4> --}}
+                        </div>
+                        <div class="avatar-sm flex-shrink-0">
+                            <span class="avatar-title bg-soft-info rounded fs-3">
+                                <i class="bx bx-pie-chart-alt-2 text-info"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div><!-- end card body -->
+                <div class="animation-effect-6 text-info opacity-25 fs-18">
+                    <i class="bi bi-pie-chart-fill"></i>
+                </div>
+                <div class="animation-effect-4 text-info opacity-25 fs-18">
+                    <i class="mdi mdi-chart-box"></i>
+                </div>
+            </div><!-- end card -->
+        </div>
+        <div class="col-xl-4">
+            <!-- card -->
+            <div class="card card-animate">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div class="flex-grow-1">
+                            <p class="text-uppercase fw-medium text-muted text-truncate fs-13">Total Dumas Berdasarkan Unit</p>
+                            {{-- <h4 class="fs-22 fw-semibold mb-3"><span class="counter-value" data-target="{{count($polda)}}">0</span></h4> --}}
+                        </div>
+                        <div class="avatar-sm flex-shrink-0">
+                            <span class="avatar-title bg-soft-warning rounded fs-3">
+                                <i class="bx bx-user-circle text-warning"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div><!-- end card body -->
+                <div class="animation-effect-6 text-warning opacity-25 fs-18">
+                    <i class="bi bi-person"></i>
+                </div>
+                <div class="animation-effect-4 text-warning opacity-25 fs-18">
+                    <i class="bi bi-person-fill"></i>
+                </div>
+                <div class="animation-effect-3 text-warning opacity-25 fs-18">
+                    <i class="bi bi-people"></i>
+                </div>
+            </div><!-- end card -->
+        </div>
+    </div>
+
+    {{-- Dumas Triwulan --}}
+    <div class="card card-animate">
+        <div class="card-body">
+            <h4 class="text-muted text-semibold">
+                Rekap Data Dumas Per-Triwulan
+            </h4>
+            <div class="row">
+                <div class="col-xl-3">
+                </div>
+                <div class="col-xl-3">
+                </div>
+                <div class="col-xl-3">
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @section('scripts')
@@ -166,7 +266,7 @@
                     data: data
                 }],
                 chart: {
-                    height: 300,
+                    height: 298,
                     type: 'line',
                     toolbar:{
                         show:false

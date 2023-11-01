@@ -14,17 +14,19 @@ class DashboardController extends Controller
     public function index(){
         $data['polda'] = Polda::get();
         $data['pelanggar'] = DataPelanggar::get();
-        $data['pengaduan_diproses'] = $data['pelanggar']->where('status','>',1)->where('status', '<', 8);
+        $data['pengaduan_diproses'] = $data['pelanggar']->where('status_id','>',1)->where('status_id', '<', 8);
 
         foreach ($data['pelanggar'] as $val_plg) {
             $pangkat = Pangkat::where('id', $val_plg->pangkat)->first();
             $data['kasus_by_pangkat'][$pangkat->name] = DataPelanggar::where('pangkat', $val_plg->pangkat)->count();
         }
 
-        // foreach ($data['pelanggar'] as $val_plg) {
-        //     $wujudPerbuatan = WujudPerbuatan::where('id', $val_plg->wujud_perbuatan)->first();
-        //     $data['kasus_by_wujud'][$wujudPerbuatan->jenis_wp] = DataPelanggar::with('wujudPerbuatan', $val_plg->wujud_perbuatan)->count();
-        // }
+        $data['dumas_triwulan']['T1'] = DataPelanggar::whereBetween('tanggal_nota_dinas', [Carbon::create(Carbon::now()->format('Y'), 1)->firstOfQuarter(), Carbon::create(Carbon::now()->format('Y'), 3)->lastOfQuarter()])->count();
+        $data['dumas_triwulan']['T2'] = DataPelanggar::whereBetween('tanggal_nota_dinas', [Carbon::create(Carbon::now()->format('Y'), 4)->firstOfQuarter(), Carbon::create(Carbon::now()->format('Y'), 6)->lastOfQuarter()])->count();
+        $data['dumas_triwulan']['T3'] = DataPelanggar::whereBetween('tanggal_nota_dinas', [Carbon::create(Carbon::now()->format('Y'), 7)->firstOfQuarter(), Carbon::create(Carbon::now()->format('Y'), 9)->lastOfQuarter()])->count();
+        $data['dumas_triwulan']['T4'] = DataPelanggar::whereBetween('tanggal_nota_dinas', [Carbon::create(Carbon::now()->format('Y'), 10)->firstOfQuarter(), Carbon::create(Carbon::now()->format('Y'), 12)->lastOfQuarter()])->count();
+
+        // dd($data['dumas_triwulan']);
 
         $currentYear = Carbon::now()->translatedFormat('Y');
         foreach (range(1,12) as $month) {

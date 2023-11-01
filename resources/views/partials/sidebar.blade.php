@@ -56,11 +56,11 @@
                     </a>
                 </li>
 
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a href="{{ route('logout') }}" class="nav-link menu-link">
                         <i class="bi bi-box-arrow-right"></i> <span data-key="t-dashboard">Logout</span>
                     </a>
-                </li>
+                </li> --}}
                 @can('manage-auth')
                     <li class="menu-title"><span data-key="t-menu">Settings</span></li>
                     <li class="nav-item">
@@ -93,7 +93,13 @@
                     </li>
                 @endcan
 
+                <li class="nav-item">
+                    <span class="logo-lg">
+                        <img src="{{asset('assets/images/maskot_polri.png')}}" class="img-fluid" height="450">
+                    </span>
+                </li>
             </ul>
+
         </div>
         <!-- Sidebar -->
     </div>

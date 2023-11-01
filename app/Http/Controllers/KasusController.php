@@ -253,7 +253,7 @@ class KasusController extends Controller
                 } else if ($request->next == 'restorative_justice') {
                     try {
                         $data = DataPelanggar::find($request->kasus_id);
-                        $data->status_id = 9;
+                        $data->status_id = 10;
                         $data->save();
 
                         $gelarPerkara = GelarPerkara::where('data_pelanggar_id', $request->kasus_id)->first();

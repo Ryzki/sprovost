@@ -36,7 +36,7 @@ class NotaDinasHasilSidang extends Controller
         ],[
             'month_start' => 'Form bulan mulai periode sidang wajib diisi',
             'month_end.required' => 'Form bulan akhir periode sidang wajib diisi',
-            'month_end.after' => 'Form bulan akhir periode sidang harus lebih besar dari bulan mulai periode',
+            'month_end.after_or_equal' => 'Form bulan akhir periode sidang harus lebih besar atau sama dengan bulan mulai periode',
         ]);
 
         try {

@@ -25,11 +25,10 @@
 <script src="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-<script src="https://cdn.tiny.cloud/1/jt86g0xi8xyme7wrxesf4cgceiqev2l757u1d60cs4wey7b7/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.7/jquery.inputmask.min.js" integrity="sha512-jTgBq4+dMYh73dquskmUFEgMY5mptcbqSw2rmhOZZSJjZbD2wMt0H5nhqWtleVkyBEjmzid5nyERPSNBafG4GQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-<script src="https://cdn.datatables.net/1.13.2/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.2/js/dataTables.bootstrap5.min.js"></script>
+{{-- <script src="https://cdn.datatables.net/1.13.2/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.2/js/dataTables.bootstrap5.min.js"></script> --}}
 
 <script>
     function onAjaxError(err, statusCode = null) {
@@ -43,5 +42,36 @@
             timer: 3000,
             timerProgressBar: true,
         })
+    }
+
+
+    let a;
+    let date;
+    setInterval(() => {
+        a = new Date();
+        let minutes = a.getMinutes() < 10 ? `0${a.getMinutes()}` : a.getMinutes()
+        let second = a.getSeconds() < 10 ? `0${a.getSeconds()}` : a.getSeconds()
+        let hours = a.getHours() < 10 ? `0${a.getHours()}` : a.getHours()
+
+        date = getDaysName() +', '+a.getDate() + ' ' + getMonthName(a.getMonth()) + ' ' +a.getFullYear() + ' | ' + hours + ':' + minutes + ':' + second + ' WIB'
+        document.getElementById('current-time').innerHTML = date;
+    }, 1000);
+
+    function getMonthName(monthNumber) {
+        const date = new Date();
+        date.setMonth(monthNumber);
+
+        return date.toLocaleString('id-ID', {
+            month: 'long',
+        });
+    }
+
+    function getDaysName() {
+        const weekday = ["Minggu","Senin","Selasa","Rabu","Kamis","Jum'at","Sabtu"];
+
+        const d = new Date();
+        let day = weekday[d.getDay()];
+
+        return day
     }
 </script>

@@ -28,11 +28,8 @@
     <!-- custom Css-->
     <link href="{{ asset('assets/css/custom.min.css') }}" rel="stylesheet" type="text/css" />
 
-    {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.0/css/bootstrap.min.css"> --}}
+    {{-- <link rel="stylesheet" href="https://cdn.datatables.net/1.13.2/css/dataTables.bootstrap5.min.css"> --}}
 
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.2/css/dataTables.bootstrap5.min.css">
-
-    {{-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet"> --}}
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css">
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" />
@@ -41,6 +38,40 @@
     <link rel="stylesheet" href="{{ asset('assets/css/custom.css') }}">
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <style>
+
+        [data-layout-mode=light] .page-content {
+            background: #f2f7ff;
+        }
+
+        [data-layout-mode=dark] {
+            .select2-container--bootstrap-5 .select2-selection {
+                background-color: #252b37;
+                color: #ffffff;
+            }
+
+            .select2-container--bootstrap-5 .select2-dropdown .select2-search .select2-search__field {
+                background-color: #252b37;
+                color: #ffffff
+            }
+
+            .select2-container--bootstrap-5 .select2-selection--single .select2-selection__rendered {
+                color: #ffffff;
+            }
+
+            .select2-search {
+                background-color: #252b37;
+                color: #ffffff;
+            }
+            .select2-search input {
+                background-color: #252b37;
+                color: #ffffff;
+            }
+            .select2-results {
+                background-color: #252b37;
+                color: #ffffff;
+            }
+        }
+
         .loader-view {
             margin-left: auto;
             margin-right: auto;
@@ -214,15 +245,6 @@
 </head>
 
 <body>
-    {{-- <script type="text/javascript" charset="utf-8">
-        let a;
-        let time;
-        setInterval(() => {
-            a = new Date();
-            time = a.getHours() + ':' + a.getMinutes() + ':' + a.getSeconds();
-            document.getElementById('current-time').innerHTML = time;
-        }, 1000);
-    </script> --}}
     <div id="layout-wrapper">
         <div class="top-tagbar">
             <div class="w-100">
@@ -232,16 +254,6 @@
                             <i class="bi bi-clock align-middle me-2"></i> <span id="current-time"></span>
                         </div>
                     </div>
-                    {{-- <div class="col-md-4 col-6 d-none d-lg-block">
-                        <div class="d-flex align-items-center justify-content-center gap-3 fs-13 text-white-50">
-                            <div>
-                                <i class="bi bi-envelope align-middle me-2"></i> support@themesbrand.com
-                            </div>
-                            <div>
-                                <i class="bi bi-globe align-middle me-2"></i> www.themesbrand.com
-                            </div>
-                        </div>
-                    </div> --}}
                 </div>
             </div>
         </div>
@@ -285,7 +297,6 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
         <script>
             sessionStorage.setItem('data-preloader', 'true')
-            sessionStorage.setItem('data-sidebar-image', 'img-1')
 
             @if(Session::has('message'))
             toastr.options =
