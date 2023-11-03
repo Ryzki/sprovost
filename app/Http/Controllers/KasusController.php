@@ -149,7 +149,8 @@ class KasusController extends Controller
                 return '<a href="/data-kasus/detail/'.$query->id.'">'.$query->no_nota_dinas.'</a>';
             })
             ->editColumn('pangkatName.name', function($query){
-                return '<span>'.$query->pangkatName->name.'</span>';
+                $pangkat = $query->pangkatName != null ? $query->pangkatName->name : ' - ';
+                return '<span>'.$pangkat.'</span>';
             })
             ->rawColumns(['no_nota_dinas', 'pangkatName.name'])
             ->make(true);

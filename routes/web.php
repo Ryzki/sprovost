@@ -13,6 +13,7 @@ use App\Http\Controllers\RenderViewController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WujudPerbuatanController;
+use App\Http\Controllers\YanduanController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -61,6 +62,10 @@ Route::middleware(['auth'])->group(function (){
     Route::post('data-kasus/update', [KasusController::class, 'updateData'])->name('kasus.update');
     Route::get('data-kasus/detail/{id}', [KasusController::class, 'detail'])->name('kasus.detail');
     Route::post('data-kasus/status/update', [KasusController::class, 'updateStatus'])->name('kasus.update.status');
+
+    // Integrasi Yanduan
+    Route::get('data-yanduan', [YanduanController::class, 'index'])->name('data-yanduan');
+    Route::POST('data-yanduan/import', [YanduanController::class, 'import'])->name('data-yanduan.import');
 
     // Start Penyidik
     Route::get('data-penyidik', [PenyidikController::class, 'index'])->name('penyidik.index');

@@ -50,6 +50,13 @@
                 </li>
 
                 <li class="nav-item">
+                    <a href="{{ route('data-yanduan') }}"
+                        class="nav-link menu-link {{ Request::segment(1) == 'data-yanduan' ? 'active' : '' }}"> <i
+                            class="bi bi-clipboard-data"></i> <span data-key="t-dashboard">Ambil Data Yanduan</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
                     <a href="{{ route('nd-hasil-putusan-sidang') }}"
                         class="nav-link menu-link {{ Request::segment(1) == 'nd-hasil-sidang' ? 'active' : '' }}"> <i
                             class="bi bi-clipboard-data"></i> <span data-key="t-dashboard">Cetak ND Keputusan Sidang</span>

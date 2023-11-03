@@ -1,7 +1,7 @@
 {{-- @prepend('styles') --}}
     <style>
         .select2-selection__rendered {
-            line-height: 4.5rem !important;
+            line-height: 2.5rem !important;
             padding-left: 1rem !important
         }
         .select2-container .select2-selection--single {
@@ -66,20 +66,20 @@
             <div class="row">
                 <div class="col-lg-6 mb-3">
                     <div class="form-floating">
-                        <input type="text" class="form-control border-dark" name="no_nota_dinas" id="no_nota_dinas" placeholder="No. Nota Dinas" value="{{ isset($kasus) ? $kasus->no_nota_dinas : '' }}" required>
+                        <input type="text" class="form-control border-dark required" name="no_nota_dinas" id="no_nota_dinas" placeholder="No. Nota Dinas" value="{{ isset($kasus) ? $kasus->no_nota_dinas : '' }}" required>
                         <label for="no_nota_dinas">No. Nota Dinas</label>
                     </div>
                 </div>
                 <div class="col-lg-6 mb-3">
                     <div class="form-floating">
-                        <input type="text" class="form-control border-dark" name="perihal_nota_dinas" id="perihal_nota_dinas" placeholder="Perihal Nota Dinas" value="{{ isset($kasus) ? $kasus->perihal_nota_dinas : '' }}" required>
+                        <input type="text" class="form-control border-dark required" name="perihal_nota_dinas" id="perihal_nota_dinas" placeholder="Perihal Nota Dinas" value="{{ isset($kasus) ? $kasus->perihal_nota_dinas : '' }}" required>
                         <label for="perihal_nota_dinas">Perihal Nota Dinas</label>
                     </div>
                 </div>
 
                 <div class="col-lg-6 mb-3">
                     <div class="form-floating">
-                        <input type="text" name="tanggal_nota_dinas" class="form-control border-dark" id="datepicker" placeholder="Tanggal Nota Dinas" value="{{ isset($kasus) ? $kasus->tanggal_nota_dinas : '' }}" required>
+                        <input type="date" name="tanggal_nota_dinas" class="form-control border-dark required" id="datepicker" placeholder="Tanggal Nota Dinas" value="{{ isset($kasus) ? $kasus->tanggal_nota_dinas : '' }}" required>
                         <label for="tanggal_nota_dinas">Tanggal Nota Dinas</label>
                     </div>
                 </div>
@@ -90,13 +90,9 @@
                             <label for="check-box">Tipe Pelanggaran</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input border-dark" type="checkbox" id="disiplin" name="disiplin" value="1" onchange="disiplinChange(this);" {{ isset($kasus) ? ($wujud_perbuatan[$kasus->wujud_perbuatan-1]->jenis_wp == 'disiplin' ? 'checked' : 'disabled') : '' }} disabled>
+                            <input class="form-check-input border-dark" type="checkbox" id="disiplin" name="disiplin" value="1" checked>
                             <label class="form-check-label " for="disiplin">Disiplin</label>
                           </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input border-dark" type="checkbox" id="kode_etik" name="kode_etik" value="2" onchange="kodeEtikChange(this);" {{ isset($kasus) ? ($wujud_perbuatan[$kasus->wujud_perbuatan-1]->jenis_wp == 'kode etik' ? 'checked' : 'disabled') : '' }} required>
-                            <label class="form-check-label" for="kode_etik">Kode Etik</label>
-                        </div>
                     </center>
                 </div>
 
@@ -106,8 +102,8 @@
                         <select name="wujud_perbuatan" id="wujud_perbuatan" class="form-select select2" data-placeholder="Silahkan Pilih Wujud Perbuatan">
                         </select>
                     </div> --}}
-                    <div class="form-floating" style="height: 100%">
-                        <select class="form-select border-dark select2" aria-label="Default select example" name="wujud_perbuatan"id="wujud_perbuatan" disabled required style="height: 100% !important" data-placeholder="Silahkan Pilih Wujud Perbuatan">
+                    <div class="form-floating">
+                        <select class="form-select border-dark select2 required" aria-label="Default select example" name="wujud_perbuatan"id="wujud_perbuatan" required data-placeholder="Silahkan Pilih Wujud Perbuatan">
                             <option></option>
                         </select>
                         <label for="wujud_perbuatan" class="form-label">Wujud Perbuatan</label>
@@ -120,22 +116,22 @@
                     <div class="row">
                         <div class="col-lg-12 mb-3">
                             <div class="form-floating">
-                                <input type="text" class="form-control border-dark" name="pelapor" id="pelapor" placeholder="Nama Pelapor" value="{{ isset($kasus) ? $kasus->pelapor : '' }}" required>
+                                <input type="text" class="form-control border-dark required" name="pelapor" id="pelapor" placeholder="Nama Pelapor" value="{{ isset($kasus) ? $kasus->pelapor : '' }}" required>
                                 <label for="pelapor">Pelapor</label>
                             </div>
                         </div>
 
                         <div class="col-lg-6 mb-3">
                             <div class="form-floating">
-                                <input type="number" class="form-control border-dark" name="umur" id="umur" placeholder="Umur Pelapor" value="{{ isset($kasus) ? $kasus->umur : '' }}" required>
+                                <input type="number" class="form-control border-dark required" name="umur" id="umur" placeholder="Umur Pelapor" value="{{ isset($kasus) ? $kasus->umur : '' }}" required>
                                 <label for="umur">Umur</label>
                             </div>
                         </div>
 
                         <div class="col-lg-6 mb-3">
                             <div class="form-floating">
-                                <select class="form-select border-dark" aria-label="Default select example" name="jenis_kelamin" id="jenis_kelamin" required>
-                                    <option value=""></option>
+                                <select class="form-select border-dark required" aria-label="Default select example" name="jenis_kelamin" id="jenis_kelamin" required data-placeholder="Pilih Jenis Kelamin">
+                                    <option></option>
                                     @if (isset($jenis_kelamin))
                                         @foreach ($jenis_kelamin as $key => $jk)
                                             <option value="{{ $jk->id }}" {{ isset($kasus) ? ($kasus->jenis_kelamin == $jk->id ? 'selected' : '') : '' }}>{{ $jk->name }}</option>
@@ -149,7 +145,7 @@
 
                         <div class="col-lg-6 mb-3">
                             <div class="form-floating">
-                                <input type="text" name="pekerjaan" class="form-control border-dark" placeholder="Pekerjaan Pelapor" value="{{ isset($kasus) ? $kasus->pekerjaan : '' }}" required>
+                                <input type="text" name="pekerjaan" class="form-control border-dark required" placeholder="Pekerjaan Pelapor" value="{{ isset($kasus) ? $kasus->pekerjaan : '' }}" required>
                                 <label for="pekerjaan" class="form-label">Pekerjaan</label>
                             </div>
 
@@ -157,8 +153,8 @@
 
                         <div class="col-lg-6 mb-3">
                             <div class="form-floating">
-                                <select class="form-select border-dark" aria-label="Default select example" name="agama" id="agama" required>
-                                    <option value="" selected></option>
+                                <select class="form-select border-dark required" aria-label="Default select example" name="agama" id="agama" required data-placeholder="Pilih Agama">
+                                    <option></option>
                                     @if (isset($agama))
                                         @foreach ($agama as $key => $ag)
                                             <option value="{{ $ag->id }}"
@@ -174,15 +170,15 @@
 
                         <div class="col-lg-6 mb-3">
                             <div class="form-floating">
-                                <input type="text" name="no_identitas" id="no_identitas" placeholder="1234-5678-9012-1234" class="form-control border-dark" value="{{ isset($kasus) ? $kasus->no_identitas : '' }}" required>
+                                <input type="text" name="no_identitas" id="no_identitas" placeholder="1234-5678-9012-1234" class="form-control border-dark required" value="{{ isset($kasus) ? $kasus->no_identitas : '' }}" required>
                                 <label for="no_identitas" class="form-label">No Identitas</label>
                             </div>
                         </div>
 
                         <div class="col-lg-6 mb-3">
                             <div class="form-floating">
-                                <select class="form-select border-dark" aria-label="Default select example" name="jenis_identitas"id="jenis-identitas" required>
-                                    <option value="" selected></option>
+                                <select class="form-select border-dark required" aria-label="Default select example" name="jenis_identitas"id="jenis-identitas" required data-placeholder="Silahkan Pilih Identitas">
+                                    <option></option>
                                     @if (isset($jenis_identitas))
                                         @foreach ($jenis_identitas as $key => $ji)
                                             <option value="{{ $ji->id }}"
@@ -197,14 +193,14 @@
 
                         <div class="col-lg-12 mb-3">
                             <div class="form-floating">
-                                <input type="text" name="no_telp" id="no_telp" placeholder="No. Telp Pelapor" class="form-control border-dark" value="{{ isset($kasus) ? $kasus->no_telp : '' }}" required>
+                                <input type="text" name="no_telp" id="no_telp" placeholder="No. Telp Pelapor" class="form-control border-dark required" value="{{ isset($kasus) ? $kasus->no_telp : '' }}" required>
                                 <label for="no_telp" class="form-label">No. Telepon Pelapor</label>
                             </div>
                         </div>
 
                         <div class="col-lg-12 mb-3">
                             <div class="form-floating">
-                                <textarea class="form-control border-dark" name="alamat" placeholder="Alamat" id="floatingTextarea" value="{{ isset($kasus) ? $kasus->alamat : '' }}" style="height: 235px" required>{{ isset($kasus) ? $kasus->alamat : '' }}</textarea>
+                                <textarea class="form-control border-dark required" name="alamat" placeholder="Alamat" id="floatingTextarea" value="{{ isset($kasus) ? $kasus->alamat : '' }}" style="height: 235px" required>{{ isset($kasus) ? $kasus->alamat : '' }}</textarea>
                                 <label for="floatingTextarea" class="form-label">Alamat</label>
                             </div>
                         </div>
@@ -215,20 +211,20 @@
                     <div class="row">
                         <div class="col-lg-6 mb-3">
                             <div class="form-floating">
-                                <input type="text" class="form-control border-dark" name="nrp" id="nrp" placeholder="NRP Terduga Pelanggar" value="{{ isset($kasus) ? $kasus->nrp : '' }}" required>
+                                <input type="text" class="form-control border-dark required" name="nrp" id="nrp" placeholder="NRP Terduga Pelanggar" value="{{ isset($kasus) ? $kasus->nrp : '' }}" required>
                                 <label for="nrp">NRP</label>
                             </div>
                         </div>
                         <div class="col-lg-6 mb-3">
                             <div class="form-floating">
-                                <input type="text" class="form-control border-dark" name="terlapor" id="terlapor" placeholder="Nama Terlapor" value="{{ isset($kasus) ? $kasus->terlapor : '' }}" required>
+                                <input type="text" class="form-control border-dark required" name="terlapor" id="terlapor" placeholder="Nama Terlapor" value="{{ isset($kasus) ? $kasus->terlapor : '' }}" required>
                                 <label for="terlapor">Nama Terlapor</label>
                             </div>
                         </div>
                         <div class="col-lg-6 mb-3">
                             <div class="form-floating">
-                                <!-- <input type="text" class="form-control border-dark" name="pangkat" id="pangkat" placeholder="Pangkat Terlapor" value="{{ isset($kasus) ? $kasus->pangkat : '' }}" required> -->
-                                <select class="form-control border-dark select2" name="pangkat" id="pangkat"  data-placeholder="Silahkan Pilih PAngkat">
+                                <!-- <input type="text" class="form-control border-dark required" name="pangkat" id="pangkat" placeholder="Pangkat Terlapor" value="{{ isset($kasus) ? $kasus->pangkat : '' }}" required> -->
+                                <select class="form-control border-dark required select2" name="pangkat" id="pangkat"  data-placeholder="Silahkan Pilih PAngkat">
                                     <option></option>
                                     @foreach($pangkats as $pangkat)
                                     <option value="{{$pangkat->id}}" {{ $pangkat->id == $kasus->pangkat ? 'selected' : '' }}>{{$pangkat->name}}</option>
@@ -239,49 +235,49 @@
                         </div>
                         <div class="col-lg-6 mb-3">
                             <div class="form-floating">
-                                <input type="text" class="form-control border-dark" name="jabatan" id="jabatan" placeholder="Jabatan Terduga Pelanggar" value="{{ isset($kasus) ? $kasus->jabatan : '' }}" required>
+                                <input type="text" class="form-control border-dark required" name="jabatan" id="jabatan" placeholder="Jabatan Terduga Pelanggar" value="{{ isset($kasus) ? $kasus->jabatan : '' }}" required>
                                 <label for="jabatan">Jabatan Terduga Pelanggar</label>
                             </div>
                         </div>
                         <div class="col-lg-6 mb-3">
                             <div class="form-floating">
-                                <input type="text" class="form-control border-dark" name="kesatuan" id="kesatuan" placeholder="Kesatuan Terlapor" value="{{ isset($kasus) ? $kasus->kesatuan : '' }}" required>
+                                <input type="text" class="form-control border-dark required" name="kesatuan" id="kesatuan" placeholder="Kesatuan Terlapor" value="{{ isset($kasus) ? $kasus->kesatuan : '' }}" required>
                                 <label for="kesatuan">Kesatuan Terlapor</label>
                             </div>
                         </div>
                         <div class="col-lg-6 mb-3">
                             <div class="form-floating">
-                                <select name="wilayah_hukum" id="wilayah_hukum" class="form-control form-select" data-placeholder="Pilih Mabes/Polda">
+                                <select name="wilayah_hukum" id="wilayah_hukum" class="form-control form-select required" data-placeholder="Pilih Mabes/Polda">
                                     <option></option>
                                     @foreach ($polda as $item)
                                         <option value="{{$item->id}}"{{ $item->id == $kasus->wilayah_hukum ? 'selected' : '' }}>{{$item->name}}</option>
                                     @endforeach
                                 </select>
-                                {{-- <input type="text" class="form-control border-dark" name="wilayah_hukum" id="wilayah_hukum" placeholder="Mabes/Polda" value="{{ isset($kasus) ? $kasus->wilayah_hukum : '' }}" required> --}}
+                                {{-- <input type="text" class="form-control border-dark required" name="wilayah_hukum" id="wilayah_hukum" placeholder="Mabes/Polda" value="{{ isset($kasus) ? $kasus->wilayah_hukum : '' }}" required> --}}
                                 <label for="wilayah_hukum">Mabes/Polda</label>
                             </div>
                         </div>
                         <div class="col-lg-6 mb-3">
                             <div class="form-floating">
-                                <input type="text" class="form-control border-dark" name="tempat_kejadian" id="tempat_kejadian" placeholder="Tempat Kejadian" value="{{ isset($kasus) ? $kasus->tempat_kejadian : '' }}" required>
+                                <input type="text" class="form-control border-dark required" name="tempat_kejadian" id="tempat_kejadian" placeholder="Tempat Kejadian" value="{{ isset($kasus) ? $kasus->tempat_kejadian : '' }}" required>
                                 <label for="tempat_kejadian">Tempat Kejadian</label>
                             </div>
                         </div>
                         <div class="col-lg-6 mb-3">
                             <div class="form-floating">
-                                <input type="text" id="datepicker_tgl_kejadian" name="tanggal_kejadian" class="form-control border-dark" placeholder="BB/HH/TTTT" value="{{ isset($kasus) ? $kasus->tanggal_kejadian : '' }}" required readonly>
+                                <input type="date" name="tanggal_kejadian" class="form-control border-dark required" value="{{ isset($kasus) ? $kasus->tanggal_kejadian : '' }}" required>
                                 <label for="tempat_kejadian">Tanggal Kejadian</label>
                             </div>
                         </div>
                         <div class="col-lg-12 mb-3">
                             <div class="form-floating">
-                                <input type="text" class="form-control border-dark" name="nama_korban" id="nama_korban" placeholder="Nama korban" value="{{ isset($kasus) ? $kasus->nama_korban : '' }}" required>
+                                <input type="text" class="form-control border-dark required" name="nama_korban" id="nama_korban" placeholder="Nama korban" value="{{ isset($kasus) ? $kasus->nama_korban : '' }}" required>
                                 <label for="nama_korban">Nama Korban</label>
                             </div>
                         </div>
                         <div class="col-lg-12 mb-3">
                             <div class="form-floating">
-                                <textarea class="form-control border-dark" name="kronologis" placeholder="Kronologis" id="kronologis" value="{{ isset($kasus) ? $kasus->kronologi : '' }}" style="height: 161px" required>{{ isset($kasus) ? $kasus->kronologi : '' }}</textarea>
+                                <textarea class="form-control border-dark required" name="kronologis" placeholder="Kronologis" id="kronologis" value="{{ isset($kasus) ? $kasus->kronologi : '' }}" style="height: 161px" required>{{ isset($kasus) ? $kasus->kronologi : '' }}</textarea>
                                 <label for="kronologis" class="form-label">Kronologis</label>
                             </div>
                         </div>
@@ -734,63 +730,20 @@
             var data = $('#form').serializeArray()
             data.push({name: $(this).attr('name'), value: $(this).val()})
 
-            $.ajax({
-                url: '/data-kasus/update',
-                method: 'POST',
-                data: data,
-                beforeSend: () => {
-                    $.LoadingOverlay("show");
-                },
-                success:(res) => {
-                    $.LoadingOverlay("hide");
-                    Swal.fire({
-                        title: 'Berhasil',
-                        text: $(this).val() == 'update_data' ? 'Berhasil Update Data' : 'Berhasil rubah status',
-                        icon: 'success',
-                        toast: true,
-                        position: 'top-end',
-                        showConfirmButton: false,
-                        timer: 3000,
-                        timerProgressBar: true,
-                    })
-
-                    if($(this).val() != 'update_status') window.location.reload();
-                },
-                error: (xhr) => {
-                    $.LoadingOverlay("hide");
-                    // console.log(xhr.responseJSON.status.msg)
-                    Swal.fire({
-                        title: `Terjadi Kesalahan`,
-                        html: '<span>' + xhr.responseJSON.status.msg + '</span>',
-                        // text: `${xhr.responseJSON.status.msg}`,
-                        icon: 'error',
-                        toast: true,
-                        position: 'top-end',
-                        showConfirmButton: false,
-                        timer: 3000,
-                        timerProgressBar: true,
-                    })
-                }
-            })
-        })
-
-        $('#form-disposisi').on('submit', function(){
-            var data = $(this).serializeArray()
-            $.ajax({
-                url: `/lembar-disposisi`,
-                method: 'POST',
-                data: data,
-                beforeSend: () => {
-                    $.LoadingOverlay("show");
-                },
-                success:(res) => {
-                    window.location.href = `/download-file/${res.file}`
-
-                    setTimeout(() => {
+            // validasi
+            validation((canInput)=>{
+                $.ajax({
+                    url: '/data-kasus/update',
+                    method: 'POST',
+                    data: data,
+                    beforeSend: () => {
+                        $.LoadingOverlay("show");
+                    },
+                    success:(res) => {
                         $.LoadingOverlay("hide");
                         Swal.fire({
                             title: 'Berhasil',
-                            text: 'Berhasil generate dan download dokumen',
+                            text: $(this).val() == 'update_data' ? 'Berhasil Update Data' : 'Berhasil rubah status',
                             icon: 'success',
                             toast: true,
                             position: 'top-end',
@@ -799,134 +752,189 @@
                             timerProgressBar: true,
                         })
 
-                        window.location.reload()
-                    }, 2500);
+                        if($(this).val() != 'update_status') window.location.reload();
+                    },
+                    error: (xhr) => {
+                        $.LoadingOverlay("hide");
+                        // console.log(xhr.responseJSON.status.msg)
+                        Swal.fire({
+                            title: `Terjadi Kesalahan`,
+                            html: '<span>' + xhr.responseJSON.status.msg + '</span>',
+                            // text: `${xhr.responseJSON.status.msg}`,
+                            icon: 'error',
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 3000,
+                            timerProgressBar: true,
+                        })
+                    }
+                })
+            })
 
-                },
-                error: (xhr) => {
-                    $.LoadingOverlay("hide");
-                    Swal.fire({
-                        title: `Terjadi Kesalahan`,
-                        text: "Terjadi kesalahan ketika generate file",
-                        icon: 'error',
-                        toast: true,
-                        position: 'top-end',
-                        showConfirmButton: false,
-                        timer: 3000,
-                        timerProgressBar: true,
-                    })
-                }
+        })
+
+        $('#form-disposisi').on('submit', function(){
+            var data = $(this).serializeArray()
+            validation(() => {
+                $.ajax({
+                    url: `/lembar-disposisi`,
+                    method: 'POST',
+                    data: data,
+                    beforeSend: () => {
+                        $.LoadingOverlay("show");
+                    },
+                    success:(res) => {
+                        window.location.href = `/download-file/${res.file}`
+
+                        setTimeout(() => {
+                            $.LoadingOverlay("hide");
+                            Swal.fire({
+                                title: 'Berhasil',
+                                text: 'Berhasil generate dan download dokumen',
+                                icon: 'success',
+                                toast: true,
+                                position: 'top-end',
+                                showConfirmButton: false,
+                                timer: 3000,
+                                timerProgressBar: true,
+                            })
+
+                            window.location.reload()
+                        }, 2500);
+
+                    },
+                    error: (xhr) => {
+                        $.LoadingOverlay("hide");
+                        Swal.fire({
+                            title: `Terjadi Kesalahan`,
+                            text: "Terjadi kesalahan ketika generate file",
+                            icon: 'error',
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 3000,
+                            timerProgressBar: true,
+                        })
+                    }
+                })
             })
         })
 
         $('#form-disposisi-karo').on('submit', function() {
             var data = $(this).serializeArray()
-            $.ajax({
-                url: `/lembar-disposisi-karo`,
-                method: 'POST',
-                data: data,
-                beforeSend: () => {
-                    $.LoadingOverlay("show");
-                },
-                success:(res) => {
-                    window.location.href = `/download-file/${res.file}`
+            validation(() => {
+                $.ajax({
+                    url: `/lembar-disposisi-karo`,
+                    method: 'POST',
+                    data: data,
+                    beforeSend: () => {
+                        $.LoadingOverlay("show");
+                    },
+                    success:(res) => {
+                        window.location.href = `/download-file/${res.file}`
 
-                    setTimeout(() => {
+                        setTimeout(() => {
+                            $.LoadingOverlay("hide");
+                            Swal.fire({
+                                title: 'Berhasil',
+                                text: 'Berhasil generate dan download dokumen',
+                                icon: 'success',
+                                toast: true,
+                                position: 'top-end',
+                                showConfirmButton: false,
+                                timer: 3000,
+                                timerProgressBar: true,
+                            })
+
+                            window.location.reload()
+                            $(this).parentsUntil('.modal').parent().modal('hide')
+                        }, 2500);
+
+                    },
+                    error: (xhr) => {
                         $.LoadingOverlay("hide");
-                        Swal.fire({
-                            title: 'Berhasil',
-                            text: 'Berhasil generate dan download dokumen',
-                            icon: 'success',
-                            toast: true,
-                            position: 'top-end',
-                            showConfirmButton: false,
-                            timer: 3000,
-                            timerProgressBar: true,
-                        })
-
-                        window.location.reload()
-                        $(this).parentsUntil('.modal').parent().modal('hide')
-                    }, 2500);
-
-                },
-                error: (xhr) => {
-                    $.LoadingOverlay("hide");
-                    onAjaxError(xhr)
-                }
+                        onAjaxError(xhr)
+                    }
+                })
             })
         })
 
         $('#form-disposisi-sesro').on('submit', function() {
             var data = $(this).serializeArray()
-            $.ajax({
-                url: `/lembar-disposisi-sesro`,
-                method: 'POST',
-                data: data,
-                beforeSend: () => {
-                    $.LoadingOverlay("show");
-                },
-                success:(res) => {
-                    window.location.href = `/download-file/${res.file}`
+            validation(() => {
+                $.ajax({
+                    url: `/lembar-disposisi-sesro`,
+                    method: 'POST',
+                    data: data,
+                    beforeSend: () => {
+                        $.LoadingOverlay("show");
+                    },
+                    success:(res) => {
+                        window.location.href = `/download-file/${res.file}`
 
-                    setTimeout(() => {
+                        setTimeout(() => {
+                            $.LoadingOverlay("hide");
+                            Swal.fire({
+                                title: 'Berhasil',
+                                text: 'Berhasil generate dan download dokumen',
+                                icon: 'success',
+                                toast: true,
+                                position: 'top-end',
+                                showConfirmButton: false,
+                                timer: 3000,
+                                timerProgressBar: true,
+                            })
+
+                            window.location.reload()
+                            // $(this).parentsUntil('.modal').parent().modal('hide')
+                        }, 2500);
+
+                    },
+                    error: (xhr) => {
                         $.LoadingOverlay("hide");
-                        Swal.fire({
-                            title: 'Berhasil',
-                            text: 'Berhasil generate dan download dokumen',
-                            icon: 'success',
-                            toast: true,
-                            position: 'top-end',
-                            showConfirmButton: false,
-                            timer: 3000,
-                            timerProgressBar: true,
-                        })
-
-                        window.location.reload()
-                        // $(this).parentsUntil('.modal').parent().modal('hide')
-                    }, 2500);
-
-                },
-                error: (xhr) => {
-                    $.LoadingOverlay("hide");
-                    onAjaxError(xhr)
-                }
+                        onAjaxError(xhr)
+                    }
+                })
             })
         })
 
         $('#form-disposisi-kabag').on('submit', function() {
             var data = $(this).serializeArray()
-            $.ajax({
-                url: `/lembar-disposisi-kabag`,
-                method: 'POST',
-                data: data,
-                beforeSend: () => {
-                    $.LoadingOverlay("show");
-                },
-                success:(res) => {
-                    window.location.href = `/download-file/${res.file}`
+            validation(() => {
+                $.ajax({
+                    url: `/lembar-disposisi-kabag`,
+                    method: 'POST',
+                    data: data,
+                    beforeSend: () => {
+                        $.LoadingOverlay("show");
+                    },
+                    success:(res) => {
+                        window.location.href = `/download-file/${res.file}`
 
-                    setTimeout(() => {
+                        setTimeout(() => {
+                            $.LoadingOverlay("hide");
+                            Swal.fire({
+                                title: 'Berhasil',
+                                text: 'Berhasil generate dan download dokumen',
+                                icon: 'success',
+                                toast: true,
+                                position: 'top-end',
+                                showConfirmButton: false,
+                                timer: 3000,
+                                timerProgressBar: true,
+                            })
+
+                            window.location.reload()
+                            // $(this).parentsUntil('.modal').parent().modal('hide')
+                        }, 2500);
+
+                    },
+                    error: (xhr) => {
                         $.LoadingOverlay("hide");
-                        Swal.fire({
-                            title: 'Berhasil',
-                            text: 'Berhasil generate dan download dokumen',
-                            icon: 'success',
-                            toast: true,
-                            position: 'top-end',
-                            showConfirmButton: false,
-                            timer: 3000,
-                            timerProgressBar: true,
-                        })
-
-                        window.location.reload()
-                        // $(this).parentsUntil('.modal').parent().modal('hide')
-                    }, 2500);
-
-                },
-                error: (xhr) => {
-                    $.LoadingOverlay("hide");
-                    onAjaxError(xhr)
-                }
+                        onAjaxError(xhr)
+                    }
+                })
             })
         })
 
@@ -947,20 +955,41 @@
             }
 
         })
-        // $('select').select2({
-        //         theme: 'bootstrap-5'
-        // })
-        if ($('#disiplin').is(':checked')) {
-            console.log('test');
-            document.getElementById("wujud_perbuatan").removeAttribute("disabled");
-            document.getElementById("kode_etik").setAttribute("disabled", "disabled");
-            getValDisiplin()
-        } else if ($('#kode_etik').is(':checked')) {
-            document.getElementById("wujud_perbuatan").removeAttribute("disabled");
-            document.getElementById("disiplin").setAttribute("disabled", "disabled");
-            getValKodeEtik()
-        }
+
+        $('.form-select').select2({
+            theme: 'bootstrap-5'
+        })
+
+        getValDisiplin()
     })
+
+    function validation(callback){
+        const formId = $('#form')
+            var canInput = true
+
+            $(formId).find('.required').removeClass('is-invalid')
+            $(formId).find('.required').each((k, v) => {
+                if($(v).val() == ''){
+                    canInput = false
+                    $(v).addClass('is-invalid')
+                }
+            })
+
+            if(canInput == false){
+                Swal.fire({
+                    title: `Masih ada data dumas yang kosong!`,
+                    text: `Harap lengkapi data dumas terlebih dahulu`,
+                    icon: 'error',
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 5000,
+                    timerProgressBar: true,
+                })
+            } else {
+                callback(canInput)
+            }
+    }
 
     function getValDisiplin() {
         let kasus_wp = `{{ isset($kasus) ? $kasus->wujud_perbuatan : '' }}`;
@@ -981,30 +1010,6 @@
             } else {
                 html_wp += `<option value="`+el_id_dis+`">`+el_ketdis+`</option>`;
             }
-        }
-        $('#wujud_perbuatan').html(html_wp);
-    }
-
-    function getValKodeEtik() {
-        let kasus_wp = `{{ isset($kasus) ? $kasus->wujud_perbuatan : '' }}`;
-        let list_ketke = new Array();
-        list_ketke = `{{ $kode_etik }}`;
-        list_ketke = list_ketke.split('|');
-
-        let list_id_ke = new Array();
-        list_id_ke = `{{ $id_kode_etik }}`;
-        list_id_ke = list_id_ke.split('|');
-
-        let html_wp = `<option></option>`;
-        for (let index = 0; index < list_ketke.length; index++) {
-            let is_selected = '';
-            const el_ketke = list_ketke[index];
-            const el_id_ke = list_id_ke[index];
-            if (kasus_wp != '' && kasus_wp == el_id_ke) {
-                is_selected = 'selected';
-            }
-            html_wp += `<option value="`+el_id_ke+`" `+is_selected+`>`+el_ketke+`</option>`;
-            // console.log(html);
         }
         $('#wujud_perbuatan').html(html_wp);
     }

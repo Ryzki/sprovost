@@ -54,7 +54,7 @@ class DatabaseSeeder extends Seeder
             SubProcessSeeder::class,
             DataPelanggarSeeder::class,
             PoldaSeeder::class,
-            PangkatSeeder::class,
+            // PangkatSeeder::class,
             WujudPerbuatanSeeder::class,
             MasterPenyidikSeeder::class,
             AddWabprofToPolda::class,
