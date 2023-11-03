@@ -98,6 +98,16 @@
                     </div>
 
                     <div class="col-md-3 col-sm-12">
+                        Umur Kasus
+                    </div>
+                    <div class="col-md-1">
+                        :
+                    </div>
+                    <div class="col-md-8 col-sm-12">
+                        {{\Carbon\Carbon::parse($kasus->created_at)->diff(\Carbon\Carbon::now())->format('%y tahun, %m bulan dan %d hari')}}
+                    </div>
+
+                    <div class="col-md-3 col-sm-12">
                         Tgl. SPRIN Lidik
                     </div>
                     <div class="col-md-1">

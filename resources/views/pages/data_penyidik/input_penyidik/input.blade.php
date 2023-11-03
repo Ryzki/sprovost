@@ -7,7 +7,7 @@
 @endprepend
 
 @section('content')
-    <div class="row form-control">
+    <div class="row form-control mt-4">
         <div class="text-center">
             <h3>Form
                 @if (isset($penyidik))

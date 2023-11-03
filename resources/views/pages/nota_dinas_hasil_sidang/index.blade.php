@@ -1,7 +1,7 @@
 @extends('partials.master')
 
 @section('content')
-<div class="row">
+<div class="row mt-4">
     <div class="col-lg-12">
         <div class="card card-animation">
             <div class="card-header">

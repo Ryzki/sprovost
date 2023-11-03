@@ -5,14 +5,14 @@
 @endprepend
 
 @section('content')
-    <div class="row form-control">
+    <div class="row form-control mt-4">
         <div class="text-center">
-        <h3>Form 
-            @if(isset($pangkat)) 
+        <h3>Form
+            @if(isset($pangkat))
                 Edit
             @else
-                Input 
-            @endif    
+                Input
+            @endif
                 Pangkat</h3>
         </div>
         <hr>
@@ -53,6 +53,6 @@
     <script type="text/javascript">
         $(document).ready(function() {
         });
-        
+
     </script>
 @endsection

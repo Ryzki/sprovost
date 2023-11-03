@@ -58,9 +58,12 @@ class RenderViewController extends Controller
                 return $this->sidang_disiplin($kasus_id, $status_id);
                 break;
             case 8:
-                return $this->viewDiterima($kasus_id, $status_id);
+                return $this->sidang_disiplin($kasus_id, $status_id);
                 break;
             case 9:
+                return $this->gelarLidik($kasus_id, $status_id);
+                break;
+            case 10:
                 return $this->gelarLidik($kasus_id, $status_id);
                 break;
             default:
@@ -85,6 +88,7 @@ class RenderViewController extends Controller
         $disposisiKaro = Disposisi::where('data_pelanggar_id', $id)->where('type', 'Karo')->first();
         $disposisiSesro = Disposisi::where('data_pelanggar_id', $id)->where('type', 'Sesro')->first();
         $disposisiKabag = Disposisi::where('data_pelanggar_id', $id)->where('type', 'Kabag')->first();
+        $polda = Polda::where('id', '<>', 0)->get();
 
         $i_dis = 0;
         $i_ke = 0;
@@ -122,6 +126,7 @@ class RenderViewController extends Controller
             'disposisiKaro' => $disposisiKaro,
             'disposisiSesro' => $disposisiSesro,
             'disposisiKabag' => $disposisiKabag,
+            'polda' => $polda
         ];
 
         return view('pages.data_pelanggaran.proses.diterima', $data);

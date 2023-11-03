@@ -13,7 +13,7 @@ class DataPelanggar extends Model
         'no_nota_dinas', 'no_pengaduan', 'pelapor', 'umur', 'jenis_kelamin', 'pekerjaan', 'agama',
         'alamat', 'no_identitas', 'jenis_identitas', 'terlapor', 'kesatuan', 'tempat_kejadian','nrp','tanggal_kejadian', 'kronologi',
         'pangkat','jabatan', 'nama_korban', 'status_id', 'no_telp', 'kewarganegaraan', 'perihal_nota_dinas', 'tanggal_nota_dinas',
-        'wujud_perbuatan'
+        'wujud_perbuatan', 'wilayah_hukum'
     ];
 
     public function status()

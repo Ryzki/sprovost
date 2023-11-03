@@ -1712,7 +1712,7 @@ class GenerateDocument extends Controller
             'pasal' => $dp3d->pasal,
             'no_dp3d' => $dp3d->no_dp3d,
             'tgl_dp3d' => Carbon::parse($dp3d->created_at)->translatedFormat('d F Y'),
-
+            'wilayah_hukum' => $kasus->wilayah_hukum,
             'no_sprin_riksa' => $sprin->no_sprin,
             'tgl_sprin_riksa' => Carbon::parse($sprin->created_at)->translatedFormat('d F Y'),
         ));
@@ -2055,7 +2055,9 @@ class GenerateDocument extends Controller
             'month_start' => $monthStartString,
             'year_start' => $yearStart == $yearEnd ? '' : $yearStart,
             'month_end' => $monthEndString,
-            'year_end' => $yearEnd
+            'year_end' => $yearEnd,
+            'thn' => Carbon::now()->format('Y'),
+            'tgl_ttd' => Carbon::now()->translatedFormat('F Y')
         ));
 
         $template_document->cloneBlock('terlapor_section', count($data),true,true);

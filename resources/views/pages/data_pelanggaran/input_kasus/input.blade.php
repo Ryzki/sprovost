@@ -10,7 +10,7 @@
 @endprepend
 
 @section('content')
-    <div class="row form-control">
+    <div class="row form-control mt-4">
         <div class="form-control text-center border-0">
             <h3>Form Input Dumas</h3>
         </div>
@@ -48,8 +48,7 @@
 
                 <div class="col-lg-6 mb-3">
                     <div class="form-floating">
-                        <select class="form-select border-dark" aria-label="Default select example" name="wujud_perbuatan" id="wujud_perbuatan" disabled required>
-                            <option value="">-- Pilih Wujud Perbuatan --</option>
+                        <select class="form-select border-dark" aria-label="Default select example" name="wujud_perbuatan" id="wujud_perbuatan" required data-placeholder="Pilih Wujud Perbuatan">
                         </select>
                         <label for="wujud_perbuatan" class="form-label">Wujud Perbuatan</label>
                     </div>
@@ -57,7 +56,7 @@
 
                 <div class="col-lg-12 mb-3">
                     <div class="form-floating">
-                        <input type="text" name="tanggal_nota_dinas" class="form-control border-dark" id="datepicker" placeholder="Tanggal Nota Dinas" value="{{ isset($kasus) ? $kasus->tanggal_nota_dinas : '' }}" required>
+                        <input type="date" name="tanggal_nota_dinas" class="form-control border-dark" id="datepicker" placeholder="Tanggal Nota Dinas" value="{{ isset($kasus) ? $kasus->tanggal_nota_dinas : '' }}" required>
                         <label for="tanggal_nota_dinas">Tanggal Nota Dinas</label>
                     </div>
                 </div>
@@ -82,8 +81,8 @@
 
                         <div class="col-lg-6 mb-3">
                             <div class="form-floating">
-                                <select class="form-select border-dark" aria-label="Default select example" name="jenis_kelamin" id="jenis_kelamin" required>
-                                    <option value="">-- Pilih Jenis Kelamin --</option>
+                                <select class="form-select border-dark" aria-label="Default select example" name="jenis_kelamin" id="jenis_kelamin" required data-placeholder="Pilih Jenis Kelamin">
+                                    <option></option>
                                     @if (isset($jenis_kelamin))
                                         @foreach ($jenis_kelamin as $key => $jk)
                                             <option value="{{ $jk->id }}" {{ isset($kasus) ? ($kasus->jenis_kelamin == $jk->id ? 'selected' : '') : '' }}>{{ $jk->name }}</option>
@@ -105,8 +104,8 @@
 
                         <div class="col-lg-6 mb-3">
                             <div class="form-floating">
-                                <select class="form-select border-dark" aria-label="Default select example" name="agama" id="agama" required>
-                                    <option value="">-- Pilih Agama --</option>
+                                <select class="form-select border-dark" aria-label="Default select example" name="agama" id="agama" required data-placeholder="Pilih Agama">
+                                    <option></option>
                                     @foreach ($agama as $key => $ag)
                                         <option value="{{ $ag->id }}">{{ $ag->name }}</option>
                                     @endforeach
@@ -125,8 +124,8 @@
 
                         <div class="col-lg-6 mb-3">
                             <div class="form-floating">
-                                <select class="form-select border-dark" aria-label="Default select example" name="jenis_identitas"id="jenis-identitas" required>
-                                    <option value="">-- Pilih Jenis Identitas --</option>
+                                <select class="form-select border-dark" aria-label="Default select example" name="jenis_identitas"id="jenis-identitas" required data-placeholder="Pilih Jenis Identitas">
+                                    <option></option>
                                     @if (isset($jenis_identitas))
                                         @foreach ($jenis_identitas as $key => $ji)
                                             <option value="{{ $ji->id }}" {{ isset($kasus) ? ($kasus->jenis_identitas == $ji->id ? 'selected' : '') : ($ji->id == '1' ? 'selected' : '') }}>{{ $ji->name }}</option>
@@ -168,8 +167,8 @@
                         </div>
                         <div class="col-lg-6 mb-3">
                             <div class="form-floating">
-                                <select class="form-select border-dark" data-live-search="true" aria-label="Default select example" name="pangkat" id="pangkat" required>
-                                    <option value="">-- Pilih Pangkat --</option>
+                                <select class="form-select border-dark" data-live-search="true" aria-label="Default select example" name="pangkat" id="pangkat" required data-placeholder="Pilih Pangkat">
+                                    <option></option>
                                     @if (isset($pangkat))
                                         @foreach ($pangkat as $key => $p)
                                             <option value="{{ $p->id }}">
@@ -199,7 +198,13 @@
 
                         <div class="col-lg-6 mb-3">
                             <div class="form-floating">
-                                <input type="text" class="form-control border-dark" name="wilayah_hukum" id="wilayah_hukum" placeholder="Mabes/Polda" value="{{ isset($kasus) ? $kasus->wilayah_hukum : '' }}" required>
+                                <select name="wilayah_hukum" id="wilayah_hukum" class="form-control form-select" data-placeholder="Pilih Mabes/Polda">
+                                    <option></option>
+                                    @foreach ($polda as $item)
+                                        <option value="{{$item->id}}">{{$item->name}}</option>
+                                    @endforeach
+                                </select>
+                                {{-- <input type="text" class="form-control border-dark" name="wilayah_hukum" id="wilayah_hukum" placeholder="Mabes/Polda" value="{{ isset($kasus) ? $kasus->wilayah_hukum : '' }}" required> --}}
                                 <label for="wilayah_hukum">Mabes/Polda</label>
                             </div>
                         </div>
@@ -212,7 +217,7 @@
                         </div>
                         <div class="col-lg-6 mb-3">
                             <div class="form-floating">
-                                <input type="text" id="datepicker_tgl_kejadian" name="tanggal_kejadian" class="form-control border-dark" placeholder="BB/HH/TTTT" value="{{ isset($kasus) ? $kasus->tanggal_kejadian : '' }}" required>
+                                <input type="date" id="datepicker_tgl_kejadian" name="tanggal_kejadian" class="form-control border-dark" placeholder="BB/HH/TTTT" value="{{ isset($kasus) ? $kasus->tanggal_kejadian : '' }}" required>
                                 <label for="tempat_kejadian">Tanggal Kejadian</label>
                             </div>
                         </div>
@@ -244,10 +249,12 @@
 @endsection
 
 @section('scripts')
-    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    {{-- <script src="https://code.jquery.com/jquery-3.6.0.js"></script> --}}
     <script type="text/javascript">
         $(document).ready(function() {
+            $('input[type="date"]').on('keydown', function(){
+                return false
+            })
 
             //no identitas
             no_identitas.addEventListener('keyup', function(e){
@@ -270,53 +277,28 @@
                 return prefix == undefined ? rupiah : (rupiah ? rupiah : '');
             };
 
-            if ($('#disiplin').is(':checked')) {
-                console.log('test');
-                document.getElementById("wujud_perbuatan").removeAttribute("disabled");
-                document.getElementById("kode_etik").setAttribute("disabled", "disabled");
-                getValDisiplin()
-            } else if ($('#kode_etik').is('checked')) {
-                document.getElementById("wujud_perbuatan").removeAttribute("disabled");
-                document.getElementById("disiplin").setAttribute("disabled", "disabled");
-                getValKodeEtik()
-            }
+            // $( "#datepicker" ).datepicker({
+            //     autoclose:true,
+            //     todayHighlight:true,
+            //     format:'yyyy-mm-dd',
+            //     language: 'id'
+            // });
+            // $( "#datepicker_tgl_kejadian" ).datepicker({
+            //     autoclose:true,
+            //     todayHighlight:true,
+            //     format:'yyyy-mm-dd',
+            //     language: 'id'
+            // });
 
-            $('#wujud_perbuatan').on('change', function() {
-                // alert( this.value );
-                console.log(this);
-            });
+            getValDisiplin()
 
-            $('#kode_etik').trigger('click')
-
+            $('.form-select').select2({
+                theme: 'bootstrap-5'
+            })
         });
 
-        function disiplinChange(checkbox) {
-            if(checkbox.checked == true){
-                document.getElementById("wujud_perbuatan").removeAttribute("disabled");
-                document.getElementById("kode_etik").removeAttribute("required");
-                document.getElementById("kode_etik").setAttribute("disabled", "disabled");
-                getValDisiplin()
-            }else{
-                document.getElementById("wujud_perbuatan").setAttribute("disabled", "disabled");
-                document.getElementById("kode_etik").setAttribute("required", "required");
-                document.getElementById("kode_etik").removeAttribute("disabled");
-            }
-        }
-
-        function kodeEtikChange(checkbox) {
-            if(checkbox.checked == true){
-                document.getElementById("wujud_perbuatan").removeAttribute("disabled");
-                document.getElementById("disiplin").removeAttribute("required");
-                document.getElementById("disiplin").setAttribute("disabled", "disabled");
-                getValKodeEtik()
-            }else{
-                document.getElementById("wujud_perbuatan").setAttribute("disabled", "disabled");
-                document.getElementById("disiplin").setAttribute("required", "required");
-                document.getElementById("disiplin").removeAttribute("disabled");
-            }
-        }
-
         function getValDisiplin() {
+            console.log('test')
             let kasus_wp = `{{ isset($kasus) ? $kasus->wujudPerbuatan->keterangan_wp : '' }}`;
             let list_ketdis = new Array();
             list_ketdis = `{{ $disiplin }}`;
@@ -326,7 +308,7 @@
             list_id_dis = `{{ $id_disiplin }}`;
             list_id_dis = list_id_dis.split('|');
 
-            let html_wp = `<option value="">-- Pilih Wujud Perbuatan --</option>`;
+            let html_wp = `<option></option>`;
             $('#wujud_perbuatan').append(html_wp);
             let is_selected = '';
             for (let index = 0; index < list_ketdis.length; index++) {
@@ -339,45 +321,5 @@
             }
             $('#wujud_perbuatan').html(html_wp);
         }
-
-        function getValKodeEtik() {
-            console.log('test');
-            let kasus_wp = `{{ isset($kasus) ? $kasus->wujudPerbuatan->keterangan_wp : '' }}`;
-            let list_ketke = new Array();
-            list_ketke = `{{ $kode_etik }}`;
-            list_ketke = list_ketke.split('|');
-
-            let list_id_ke = new Array();
-            list_id_ke = `{{ $id_kode_etik }}`;
-            list_id_ke = list_id_ke.split('|');
-
-            let html_wp = `<option value="">-- Pilih Wujud Perbuatan --</option>`;
-            let is_selected = '';
-            for (let index = 0; index < list_ketke.length; index++) {
-                const el_ketke = list_ketke[index];
-                const el_id_ke = list_id_ke[index];
-                if (kasus_wp != '' && kasus_wp == el_id_ke) {
-                    is_selected = 'selected';
-                }
-                html_wp += `<option value="`+el_id_ke+`" `+is_selected+`>`+el_ketke+`</option>`;
-                // console.log(html);
-            }
-            $('#wujud_perbuatan').html(html_wp);
-        }
-
-        $( function() {
-            $( "#datepicker" ).datepicker({
-                autoclose:true,
-                todayHighlight:true,
-                format:'yyyy-mm-dd',
-                language: 'id'
-            });
-            $( "#datepicker_tgl_kejadian" ).datepicker({
-                autoclose:true,
-                todayHighlight:true,
-                format:'yyyy-mm-dd',
-                language: 'id'
-            });
-        } );
     </script>
 @endsection

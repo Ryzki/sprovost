@@ -5,14 +5,14 @@
 @endprepend
 
 @section('content')
-    <div class="row form-control">
+    <div class="row form-control mt-4">
         <div class="text-center">
-        <h3>Form 
-            @if(isset($wujud_perbuatan)) 
+        <h3>Form
+            @if(isset($wujud_perbuatan))
                 Edit
             @else
-                Input 
-            @endif    
+                Input
+            @endif
                 Wujud Perbuatan</h3>
         </div>
         <hr>
@@ -28,15 +28,15 @@
                     <label for="perihal_nota_dinas" class="form-label">Jenis Wujud Perbuatan</label>
                     <select name="jenis_wp" class="form-control" id="jenis_wp">
                         <option value="disiplin"
-                            @if(isset($wujud_perbuatan)) 
+                            @if(isset($wujud_perbuatan))
                                 @if($wujud_perbuatan->jenis_wp == "disiplin")
                                     "selected";
-                                @endif 
+                                @endif
                             @endif >Disiplin</option>
-                        <option value="kode etik" @if(isset($wujud_perbuatan)) 
+                        <option value="kode etik" @if(isset($wujud_perbuatan))
                                 @if($wujud_perbuatan->jenis_wp == "kode etik")
                                     "selected";
-                                @endif 
+                                @endif
                             @endif>Kode Etik</option>
                     </select>
                 </div>
@@ -69,6 +69,6 @@
     <script type="text/javascript">
         $(document).ready(function() {
         });
-        
+
     </script>
 @endsection

@@ -12,6 +12,7 @@ use App\Models\LimpahPolda;
 use App\Models\LPA;
 use App\Models\Pangkat;
 use App\Models\Penyidik;
+use App\Models\Polda;
 use App\Models\Process;
 use App\Models\PublicWitness;
 use App\Models\Sp2hp2History;
@@ -52,6 +53,7 @@ class KasusController extends Controller
         $jenis_kelamin = JenisKelamin::get();
         $pangkat = Pangkat::get();
         $wujud_perbuatan = WujudPerbuatan::get();
+        $polda = Polda::where('id', '<>', 0)->get();
 
         $i_dis = 0;
         $i_ke = 0;
@@ -84,6 +86,7 @@ class KasusController extends Controller
             'id_disiplin' => $id_disiplin,
             'kode_etik' => $kode_etik,
             'id_kode_etik' => $id_kode_etik,
+            'polda' => $polda
         ];
 
         return view('pages.data_pelanggaran.input_kasus.input',$data);
@@ -125,6 +128,7 @@ class KasusController extends Controller
             'jabatan' => $request->jabatan,
             'kesatuan' => $request->kesatuan,
             'wilayah_hukum' => $request->wilayah_hukum,
+            'kewarganegaraan' => 'WNI',
             'tempat_kejadian' => $request->tempat_kejadian,
             'tanggal_kejadian' => Carbon::create($request->tanggal_kejadian)->format('Y-m-d'),
             'kronologi' => $request->kronologis,
@@ -137,14 +141,17 @@ class KasusController extends Controller
 
     public function data(Request $request)
     {
-        $query = DataPelanggar::orderBy('id', 'desc')->with('status');
+        $query = DataPelanggar::with('status')->with('pangkatName')->latest('created_at')->get();
 
         return Datatables::of($query)
             ->editColumn('no_nota_dinas', function($query) {
                 // return $query->no_nota_dinas;
                 return '<a href="/data-kasus/detail/'.$query->id.'">'.$query->no_nota_dinas.'</a>';
             })
-            ->rawColumns(['no_nota_dinas'])
+            ->editColumn('pangkatName.name', function($query){
+                return '<span>'.$query->pangkatName->name.'</span>';
+            })
+            ->rawColumns(['no_nota_dinas', 'pangkatName.name'])
             ->make(true);
     }
 
@@ -357,6 +364,7 @@ class KasusController extends Controller
                 'nrp' => $request->nrp,
                 'jabatan' => $request->jabatan,
                 'kesatuan' => $request->kesatuan,
+                'wilayah_hukum' => $request->wilayah_hukum,
                 'tempat_kejadian' => $request->tempat_kejadian,
                 'tanggal_kejadian' => Carbon::create($request->tanggal_kejadian)->format('Y-m-d'),
                 'kronologi' => $request->kronologis,

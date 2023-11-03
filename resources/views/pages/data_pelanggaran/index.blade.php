@@ -1,7 +1,7 @@
 @extends('partials.master')
 
 @section('content')
-    <div class="row">
+    <div class="row mt-4">
         <div class="col-md-3">
             <!-- card -->
             <div class="card card-animate card-primary">
@@ -41,7 +41,7 @@
                     <div class="d-flex justify-content-between">
                         <div class="flex-grow-1">
                             <p class="text-uppercase fw-medium text-truncate fs-13">Total Kasus Diproses</p>
-                            <h4 class="fs-22 fw-semibold mb-3"><span class="counter-value"
+                            <h4 class="fs-22 text-white fw-semibold mb-3"><span class="counter-value"
                                     data-target="{{ count($kasus_diproses) }}">0</span></h4>
                             {{-- <div class="d-flex align-items-center gap-2">
                                 <h5 class="text-success fs-12 mb-0">
@@ -73,7 +73,7 @@
                     <div class="d-flex justify-content-between">
                         <div class="flex-grow-1">
                             <p class="text-uppercase fw-medium text-truncate fs-13">Total Kasus Selesai</p>
-                            <h4 class="fs-22 fw-semibold mb-3"><span class="counter-value"
+                            <h4 class="fs-22 text-white fw-semibold mb-3"><span class="counter-value"
                                     data-target="{{ count($kasus_selesai) }}">0</span></h4>
                             {{-- <div class="d-flex align-items-center gap-2">
                                 <h5 class="text-success fs-12 mb-0">
@@ -105,7 +105,7 @@
                     <div class="d-flex justify-content-between">
                         <div class="flex-grow-1">
                             <p class="text-uppercase fw-medium text-truncate fs-13">Total Kasus Dihentikan</p>
-                            <h4 class="fs-22 fw-semibold mb-3"><span class="counter-value"
+                            <h4 class="fs-22 text-white fw-semibold mb-3"><span class="counter-value"
                                     data-target="{{ count($kasus_dihentikan) }}">0</span></h4>
                             {{-- <div class="d-flex align-items-center gap-2">
                                 <h5 class="text-success fs-12 mb-0">
@@ -167,8 +167,8 @@
 @endsection
 
 @section('scripts')
-    <script src="https://cdn.datatables.net/1.13.2/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.2/js/dataTables.bootstrap5.min.js"></script>
+    {{-- <script src="https://cdn.datatables.net/1.13.2/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.2/js/dataTables.bootstrap5.min.js"></script> --}}
     <script>
         $(document).ready(function() {
             getData()
@@ -178,16 +178,12 @@
             var table = $('#data-data').DataTable({
                 processing: true,
                 serverSide: true,
+                ordering: false,
                 ajax: {
                     url: "{{ route('kasus.data') }}",
                     method: "post",
                     data: function(data) {
                         data._token = '{{ csrf_token() }}'
-                        // data.polda = $('#polda').val(),
-                        // data.jenis_kelamin = $('#jenis_kelamin').val(),
-                        // data.jenis_pelanggaran = $('#jenis_pelanggaran').val(),
-                        // data.pangkat = $('#pangkat').val(),
-                        // data.wujud_perbuatan = $('#wujud_perbuatan').val()
                     }
                 },
                 columns: [
@@ -214,8 +210,8 @@
                         name: 'terlapor'
                     },
                     {
-                        data: 'pangkat',
-                        name: 'pangkat'
+                        data: 'pangkatName.name',
+                        name: 'pangkatName.name'
                     },
                     {
                         data: 'nama_korban',

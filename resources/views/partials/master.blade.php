@@ -76,10 +76,10 @@
             margin-left: auto;
             margin-right: auto;
             margin-top: auto;
-            border: 16px solid #f3f3f3;
+            border: 8px solid #f3f3f3;
             border-radius: 50%;
-            border-top: 16px solid blue;
-            border-bottom: 16px solid blue;
+            border-top: 8px solid blue;
+            border-bottom: 8px solid blue;
             width: 120px;
             height: 120px;
             -webkit-animation: spin 2s linear infinite;
@@ -267,9 +267,19 @@
 
             <div class="page-content">
                 <div class="container-fluid">
+                    <center>
+                        <span class="logo-lg">
+                            <img src="{{asset('assets/images/Tagline-Propam.png')}}" alt="" height="50">
+                        </span>
+                    </center>
+
                     @yield('content')
                 </div>
             </div>
+
+            <footer class="">
+                <p class="text-center text-muted">© 2023 Propam Integrated System - Divisi Propam Polri</p>
+            </footer>
         </div>
 
         <div id="preloader">

@@ -197,6 +197,13 @@
 
                         <div class="col-lg-12 mb-3">
                             <div class="form-floating">
+                                <input type="text" name="no_telp" id="no_telp" placeholder="No. Telp Pelapor" class="form-control border-dark" value="{{ isset($kasus) ? $kasus->no_telp : '' }}" required>
+                                <label for="no_telp" class="form-label">No. Telepon Pelapor</label>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-12 mb-3">
+                            <div class="form-floating">
                                 <textarea class="form-control border-dark" name="alamat" placeholder="Alamat" id="floatingTextarea" value="{{ isset($kasus) ? $kasus->alamat : '' }}" style="height: 235px" required>{{ isset($kasus) ? $kasus->alamat : '' }}</textarea>
                                 <label for="floatingTextarea" class="form-label">Alamat</label>
                             </div>
@@ -206,7 +213,13 @@
 
                 <div class="col-lg-6 p-3">
                     <div class="row">
-                        <div class="col-lg-12 mb-3">
+                        <div class="col-lg-6 mb-3">
+                            <div class="form-floating">
+                                <input type="text" class="form-control border-dark" name="nrp" id="nrp" placeholder="NRP Terduga Pelanggar" value="{{ isset($kasus) ? $kasus->nrp : '' }}" required>
+                                <label for="nrp">NRP</label>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 mb-3">
                             <div class="form-floating">
                                 <input type="text" class="form-control border-dark" name="terlapor" id="terlapor" placeholder="Nama Terlapor" value="{{ isset($kasus) ? $kasus->terlapor : '' }}" required>
                                 <label for="terlapor">Nama Terlapor</label>
@@ -226,20 +239,26 @@
                         </div>
                         <div class="col-lg-6 mb-3">
                             <div class="form-floating">
-                                <input type="text" class="form-control border-dark" name="nrp" id="nrp" placeholder="NRP Terlapor" value="{{ isset($kasus) ? $kasus->nrp : '' }}" required>
-                                <label for="nrp">NRP</label>
-                            </div>
-                        </div>
-                        <div class="col-lg-6 mb-3">
-                            <div class="form-floating">
-                                <input type="text" class="form-control border-dark" name="jabatan" id="jabatan" placeholder="Jabatan Terlapor" value="{{ isset($kasus) ? $kasus->jabatan : '' }}" required>
-                                <label for="jabatan">Jabatan Terlapor</label>
+                                <input type="text" class="form-control border-dark" name="jabatan" id="jabatan" placeholder="Jabatan Terduga Pelanggar" value="{{ isset($kasus) ? $kasus->jabatan : '' }}" required>
+                                <label for="jabatan">Jabatan Terduga Pelanggar</label>
                             </div>
                         </div>
                         <div class="col-lg-6 mb-3">
                             <div class="form-floating">
                                 <input type="text" class="form-control border-dark" name="kesatuan" id="kesatuan" placeholder="Kesatuan Terlapor" value="{{ isset($kasus) ? $kasus->kesatuan : '' }}" required>
                                 <label for="kesatuan">Kesatuan Terlapor</label>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 mb-3">
+                            <div class="form-floating">
+                                <select name="wilayah_hukum" id="wilayah_hukum" class="form-control form-select" data-placeholder="Pilih Mabes/Polda">
+                                    <option></option>
+                                    @foreach ($polda as $item)
+                                        <option value="{{$item->id}}"{{ $item->id == $kasus->wilayah_hukum ? 'selected' : '' }}>{{$item->name}}</option>
+                                    @endforeach
+                                </select>
+                                {{-- <input type="text" class="form-control border-dark" name="wilayah_hukum" id="wilayah_hukum" placeholder="Mabes/Polda" value="{{ isset($kasus) ? $kasus->wilayah_hukum : '' }}" required> --}}
+                                <label for="wilayah_hukum">Mabes/Polda</label>
                             </div>
                         </div>
                         <div class="col-lg-6 mb-3">
@@ -697,10 +716,18 @@
 
 <script>
     $(document).ready(function(){
-        $('.select2').map((k, v) => {
-            $(v).select2({
+        // $('.select2').map((k, v) => {
+            $('.select2').select2({
                 theme: 'default'
             })
+        // })
+
+        $('input[type="time"]').on('keydown', function(){
+                return false
+        })
+
+        $('input[type="date"]').on('keydown', function(){
+            return false
         })
 
         $('.submit').on('click', function(){
