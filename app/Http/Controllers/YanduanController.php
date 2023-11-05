@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Integration\YanduanIntegration;
 use App\Models\DataPelanggar;
+use App\Models\KategoriYanduan;
 use App\Models\Pangkat;
 use Carbon\Carbon;
 use Exception;
@@ -21,9 +22,9 @@ class YanduanController extends Controller
     }
 
     public function index(){
-        if(!session()->has('tokenYanduan')){
-            $this->yanduan->getToken();
-        }
+        // if(!session()->has('tokenYanduan')){
+        $this->yanduan->getToken();
+        // }
         return view('pages.data_yanduan.index');
     }
 
@@ -39,14 +40,15 @@ class YanduanController extends Controller
         DB::beginTransaction();
         try {
             $yanduan = $this->yanduan->getProcessedReport($request->start_date, $request->end_date);
+
             if($yanduan->message == 'Token expired' || $yanduan->message == 'Unauthorized'){
                 session()->forget('tokenYanduan');
                 throw new Exception('Token API WA Yanduan Expired, harap refresh untuk memperbarui token', 401);
+            } else if ($yanduan->message == 'Server Error') {
+                throw new Exception('Gagal Mengambil Data Dari Server Yanduan, Harap Coba Lagi', 500);
             } else {
                 if(count($yanduan->data) == 0){
                     throw new Exception('Tidak ada data yanduan pada range tanggal tersebut', 404);
-                } else if($yanduan->message == 'Server Error'){
-                    throw new Exception('Gagal Mengambil Data Dari Server Yanduan, Harap Coba Lagi', 500);
                 }
 
                 self::ProcessData($yanduan->data);
@@ -75,7 +77,7 @@ class YanduanController extends Controller
     public function ProcessData($data){
         $tempDumas = [];
         foreach ($data as $yanduan) {
-            if(str_contains($yanduan->biro, 'PROVOS')){
+            if(str_contains($yanduan->biro, 'PROVOS') && $yanduan->status == 'DISPOSISI'){
 
                 $pangkat = null;
                 if(count($yanduan->defendants) > 0){
@@ -88,6 +90,12 @@ class YanduanController extends Controller
                     $tanggal_kejadian = Carbon::createFromFormat('d/m/Y H:i', $yanduan->crime_scenes[0]->datetime)->format('Y/m/d');
                 }
 
+                $kategoriYanduan = null;
+                if($yanduan->category != '' || $yanduan->category != '-'){
+                    $kategoriYanduan = KategoriYanduan::where('name', $yanduan->category)->first();
+                    $kategoriYanduan = $kategoriYanduan != null ? $kategoriYanduan->id : null;
+                }
+
                 $checkIfExist = DataPelanggar::where('no_nota_dinas', $yanduan->nomor_nota_dinas)->first();
                 if($checkIfExist == null){
                     array_push($tempDumas, [
@@ -95,13 +103,15 @@ class YanduanController extends Controller
                         'no_pengaduan' => $yanduan->ticket_id,
                         'perihal_nota_dinas' => $yanduan->perihal_nota_dinas,
                         'kronologi' => str_replace('&nbsp;', '', strip_tags($yanduan->chronology)),
-                        'tanggal_nota_dinas' => $yanduan->tanggal_nota_dinas,
+                        'tanggal_nota_dinas' => $yanduan->tanggal_nota_dinas != '-' ? $yanduan->tanggal_nota_dinas : null,
                         'terlapor' => count($yanduan->defendants) > 0 ? $yanduan->defendants[0]->name : null,
                         'pangkat' => $pangkat,
-                        'kesatuan' => $yanduan->defendants[0]->unit,
+                        'kesatuan' => count($yanduan->defendants) > 0 ? $yanduan->defendants[0]->unit : null,
                         'nama_korban' => count($yanduan->victims) > 0 ? $yanduan->victims[0]->name : null,
                         'tempat_kejadian' => count($yanduan->crime_scenes) > 0 ? $yanduan->crime_scenes[0]->detail : null,
                         'tanggal_kejadian' => $tanggal_kejadian,
+                        'kategori_yanduan_id' => $kategoriYanduan,
+                        'data_from' => 'yanduan',
 
                         'wujud_perbuatan' => null,
                         'pelapor' => null,

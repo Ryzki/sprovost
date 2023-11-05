@@ -49,4 +49,8 @@ class DataPelanggar extends Model
     public function sidangDisiplin(){
         return $this->hasOne(SidangDisiplin::class, 'data_pelanggar_id', 'id');
     }
+
+    public function kategoriYanduan(){
+        return $this->hasOne(KategoriYanduan::class,'id', 'kategori_yanduan_id');
+    }
 }

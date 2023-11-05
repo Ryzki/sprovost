@@ -2,7 +2,7 @@
     <style>
         .select2-selection__rendered {
             line-height: 2.5rem !important;
-            padding-left: 1rem !important
+            /* padding-left: 1rem !important */
         }
         .select2-container .select2-selection--single {
             height: 3.5rem !important;
@@ -109,6 +109,15 @@
                         <label for="wujud_perbuatan" class="form-label">Wujud Perbuatan</label>
                     </div>
                 </div>
+
+                @if ($kasus->data_from == 'yanduan')
+                    <div class="col-lg-12 mb-3">
+                        <div class="form-floating">
+                            <input type="text" name="kategori_yanduan" id="" class="form-control border-grey" disabled value="{{$kasus->kategoriYanduan->name}}">
+                            <label for="wujud_perbuatan" class="form-label">Kategori Yanduan</label>
+                        </div>
+                    </div>
+                @endif
                 <hr>
             </div>
             <div class="row">
@@ -223,8 +232,7 @@
                         </div>
                         <div class="col-lg-6 mb-3">
                             <div class="form-floating">
-                                <!-- <input type="text" class="form-control border-dark required" name="pangkat" id="pangkat" placeholder="Pangkat Terlapor" value="{{ isset($kasus) ? $kasus->pangkat : '' }}" required> -->
-                                <select class="form-control border-dark required select2" name="pangkat" id="pangkat"  data-placeholder="Silahkan Pilih PAngkat">
+                                <select class="form-select border-dark required select2" name="pangkat" id="pangkat"  data-placeholder="Silahkan Pilih PAngkat">
                                     <option></option>
                                     @foreach($pangkats as $pangkat)
                                     <option value="{{$pangkat->id}}" {{ $pangkat->id == $kasus->pangkat ? 'selected' : '' }}>{{$pangkat->name}}</option>
