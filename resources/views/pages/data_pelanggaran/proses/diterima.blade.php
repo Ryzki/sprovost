@@ -201,6 +201,24 @@
                         </div>
 
                         <div class="col-lg-12 mb-3">
+                            @if ($kasus->data_from == 'yanduan' && $kasus->identityReference != null)
+                                <div class="col-lg-12 mb-3">
+                                    <div>
+                                        <span>Identity Detail</span>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <a href="{{$kasus->identityReference->id_card}}" target="_blank">ID Card</a>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <a href="{{$kasus->identityReference->selfie}}" target="_blank">Selfie</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endif
+                        </div>
+
+                        <div class="col-lg-12 mb-3">
                             <div class="form-floating">
                                 <input type="text" name="no_telp" id="no_telp" placeholder="No. Telp Pelapor" class="form-control border-dark required" value="{{ isset($kasus) ? $kasus->no_telp : '' }}" required>
                                 <label for="no_telp" class="form-label">No. Telepon Pelapor</label>
@@ -232,7 +250,7 @@
                         </div>
                         <div class="col-lg-6 mb-3">
                             <div class="form-floating">
-                                <select class="form-select border-dark required select2" name="pangkat" id="pangkat"  data-placeholder="Silahkan Pilih PAngkat">
+                                <select class="form-select border-dark required select2" name="pangkat" id="pangkat"  data-placeholder="Silahkan Pilih Pangkat">
                                     <option></option>
                                     @foreach($pangkats as $pangkat)
                                     <option value="{{$pangkat->id}}" {{ $pangkat->id == $kasus->pangkat ? 'selected' : '' }}>{{$pangkat->name}}</option>
@@ -289,6 +307,21 @@
                                 <label for="kronologis" class="form-label">Kronologis</label>
                             </div>
                         </div>
+
+                        @if ($kasus->data_from == 'yanduan' && count($kasus->evidenceReference) > 0)
+                            <div class="col-lg-12 mb-3">
+                                <div>
+                                    <span>Evidences Detail</span>
+                                </div>
+                                <div class="row">
+                                    @foreach ($kasus->evidenceReference as $key => $evidence)
+                                        <div class="col-md-3">
+                                                <a href="{{$evidence->evidence_path}}" target="_blank">Evidence {{$key+1}}</a>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        @endif
                     </div>
                 </div>
 

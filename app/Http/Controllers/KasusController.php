@@ -32,9 +32,9 @@ class KasusController extends Controller
     public function index()
     {
         $data['kasuss'] = DataPelanggar::all();
-        $data['kasus_dihentikan'] = DataPelanggar::where('status_id', 9)->get();
+        $data['kasus_dihentikan'] = DataPelanggar::whereIn('status_id', [9,10])->get();
         $data['kasus_selesai'] = DataPelanggar::where('status_id', 8)->get();
-        $data['kasus_diproses'] = DataPelanggar::whereNotIn('status_id', [8,9])->get();
+        $data['kasus_diproses'] = DataPelanggar::whereNotIn('status_id', [1,8,5,9])->get();
 
         $currentMonth = Carbon::now()->translatedFormat('m');
         $lastMonth = Carbon::now()->subMonth()->translatedFormat('m');

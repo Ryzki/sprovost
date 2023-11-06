@@ -150,6 +150,42 @@
                     <div class="col-md-8 col-sm-12">
                         {{$gelarPerkara != null ? ($gelarPerkara->saran_penyidik != null ? $gelarPerkara->saran_penyidik : ' - ') : ' - '}}
                     </div>
+
+                    @if ($kasus->data_from == 'yanduan' && count($kasus->evidenceReference) > 0)
+                        <div class="col-md-3 col-sm-12">
+                            Evidence Detail
+                        </div>
+                        <div class="col-md-1">
+                            :
+                        </div>
+                        <div class="col-md-8 col-sm-12">
+                            <div class="row">
+                                @foreach ($kasus->evidenceReference as $key => $evidence)
+                                    <div class="col-md-3">
+                                            <a href="{{$evidence->evidence_path}}" target="_blank">Evidence {{$key+1}}</a>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    @endif
+                    @if ($kasus->data_from == 'yanduan' && $kasus->identityReference != null)
+                        <div class="col-md-3 col-sm-12">
+                            Identity Detail
+                        </div>
+                        <div class="col-md-1">
+                            :
+                        </div>
+                        <div class="col-md-8 col-sm-12">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <a href="{{$kasus->identityReference->id_card}}" target="_blank">ID Card</a>
+                                </div>
+                                <div class="col-md-3">
+                                    <a href="{{$kasus->identityReference->selfie}}" target="_blank">Selfie</a>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
                 </div>
             </div>
             <hr>
@@ -602,6 +638,17 @@
                         </div>
                     @endif
                     @if (count($saksi) == 0)
+                        @if ($kasus->data_from == 'yanduan')
+                            <div class="card" id="saksi_reference">
+                                <div class="card-header">
+                                    Reference Data Saksi
+                                </div>
+                                <div class="card-body">
+                                    <span>{{$kasus->witnessReference->witness_detail}}</span>
+                                </div>
+                            </div>
+                        @endif
+
                         <div class="card" id="data-saksi">
                             <div class="card-header" id="header-saksi" style="cursor: pointer">Tambah Saksi <br> <small class="text-info">*click untuk menambahkan saksi</small></div>
                             <div class="card-body" id="body-saksi" style="display:none">
