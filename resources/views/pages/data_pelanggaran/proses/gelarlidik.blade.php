@@ -938,7 +938,11 @@
         $.ajax({
             url: url,
             method: 'GET',
+            beforeSend: () => {
+                $.LoadingOverlay("show");
+            },
             success: (res) => {
+                $.LoadingOverlay("hide");
                 var option = '<option><option>'
 
                 if(modal_id != 'undangan_gelar'){
@@ -961,6 +965,10 @@
                         dropdownParent : $(`#${modal_id} .modal-content`)
                     })
                 })
+            },
+            error: (xhr) => {
+                $.LoadingOverlay("hide");
+                onAjaxError(xhr)
             }
         })
     }

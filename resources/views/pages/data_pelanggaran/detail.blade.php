@@ -77,7 +77,10 @@
 
             $.ajax({
                 url: `/data-kasus/view/${kasus_id}/${id}`,
-                method: "get"
+                method: "get",
+                error: (xhr) => {
+                    onAjaxError(xhr)
+                }
             }).done(function(data) {
                 $('.loader-view').css("display", "none");
                 $("#viewProses").html(data)
