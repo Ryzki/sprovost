@@ -19,9 +19,9 @@ class GetPangkatFromYanduan extends Seeder
     {
         Pangkat::unguard();
 
-        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-        DB::table('pangkats')->truncate();
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+        // DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        // DB::table('pangkats')->truncate();
+        // DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
         $yanduan = new YanduanIntegration;
         $pangkat = $yanduan->getPangkat();
