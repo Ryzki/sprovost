@@ -79,7 +79,7 @@
 
                 <div class="col-lg-6 mb-3">
                     <div class="form-floating">
-                        <input type="date" name="tanggal_nota_dinas" class="form-control border-dark required" id="datepicker" placeholder="Tanggal Nota Dinas" value="{{ isset($kasus) ? $kasus->tanggal_nota_dinas : '' }}" required>
+                        <input type="date" name="tanggal_nota_dinas" class="form-control border-dark required" id="datepicker" placeholder="Tanggal Nota Dinas" value="{{ isset($kasus) ? \Carbon\Carbon::parse($kasus->tanggal_nota_dinas)->format('Y-m-d') : '' }}" required>
                         <label for="tanggal_nota_dinas">Tanggal Nota Dinas</label>
                     </div>
                 </div>
@@ -113,7 +113,7 @@
                 @if ($kasus->data_from == 'yanduan')
                     <div class="col-lg-12 mb-3">
                         <div class="form-floating">
-                            <input type="text" name="kategori_yanduan" id="" class="form-control border-grey" disabled value="{{$kasus->kategoriYanduan->name}}">
+                            <input type="text" name="kategori_yanduan" id="" class="form-control border-grey" disabled value="{{$kasus->kategoriYanduan != null ? $kasus->kategoriYanduan->name : ''}}">
                             <label for="wujud_perbuatan" class="form-label">Kategori Yanduan</label>
                         </div>
                     </div>
@@ -291,7 +291,7 @@
                         </div>
                         <div class="col-lg-6 mb-3">
                             <div class="form-floating">
-                                <input type="date" name="tanggal_kejadian" class="form-control border-dark required" value="{{ isset($kasus) ? $kasus->tanggal_kejadian : '' }}" required>
+                                <input type="date" name="tanggal_kejadian" class="form-control border-dark required" value="{{ isset($kasus) ? \Carbon\Carbon::parse($kasus->tanggal_kejadian)->format('Y-m-d') : '' }}" required>
                                 <label for="tempat_kejadian">Tanggal Kejadian</label>
                             </div>
                         </div>

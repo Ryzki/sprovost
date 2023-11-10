@@ -318,12 +318,13 @@ class GenerateDocument extends Controller
                 ]);
             }
 
+            DB::setDateFormat('YYYY-MM-DD HH24:MI:SS');
             UndanganKlarifikasiHistories::create([
                 'data_pelanggar_id' => $kasus_id,
                 'no_undangan' => $request->no_undangan,
-                'tgl_pertemuan' => $request->tgl_pertemuan,
+                'tgl_pertemuan' => date('Y-m-d H:i:s', strtotime($request->tgl_pertemuan)),
                 'ruang_pertemuan' => $request->ruang_pertemuan,
-                'jam_pertemuan' => $request->jam_pertemuan,
+                'jam_pertemuan' => $request->tgl_pertemuan.' '.$request->jam_pertemuan,
                 'penyidik' => $request->penyidik,
                 'no_telp_penyidik' => $request->no_telp_penyidik
             ]);

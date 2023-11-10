@@ -17,6 +17,8 @@ class YanduanIntegration
             CURLOPT_MAXREDIRS => 10,
             CURLOPT_TIMEOUT => 0,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_SSL_VERIFYHOST => 0,
+            CURLOPT_SSL_VERIFYPEER => 0,
         ));
 
         curl_setopt($ch, CURLOPT_URL, $url);
@@ -25,6 +27,10 @@ class YanduanIntegration
         curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
         $response = curl_exec($ch);
         curl_close($ch);
+
+        if ($response === false) {
+            dd(curl_error($ch));
+        }
 
         return $response;
     }
