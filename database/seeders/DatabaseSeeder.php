@@ -46,22 +46,22 @@ class DatabaseSeeder extends Seeder
         ]);
         $user->assignRole($adminRole);
 
-        $this->call([
-            AgamaSeeder::class,
-            JenisKelaminSeed::class,
-            JenisIdentitasSeeder::class,
-            ProcessSeeder::class,
-            SubProcessSeeder::class,
-            DataPelanggarSeeder::class,
-            PoldaSeeder::class,
-            // PangkatSeeder::class,
-            WujudPerbuatanSeeder::class,
-            MasterPenyidikSeeder::class,
-            AddWabprofToPolda::class,
-            AddRJStatusSeeder::class,
-            AddToAgama::class,
-            RemoveSubProcess::class,
-            GetPangkatFromYanduan::class
-        ]);
+        // $this->call([
+        //     AgamaSeeder::class,
+        //     JenisKelaminSeed::class,
+        //     JenisIdentitasSeeder::class,
+        //     ProcessSeeder::class,
+        //     SubProcessSeeder::class,
+        //     DataPelanggarSeeder::class,
+        //     PoldaSeeder::class,
+        //     // PangkatSeeder::class,
+        //     WujudPerbuatanSeeder::class,
+        //     MasterPenyidikSeeder::class,
+        //     AddWabprofToPolda::class,
+        //     AddRJStatusSeeder::class,
+        //     AddToAgama::class,
+        //     RemoveSubProcess::class,
+        //     GetPangkatFromYanduan::class
+        // ]);
     }
 }

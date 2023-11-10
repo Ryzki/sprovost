@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('undangan_klarifikasi_histories', function (Blueprint $table) {
+        Schema::table('undangan_klarifikasi', function (Blueprint $table) {
             $table->dateTime('tgl_pertemuan');
             $table->string('ruang_pertemuan');
             $table->time('jam_pertemuan');
@@ -29,7 +29,7 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('undangan_klarifikasi_histories', function (Blueprint $table) {
+        Schema::table('undangan_klarifikasi', function (Blueprint $table) {
             //
         });
     }

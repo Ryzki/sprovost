@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('notulen')->nullable()->default(null);
             $table->string('pemapar')->nullable()->default(null);
             $table->string('hasil_gelar')->nullable()->default(null);
-            $table->string('landasan_hukum')->nullable()->default(null);
+            $table->text('landasan_hukum')->nullable()->default(null);
             $table->string('keterangan_hasil')->nullable()->default(null);
             $table->timestamps();
         });

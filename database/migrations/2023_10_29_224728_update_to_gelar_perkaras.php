@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('gelar_perkaras', function (Blueprint $table) {
-            $table->text('landasan_hukum')->nullable()->default(null)->change();
+            $table->text('landasan_hukum')->nullable()->change();
         });
     }
 
