@@ -34,7 +34,7 @@ class KasusController extends Controller
         $data['kasuss'] = DataPelanggar::all();
         $data['kasus_dihentikan'] = DataPelanggar::whereIn('status_id', [9,10])->get();
         $data['kasus_selesai'] = DataPelanggar::where('status_id', 8)->get();
-        $data['kasus_diproses'] = DataPelanggar::whereNotIn('status_id', [1,8,5,9])->get();
+        $data['kasus_diproses'] = DataPelanggar::whereNotIn('status_id', [1,8,5,9,10])->get();
 
         $currentMonth = Carbon::now()->translatedFormat('m');
         $lastMonth = Carbon::now()->subMonth()->translatedFormat('m');
@@ -259,6 +259,7 @@ class KasusController extends Controller
                         ], 500);
                     }
                 } else if ($request->next == 'restorative_justice') {
+                    DB::beginTransaction();
                     try {
                         $data = DataPelanggar::find($request->kasus_id);
                         $data->status_id = 10;
@@ -269,8 +270,10 @@ class KasusController extends Controller
                         $gelarPerkara->save();
 
                         $sp2hp = (new GenerateDocument)->sp2hp($request->kasus_id,$request->process_id,12);
+                        DB::commit();
                         return response()->json(['file' => $sp2hp]);
                     } catch (\Throwable $th) {
+                        DB::rollBack();
                         return response()->json([
                             'status' => [
                                 'code' => 500,

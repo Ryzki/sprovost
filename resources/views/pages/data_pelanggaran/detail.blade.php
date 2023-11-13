@@ -79,6 +79,8 @@
                 url: `/data-kasus/view/${kasus_id}/${id}`,
                 method: "get",
                 error: (xhr) => {
+                    $('.loader-view').css("display", "none");
+                    console.log(xhr)
                     onAjaxError(xhr)
                 }
             }).done(function(data) {

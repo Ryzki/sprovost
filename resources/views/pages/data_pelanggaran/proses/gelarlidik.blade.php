@@ -5,7 +5,7 @@
                 <button type="button" class="btn btn-warning" onclick="getViewProcess(3)">Sebelumnya</button>
             </div>
             <div>
-                @if ($kasus->status_id > 4 && $kasus->status_id != 5 && $kasus->status_id != 9)
+                @if ($kasus->status_id > 4 && $kasus->status_id != 5 && $kasus->status_id != 9 && $kasus->status_id != 10)
                     <button type="button" class="btn btn-primary" onclick="getViewProcess(6)">Selanjutnya</button>
                 @endif
             </div>
@@ -197,7 +197,7 @@
             </div>
             <hr>
 
-            @if ($kasus->status_id != 8 && $kasus->status_id != 9)
+            @if ($kasus->status_id != 8 && $kasus->status_id != 9 && $kasus->status_id != 10)
                 @if($kasus->status_id == 5)
                     <h2 class="text-center text-warning mt-4">
                         <i class="mdi mdi-information"></i> Kasus telah dilimpahkan ke Polda / Jajaran
@@ -259,6 +259,10 @@
                 @if ($kasus->status_id == 9)
                     <h2 class="text-center text-info mt-4">
                         <i class="mdi mdi-information"></i> Kasus ini telah Dihentikan
+                    </h2>
+                @elseif ($kasus->status_id == 10)
+                    <h2 class="text-center text-info mt-4">
+                        <i class="mdi mdi-information"></i> Kasus ini telah Dihentikan (RJ)
                     </h2>
                 @else
                     <h2 class="text-center text-info mt-4">
@@ -369,7 +373,7 @@
                             <div class="col-md-6 col-12">
                                 <div class="form-group">
                                     <label for="tgl" class="form-label">Tanggal Pelaksanaan Gelar Perkara</label>
-                                    <input type="date" class="form-control" name="tgl" placeholder='Pilih Tanggal' value="{{ isset($gelarPerkara) ? $gelarPerkara->tgl_pelaksanaan : '' }}"
+                                    <input type="date" class="form-control" name="tgl" placeholder='Pilih Tanggal' value="{{ isset($gelarPerkara) ? \Carbon\Carbon::parse($gelarPerkara->tgl_pelaksanaan)->format('Y-m-d') : '' }}"
                                     @if (isset($gelarPerkara))
                                         readonly
                                     @endif>
@@ -501,7 +505,7 @@
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group">
                                                     <label for="tgl" class="form-label">Tanggal Pelaksanaan</label>
-                                                    <input type="date" class="form-control" name="tgl" placeholder='Pilih Tanggal' value="{{ isset($gelarPerkara) ? $gelarPerkara->tgl_pelaksanaan : '' }}"
+                                                    <input type="date" class="form-control" name="tgl" placeholder='Pilih Tanggal' value="{{ isset($gelarPerkara) ? \Carbon\Carbon::parse($gelarPerkara->tgl_pelaksanaan)->format('Y-m-d') : '' }}"
                                                     @if (isset($gelarPerkara))
                                                         readonly
                                                     @endif>

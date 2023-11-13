@@ -191,7 +191,7 @@
             <hr>
 
             <div class="row align-items-center justify-content-center">
-                @if ($kasus->status_id != 8 && $kasus->status_id != 9)
+                @if ($kasus->status_id != 8 && $kasus->status_id != 9 && $kasus->status_id != 10)
                     @if($kasus->status_id == 5)
                         <h2 class="text-center text-warning mt-4">
                             <i class="mdi mdi-information"></i> Kasus telah dilimpahkan ke Polda / Jajaran
@@ -258,6 +258,10 @@
                         <h2 class="text-center text-info mt-4">
                             <i class="mdi mdi-information"></i> Kasus ini telah Dihentikan
                         </h2>
+                    @elseif ($kasus->status_id == 10)
+                        <h2 class="text-center text-info mt-4">
+                            <i class="mdi mdi-information"></i> Kasus ini telah Dihentikan (RJ)
+                        </h2>       
                     @else
                         <h2 class="text-center text-info mt-4">
                             <i class="mdi mdi-information"></i> Kasus ini telah selesai
@@ -638,7 +642,7 @@
                         </div>
                     @endif
                     @if (count($saksi) == 0)
-                        @if ($kasus->data_from == 'yanduan')
+                        @if ($kasus->data_from == 'yanduan' && $kasus->witnessReference != null)
                             <div class="card" id="saksi_reference">
                                 <div class="card-header">
                                     Reference Data Saksi

@@ -327,7 +327,7 @@
 
                 {{-- Document Download --}}
                 <div class="col-lg-12">
-                    @if($kasus->status_id != 8 && $kasus->status_id != 9)
+                    @if($kasus->status_id != 8 && $kasus->status_id != 9 && $kasus->status_id != 10)
                         {{-- <div class="col-lg-12 mb-3">
                             <label for="exampleFormControlInput1" class="form-label">Download Berkas Disposisi</label>
                             <button class="btn btn-primary" style="width: 100%" data-bs-toggle="modal"
@@ -349,7 +349,7 @@
                 </div>
             </div>
 
-            @if ($kasus->status_id != 8 && $kasus->status_id != 9)
+            @if ($kasus->status_id != 8 && $kasus->status_id != 9 && $kasus->status_id != 10)
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="row">

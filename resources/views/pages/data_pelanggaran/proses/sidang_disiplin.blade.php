@@ -4,11 +4,11 @@
             <div>
                 <button type="button" class="btn btn-warning" onclick="getViewProcess(6)">Sebelumnya</button>
             </div>
-            <div>
+            {{-- <div>
                 @if ($kasus->status_id > 7)
                     <button type="button" class="btn btn-primary" onclick="getViewProcess(7)">Selanjutnya</button>
                 @endif
-            </div>
+            </div> --}}
         </div>
     </div>
     <div class="row">
@@ -388,13 +388,13 @@
                         <div class="col-md-6 col-12">
                             <div class="form-group">
                                 <label for="tgl" class="form-label">Tanggal Sidang</label>
-                                <input type="date" class="form-control" name="tgl" value="{{!empty($sidang) ? $sidang->tgl_sidang : ''}}" @empty(!$sidang) readonly @endempty placeholder='Pilih Tanggal'>
+                                <input type="date" class="form-control" name="tgl" value="{{!empty($sidang) ? \Carbon\Carbon::parse($sidang->tgl_sidang)->format('Y-m-d') : ''}}" @empty(!$sidang) readonly @endempty placeholder='Pilih Tanggal'>
                             </div>
                         </div>
                         <div class="col-md-6 col-12">
                             <div class="form-group">
                                 <label for="jam" class="form-label">Jam Pelaksanaan Sidang</label>
-                                <input type="time" class="form-control" name="jam" value="{{!empty($sidang) ? $sidang->waktu_sidang : ''}}" @empty(!$sidang) readonly @endempty>
+                                <input type="time" class="form-control" name="jam" value="{{!empty($sidang) ? \Carbon\Carbon::parse($sidang->waktu_sidang)->format('G:i') : ''}}" @empty(!$sidang) readonly @endempty>
                             </div>
                         </div>
 

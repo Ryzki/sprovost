@@ -932,7 +932,7 @@ class GenerateDocument extends Controller
             'tgl_laporan' => Carbon::parse($dataPelanggaran->created_at)->translatedFormat('d F Y'),
             'wujud_perbuatan' => $dataPelanggaran->wujudPerbuatan->keterangan_wp,
             'kronologi' => $dataPelanggaran->kronologi,
-            'tgl_gp' => Carbon::parse($sprinGelar->tgl_pelaksanaan_gelar)->translatedFormat('d F Y'),
+            'tgl_gp' => Carbon::parse($gelarPerkara->tgl_pelaksanaan)->translatedFormat('d F Y'),
             'hasil_gelar' => $gelarPerkara->hasil_gelar == 'Tidak Cukup Bukti' ? 'Dihentikan' : $gelarPerkara->hasil_gelar,
             'keterangan' => $keterangan
         ));
@@ -1773,6 +1773,7 @@ class GenerateDocument extends Controller
             $dp3d = DP3D::where('data_pelanggar_id', $kasus_id)->first();
             $sidang = SidangDisiplin::where('data_pelanggar_id', $kasus_id)->first();
 
+            DB::setDateFormat('YYYY-MM-DD HH24:MI:SS');
             if ($sprinHistory == null){
                 $sprinHistory = SprinHistory::create([
                     'data_pelanggar_id' => $kasus_id,
@@ -1780,7 +1781,7 @@ class GenerateDocument extends Controller
                     'created_by' => Auth::user()->id,
                     'type' => 'sidang',
                     'no_nd_rehabpers' => $request->no_nd_rehabpers,
-                    'tgl_nd_rehabpers' => $request->tgl_nd_rehabpers,
+                    'tgl_nd_rehabpers' => date('Y-m-d H:i:s', strtotime($request->tgl_nd_rehabpers)),
                 ]);
 
 
@@ -1798,8 +1799,8 @@ class GenerateDocument extends Controller
                 if($sidang == null){
                     $sidang = SidangDisiplin::create([
                         'data_pelanggar_id' => $kasus_id,
-                        'tgl_sidang' => $request->tgl_sidang,
-                        'waktu_sidang' => $request->waktu_sidang,
+                        'tgl_sidang' => date('Y-m-d H:i:s', strtotime($request->tgl_sidang)),
+                        'waktu_sidang' => date('Y-m-d H:i:s', strtotime($request->tgl_sidang.' '.$request->waktu_sidang)),
                         'lokasi_sidang' => $request->lokasi_sidang
                     ]);
                 }
