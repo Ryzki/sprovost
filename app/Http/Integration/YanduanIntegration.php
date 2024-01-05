@@ -6,8 +6,8 @@ use Illuminate\Http\Request;
 
 class YanduanIntegration
 {
-    protected $accessKey = 'TThrauE38AOMq4rJKghhOi1BqOpAzyPiAgJQWdvyjlliiMAcdfqJkKo8x';
-    protected $secretKey = '02F0v4CFdNKGEFFxFckzKYQ9JlxSCPVPlcCoXOOwYzyBeV5ziF1U';
+    protected $accessKey = 'pjQkbjJ8L7J2wdVL2JStwie326kprVbjzBOvHKDq0Y1hprSWgV';
+    protected $secretKey = 'ei61TC3R28VbsxXwVDlgjWxYT9IR3n4zlUl0pam1sk757rUmRc';
 
     function callCurl($url, $body, $header, $method){
         $ch = curl_init();

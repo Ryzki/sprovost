@@ -3,7 +3,8 @@
 @prepend('styles')
     <link href="{{ asset('assets/css/dashboard.css') }}" rel="stylesheet" type="text/css" />
     <style>
-        #chartdiv, #chartDonat {
+        #chartdiv,
+        #chartDonat {
             width: 100%;
             height: 500px;
             color: #ffffff
@@ -16,7 +17,7 @@
             #ffffff
         }
 
-        #lineChartPelanggar{
+        #lineChartPelanggar {
             max-width: 100%;
         }
 
@@ -24,9 +25,10 @@
             max-width: 650px;
             margin: 35px auto;
         }
+
         /* #chartdiv, #chartDonat, #chartBubble {
 
-        } */
+            } */
     </style>
 @endprepend
 
@@ -46,7 +48,8 @@
                                     <div class="card-body">
                                         <div class="d-flex justify-content-between">
                                             <div class="flex-grow-1">
-                                                <p class="text-uppercase fw-medium text-muted text-truncate fs-13">Total Kasus</p>
+                                                <p class="text-uppercase fw-medium text-muted text-truncate fs-13">Total
+                                                    Kasus</p>
                                                 <h4 class="fs-22 fw-semibold mb-3"><span class="counter-value"
                                                         data-target="{{ count($pelanggar) }}">0</span></h4>
                                             </div>
@@ -77,8 +80,10 @@
                                                 </span>
                                             </div>
                                             <div class="text-end flex-grow-1">
-                                                <p class="text-uppercase fw-medium text-muted text-truncate fs-13">Total Pengaduan Diprores</p>
-                                                <h4 class="fs-22 fw-semibold mb-3"><span class="counter-value" data-target="{{count($pengaduan_diproses)}}">0</span></h4>
+                                                <p class="text-uppercase fw-medium text-muted text-truncate fs-13">Total
+                                                    Pengaduan Diprores</p>
+                                                <h4 class="fs-22 fw-semibold mb-3"><span class="counter-value"
+                                                        data-target="{{ count($pengaduan_diproses) }}">0</span></h4>
                                             </div>
                                         </div>
                                     </div><!-- end card body -->
@@ -97,8 +102,10 @@
                                     <div class="card-body">
                                         <div class="d-flex justify-content-between">
                                             <div class="flex-grow-1">
-                                                <p class="text-uppercase fw-medium text-muted text-truncate fs-13">Total Polda</p>
-                                                <h4 class="fs-22 fw-semibold mb-3"><span class="counter-value" data-target="{{count($polda)}}">0</span></h4>
+                                                <p class="text-uppercase fw-medium text-muted text-truncate fs-13">Total
+                                                    Polda</p>
+                                                <h4 class="fs-22 fw-semibold mb-3"><span class="counter-value"
+                                                        data-target="{{ count($polda) }}">0</span></h4>
                                             </div>
                                             <div class="avatar-sm flex-shrink-0">
                                                 <span class="avatar-title bg-soft-warning rounded fs-3">
@@ -120,7 +127,8 @@
                     <div class="col-xl-8">
                         <div class="card card-animate">
                             <div class="card-header border-0 align-items-center d-flex">
-                                <h4 class="card-title mb-0 flex-grow-1">Statistik Jumlah Dumas Tahun {{\Carbon\Carbon::now()->translatedFormat('Y')}}</h4>
+                                <h4 class="card-title mb-0 flex-grow-1">Statistik Jumlah Dumas Tahun
+                                    {{ \Carbon\Carbon::now()->translatedFormat('Y') }}</h4>
                             </div><!-- end card header -->
 
                             <div class="card-body p-0 pb-2">
@@ -144,11 +152,14 @@
                 <div class="card-body">
                     <div class="d-flex justify-content-between">
                         <div class="flex-grow-1">
-                            <p class="text-uppercase fw-medium text-muted text-truncate fs-13">Data Dumas Berdasarkan Status</p>
-                            <h4 class="fs-22 fw-semibold mb-3"><span class="counter-value" id="dumas_by_status" data-target="0">0</span></h4>
-                            <select name="filter_by_status" class="form-control form-select" id="" style="border: 0 !important">
+                            <p class="text-uppercase fw-medium text-muted text-truncate fs-13">Data Dumas Berdasarkan Status
+                            </p>
+                            <h4 class="fs-22 fw-semibold mb-3"><span class="counter-value" id="dumas_by_status"
+                                    data-target="0">0</span></h4>
+                            <select name="filter_by_status" class="form-control form-select" id=""
+                                style="border: 0 !important">
                                 @foreach ($list_status as $status)
-                                    <option value="{{$status->id}}">{{$status->name}}</option>
+                                    <option value="{{ $status->id }}">{{ $status->name }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -173,11 +184,14 @@
                 <div class="card-body">
                     <div class="d-flex justify-content-between">
                         <div class="flex-grow-1">
-                            <p class="text-uppercase fw-medium text-muted text-truncate fs-13">Total Limpah Wabprof / Jajaran</p>
-                            <h4 class="fs-22 fw-semibold mb-3"><span class="counter-value" id="dumas_by_limpah" data-target="">0</span></h4>
-                            <select name="filter_by_limpah" class="form-control form-select" id="" style="border: 0 !important">
+                            <p class="text-uppercase fw-medium text-muted text-truncate fs-13">Total Limpah Wabprof /
+                                Jajaran</p>
+                            <h4 class="fs-22 fw-semibold mb-3"><span class="counter-value" id="dumas_by_limpah"
+                                    data-target="">0</span></h4>
+                            <select name="filter_by_limpah" class="form-control form-select" id=""
+                                style="border: 0 !important">
                                 @foreach ($list_polda as $polda)
-                                    <option value="{{$polda->id}}">{{$polda->name}}</option>
+                                    <option value="{{ $polda->id }}">{{ $polda->name }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -202,11 +216,14 @@
                 <div class="card-body">
                     <div class="d-flex justify-content-between">
                         <div class="flex-grow-1">
-                            <p class="text-uppercase fw-medium text-muted text-truncate fs-13">Total Dumas Berdasarkan Unit</p>
-                            <h4 class="fs-22 fw-semibold mb-3"><span class="counter-value" id="dumas_by_unit" data-target="0">0</span></h4>
-                            <select name="filter_by_unit" class="form-control form-select" id="" style="border: 0 !important">
+                            <p class="text-uppercase fw-medium text-muted text-truncate fs-13">Total Dumas Berdasarkan Unit
+                            </p>
+                            <h4 class="fs-22 fw-semibold mb-3"><span class="counter-value" id="dumas_by_unit"
+                                    data-target="0">0</span></h4>
+                            <select name="filter_by_unit" class="form-control form-select" id=""
+                                style="border: 0 !important">
                                 @foreach ($list_unit as $unit)
-                                    <option value="{{$unit->unit}}">{{$unit->unit}}</option>
+                                    <option value="{{ $unit->unit }}">{{ $unit->unit }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -277,7 +294,7 @@
     <div class="card card-animate">
         <div class="card-body">
             <h4 class="text-muted text-semibold">
-                Rekap Data Dumas Per-Triwulan
+                Rekap Data Dumas Per-Semester
             </h4>
             <div class="row">
                 <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
@@ -314,9 +331,10 @@
                             </div>
                             <div class="col-xl-5 col-lg-5 col-md-5 col-12">
                                 <div class="form-group">
-                                    <select name="persentase_filter_by_unit" class="form-control form-select" id="" style="border: 0 !important">
+                                    <select name="persentase_filter_by_unit" class="form-control form-select"
+                                        id="" style="border: 0 !important">
                                         @foreach ($list_unit as $unit)
-                                            <option value="{{$unit->unit}}">{{$unit->unit}}</option>
+                                            <option value="{{ $unit->unit }}">{{ $unit->unit }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -435,8 +453,8 @@
             });
         }
 
-        function getDataByStatus(status_id = ''){
-            let url = `{{url('/get-data-by-status/${status_id}')}}`
+        function getDataByStatus(status_id = '') {
+            let url = `{{ url('/get-data-by-status/${status_id}') }}`
             $.ajax({
                 url: url,
                 method: "get"
@@ -446,8 +464,8 @@
             });
         }
 
-        function getDataByLimpah(limpah_id = ''){
-            let url = `{{url('/get-data-limpah/${limpah_id}')}}`
+        function getDataByLimpah(limpah_id = '') {
+            let url = `{{ url('/get-data-limpah/${limpah_id}') }}`
             $.ajax({
                 url: url,
                 method: "get"
@@ -457,8 +475,8 @@
             });
         }
 
-        function getDataByUnit(unit = ''){
-            let url = `{{url('/get-data-unit/${unit}')}}`
+        function getDataByUnit(unit = '') {
+            let url = `{{ url('/get-data-unit/${unit}') }}`
             $.ajax({
                 url: url,
                 method: "get"
@@ -468,18 +486,18 @@
             });
         }
 
-        function getChartData(tipe, chartType, containerId){
-            let url = `{{url('/get-chart-data/${tipe}')}}`
+        function getChartData(tipe, chartType, containerId) {
+            let url = `{{ url('/get-chart-data/${tipe}') }}`
             $.ajax({
                 url: url,
                 method: "get"
             }).done(function(data) {
                 $('.loader-view').fadeOut();
-                if(chartType == 'line'){
+                if (chartType == 'line') {
                     lineChartPelanggar(data, tipe, containerId)
-                } else if(chartType == 'donut'){
+                } else if (chartType == 'donut') {
                     donatChartPelanggar(data, tipe, containerId)
-                } else if(chartType == 'bar'){
+                } else if (chartType == 'bar') {
                     barChartPelanggar(data, tipe, containerId)
                 }
             });
@@ -488,10 +506,10 @@
         function lineChartPelanggar(data, tipe, containerId) {
             var label = [];
             var series = [];
-            var seriesOption,xaxisOption,fillOption, title;
-            if(tipe == 'rekap_tahunan'){
+            var seriesOption, xaxisOption, fillOption, title;
+            if (tipe == 'rekap_tahunan') {
                 const newData = data.kasus_by_month
-                for (let kasus in newData){
+                for (let kasus in newData) {
                     label.push(kasus)
                     series.push(newData[kasus])
                 }
@@ -511,7 +529,7 @@
                     type: 'gradient',
                     gradient: {
                         shade: 'dark',
-                        gradientToColors: [ '#FDD835'],
+                        gradientToColors: ['#FDD835'],
                         shadeIntensity: 1,
                         type: 'horizontal',
                         opacityFrom: 1,
@@ -523,14 +541,14 @@
                 renderChart()
             }
 
-            function renderChart(){
+            function renderChart() {
                 var options = {
                     series: seriesOption,
                     chart: {
                         height: 330,
                         type: 'line',
-                        toolbar:{
-                            show:false
+                        toolbar: {
+                            show: false
                         }
                     },
                     forecastDataPoints: {
@@ -557,10 +575,10 @@
         function donatChartPelanggar(data, tipe, containerId) {
             var label = [];
             var series = [];
-            var seriesOption,xaxisoption, fillOption, titleOption, plotOption, colorsOption;
+            var seriesOption, xaxisoption, fillOption, titleOption, plotOption, colorsOption;
 
-            if(tipe == 'rekap_triwulan1'){
-                colorsOption = ['#2EA6CC','#342A29']
+            if (tipe == 'rekap_triwulan1') {
+                colorsOption = ['#2EA6CC', '#342A29']
                 const newData = data.dumas_triwulan
                 titleOption = {
                     text: 'TRIWULAN 1',
@@ -573,10 +591,10 @@
                             labels: {
                                 show: true,
                                 total: {
-                                    label:'TOTAL T1',
+                                    label: 'TOTAL T1',
                                     showAlways: true,
                                     show: true,
-                                    formatter: function () {
+                                    formatter: function() {
                                         return newData['T1 : Januari - Maret']
                                     }
                                 }
@@ -587,8 +605,8 @@
 
                 let totalOtherQuarter = 0;
                 let otherQuarterLabel = '';
-                for(let quarter in newData){
-                    if(quarter.includes('T1')){
+                for (let quarter in newData) {
+                    if (quarter.includes('T1')) {
                         series.push(newData[quarter])
                         label.push(quarter)
                     } else {
@@ -601,8 +619,8 @@
                 label.push(otherQuarterLabel)
 
                 renderChart()
-            } else if(tipe == 'rekap_triwulan2'){
-                colorsOption = ['#2EA6CC','#342A29']
+            } else if (tipe == 'rekap_triwulan2') {
+                colorsOption = ['#2EA6CC', '#342A29']
                 const newData = data.dumas_triwulan
                 titleOption = {
                     text: 'TRIWULAN 2',
@@ -615,10 +633,10 @@
                             labels: {
                                 show: true,
                                 total: {
-                                    label:'TOTAL T2',
+                                    label: 'TOTAL T2',
                                     showAlways: true,
                                     show: true,
-                                    formatter: function () {
+                                    formatter: function() {
                                         return newData['T2 : April - Juni']
                                     }
                                 }
@@ -629,8 +647,8 @@
 
                 let totalOtherQuarter = 0;
                 let otherQuarterLabel = '';
-                for(let quarter in newData){
-                    if(quarter.includes('T2')){
+                for (let quarter in newData) {
+                    if (quarter.includes('T2')) {
                         series.push(newData[quarter])
                         label.push(quarter)
                     } else {
@@ -643,8 +661,8 @@
                 label.push(otherQuarterLabel)
 
                 renderChart()
-            } else if(tipe == 'rekap_triwulan3'){
-                colorsOption = ['#2EA6CC','#342A29']
+            } else if (tipe == 'rekap_triwulan3') {
+                colorsOption = ['#2EA6CC', '#342A29']
                 const newData = data.dumas_triwulan
                 titleOption = {
                     text: 'TRIWULAN 3',
@@ -657,10 +675,10 @@
                             labels: {
                                 show: true,
                                 total: {
-                                    label:'TOTAL T3',
+                                    label: 'TOTAL T3',
                                     showAlways: true,
                                     show: true,
-                                    formatter: function () {
+                                    formatter: function() {
                                         return newData['T3 : Juli - September']
                                     }
                                 }
@@ -671,8 +689,8 @@
 
                 let totalOtherQuarter = 0;
                 let otherQuarterLabel = '';
-                for(let quarter in newData){
-                    if(quarter.includes('T3')){
+                for (let quarter in newData) {
+                    if (quarter.includes('T3')) {
                         series.push(newData[quarter])
                         label.push(quarter)
                     } else {
@@ -685,8 +703,8 @@
                 label.push(otherQuarterLabel)
 
                 renderChart()
-            } else if(tipe == 'rekap_triwulan4'){
-                colorsOption = ['#2EA6CC','#342A29']
+            } else if (tipe == 'rekap_triwulan4') {
+                colorsOption = ['#2EA6CC', '#342A29']
                 const newData = data.dumas_triwulan
                 titleOption = {
                     text: 'TRIWULAN 4',
@@ -699,10 +717,10 @@
                             labels: {
                                 show: true,
                                 total: {
-                                    label:'TOTAL T3',
+                                    label: 'TOTAL T3',
                                     showAlways: true,
                                     show: true,
-                                    formatter: function () {
+                                    formatter: function() {
                                         return newData['T4 : Oktober - Desember']
                                     }
                                 }
@@ -713,8 +731,8 @@
 
                 let totalOtherQuarter = 0;
                 let otherQuarterLabel = '';
-                for(let quarter in newData){
-                    if(quarter.includes('T4')){
+                for (let quarter in newData) {
+                    if (quarter.includes('T4')) {
                         series.push(newData[quarter])
                         label.push(quarter)
                     } else {
@@ -727,8 +745,8 @@
                 label.push(otherQuarterLabel)
 
                 renderChart()
-            } else if(tipe == 'rekap_semester1'){
-                colorsOption = ['#E9AC4E','#651915']
+            } else if (tipe == 'rekap_semester1') {
+                colorsOption = ['#E9AC4E', '#651915']
                 const newData = data.dumas_semester
                 titleOption = {
                     text: 'SEMESTER 1',
@@ -741,10 +759,10 @@
                             labels: {
                                 show: true,
                                 total: {
-                                    label:'TOTAL SEMESTER 1',
+                                    label: 'TOTAL SEMESTER 1',
                                     showAlways: true,
                                     show: true,
-                                    formatter: function () {
+                                    formatter: function() {
                                         return newData['S1 : Januari - Juni']
                                     }
                                 }
@@ -755,18 +773,18 @@
 
                 let totalOtherQuarter = 0;
                 let otherQuarterLabel = '';
-                for(let quarter in newData){
+                for (let quarter in newData) {
                     series.push(newData[quarter])
                     label.push(quarter)
                 }
 
                 renderChart()
-            } else if(tipe == 'rekap_semester2'){
-                colorsOption = ['#E9AC4E','#651915']
+            } else if (tipe == 'rekap_semester2') {
+                colorsOption = ['#E9AC4E', '#651915']
                 var newData = data.dumas_semester
                 var objectOrder = {
-                    'S2 : Juli - Desember' : null,
-                    'S1 : Januari - Juni' : null,
+                    'S2 : Juli - Desember': null,
+                    'S1 : Januari - Juni': null,
                 }
 
                 newData = Object.assign(objectOrder, newData)
@@ -781,10 +799,10 @@
                             labels: {
                                 show: true,
                                 total: {
-                                    label:'TOTAL SEMESTER 2',
+                                    label: 'TOTAL SEMESTER 2',
                                     showAlways: true,
                                     show: true,
-                                    formatter: function () {
+                                    formatter: function() {
                                         return newData['S2 : Juli - Desember']
                                     }
                                 }
@@ -795,7 +813,7 @@
 
                 let totalOtherQuarter = 0;
                 let otherQuarterLabel = '';
-                for(let quarter in newData){
+                for (let quarter in newData) {
                     series.push(newData[quarter])
                     label.push(quarter)
                 }
@@ -803,7 +821,7 @@
                 renderChart()
             }
 
-            function renderChart(){
+            function renderChart() {
                 var options = {
                     series: series,
                     colors: colorsOption,
@@ -814,7 +832,7 @@
                         height: 500
                     },
                     title: titleOption,
-                    legend : {
+                    legend: {
                         position: 'bottom',
                         horizontalAlign: 'left',
                         floating: false,
@@ -839,25 +857,25 @@
 
         }
 
-        function barChartPelanggar(data, tipe, containerId){
+        function barChartPelanggar(data, tipe, containerId) {
             var label = [];
             var series = [];
-            var seriesOption,xaxisOption,fillOption, title, colorsOption;
+            var seriesOption, xaxisOption, fillOption, title, colorsOption;
 
             tipe = tipe.split('?')[0]
-            if(tipe == 'persentase_by_unit'){
-                for (let status in data){
+            if (tipe == 'persentase_by_unit') {
+                for (let status in data) {
                     let tempSeries = []
-                    for(let month in data[status]){
+                    for (let month in data[status]) {
                         tempSeries.push(data[status][month])
-                        if(label.length < 12){
+                        if (label.length < 12) {
                             label.push(month)
                         }
                     }
 
                     series.push({
-                        'name' : status,
-                        'data' : tempSeries
+                        'name': status,
+                        'data': tempSeries
                     })
                 }
 
@@ -875,7 +893,7 @@
                     type: 'gradient',
                     gradient: {
                         shade: 'dark',
-                        gradientToColors: [ '#FDD835'],
+                        gradientToColors: ['#FDD835'],
                         shadeIntensity: 1,
                         type: 'horizontal',
                         opacityFrom: 1,
@@ -891,19 +909,19 @@
                 }
 
                 renderChart()
-            } else if (tipe == 'total_by_status'){
-                for (let status in data){
+            } else if (tipe == 'total_by_status') {
+                for (let status in data) {
                     let tempSeries = []
-                    for(let month in data[status]){
+                    for (let month in data[status]) {
                         tempSeries.push(data[status][month])
-                        if(label.length < 12){
+                        if (label.length < 12) {
                             label.push(month)
                         }
                     }
 
                     series.push({
-                        'name' : status,
-                        'data' : tempSeries
+                        'name': status,
+                        'data': tempSeries
                     })
                 }
 
@@ -921,7 +939,7 @@
                     type: 'gradient',
                     gradient: {
                         shade: 'dark',
-                        gradientToColors: [ '#FDD835'],
+                        gradientToColors: ['#FDD835'],
                         shadeIntensity: 1,
                         type: 'horizontal',
                         opacityFrom: 1,
@@ -939,7 +957,7 @@
                 renderChart()
             }
 
-            function renderChart(){
+            function renderChart() {
                 var options = {
                     series: seriesOption,
                     animate: true,
@@ -997,22 +1015,22 @@
             }
         }
 
-        $('select[name="filter_by_status"]').on('change', function(){
+        $('select[name="filter_by_status"]').on('change', function() {
             const selected = $(this).val()
             getDataByStatus(selected)
         })
 
-        $('select[name="filter_by_limpah"]').on('change', function(){
+        $('select[name="filter_by_limpah"]').on('change', function() {
             const selected = $(this).val()
             getDataByLimpah(selected)
         })
 
-        $('select[name="filter_by_unit"]').on('change', function(){
+        $('select[name="filter_by_unit"]').on('change', function() {
             const selected = $(this).val()
             getDataByUnit(selected)
         })
 
-        $('select[name="persentase_filter_by_unit"]').on('change', function(){
+        $('select[name="persentase_filter_by_unit"]').on('change', function() {
             const selected = $(this).val()
             $('#persentaseDumasByUnit').html('')
             getChartData(`persentase_by_unit?unit=${selected}`, 'bar', '#persentaseDumasByUnit')
