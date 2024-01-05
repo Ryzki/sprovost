@@ -85,7 +85,7 @@ class YanduanController extends Controller
         $tempEvidenceReference = [];
         $tempPelaporDetail = [];
         foreach ($data as $yanduan) {
-            if(str_contains($yanduan->biro, 'PROVOS') && $yanduan->status == 'DISPOSISI'){
+            if(str_contains($yanduan->biro, 'PROVOS') && $yanduan->status == 'DILIMPAHKAN'){
 
                 $checkIfExist = DataPelanggar::where('no_nota_dinas', $yanduan->nomor_nota_dinas)->where('no_pengaduan', $yanduan->ticket_id)->first();
                 if($checkIfExist == null){
