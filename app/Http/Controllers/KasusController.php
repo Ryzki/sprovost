@@ -24,6 +24,7 @@ use App\Models\WujudPerbuatan;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use DataTables;
+use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 
@@ -419,6 +420,105 @@ class KasusController extends Controller
                 $documentNotGenerated .= "- $docVal->name <br>";
             };
             return ['status' => false, 'data' => $documentNotGenerated];
+        }
+    }
+
+    public function insertLimpahPaminal(Request $request)
+    {
+        $key = 'uKnv0kWIResqXDc8sV3TBgQwhh1gsU5DxEEAGXpeNukdy8wbN1';
+        $headerKey = base64_decode($request->header('api_key'));
+        if($key == $headerKey){
+            DB::beginTransaction();
+            try {
+                $wilayah_hukum = $request->wilayah_hukum != null ? Polda::where('name', 'like', '%'.$request->wilayah_hukum.'%')->first() : null;
+                $wilayah_hukum = $wilayah_hukum != null ? $wilayah_hukum->id : null;
+
+                $currentYear = Carbon::now()->translatedFormat('Y');
+                $totalData = DB::table('data_pelanggars')->select('*')->whereYear('created_at', $currentYear)->count();
+                if($totalData == 0){
+                    $number = '0001';
+                } else if (strlen($totalData) < 4){
+                    $number = sprintf("%04d", (int)$totalData+1);
+                } else {
+                    $number = $totalData;
+                }
+
+                $transNumber = "$currentYear$number";
+
+                $body = [
+                    "no_nota_dinas" => $request->no_nota_dinas, //string
+                    "no_pengaduan" => $transNumber,
+                    "perihal_nota_dinas" => $request->perihal_nota_dinas, //string
+                    "wujud_perbuatan" => $request->wujud_perbuatan, //id
+                    "tanggal_nota_dinas" => $request->tanggal_nota_dinas, //string
+                    "pelapor" => $request->pelapor, //string
+                    "jenis_kelamin" => $request->jenis_kelamin, //id
+                    "no_telp" => $request->no_telp, //string
+                    "alamat" => $request->alamat, //string
+                    "no_identitas" => $request->no_identitas, //string
+                    "jenis_identitas" => $request->jenis_identitas, //id
+                    "terlapor" => $request->terlapor, //string
+                    "agama" => $request->agama, //id
+                    "umur" => $request->umur, //string
+                    "pekerjaan" => $request->pekerjaan, //string
+                    "kesatuan" => $request->kesatuan, //id
+                    "nrp" => $request->nrp, //string
+                    "tempat_kejadian" => $request->tempat_kejadian, //string
+                    "tanggal_kejadian" => $request->tanggal_kejadian, //string
+                    "pangkat" => $request->pangkat, //id
+                    "jabatan" => $request->jabatan, //string
+                    "wilayah_hukum" => $wilayah_hukum,
+                    "nama_korban" => $request->nama_korban, //string
+                    'data_from' => 'paminal',
+                    'kategori_yanduan_id' => null,
+                    'status_id' => 1
+                ];
+
+                $data = [];
+                foreach ($body as $key => $value) {
+                    if($value == '' || $value == 'null'){
+                        $data[$key] = null;
+                    } else {
+                        $data[$key] = $value;
+                    }
+                }
+
+                $pelanggar = DataPelanggar::create($data);
+
+                $pelaporIdentity = [
+                    "data_pelanggar_id" => $pelanggar->id,
+                    "id_card" => $request->link_ktp, //string
+                    "selfie" => $request->selfie //string
+                ];
+
+                $dataPelapor = [];
+                foreach ($pelaporIdentity as $key => $value) {
+                    if($value == '' || $value == 'null'){
+                        $dataPelapor[$key] = null;
+                    } else {
+                        $dataPelapor[$key] = $value;
+                    }
+                }
+
+                DB::commit();
+                return response()->json([
+                    'status' => 200,
+                    'message' => 'Limpah berhasil'
+                ], 200);
+            } catch (Exception $th) {
+                DB::rollBack();
+                return response()->json([
+                    'status' =>  $th->getCode() != '' ? $th->getCode() : 500,
+                    'message' => $th->getMessage() != '' ? $th->getMessage() : 'Terjadi Kesalahan Saat Input Data, Harap Coba lagi!',
+                    'data' => null,
+                    'err_detail' => $th,
+                ], $th->getCode() != '' ? $th->getCode() : 500);
+            }
+        } else {
+            return response()->json([
+                'status' => 401,
+                'message' => 'Failed to authenticate, no api-key header provided'
+            ], 401);
         }
     }
 }

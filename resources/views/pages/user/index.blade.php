@@ -12,7 +12,7 @@
     <!-- DataTable list pelanggar -->
     <div class="row">
         <div class="justify-content-between d-flex align-items-center mt-3 mb-4">
-            <h5 class="mb-0 pb-1 text-decoration-underline">Provost User</h5>
+            <h5 class="mb-0 pb-1 text-decoration-underline">Provos User</h5>
         </div>
     </div>
     <div class="row">

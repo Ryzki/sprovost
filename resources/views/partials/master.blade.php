@@ -5,9 +5,9 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>Dashboard | Provost</title>
+    <title>Dashboard | Provos</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta content="Dashboard Provost" name="description" />
+    <meta content="Dashboard Provos" name="description" />
     <!-- App favicon -->
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/icon/favicon.ico') }}">
 

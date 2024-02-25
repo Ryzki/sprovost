@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\KasusController;
 use App\Http\Controllers\PoldaController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -20,3 +21,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('all-polda', [PoldaController::class, 'getAllPolda']);
+Route::post('limpah-provos', [KasusController::class, 'insertLimpahPaminal']);
