@@ -1,7 +1,7 @@
 <header id="page-topbar">
     <div class="layout-width">
         <div class="navbar-header">
-            <div class="d-flex">
+            <div class="d-flex align-items-center">
                 <!-- LOGO -->
                 <div class="navbar-brand-box horizontal-logo">
                     <a href="index.html" class="logo logo-dark">
@@ -32,14 +32,14 @@
                     </span>
                 </button>
 
-                <div class="logo-presisi mt-2">
+                {{-- <div class="logo-presisi mt-2">
                     <span class="logo-lg">
                         <img src="{{asset('assets/images/PRESISI-Garbha.png')}}" alt="" height="50">
                     </span>
-                </div>
+                </div> --}}
+                        <h4 class="title-nav text-uppercase fs-30 mt-2"> Propam Integrated System </h4>
             </div>
 
-            <h4 class="title-nav text-uppercase fs-30"> Propam Integrated System </h4>
 
             <div class="d-flex align-items-center">
 

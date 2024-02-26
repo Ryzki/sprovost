@@ -269,7 +269,7 @@
                 <div class="container-fluid">
                     <center>
                         <span class="logo-lg">
-                            <img src="{{asset('assets/images/Tagline-Propam.png')}}" alt="" height="50">
+                            <img src="{{asset('assets/images/Tagline-Propam.png')}}" alt="" class="img-fluid">
                         </span>
                     </center>
 
