@@ -88,7 +88,7 @@ class RenderViewController extends Controller
         $disposisiKaro = Disposisi::where('data_pelanggar_id', $id)->where('type', 'Karo')->first();
         $disposisiSesro = Disposisi::where('data_pelanggar_id', $id)->where('type', 'Sesro')->first();
         $disposisiKabag = Disposisi::where('data_pelanggar_id', $id)->where('type', 'Kabag')->first();
-        $polda = Polda::where('id', '<>', 1)->get();
+        $polda = Polda::where('id', '<>', 0)->get();
         $unit = DB::table('master_penyidiks')->select('unit')->groupBy('unit')->get();
 
         $i_dis = 0;
