@@ -25,7 +25,7 @@
                 </div>
                 <div class="f1-step active">
                     <div class="f1-step-icon"><i class="fa fa-home"></i></div>
-                    <p>Penyelidikan</p>
+                    <p>Pemeriksaan</p>
                 </div>
                 <div class="f1-step active">
                     <div class="f1-step-icon"><i class="fa fa-key"></i></div>
@@ -55,144 +55,24 @@
             <input type="text" class="form-control" value="{{ $kasus->id }}" hidden name="kasus_id">
             <input type="text" class="form-control" value="{{ $kasus->status_id }}" hidden name="status">
 
-            <h4>Ringkasan Data Pelanggaran</h4>
-            <div class="col-lg-12 mb-3 mt-4 mb-4 p-3"  style="background-color:#e3f2fd; border-radius:1rem">
-                <div class="row align-items-center" style="font-size: 1.1rem">
-                    <div class="col-md-3 col-sm-12">
-                        Pelapor
-                    </div>
-                    <div class="col-md-1">
-                        :
-                    </div>
-                    <div class="col-md-8 col-sm-12">
-                        {{$kasus->pelapor}}
-                    </div>
-                    <div class="col-md-3 col-sm-12">
-                        Dugaan Kasus
-                    </div>
-                    <div class="col-md-1">
-                        :
-                    </div>
-                    <div class="col-md-8 col-sm-12">
-                        {{$kasus->wujudPerbuatan->keterangan_wp}}
-                    </div>
+            {{-- Nav Ringkasan Data --}}
+            <nav>
+                <div class="nav nav-tabs mb-3" id="nav-tab" role="tablist">
+                    <button class="nav-link active" id="nav-dt-pelanggar-tab" data-bs-toggle="tab" data-bs-target="#nav-dt-pelanggar" type="button" role="tab" aria-controls="nav-dt-pelanggar" aria-selected="true">Ringkasan Data Pelanggar</button>
+                    <button class="nav-link" id="nav-dt-penyelidikan-tab" data-bs-toggle="tab" data-bs-target="#nav-dt-penyelidikan" type="button" role="tab" aria-controls="nav-dt-penyelidikan" aria-selected="false">Ringkasan Data Pemeriksaan</button>
+                    <button class="nav-link" id="nav-dt-gelar-lidik-tab" data-bs-toggle="tab" data-bs-target="#nav-dt-gelar-lidik" type="button" role="tab" aria-controls="nav-dt-gelar-lidik" aria-selected="false">Ringkasan Data Gelar Lidik</button>
+                </div>
+            </nav>
 
-                    <div class="col-md-3 col-sm-12">
-                        Terlapor
-                    </div>
-                    <div class="col-md-1">
-                        :
-                    </div>
-                    <div class="col-md-8 col-sm-12">
-                        {{$kasus->pangkatName->name}} {{$kasus->terlapor}} {{$kasus->jabatan}}, {{$kasus->kesatuan}}
-                    </div>
-
-                    <div class="col-md-3 col-sm-12">
-                        Tanggal Kejadian
-                    </div>
-                    <div class="col-md-1">
-                        :
-                    </div>
-                    <div class="col-md-8 col-sm-12">
-                        {{\Carbon\Carbon::parse($kasus->tanggal_kejadian)->translatedFormat('l, F Y')}}
-                    </div>
-
-                    <div class="col-md-3 col-sm-12">
-                        Umur Kasus
-                    </div>
-                    <div class="col-md-1">
-                        :
-                    </div>
-                    <div class="col-md-8 col-sm-12">
-                        {{\Carbon\Carbon::parse($kasus->created_at)->diff(\Carbon\Carbon::now())->format('%y tahun, %m bulan dan %d hari')}}
-                    </div>
-
-                    <div class="col-md-3 col-sm-12">
-                        Tgl. SPRIN Lidik
-                    </div>
-                    <div class="col-md-1">
-                        :
-                    </div>
-                    <div class="col-md-8 col-sm-12">
-                        {{$sprin != null ? \carbon\Carbon::parse($sprin->created_at)->translatedFormat('d, F Y') : ' - '}}
-                    </div>
-
-                    <div class="col-md-3 col-sm-12">
-                        Tgl. Undangan Klarifikasi
-                    </div>
-                    <div class="col-md-1">
-                        :
-                    </div>
-                    <div class="col-md-8 col-sm-12">
-                        {{$undanganKlarifikasi != null ? \carbon\Carbon::parse($undanganKlarifikasi->tgl_pertemuan)->translatedFormat('d, F Y') : ' - '}}, Pukul : {{$undanganKlarifikasi != null ? \carbon\Carbon::parse($undanganKlarifikasi->jam_pertemuan)->translatedFormat('G:i').' WIB' : ' - '}}
-                    </div>
-
-                    <div class="col-md-3 col-sm-12">
-                        Hasil Penyelidikan
-                    </div>
-                    <div class="col-md-1">
-                        :
-                    </div>
-                    <div class="col-md-8 col-sm-12">
-                        {{$gelarPerkara != null ? $gelarPerkara->hasil_gelar : ' - '}}
-                    </div>
-
-                    <div class="col-md-3 col-sm-12">
-                        Pasal Dilanggar
-                    </div>
-                    <div class="col-md-1">
-                        :
-                    </div>
-                    <div class="col-md-8 col-sm-12">
-                        {{$gelarPerkara != null ? $gelarPerkara->landasan_hukum : ' - '}}
-                    </div>
-
-                    <div class="col-md-3 col-sm-12">
-                        Saran Penyidik
-                    </div>
-                    <div class="col-md-1">
-                        :
-                    </div>
-                    <div class="col-md-8 col-sm-12">
-                        {{$gelarPerkara != null ? ($gelarPerkara->saran_penyidik != null ? $gelarPerkara->saran_penyidik : ' - ') : ' - '}}
-                    </div>
-
-                    @if ($kasus->data_from == 'yanduan' && count($kasus->evidenceReference) > 0)
-                        <div class="col-md-3 col-sm-12">
-                            Evidence Detail
-                        </div>
-                        <div class="col-md-1">
-                            :
-                        </div>
-                        <div class="col-md-8 col-sm-12">
-                            <div class="row">
-                                @foreach ($kasus->evidenceReference as $key => $evidence)
-                                    <div class="col-md-3">
-                                            <a href="{{$evidence->evidence_path}}" target="_blank">Evidence {{$key+1}}</a>
-                                    </div>
-                                @endforeach
-                            </div>
-                        </div>
-                    @endif
-
-                    @if ($kasus->data_from == 'yanduan' && $kasus->identityReference != null)
-                        <div class="col-md-3 col-sm-12">
-                            Identity Detail
-                        </div>
-                        <div class="col-md-1">
-                            :
-                        </div>
-                        <div class="col-md-8 col-sm-12">
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <a href="{{$kasus->identityReference->id_card}}" target="_blank">ID Card</a>
-                                </div>
-                                <div class="col-md-3">
-                                    <a href="{{$kasus->identityReference->selfie}}" target="_blank">Selfie</a>
-                                </div>
-                            </div>
-                        </div>
-                    @endif
+            <div class="tab-content p-2" id="nav-tabContent">
+                <div class="tab-pane fade active show" id="nav-dt-pelanggar" role="tabpanel" aria-labelledby="nav-dt-pelanggar-tab">
+                    @include('pages.data_pelanggaran.proses.ringkasanDataPelanggar')
+                </div>
+                <div class="tab-pane fade" id="nav-dt-penyelidikan" role="tabpanel" aria-labelledby="nav-dt-penyelidikan-tab">
+                    @include('pages.data_pelanggaran.proses.ringkasanDataPemeriksaan')
+                </div>
+                <div class="tab-pane fade" id="nav-dt-gelar-lidik" role="tabpanel" aria-labelledby="nav-dt-gelar-lidik-tab">
+                    @include('pages.data_pelanggaran.proses.ringkasanDataGelarLidik')
                 </div>
             </div>
             <hr>
@@ -203,6 +83,9 @@
                         <i class="mdi mdi-information"></i> Kasus telah dilimpahkan ke Polda / Jajaran
                     </h2>
                 @else
+                    @if ($sprinGelar != null && $sprinGelar->is_draft == 1)
+                        <span class="alert alert-warning" role="alert"><i class="bi bi-exclamation-triangle-fill me-2"></i> Nomor SPRIN Gelar masih Draft, klik <b>Download Berkas SPRIN Gelar</b> untuk update nomor SPRIN Lidik sesuai dengan berkas yang sudah disetujui</span>
+                    @endif
                     <h4 class="mt-5">Download Berkas Pendukung</h4>
                     <div class="col-lg-12 mb-3 mt-4 mb-5">
                         <div class="row">
@@ -222,7 +105,7 @@
                                         </a>
                                     </div>
                                 @else
-                                    @if ($sprinGelar != null)
+                                    @if ($sprinGelar != null && !$sprinGelar->is_draft)
                                         <div class="col-md-3 col-sm-12">
                                             <h6>Berkas {{$sb->name}}</h6>
                                         </div>
@@ -278,15 +161,23 @@
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Pembuatan Dokumen SPRIN Gelar</h5>
+                <h5 class="modal-title" id="exampleModalLabel">
+                    @if ($sprinGelar == null)
+                        Pembuatan Dokumen SPRIN Gelar
+                    @elseif($sprinGelar != null && $sprinGelar->is_draft)
+                        Update Nomor SPRIN Gelar
+                    @else
+                        Download Ulang Dokumen SPRIN Gelar
+                    @endif
+                </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form action="javascript:void(0)" id="form-sprin-gelar">
-                @csrf
-                <input type="hidden" name="status" value="{{$status->id}}">
-                <input type="hidden" name="sub_process">
-                <input type="hidden" name="process_id">
-                <div class="modal-body">
+            <div class="modal-body">
+                <form action="javascript:void(0)" id="form-sprin-gelar">
+                    @csrf
+                    <input type="hidden" name="status" value="{{$status->id}}">
+                    <input type="hidden" name="sub_process">
+                    <input type="hidden" name="process_id">
                     @if ($sprinGelar == null)
                         <div class="row mb-4">
                             <div class="col-md-6 col-12">
@@ -315,25 +206,38 @@
                             </div>
                         </div>
                     @else
-                        <div class="row justify-content-around items-center mt-4">
-                            <p>
-                                <a href="/print/sprin_gelar/{{$kasus->id}}/generated" class="text-primary" style="text-decoration: none; width: 100%">
-                                    <i class="mdi mdi-file-document"></i>
-                                    Download Ulang SPRIN Gelar Perkara
-                                    <span class="mdi mdi-download"></span>
-                                </a>
-                            </p>
-                        </div>
+                        @if (!$sprinGelar->is_draft)
+                            <div class="row justify-content-around items-center mt-4">
+                                <p>
+                                    <a href="/print/sprin_gelar/{{$kasus->id}}/generated" class="text-primary" style="text-decoration: none; width: 100%">
+                                        <i class="mdi mdi-file-document"></i>
+                                        Download Ulang SPRIN Gelar Perkara
+                                        <span class="mdi mdi-download"></span>
+                                    </a>
+                                </p>
+                            </div>
+                        @endif
                     @endif
-                </div>
-                <div class="modal-footer">
-                    @if ($sprinGelar == null)
-                        <button type="submit" class="btn btn-primary">Buat Dokumen</button>
-                    @else
-                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Batal</button>
-                    @endif
-                </div>
-            </form>
+                </form>
+
+                <form action="javascript:void(0)" id="update-no-sprin" @if($sprinGelar == null || !$sprinGelar->is_draft) style="display: none" @endif>
+                    @csrf
+                    <input type="hidden" name="type" value="gelar">
+                    <div class="form-group">
+                        <label for="no_sprin">Update Nomor SPRIN Gelar</label>
+                        <input type="text" name="no_sprin" class="form-control" value="{{$sprinGelar != null ? $sprinGelar->no_sprin : ''}}">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                @if ($sprinGelar == null)
+                    <button type="button" class="btn btn-primary" onclick="$('#form-sprin-gelar').trigger('submit')">Buat Dokumen</button>
+                @elseif($sprinGelar != null && $sprinGelar->is_draft)
+                    <button type="submit" class="btn btn-primary" onclick="$('#update-no-sprin').trigger('submit')">Update Data</button>
+                @else
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Batal</button>
+                @endif
+            </div>
         </div>
     </div>
 </div>
@@ -690,6 +594,48 @@
                 error: (xhr) => {
                     $.LoadingOverlay("hide");
                     onAjaxError(xhr)
+                }
+            })
+        })
+
+        $('#update-no-sprin').on('submit', function(){
+            var data = $(this).serializeArray()
+            $.ajax({
+                url: `/update-no-sprin/{{ $kasus->id }}`,
+                method: 'POST',
+                data: data,
+                beforeSend: () => {
+                    $.LoadingOverlay("show");
+                },
+                success:(res) => {
+                    setTimeout(() => {
+                        $.LoadingOverlay("hide");
+                        Swal.fire({
+                            title: 'Berhasil',
+                            text: 'Berhasil Update Nomor SPRIN Lidik',
+                            icon: 'success',
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 3000,
+                            timerProgressBar: true,
+                        })
+
+                        window.location.reload()
+                    }, 2500);
+                },
+                error: (xhr) => {
+                    $.LoadingOverlay("hide");
+                    Swal.fire({
+                        title: `Terjadi Kesalahan`,
+                        text: xhr.responseJSON.status.msg,
+                        icon: 'error',
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                    })
                 }
             })
         })

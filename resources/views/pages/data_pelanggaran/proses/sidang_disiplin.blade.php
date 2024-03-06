@@ -25,7 +25,7 @@
                 </div>
                 <div class="f1-step active">
                     <div class="f1-step-icon"><i class="fa fa-home"></i></div>
-                    <p>Penyelidikan</p>
+                    <p>Pemeriksaan</p>
                 </div>
                 <div class="f1-step active">
                     <div class="f1-step-icon"><i class="fa fa-key"></i></div>
@@ -62,7 +62,7 @@
                         {{$kasus->pelapor}}
                     </div>
                     <div class="col-md-3 col-sm-12">
-                        Dugaan Kasus
+                        Pelanggaran Disiplin
                     </div>
                     <div class="col-md-1">
                         :
@@ -122,7 +122,7 @@
                     </div>
 
                     <div class="col-md-3 col-sm-12">
-                        Hasil Penyelidikan
+                        Hasil Pemeriksaan
                     </div>
                     <div class="col-md-1">
                         :
@@ -142,7 +142,7 @@
                     </div>
 
                     <div class="col-md-3 col-sm-12">
-                        Saran Penyidik
+                        Saran Pemeriksa
                     </div>
                     <div class="col-md-1">
                         :

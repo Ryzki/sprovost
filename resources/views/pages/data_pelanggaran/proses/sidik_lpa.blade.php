@@ -25,7 +25,7 @@
                 </div>
                 <div class="f1-step active">
                     <div class="f1-step-icon"><i class="fa fa-home"></i></div>
-                    <p>Penyelidikan</p>
+                    <p>Pemeriksaan</p>
                 </div>
                 <div class="f1-step active">
                     <div class="f1-step-icon"><i class="fa fa-key"></i></div>
@@ -49,154 +49,24 @@
             <input type="text" class="form-control" value="{{ $kasus->id }}" hidden name="kasus_id">
             <input type="text" class="form-control" value="{{ $kasus->status_id }}" hidden name="status">
 
-            <h4>Ringkasan Data Pelanggaran</h4>
-            <div class="col-lg-12 mb-3 mt-4 mb-4 p-3"  style="background-color:#e3f2fd; border-radius:1rem">
-                <div class="row align-items-center" style="font-size: 1.1rem">
-                    <div class="col-md-3 col-sm-12">
-                        Pelapor
-                    </div>
-                    <div class="col-md-1">
-                        :
-                    </div>
-                    <div class="col-md-8 col-sm-12">
-                        {{$kasus->pelapor}}
-                    </div>
-                    <div class="col-md-3 col-sm-12">
-                        Dugaan Kasus
-                    </div>
-                    <div class="col-md-1">
-                        :
-                    </div>
-                    <div class="col-md-8 col-sm-12">
-                        {{$kasus->wujudPerbuatan->keterangan_wp}}
-                    </div>
+            {{-- Nav Ringkasan Data --}}
+            <nav>
+                <div class="nav nav-tabs mb-3" id="nav-tab" role="tablist">
+                    <button class="nav-link active" id="nav-dt-pelanggar-tab" data-bs-toggle="tab" data-bs-target="#nav-dt-pelanggar" type="button" role="tab" aria-controls="nav-dt-pelanggar" aria-selected="true">Ringkasan Data Pelanggar</button>
+                    <button class="nav-link" id="nav-dt-penyelidikan-tab" data-bs-toggle="tab" data-bs-target="#nav-dt-penyelidikan" type="button" role="tab" aria-controls="nav-dt-penyelidikan" aria-selected="false">Ringkasan Data Pemeriksaan</button>
+                    <button class="nav-link" id="nav-dt-gelar-lidik-tab" data-bs-toggle="tab" data-bs-target="#nav-dt-gelar-lidik" type="button" role="tab" aria-controls="nav-dt-gelar-lidik" aria-selected="false">Ringkasan Data Gelar Lidik</button>
+                </div>
+            </nav>
 
-                    <div class="col-md-3 col-sm-12">
-                        Terlapor
-                    </div>
-                    <div class="col-md-1">
-                        :
-                    </div>
-                    <div class="col-md-8 col-sm-12">
-                        {{$kasus->pangkatName->name}} {{$kasus->terlapor}} {{$kasus->jabatan}}, {{$kasus->kesatuan}}
-                    </div>
-
-                    <div class="col-md-3 col-sm-12">
-                        Tanggal Kejadian
-                    </div>
-                    <div class="col-md-1">
-                        :
-                    </div>
-                    <div class="col-md-8 col-sm-12">
-                        {{\Carbon\Carbon::parse($kasus->tanggal_kejadian)->translatedFormat('l, F Y')}}
-                    </div>
-
-                    <div class="col-md-3 col-sm-12">
-                        Umur Kasus
-                    </div>
-                    <div class="col-md-1">
-                        :
-                    </div>
-                    <div class="col-md-8 col-sm-12">
-                        {{\Carbon\Carbon::parse($kasus->created_at)->diff(\Carbon\Carbon::now())->format('%y tahun, %m bulan dan %d hari')}}
-                    </div>
-
-                    <div class="col-md-3 col-sm-12">
-                        Tgl. SPRIN Lidik
-                    </div>
-                    <div class="col-md-1">
-                        :
-                    </div>
-                    <div class="col-md-8 col-sm-12">
-                        {{$sprin != null ? \carbon\Carbon::parse($sprin->created_at)->translatedFormat('d, F Y') : ' - '}}
-                    </div>
-
-                    <div class="col-md-3 col-sm-12">
-                        Tgl. Undangan Klarifikasi
-                    </div>
-                    <div class="col-md-1">
-                        :
-                    </div>
-                    <div class="col-md-8 col-sm-12">
-                        {{$undanganKlarifikasi != null ? \carbon\Carbon::parse($undanganKlarifikasi->tgl_pertemuan)->translatedFormat('d, F Y') : ' - '}}, Pukul : {{$undanganKlarifikasi != null ? \carbon\Carbon::parse($undanganKlarifikasi->jam_pertemuan)->translatedFormat('G:i').' WIB' : ' - '}}
-                    </div>
-
-                    <div class="col-md-3 col-sm-12">
-                        Hasil Penyelidikan
-                    </div>
-                    <div class="col-md-1">
-                        :
-                    </div>
-                    <div class="col-md-8 col-sm-12">
-                        {{$gelarPerkara != null ? $gelarPerkara->hasil_gelar : ' - '}}
-                    </div>
-
-                    <div class="col-md-3 col-sm-12">
-                        Pasal Dilanggar
-                    </div>
-                    <div class="col-md-1">
-                        :
-                    </div>
-                    <div class="col-md-8 col-sm-12">
-                        {{$gelarPerkara != null ? $gelarPerkara->landasan_hukum : ' - '}}
-                    </div>
-
-                    <div class="col-md-3 col-sm-12">
-                        Saran Penyidik
-                    </div>
-                    <div class="col-md-1">
-                        :
-                    </div>
-                    <div class="col-md-8 col-sm-12">
-                        {{$gelarPerkara != null ? ($gelarPerkara->saran_penyidik != null ? $gelarPerkara->saran_penyidik : ' - ') : ' - '}}
-                    </div>
-
-                    <div class="col-md-3 col-sm-12">
-                        No. LPA
-                    </div>
-                    <div class="col-md-1">
-                        :
-                    </div>
-                    <div class="col-md-8 col-sm-12">
-                        {{$lpa != null ? $lpa->no_lpa : ' - '}}
-                    </div>
-
-                    @if ($kasus->data_from == 'yanduan' && count($kasus->evidenceReference) > 0)
-                        <div class="col-md-3 col-sm-12">
-                            Evidence Detail
-                        </div>
-                        <div class="col-md-1">
-                            :
-                        </div>
-                        <div class="col-md-8 col-sm-12">
-                            <div class="row">
-                                @foreach ($kasus->evidenceReference as $key => $evidence)
-                                    <div class="col-md-3">
-                                            <a href="{{$evidence->evidence_path}}" target="_blank">Evidence {{$key+1}}</a>
-                                    </div>
-                                @endforeach
-                            </div>
-                        </div>
-                    @endif
-
-                    @if ($kasus->data_from == 'yanduan' && $kasus->identityReference != null)
-                        <div class="col-md-3 col-sm-12">
-                            Identity Detail
-                        </div>
-                        <div class="col-md-1">
-                            :
-                        </div>
-                        <div class="col-md-8 col-sm-12">
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <a href="{{$kasus->identityReference->id_card}}" target="_blank">ID Card</a>
-                                </div>
-                                <div class="col-md-3">
-                                    <a href="{{$kasus->identityReference->selfie}}" target="_blank">Selfie</a>
-                                </div>
-                            </div>
-                        </div>
-                    @endif
+            <div class="tab-content p-2" id="nav-tabContent">
+                <div class="tab-pane fade active show" id="nav-dt-pelanggar" role="tabpanel" aria-labelledby="nav-dt-pelanggar-tab">
+                    @include('pages.data_pelanggaran.proses.ringkasanDataPelanggar')
+                </div>
+                <div class="tab-pane fade" id="nav-dt-penyelidikan" role="tabpanel" aria-labelledby="nav-dt-penyelidikan-tab">
+                    @include('pages.data_pelanggaran.proses.ringkasanDataPemeriksaan')
+                </div>
+                <div class="tab-pane fade" id="nav-dt-gelar-lidik" role="tabpanel" aria-labelledby="nav-dt-gelar-lidik-tab">
+                    @include('pages.data_pelanggaran.proses.ringkasanDataGelarLidik')
                 </div>
             </div>
             <hr>

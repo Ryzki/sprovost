@@ -326,7 +326,8 @@ class GenerateDocument extends Controller
                 'ruang_pertemuan' => $request->ruang_pertemuan,
                 'jam_pertemuan' => $request->tgl_pertemuan.' '.$request->jam_pertemuan,
                 'penyidik' => $request->penyidik,
-                'no_telp_penyidik' => $request->no_telp_penyidik
+                'no_telp_penyidik' => $request->no_telp_penyidik,
+                'is_draft' => 1
             ]);
 
             $template_document = new TemplateProcessor(storage_path('template/template_undangan_klarifikasi.docx'));

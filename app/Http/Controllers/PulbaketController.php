@@ -8,6 +8,7 @@ use App\Models\GelarPerkara;
 use App\Models\MasterPenyidik;
 use App\Models\Penyidik;
 use App\Models\SprinHistory;
+use App\Models\UndanganKlarifikasiHistories;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -26,7 +27,7 @@ class PulbaketController extends Controller
                     'no_sprin' => $request->no_sprin,
                     'created_by' => Auth::user()->id,
                     'type' => 'lidik',
-                    'unit_pemeriksa' => $request->unit_pemeriksa
+                    'unit_pemeriksa' => $request->unit_pemeriksa_new == null ? $request->unit_pemeriksa : $request->unit_pemeriksa_new
                 ]);
 
 
@@ -42,8 +43,10 @@ class PulbaketController extends Controller
                 }
             }
 
-            if (count($penyelidik) == 0){
-                $masterPenyelidik = MasterPenyidik::where('unit', $request->unit_pemeriksa)->with('pangkats')->get();
+            if ($request->unit_pemeriksa_new != null){
+                Penyidik::where('data_pelanggar_id', $kasus_id)->where('type', 'lidik')->delete();
+
+                $masterPenyelidik = MasterPenyidik::where('unit', $request->unit_pemeriksa_new)->with('pangkats')->get();
                 foreach ($masterPenyelidik as $value) {
                     Penyidik::create([
                         'data_pelanggar_id' => $kasus_id,
@@ -52,7 +55,8 @@ class PulbaketController extends Controller
                         'pangkat' => strtoupper($value->pangkats->name),
                         'jabatan' => strtoupper($value->jabatan),
                         'kesatuan' => strtoupper($value->kesatuan),
-                        'type' => 'lidik'
+                        'type' => 'lidik',
+                        'unit_pemeriksa' => $request->unit_pemeriksa_new
                     ]);
                 }
 
@@ -126,5 +130,61 @@ class PulbaketController extends Controller
         $query = MasterPenyidik::Where('unit', $request->unit)->orderBy('id', 'desc')->with('pangkats')->get();
 
         return DataTables::of($query)->make(true);
+    }
+
+    public function updateNoSprin(Request $request, $kasus_id)
+    {
+        DB::beginTransaction();
+        try {
+            SprinHistory::where('data_pelanggar_id', $kasus_id)->where('type', $request->type)->update([
+                'no_sprin' => $request->no_sprin,
+                'is_draft' => 0
+            ]);
+
+            DB::commit();
+            return response()->json([
+                'status' => [
+                    'code' => 200,
+                    'msg' => 'Success Processing Data',
+                ],
+            ], 200);
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return response()->json([
+                'status' => [
+                    'code' => 500,
+                    'msg' => 'Error'
+                ],
+                'detail' => $th,
+            ], 500);
+        }
+    }
+
+    public function updateNoUndangan(Request $request, $kasus_id)
+    {
+        DB::beginTransaction();
+        try {
+            UndanganKlarifikasiHistories::where('data_pelanggar_id', $kasus_id)->update([
+                'no_undangan' => $request->no_undangan,
+                'is_draft' => 0
+            ]);
+
+            DB::commit();
+            return response()->json([
+                'status' => [
+                    'code' => 200,
+                    'msg' => 'Success Processing Data',
+                ],
+            ], 200);
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return response()->json([
+                'status' => [
+                    'code' => 500,
+                    'msg' => 'Error'
+                ],
+                'detail' => $th,
+            ], 500);
+        }
     }
 }

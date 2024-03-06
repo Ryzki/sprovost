@@ -18,6 +18,7 @@ use App\Models\PublicWitness;
 use App\Models\Sp2hp2History;
 use App\Models\SprinHistory;
 use App\Models\SubProcess;
+use App\Models\UndanganKlarifikasiHistories;
 use App\Models\UndanganKlarifikasiHistory;
 use App\Models\Witness;
 use App\Models\WujudPerbuatan;
@@ -215,6 +216,16 @@ class KasusController extends Controller
                 // }
             } else if ($request->status == 3) {
                 try {
+                    $sprin = SprinHistory::where('data_pelanggar_id', $request->kasus_id)->where('type', 'lidik')->select('is_draft')->first();
+                    if($sprin->is_draft){
+                        throw new Exception('Nomor SPRIN Lidik masih draft, Harap update terlebih dahulu', 400);
+                    }
+
+                    $undanganKlarifikasi = UndanganKlarifikasiHistories::where('data_pelanggar_id', $request->kasus_id)->select('is_draft')->first();
+                    if($undanganKlarifikasi->is_draft){
+                        throw new Exception('Nomor Undangan Klarifikasi masih draft, Harap update terlebih dahulu', 400);
+                    }
+
                     $data = DataPelanggar::find($request->kasus_id);
                     $data->status_id = 4;
                     $data->save();
@@ -225,12 +236,14 @@ class KasusController extends Controller
                             'msg' => 'OK'
                         ]
                     ], 200);
-                } catch (\Throwable $th) {
+                } catch (Exception $th) {
                     return response()->json([
                         'status' => [
-                            'code' => 500,
-                            'msg' => 'Terjadi masalah saat merubah status'
-                        ], 'detail' => $th
+                            'code' => $th->getCode() != '' ? $th->getCode() :500,
+                            'msg' => $th->getMessage() != '' ? $th->getMessage() : 'Err',
+                        ],
+                        'detail' => $th,
+                        'message' => $th->getMessage() != '' ? $th->getMessage() : 'Terjadi Kesalahan Saat Hapus Data, Harap Coba lagi!'
                     ], 500);
                 }
             } else if ($request->status == 4){
@@ -349,7 +362,6 @@ class KasusController extends Controller
 
     public function updateDataPelanggar(Request $request){
         try {
-            $no_pengaduan = "123456"; //generate otomatis
             $data_pelanggar = DataPelanggar::where('id', $request->kasus_id)->first();
             $data_pelanggar->update([
                 'no_nota_dinas' => $request->no_nota_dinas,
@@ -365,6 +377,7 @@ class KasusController extends Controller
                 'alamat' => $request->alamat,
                 'no_identitas' => $request->no_identitas,
                 'jenis_identitas' => $request->jenis_identitas,
+                'no_telp' => $request->no_telp,
                 'terlapor' => $request->terlapor,
                 'nrp' => $request->nrp,
                 'jabatan' => $request->jabatan,
@@ -404,10 +417,10 @@ class KasusController extends Controller
     }
 
     private function cek_requirement($kasus_id, $process_id){
-        $documentgenerated = DokumenPelanggar::where('data_pelanggar_id', $kasus_id)->where('process_id', $process_id);
+        $documentgenerated = DokumenPelanggar::where('data_pelanggar_id', $kasus_id)->where('process_id', $process_id)->select(['data_pelanggar_id', 'process_id', 'sub_process_id'])->distinct();
         $subProcess = SubProcess::where('process_id', (int)$process_id);
 
-        if ($documentgenerated->count() == $subProcess->count()){
+        if (count($documentgenerated->get()) == $subProcess->count()){
             return ['status' => true, 'data' => null];
         } else {
             $arrSubProcessId = [];

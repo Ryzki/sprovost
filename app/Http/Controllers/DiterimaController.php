@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\DataPelanggar;
 use App\Models\Disposisi;
 use App\Models\DokumenPelanggar;
+use App\Models\MasterPenyidik;
+use App\Models\Penyidik;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -161,13 +163,28 @@ class DiterimaController extends Controller
             }
 
             $disposisi = Disposisi::where('data_pelanggar_id', $request->kasus_id)->where('type', 'Kabag')->first();
-            if($disposisi == null){
-                Disposisi::create([
+            if($disposisi != null){
+                Disposisi::where('data_pelanggar_id', $request->kasus_id)->where('type', 'Kabag')->delete();
+            }
+            Disposisi::create([
+                'data_pelanggar_id' => $request->kasus_id,
+                'no_agenda' => $request->nomor_agenda,
+                'klasifikasi' => $request->klasifikasi,
+                'derajat' => $request->derajat,
+                'type' => 'Kabag'
+            ]);
+
+            $masterPenyelidik = MasterPenyidik::where('unit', $request->unit_pemeriksa)->with('pangkats')->get();
+            foreach ($masterPenyelidik as $value) {
+                Penyidik::create([
                     'data_pelanggar_id' => $request->kasus_id,
-                    'no_agenda' => $request->nomor_agenda,
-                    'klasifikasi' => $request->klasifikasi,
-                    'derajat' => $request->derajat,
-                    'type' => 'Kabag'
+                    'name' => strtoupper($value->name),
+                    'nrp' => $value->nrp,
+                    'pangkat' => strtoupper($value->pangkats->name),
+                    'jabatan' => strtoupper($value->jabatan),
+                    'kesatuan' => strtoupper($value->kesatuan),
+                    'type' => 'lidik',
+                    'unit_pemeriksa' => $request->unit_pemeriksa
                 ]);
             }
 

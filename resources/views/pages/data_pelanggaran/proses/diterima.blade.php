@@ -63,6 +63,7 @@
             @csrf
             <input type="text" class="form-control" value="{{ $kasus->id }}" hidden name="kasus_id">
             <input type="text" class="form-control" value="{{ $kasus->status_id }}" hidden name="process_id">
+            <input type="hidden" name="next" value="pulbaket">
             <div class="row">
                 <div class="col-lg-6 mb-3">
                     <div class="form-floating">
@@ -326,7 +327,7 @@
                 </div>
 
                 {{-- Document Download --}}
-                <div class="col-lg-12">
+                <div class="col-lg-12" id="container-download" style="display: none !important;">
                     @if($kasus->status_id != 8 && $kasus->status_id != 9 && $kasus->status_id != 10)
                         {{-- <div class="col-lg-12 mb-3">
                             <label for="exampleFormControlInput1" class="form-label">Download Berkas Disposisi</label>
@@ -353,7 +354,7 @@
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="row">
-                            <div class="col-6">
+                            <div class="col-6" id="container-btn-status" style="display: none !important">
                                 {{-- <button class="btn btn-success submit" type="submit" value="update_data" name="type_submit">Update
                                     Data</button> --}}
                                 <button class="btn btn-primary submit" type="submit" value="{{$kasus->status_id}}" name="status"
@@ -741,6 +742,41 @@
                         <label for="exampleInputPassword1" class="form-label">Perihal</label>
                         <input type="text" class="form-control" id="perihal" name="perihal">
                     </div> --}}
+
+                    {{-- Form Pemeriksa --}}
+                    <div class="card card-data-penyidik">
+                        <div class="card-header">Unit Pemeriksa</div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="">Pilih Unit Pemeriksa</label>
+                                <select name="unit_pemeriksa" id="" class="form-control" data-placeholder="Silahkan Pilih Unit Pemeriksa">
+                                    <option></option>
+                                    @foreach ($unit as $item)
+                                        <option value="{{$item->unit}}">{{$item->unit}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div class="container mt-5" id="preview_anggota" style="display: none">
+                                <h6>Preview Anggota Unit</h6>
+                                <div class="table-responsive table-card px-3">
+                                    <table class="table table-centered align-middle table-nowrap mb-0" id="data-data">
+                                        <thead class="text-muted table-light">
+                                            <tr>
+                                                <th scope="col">Nama</th>
+                                                <th scope="col">NRP</th>
+                                                <th scope="col">Pangkat</th>
+                                                <th scope="col">Jabatan</th>
+                                                <th scope="col">Tim</th>
+                                                <th scope="col">Unit</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -1000,8 +1036,68 @@
         $('.form-select').select2({
             theme: 'bootstrap-5'
         })
+        $('select[name="unit_pemeriksa"]').select2({
+            theme: 'bootstrap-5',
+            dropdownParent : $('#disposisi_kabag_gakkum .modal-content')
+        })
+
+        $('select[name="unit_pemeriksa"]').on('change', function(){
+            $('#data-data').DataTable().destroy()
+
+            var table = $('#data-data').DataTable({
+                processing: true,
+                serverSide: true,
+                searching: false,
+                ajax: {
+                    url: "{{ route('penyidik.data') }}",
+                    method: "post",
+                    data: function(data) {
+                        data._token = '{{ csrf_token() }}'
+                        data.unit = $('select[name="unit_pemeriksa"] option').filter(':selected').val()
+                    }
+                },
+                columns: [
+                    {
+                        data: 'name',
+                        name: 'name'
+                    },
+                    {
+                        data: 'nrp',
+                        name: 'nrp'
+                    },
+                    {
+                        data: 'pangkats.name',
+                        name: 'pangkats.name'
+                    },
+                    {
+                        data: 'jabatan',
+                        name: 'jabatan'
+                    },
+                    {
+                        data: 'tim',
+                        name: 'tim'
+                    },
+                    {
+                        data: 'unit',
+                        name: 'unit'
+                    },
+                ]
+            });
+            $('#kt_search').on('click', function(e) {
+                e.preventDefault();
+                table.table().draw();
+            });
+
+            $('#preview_anggota').fadeIn()
+        })
 
         getValDisiplin()
+        validation((canInput) => {
+            if(canInput == true){
+                $('#container-download').fadeIn()
+                $('#container-btn-status').fadeIn()
+            }
+        })
     })
 
     function validation(callback){

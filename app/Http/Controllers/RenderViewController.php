@@ -88,7 +88,8 @@ class RenderViewController extends Controller
         $disposisiKaro = Disposisi::where('data_pelanggar_id', $id)->where('type', 'Karo')->first();
         $disposisiSesro = Disposisi::where('data_pelanggar_id', $id)->where('type', 'Sesro')->first();
         $disposisiKabag = Disposisi::where('data_pelanggar_id', $id)->where('type', 'Kabag')->first();
-        $polda = Polda::where('id', '<>', 0)->get();
+        $polda = Polda::where('id', '<>', 1)->get();
+        $unit = DB::table('master_penyidiks')->select('unit')->groupBy('unit')->get();
 
         $i_dis = 0;
         $i_ke = 0;
@@ -126,7 +127,8 @@ class RenderViewController extends Controller
             'disposisiKaro' => $disposisiKaro,
             'disposisiSesro' => $disposisiSesro,
             'disposisiKabag' => $disposisiKabag,
-            'polda' => $polda
+            'polda' => $polda,
+            'unit' => $unit
         ];
 
         return view('pages.data_pelanggaran.proses.diterima', $data);
@@ -149,6 +151,7 @@ class RenderViewController extends Controller
         $undanganKlarifikasi = UndanganKlarifikasiHistories::where('data_pelanggar_id', $id)->latest()->first();
         $gelarPerkara = GelarPerkara::where('data_pelanggar_id', $id)->first();
         $unit = DB::table('master_penyidiks')->select('unit')->groupBy('unit')->get();
+        $penyidik = Penyidik::where('data_pelanggar_id', $id)->get();
 
         if($bai != null){
             $penyidik1 = Penyidik::where('id', $bai->penyidik1)->first();
@@ -172,7 +175,8 @@ class RenderViewController extends Controller
             'penyidik2' => $penyidik2,
             'undanganKlarifikasi' => $undanganKlarifikasi,
             'gelarPerkara' => $gelarPerkara,
-            'unit' => $unit
+            'unit' => $unit,
+            'penyidik' => $penyidik
         ];
 
         return view('pages.data_pelanggaran.proses.pulbaket', $data);
@@ -215,6 +219,7 @@ class RenderViewController extends Controller
         $lpa = LPA::where('data_pelanggar_id', $id)->first();
         $sprinRiksa = SprinHistory::where('data_pelanggar_id', $id)->where('type', 'riksa')->with('user')->first();
         $sprin = SprinHistory::where('data_pelanggar_id', $id)->where('type', 'lidik')->with('user')->first();
+        $sprinGelar = SprinHistory::where('data_pelanggar_id', $id)->where('type', 'gelar')->with('user')->first();
         $saksi = PublicWitness::where('data_pelanggar_id', $id)->get();
         $saksiAhli = Witness::where('data_pelanggar_id', $id)->get();
         $agama = Agama::get();
@@ -252,7 +257,8 @@ class RenderViewController extends Controller
             'bap' => $bap,
             'undanganKlarifikasi' => $undanganKlarifikasi,
             'gelarPerkara' => $gelarPerkara,
-            'unit' => $unit
+            'unit' => $unit,
+            'sprinGelar' => $sprinGelar
         ];
 
         return view('pages.data_pelanggaran.proses.sidik_lpa', $data);

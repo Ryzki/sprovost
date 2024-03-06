@@ -35,7 +35,8 @@
     function onAjaxError(err, statusCode = null) {
         Swal.fire({
             title: `Terjadi Kesalahan`,
-            text: err.responseJSON?.message == undefined ? "Terjadi kesalahan saat memproses data!, Harap coba lagi" : err.responseJSON.message,
+            html: '<span>' + err.responseJSON?.status.msg == undefined ? "Terjadi kesalahan saat memproses data!, Harap coba lagi" : err.responseJSON.status.msg + '</span>',
+            // text: err.responseJSON?.status.msg == undefined ? "Terjadi kesalahan saat memproses data!, Harap coba lagi" : err.responseJSON.status.msg,
             icon: 'error',
             toast: true,
             position: 'top-end',

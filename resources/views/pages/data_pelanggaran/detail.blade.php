@@ -4,9 +4,13 @@
     <div class="row mt-4">
         <div class="col-lg-12">
             <div class="card">
-                <div class="card-header align-items-center d-flex">
+                <div class="card-header">
                     <h4 class="card-title mb-0 flex-grow-1">Data No Nota Dinas {{ $kasus->no_nota_dinas }}
-                        ({{ $kasus->status->name }})</h4>
+                        ({{ $kasus->status->name }})
+                    </h4>
+                    <p>
+                        <b>Umur Kasus : {{\Carbon\Carbon::parse($kasus->created_at)->diff(\Carbon\Carbon::now())->format('%y tahun, %m bulan dan %d hari')}} </b>
+                    </p>
 
                 </div><!-- end card header -->
 
