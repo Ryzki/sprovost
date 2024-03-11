@@ -9,5 +9,5 @@ class DP3D extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['data_pelanggar_id','no_dp3d', 'pasal'];
+    protected $fillable = ['data_pelanggar_id','no_dp3d', 'pasal', 'created_at', 'is_draft'];
 }

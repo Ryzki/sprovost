@@ -13,6 +13,7 @@ class LPA extends Model
     protected $fillable = [
         'data_pelanggar_id',
         'no_lpa',
+        'is_draft',
         'created_by'
     ];
 

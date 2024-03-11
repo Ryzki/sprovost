@@ -272,12 +272,16 @@ class RenderViewController extends Controller
         $status = Process::find($kasus->status_id);
         $sub_process = SubProcess::where('process_id', $kasus->status_id)->get();
         $sprin = SprinHistory::where('data_pelanggar_id', $id)->where('type', 'sidang')->with('user')->first();
+        $sprinRiksa = SprinHistory::where('data_pelanggar_id', $id)->where('type', 'riksa')->with('user')->first();
         $sprinLidik = SprinHistory::where('data_pelanggar_id', $id)->where('type', 'lidik')->with('user')->first();
+        $sprinGelar = SprinHistory::where('data_pelanggar_id', $id)->where('type', 'gelar')->with('user')->first();
+
         $sidang = SidangDisiplin::where('data_pelanggar_id', $id)->first();
         $dp3d = DP3D::where('data_pelanggar_id', $id)->first();
         $undanganKlarifikasi = UndanganKlarifikasiHistories::where('data_pelanggar_id', $id)->latest()->first();
         $gelarPerkara = GelarPerkara::where('data_pelanggar_id', $id)->with('penyidik')->first();
         $dp3d = DP3D::where('data_pelanggar_id', $id)->first();
+        $lpa = LPA::where('data_pelanggar_id', $id)->first();
 
         $data = [
             'kasus' => $kasus,
@@ -289,7 +293,10 @@ class RenderViewController extends Controller
             'dp3d' => $dp3d,
             'undanganKlarifikasi' => $undanganKlarifikasi,
             'gelarPerkara' => $gelarPerkara,
-            'dp3d' => $dp3d
+            'dp3d' => $dp3d,
+            'sprinGelar' => $sprinGelar,
+            'lpa' => $lpa,
+            'sprinRiksa' => $sprinRiksa,
         ];
 
         return view('pages.data_pelanggaran.proses.sidang_disiplin', $data);

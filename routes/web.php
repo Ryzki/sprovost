@@ -7,6 +7,7 @@ use App\Http\Controllers\KasusController;
 use App\Http\Controllers\LimpahPoldaController;
 use App\Http\Controllers\NotaDinasHasilSidang;
 use App\Http\Controllers\PangkatController;
+use App\Http\Controllers\PemberkasanController;
 use App\Http\Controllers\PenyidikController;
 use App\Http\Controllers\PulbaketController;
 use App\Http\Controllers\RenderViewController;
@@ -38,7 +39,9 @@ Route::get('/login', function () {
 Route::get('/pdf-test', [LimpahPoldaController::class, 'generateDocumen']);
 // Route::get('/lembar-disposisi', [LimpahPoldaController::class, 'generateDisposisi']);
 Route::post('login', [AuthController::class, 'loginAction'])->name('login-action');
-
+Route::get('info', function(){
+    phpinfo();
+});
 
 Route::middleware(['auth'])->group(function (){
     // Dashboard
@@ -165,11 +168,16 @@ Route::middleware(['auth'])->group(function (){
     Route::GET('/print/dp3d/{id}/generated', [GenerateDocument::class, 'dp3d']);
     Route::get('/print/surat_pelimpahan_ke_ankum/{id}/{process_id}/{subprocess}', [GenerateDocument::class, 'pelimpahan_ankum']);
 
+    Route::POST('update-lpa/{id}', [PemberkasanController::class, 'updateLPA']);
+    Route::POST('update-sprin-riksa/{id}', [PemberkasanController::class, 'updateSprinRiksa']);
+    Route::POST('update-dp3d/{id}', [PemberkasanController::class, 'updateDP3D']);
+
     // Sidang Disiplin
     Route::get('/print/nota_dina_perangkat_sidang/{id}/{process_id}/{subprocess}', [GenerateDocument::class, 'nota_dina_perangkat_sidang']);
     Route::POST('/print/sprin_perangkat_sidang/{id}/not-generated', [GenerateDocument::class, 'sprin_perangkat_sidang']);
     Route::GET('/print/sprin_perangkat_sidang/{id}/generated', [GenerateDocument::class, 'sprin_perangkat_sidang']);
     Route::POST('/print/undangan_sidang_disiplin/{id}', [GenerateDocument::class, 'undangan_sidang_disiplin']);
     Route::POST('/print/hasil_putusan_sidang_disiplin/{id}', [GenerateDocument::class, 'hasil_putusan_sidang_disiplin']);
+    Route::POST('update-sprin-sidang/{id}', [GenerateDocument::class, 'updateSprinSidang']);
     // Route::get('/print/nota_hasil_putusan/{id}/{process_id}/{subprocess}', [GenerateDocument::class, 'nota_hasil_putusan']);
 });

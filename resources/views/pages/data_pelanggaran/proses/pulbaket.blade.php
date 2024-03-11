@@ -52,16 +52,16 @@
             {{-- Nav Ringkasan Data --}}
             <nav>
                 <div class="nav nav-tabs mb-3" id="nav-tab" role="tablist">
-                    <button class="nav-link active" id="nav-dt-pelanggar-tab" data-bs-toggle="tab" data-bs-target="#nav-dt-pelanggar" type="button" role="tab" aria-controls="nav-dt-pelanggar" aria-selected="true">Ringkasan Data Pelanggar</button>
-                    <button class="nav-link" id="nav-dt-penyelidikan-tab" data-bs-toggle="tab" data-bs-target="#nav-dt-penyelidikan" type="button" role="tab" aria-controls="nav-dt-penyelidikan" aria-selected="false">Ringkasan Data Pemeriksaan</button>
+                    <button class="nav-link" id="nav-dt-pelanggar-tab" data-bs-toggle="tab" data-bs-target="#nav-dt-pelanggar" type="button" role="tab" aria-controls="nav-dt-pelanggar" aria-selected="true">Ringkasan Data Pelanggar</button>
+                    <button class="nav-link active" id="nav-dt-penyelidikan-tab" data-bs-toggle="tab" data-bs-target="#nav-dt-penyelidikan" type="button" role="tab" aria-controls="nav-dt-penyelidikan" aria-selected="false">Ringkasan Data Pemeriksaan</button>
                 </div>
             </nav>
 
             <div class="tab-content p-2" id="nav-tabContent">
-                <div class="tab-pane fade active show" id="nav-dt-pelanggar" role="tabpanel" aria-labelledby="nav-dt-pelanggar-tab">
+                <div class="tab-pane fade" id="nav-dt-pelanggar" role="tabpanel" aria-labelledby="nav-dt-pelanggar-tab">
                     @include('pages.data_pelanggaran.proses.ringkasanDataPelanggar')
                 </div>
-                <div class="tab-pane fade" id="nav-dt-penyelidikan" role="tabpanel" aria-labelledby="nav-dt-penyelidikan-tab">
+                <div class="tab-pane fade active show" id="nav-dt-penyelidikan" role="tabpanel" aria-labelledby="nav-dt-penyelidikan-tab">
                     @include('pages.data_pelanggaran.proses.ringkasanDataPemeriksaan')
                 </div>
             </div>
@@ -70,14 +70,48 @@
             <div class="row align-items-center justify-content-center">
                 @if ($kasus->status_id != 8 && $kasus->status_id != 9 && $kasus->status_id != 10)
                     @if($kasus->status_id == 5)
-                        <h2 class="text-center text-warning mt-4">
-                            <i class="mdi mdi-information"></i> Kasus telah dilimpahkan ke Polda / Jajaran
-                        </h2>
+                        <div class="mt-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                                <symbol id="info-fill" fill="currentColor" viewBox="0 0 16 16">
+                                    <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+                                </symbol>
+                            </svg>
+                            <div class="alert alert-warning d-flex align-items-center alert-dismissible fade show" role="alert">
+                                <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Info:"><use xlink:href="#info-fill"/></svg>
+                                <div>
+                                    Kasus telah dilimpahkan ke Polda / Jajaran
+                                </div>
+                            </div>
+                        </div>
                     @else
                         @if ($sprin != null && $sprin->is_draft == 1)
-                            <span class="alert alert-warning" role="alert"><i class="bi bi-exclamation-triangle-fill me-2"></i> Nomor SPRIN Lidik masih Draft, klik <b>Download Berkas SPRIN Lidik</b> untuk update nomor SPRIN Lidik sesuai dengan berkas yang sudah disetujui</span>
+                            <div class="mt-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                                    <symbol id="info-fill" fill="currentColor" viewBox="0 0 16 16">
+                                        <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+                                    </symbol>
+                                </svg>
+                                <div class="alert alert-warning d-flex align-items-center alert-dismissible fade show" role="alert">
+                                    <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Info:"><use xlink:href="#info-fill"/></svg>
+                                    <div>
+                                        Nomor SPRIN Lidik masih Draft, klik <b>Download Berkas SPRIN Lidik</b> untuk update nomor SPRIN Lidik sesuai dengan berkas yang sudah disetujui
+                                    </div>
+                                </div>
+                            </div>
                         @elseif($undanganKlarifikasi != null && $undanganKlarifikasi->is_draft == 1)
-                            <span class="alert alert-warning" role="alert"><i class="bi bi-exclamation-triangle-fill me-2"></i> Nomor Undangan Klarifikasi masih Draft, klik <b>Download Berkas Undangan Klarifikasi</b> untuk update Nomor Undangan sesuai dengan berkas yang sudah disetujui</span>
+                            <div class="mt-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                                    <symbol id="info-fill" fill="currentColor" viewBox="0 0 16 16">
+                                        <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+                                    </symbol>
+                                </svg>
+                                <div class="alert alert-warning d-flex align-items-center alert-dismissible fade show" role="alert">
+                                    <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Info:"><use xlink:href="#info-fill"/></svg>
+                                    <div>
+                                        Nomor Undangan Klarifikasi masih Draft, klik <b>Download Berkas Undangan Klarifikasi</b> untuk update nomor Undangan sesuai dengan berkas yang sudah disetujui
+                                    </div>
+                                </div>
+                            </div>
                         @endif
                         <h4 class="">Download Berkas</h4>
                         <div class="col-lg-12 mb-3 mt-4">
@@ -136,19 +170,49 @@
                         </div>
                     @endif
                 @else
-                    @if ($kasus->status_id == 9)
-                        <h2 class="text-center text-info mt-4">
-                            <i class="mdi mdi-information"></i> Kasus ini telah Dihentikan
-                        </h2>
-                    @elseif ($kasus->status_id == 10)
-                        <h2 class="text-center text-info mt-4">
-                            <i class="mdi mdi-information"></i> Kasus ini telah Dihentikan (RJ)
-                        </h2>
-                    @else
-                        <h2 class="text-center text-info mt-4">
-                            <i class="mdi mdi-information"></i> Kasus ini telah selesai
-                        </h2>
-                    @endif
+                @if ($kasus->status_id == 9)
+                    <div class="mt-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                            <symbol id="info-fill" fill="currentColor" viewBox="0 0 16 16">
+                                <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+                            </symbol>
+                        </svg>
+                        <div class="alert alert-info d-flex align-items-center alert-dismissible fade show" role="alert">
+                            <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Info:"><use xlink:href="#info-fill"/></svg>
+                            <div>
+                                Kasus ini telah Dihentikan
+                            </div>
+                        </div>
+                    </div>
+                @elseif ($kasus->status_id == 10)
+                    <div class="mt-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                            <symbol id="info-fill" fill="currentColor" viewBox="0 0 16 16">
+                                <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+                            </symbol>
+                        </svg>
+                        <div class="alert alert-info d-flex align-items-center alert-dismissible fade show" role="alert">
+                            <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Info:"><use xlink:href="#info-fill"/></svg>
+                            <div>
+                                Kasus ini telah Dihentikan (RJ)
+                            </div>
+                        </div>
+                    </div>
+                @else
+                    <div class="mt-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                            <symbol id="info-fill" fill="currentColor" viewBox="0 0 16 16">
+                                <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+                            </symbol>
+                        </svg>
+                        <div class="alert alert-info d-flex align-items-center alert-dismissible fade show" role="alert">
+                            <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Info:"><use xlink:href="#info-fill"/></svg>
+                            <div>
+                                Kasus ini telah Selesai
+                            </div>
+                        </div>
+                    </div>
+                @endif
                 @endif
             </div>
         </form>
@@ -639,6 +703,11 @@
                                                 <input type="text" name="no_telp" class="form-control" placeholder="Masukan Nomor Telepon" onfocus="mask(this, '999999999999999')" onclick="mask(this, '999999999999999')" onchange="mask(this, '999999999999999')">
                                             </div>
                                         </div>
+
+                                        <div class="d-flex mb-3 mt-4 justify-content-end">
+                                            <span onclick="removeSaksi($(this))" class="text-danger" style="cursor: pointer"> <i class="far fa-minus-square"></i>
+                                                Saksi </span>
+                                        </div>
                                     </div>
                                     <hr>
                                 </div>
@@ -651,14 +720,115 @@
                         </div>
                     @else
                         <div class="card">
-                            <div class="card-header" style="cursor: pointer">List Data Saksi</div>
-                            <ul class="list-group">
+                            <div class="card-header" style="cursor: pointer">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="col-6">
+                                        List Data Saksi
+                                    </div>
+                                    <div class="flex-row-reverse">
+                                        <button type="button" class="btn btn-outline-warning btn-rounded btn-sm" onclick="showFormSaksi()">
+                                            Edit Saksi
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <ul class="list-group" id="list-saksi">
                                 @foreach ($saksi as $s)
                                     <li class="list-group-item" style="background-color: #a0d7fffb">
                                         <p> {{$s->pangkat}} {{$s->nama}} {{$s->jabatan}} {{$s->kesatuan}} - {{$s->nrp}} </p>
                                     </li>
                                 @endforeach
                             </ul>
+
+                            <div class="card-body" id="body-saksi" style="display:none">
+                                <div class="mb-3" id="container_saksi">
+                                    @foreach ($saksi as $s)
+                                        <div class="row mb-3 form_saksi">
+                                            <div class="col-md-6 col-12">
+                                                <div class="form-group">
+                                                    <label for="nama">Nama</label>
+                                                    <input type="text" name="nama" class="form-control" value="{{$s->nama}}" placeholder="Masukan Nama">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-12">
+                                                <div class="form-group">
+                                                    <label for="pangkat">Pangkat</label>
+                                                    <select name="pangkat" class="pangkat-saksi form-control form-select" value data-placeholder="Pilih Pangkat Saksi">
+                                                        <option></option>
+                                                        @foreach ($pangkats as $item)
+                                                            <option value="{{$item->name}}" {{$s->pangkat == $item->name ? 'selected' : ''}}>{{$item->name}}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-12">
+                                                <div class="form-group">
+                                                    <label for="jabatan">Jabatan</label>
+                                                    <input type="text" name="jabatan" class="form-control" value="{{$s->jabatan}}" placeholder="Masukan Jabatan">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-12">
+                                                <div class="form-group">
+                                                    <label for="nrp">NRP</label>
+                                                    <input type="text" name="nrp" class="form-control" placeholder="Masukan NRP" value="{{$s->nrp}}" onclick="mask(this, '99999999')" onchange="mask(this, '99999999')" onfocus="mask(this, '99999999')">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-12">
+                                                <div class="form-group">
+                                                    <label for="kesatuan">Kesatuan</label>
+                                                    <input type="text" name="kesatuan" class="form-control" value="{{$s->kesatuan}}" placeholder="Masukan Kesatuan">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-12">
+                                                <div class="form-group">
+                                                    <label for="ttl">Tempat Tanggal Lahir</label>
+                                                    <input type="text" name="ttl" class="form-control" value={{$s->ttl}} placeholder="Masukan Tempat Tanggal Lahir">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-12">
+                                                <div class="form-group">
+                                                    <label for="warga_negara">Warga Negara</label>
+                                                    <input type="text" name="warga_negara" class="form-control" value="{{$s->warga_negara}}" placeholder="Masukan Warga Negara">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-12">
+                                                <div class="form-group">
+                                                    <label for="agama">Agama</label>
+                                                    <select name="agama" class="form-select">
+                                                        <option value="0" selected disabled>----- Harap Pilih Agama -----</option>
+                                                        @foreach ($agamas as $agama)
+                                                            <option value="{{$agama->id}}" {{$s->agama == $agama->id ? 'selected' : ''}}>{{$agama->name}}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-12">
+                                                <div class="form-group">
+                                                    <label for="alamat">Alamat</label>
+                                                    <textarea name="alamat" class="form-control" cols="8" rows="5">{{$s->alamat}}</textarea>
+                                                    {{-- <input type="text" name="agama" class="form-control" placeholder="Masukan Warga Negara"> --}}
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-12">
+                                                <div class="form-group">
+                                                    <label for="no_telp">No. Telp</label>
+                                                    <input type="text" name="no_telp" class="form-control" value="{{$s->no_telp}}" placeholder="Masukan Nomor Telepon" onfocus="mask(this, '999999999999999')" onclick="mask(this, '999999999999999')" onchange="mask(this, '999999999999999')">
+                                                </div>
+                                            </div>
+                                            <div class="d-flex mb-3 mt-4 justify-content-end">
+                                                <span onclick="removeSaksi($(this))" class="text-danger" style="cursor: pointer"> <i class="far fa-minus-square"></i>
+                                                    Saksi </span>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                    @endforeach
+                                </div>
+
+                                <div class="d-flex mb-3 mt-5 justify-content-between">
+                                    <span onclick="tambahSaksi(this)" class="text-primary" style="cursor: pointer"> <i class="far fa-plus-square"></i>
+                                        Saksi </span>
+                                </div>
+                            </div>
                         </div>
                     @endif
                 </div>
@@ -1005,23 +1175,26 @@
                         tempDownload.setAttribute( 'download', res.file );
 
                         tempDownload.click();
+
+                        if(n+1 == res.file.length){
+                            $.LoadingOverlay("hide");
+                            Swal.fire({
+                                title: 'Berhasil',
+                                text: 'Berhasil generate dan download dokumen',
+                                icon: 'success',
+                                toast: true,
+                                position: 'top-end',
+                                showConfirmButton: false,
+                                timer: 3000,
+                                timerProgressBar: true,
+                            })
+
+                            setTimeout(() => {
+                                window.location.reload()
+                            }, 2000);
+                        }
                     }
 
-                    $.LoadingOverlay("hide");
-                    Swal.fire({
-                        title: 'Berhasil',
-                        text: 'Berhasil generate dan download dokumen',
-                        icon: 'success',
-                        toast: true,
-                        position: 'top-end',
-                        showConfirmButton: false,
-                        timer: 3000,
-                        timerProgressBar: true,
-                    })
-
-                    setTimeout(() => {
-                        window.location.reload()
-                    }, 1000);
 
                 },
                 error: (xhr) => {
@@ -1349,93 +1522,111 @@
         })
     }
 
+    function showFormSaksi()
+    {
+        $('#list-saksi').fadeOut()
+        $('#body-saksi').fadeIn()
+        $('.pangkat-saksi').select2({
+            theme: 'bootstrap-5',
+            dropdownParent : $('#bap .modal-content')
+        })
+    }
+
     function tambahSaksi(el){
         let parentEl = $(el).parent().parent().find('#container_saksi')
         $('.pangkat-saksi').select2('destroy')
         let duplicateForm = $(el).parent().parent().find('#container_saksi').children()[0]
-        $(duplicateForm).clone(false).appendTo(parentEl).find('input').val('')
+
+        if($(duplicateForm).children().length > 0){
+            $(duplicateForm).clone(false).appendTo(parentEl).find('input').val('')
+        } else {
+           let html = `
+                <div class="row mb-3 form_saksi">
+                    <div class="col-md-6 col-12">
+                        <div class="form-group">
+                            <label for="nama">Nama</label>
+                            <input type="text" name="nama" class="form-control" placeholder="Masukan Nama">
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-12">
+                        <div class="form-group">
+                            <label for="pangkat">Pangkat</label>
+                            <select name="pangkat" class="pangkat-saksi form-control form-select" value data-placeholder="Pilih Pangkat Saksi">
+                                <option></option>
+                                @foreach ($pangkats as $item)
+                                    <option value="{{$item->name}}">{{$item->name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-12">
+                        <div class="form-group">
+                            <label for="jabatan">Jabatan</label>
+                            <input type="text" name="jabatan" class="form-control" placeholder="Masukan Jabatan">
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-12">
+                        <div class="form-group">
+                            <label for="nrp">NRP</label>
+                            <input type="text" name="nrp" class="form-control" placeholder="Masukan NRP" onclick="mask(this, '99999999')" onfocus="mask(this, '99999999')" onchange="mask(this, '99999999')">
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-12">
+                        <div class="form-group">
+                            <label for="kesatuan">Kesatuan</label>
+                            <input type="text" name="kesatuan" class="form-control" placeholder="Masukan Kesatuan">
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-12">
+                        <div class="form-group">
+                            <label for="ttl">Tempat Tanggal Lahir</label>
+                            <input type="text" name="ttl" class="form-control" placeholder="Masukan Tempat Tanggal Lahir">
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-12">
+                        <div class="form-group">
+                            <label for="warga_negara">Warga Negara</label>
+                            <input type="text" name="warga_negara" class="form-control" placeholder="Masukan Warga Negara">
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-12">
+                        <div class="form-group">
+                            <label for="agama">Agama</label>
+                            <select name="agama" class="form-select">
+                                <option value="0" selected disabled>----- Harap Pilih Agama -----</option>
+                                @foreach ($agamas as $agama)
+                                    <option value="{{$agama->id}}">{{$agama->name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-12">
+                        <div class="form-group">
+                            <label for="alamat">Alamat</label>
+                            <textarea name="alamat" class="form-control" cols="8" rows="5"></textarea>
+                            {{-- <input type="text" name="agama" class="form-control" placeholder="Masukan Warga Negara"> --}}
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-12">
+                        <div class="form-group">
+                            <label for="no_telp">No. Telp</label>
+                            <input type="text" name="no_telp" class="form-control" placeholder="Masukan Nomor Telepon" onfocus="mask(this, '999999999999999')" onclick="mask(this, '999999999999999')" onchange="mask(this, '999999999999999')">
+                        </div>
+                    </div>
+
+                    <div class="d-flex mb-3 mt-4 justify-content-end">
+                            <span onclick="removeSaksiAhli($(this))" class="text-danger" style="cursor: pointer"> <i class="far fa-minus-square"></i>
+                                Saksi </span>
+                        </div>
+                </div><hr>`
+
+            $(parentEl).append(html)
+        }
 
         $('.pangkat-saksi').select2({
             theme: 'bootstrap-5',
             dropdownParent : $('#bai .modal-content')
         })
-        // let html = `
-        // <div class="row mb-3 form_saksi">
-        //     <div class="col-md-6 col-12">
-        //         <div class="form-group">
-        //             <label for="nama">Nama</label>
-        //             <input type="text" name="nama" class="form-control" placeholder="Masukan Nama">
-        //         </div>
-        //     </div>
-        //     <div class="col-md-6 col-12">
-        //         <div class="form-group">
-        //             <label for="pangkat">Pangkat</label>
-        //             <input type="text" name="pangkat" class="form-control" placeholder="Masukan Pangkat">
-        //         </div>
-        //     </div>
-        //     <div class="col-md-6 col-12">
-        //         <div class="form-group">
-        //             <label for="jabatan">Jabatan</label>
-        //             <input type="text" name="jabatan" class="form-control" placeholder="Masukan Jabatan">
-        //         </div>
-        //     </div>
-        //     <div class="col-md-6 col-12">
-        //         <div class="form-group">
-        //             <label for="nrp">NRP</label>
-        //             <input type="text" name="nrp" class="form-control" placeholder="Masukan NRP" onclick="mask(this, '99999999')" onfocus="mask(this, '99999999')" onchange="mask(this, '99999999')">
-        //         </div>
-        //     </div>
-        //     <div class="col-md-6 col-12">
-        //         <div class="form-group">
-        //             <label for="kesatuan">Kesatuan</label>
-        //             <input type="text" name="kesatuan" class="form-control" placeholder="Masukan Kesatuan">
-        //         </div>
-        //     </div>
-        //     <div class="col-md-6 col-12">
-        //         <div class="form-group">
-        //             <label for="ttl">Tempat Tanggal Lahir</label>
-        //             <input type="text" name="ttl" class="form-control" placeholder="Masukan Tempat Tanggal Lahir">
-        //         </div>
-        //     </div>
-        //     <div class="col-md-6 col-12">
-        //         <div class="form-group">
-        //             <label for="warga_negara">Warga Negara</label>
-        //             <input type="text" name="warga_negara" class="form-control" placeholder="Masukan Warga Negara">
-        //         </div>
-        //     </div>
-        //     <div class="col-md-6 col-12">
-        //         <div class="form-group">
-        //             <label for="agama">Agama</label>
-        //             <select name="agama" class="form-select">
-        //                 <option value="0" selected disabled>----- Harap Pilih Agama -----</option>
-        //                 @foreach ($agamas as $agama)
-        //                     <option value="{{$agama->id}}">{{$agama->name}}</option>
-        //                 @endforeach
-        //             </select>
-        //         </div>
-        //     </div>
-        //     <div class="col-md-6 col-12">
-        //         <div class="form-group">
-        //             <label for="alamat">Alamat</label>
-        //             <textarea name="alamat" class="form-control" cols="8" rows="5"></textarea>
-        //             {{-- <input type="text" name="agama" class="form-control" placeholder="Masukan Warga Negara"> --}}
-        //         </div>
-        //     </div>
-        //     <div class="col-md-6 col-12">
-        //         <div class="form-group">
-        //             <label for="no_telp">No. Telp</label>
-        //             <input type="text" name="no_telp" class="form-control" placeholder="Masukan Nomor Telepon" onfocus="mask(this, '999999999999999')" onclick="mask(this, '999999999999999')" onchange="mask(this, '999999999999999')">
-        //         </div>
-        //     </div>
-
-        //     <div class="d-flex mb-3 mt-4 justify-content-end">
-        //             <span onclick="removeSaksi($(this))" class="text-danger" style="cursor: pointer"> <i class="far fa-minus-square"></i>
-        //                 Saksi </span>
-        //         </div>
-        // </div><hr>
-        // `
-
-        // $('#container_saksi').append(html);
     }
 
     function removeSaksi(el){

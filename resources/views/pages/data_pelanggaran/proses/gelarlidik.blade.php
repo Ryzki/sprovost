@@ -58,20 +58,20 @@
             {{-- Nav Ringkasan Data --}}
             <nav>
                 <div class="nav nav-tabs mb-3" id="nav-tab" role="tablist">
-                    <button class="nav-link active" id="nav-dt-pelanggar-tab" data-bs-toggle="tab" data-bs-target="#nav-dt-pelanggar" type="button" role="tab" aria-controls="nav-dt-pelanggar" aria-selected="true">Ringkasan Data Pelanggar</button>
+                    <button class="nav-link" id="nav-dt-pelanggar-tab" data-bs-toggle="tab" data-bs-target="#nav-dt-pelanggar" type="button" role="tab" aria-controls="nav-dt-pelanggar" aria-selected="true">Ringkasan Data Pelanggar</button>
                     <button class="nav-link" id="nav-dt-penyelidikan-tab" data-bs-toggle="tab" data-bs-target="#nav-dt-penyelidikan" type="button" role="tab" aria-controls="nav-dt-penyelidikan" aria-selected="false">Ringkasan Data Pemeriksaan</button>
-                    <button class="nav-link" id="nav-dt-gelar-lidik-tab" data-bs-toggle="tab" data-bs-target="#nav-dt-gelar-lidik" type="button" role="tab" aria-controls="nav-dt-gelar-lidik" aria-selected="false">Ringkasan Data Gelar Lidik</button>
+                    <button class="nav-link active" id="nav-dt-gelar-lidik-tab" data-bs-toggle="tab" data-bs-target="#nav-dt-gelar-lidik" type="button" role="tab" aria-controls="nav-dt-gelar-lidik" aria-selected="false">Ringkasan Data Gelar Lidik</button>
                 </div>
             </nav>
 
             <div class="tab-content p-2" id="nav-tabContent">
-                <div class="tab-pane fade active show" id="nav-dt-pelanggar" role="tabpanel" aria-labelledby="nav-dt-pelanggar-tab">
+                <div class="tab-pane fade" id="nav-dt-pelanggar" role="tabpanel" aria-labelledby="nav-dt-pelanggar-tab">
                     @include('pages.data_pelanggaran.proses.ringkasanDataPelanggar')
                 </div>
                 <div class="tab-pane fade" id="nav-dt-penyelidikan" role="tabpanel" aria-labelledby="nav-dt-penyelidikan-tab">
                     @include('pages.data_pelanggaran.proses.ringkasanDataPemeriksaan')
                 </div>
-                <div class="tab-pane fade" id="nav-dt-gelar-lidik" role="tabpanel" aria-labelledby="nav-dt-gelar-lidik-tab">
+                <div class="tab-pane fade active show" id="nav-dt-gelar-lidik" role="tabpanel" aria-labelledby="nav-dt-gelar-lidik-tab">
                     @include('pages.data_pelanggaran.proses.ringkasanDataGelarLidik')
                 </div>
             </div>
@@ -79,12 +79,34 @@
 
             @if ($kasus->status_id != 8 && $kasus->status_id != 9 && $kasus->status_id != 10)
                 @if($kasus->status_id == 5)
-                    <h2 class="text-center text-warning mt-4">
-                        <i class="mdi mdi-information"></i> Kasus telah dilimpahkan ke Polda / Jajaran
-                    </h2>
+                    <div class="mt-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                            <symbol id="info-fill" fill="currentColor" viewBox="0 0 16 16">
+                                <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+                            </symbol>
+                        </svg>
+                        <div class="alert alert-warning d-flex align-items-center alert-dismissible fade show" role="alert">
+                            <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Info:"><use xlink:href="#info-fill"/></svg>
+                            <div>
+                                Kasus telah dilimpahkan ke Polda / Jajaran
+                            </div>
+                        </div>
+                    </div>
                 @else
                     @if ($sprinGelar != null && $sprinGelar->is_draft == 1)
-                        <span class="alert alert-warning" role="alert"><i class="bi bi-exclamation-triangle-fill me-2"></i> Nomor SPRIN Gelar masih Draft, klik <b>Download Berkas SPRIN Gelar</b> untuk update nomor SPRIN Lidik sesuai dengan berkas yang sudah disetujui</span>
+                        <div class="mt-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                                <symbol id="info-fill" fill="currentColor" viewBox="0 0 16 16">
+                                    <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+                                </symbol>
+                            </svg>
+                            <div class="alert alert-warning d-flex align-items-center alert-dismissible fade show" role="alert">
+                                <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Info:"><use xlink:href="#info-fill"/></svg>
+                                <div>
+                                    Nomor SPRIN Gelar masih Draft, klik <b>Download Berkas SPRIN Gelar</b> untuk update nomor SPRIN Gelar sesuai dengan berkas yang sudah disetujui
+                                </div>
+                            </div>
+                        </div>
                     @endif
                     <h4 class="mt-5">Download Berkas Pendukung</h4>
                     <div class="col-lg-12 mb-3 mt-4 mb-5">
@@ -140,17 +162,47 @@
                 @endif
             @else
                 @if ($kasus->status_id == 9)
-                    <h2 class="text-center text-info mt-4">
-                        <i class="mdi mdi-information"></i> Kasus ini telah Dihentikan
-                    </h2>
+                    <div class="mt-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                            <symbol id="info-fill" fill="currentColor" viewBox="0 0 16 16">
+                                <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+                            </symbol>
+                        </svg>
+                        <div class="alert alert-info d-flex align-items-center alert-dismissible fade show" role="alert">
+                            <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Info:"><use xlink:href="#info-fill"/></svg>
+                            <div>
+                                Kasus ini telah Dihentikan
+                            </div>
+                        </div>
+                    </div>
                 @elseif ($kasus->status_id == 10)
-                    <h2 class="text-center text-info mt-4">
-                        <i class="mdi mdi-information"></i> Kasus ini telah Dihentikan (RJ)
-                    </h2>
+                    <div class="mt-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                            <symbol id="info-fill" fill="currentColor" viewBox="0 0 16 16">
+                                <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+                            </symbol>
+                        </svg>
+                        <div class="alert alert-info d-flex align-items-center alert-dismissible fade show" role="alert">
+                            <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Info:"><use xlink:href="#info-fill"/></svg>
+                            <div>
+                                Kasus ini telah Dihentikan (RJ)
+                            </div>
+                        </div>
+                    </div>
                 @else
-                    <h2 class="text-center text-info mt-4">
-                        <i class="mdi mdi-information"></i> Kasus ini telah selesai
-                    </h2>
+                    <div class="mt-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                            <symbol id="info-fill" fill="currentColor" viewBox="0 0 16 16">
+                                <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+                            </symbol>
+                        </svg>
+                        <div class="alert alert-info d-flex align-items-center alert-dismissible fade show" role="alert">
+                            <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Info:"><use xlink:href="#info-fill"/></svg>
+                            <div>
+                                Kasus ini telah Selesai
+                            </div>
+                        </div>
+                    </div>
                 @endif
             @endif
         </form>

@@ -20,9 +20,11 @@ use App\Models\SprinHistory;
 use App\Models\UndanganKlarifikasiHistories;
 use App\Models\Witness;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 use PhpOffice\PhpWord\TemplateProcessor;
 use ZipArchive;
 
@@ -419,6 +421,7 @@ class GenerateDocument extends Controller
                     'status' => 1
                 ]);
             }
+            Witness::where('data_pelanggar_id', $kasus_id)->delete();
 
             $bai = BAI::where('data_pelanggar_id', $kasus_id)->first();
             $penyidik1 = Penyidik::where('id', $request->penyidik1)->where('data_pelanggar_id', $kasus_id)->first();
@@ -1055,6 +1058,7 @@ class GenerateDocument extends Controller
                     'data_pelanggar_id' => $kasus_id,
                     'no_lpa' => $request->no_lpa,
                     'created_by' => Auth::user()->id,
+                    'is_draft' => 1
                 ]);
             }
 
@@ -1110,11 +1114,6 @@ class GenerateDocument extends Controller
         if($request->method() != 'GET'){
             $this->validate($request, [
                 'no_sprin' => 'required',
-                // 'pangkat.*' => 'required',
-                // 'nama.*' => 'required',
-                // 'nrp.*' => 'required|digits:8',
-                // 'jabatan.*' => 'required',
-                // 'kesatuan.*' => 'required',
                 'unit_pemeriksa' => 'required'
             ], [
                 'nama.*.required' => 'Kolom Nama Penyelidik wajib diisi',
@@ -1126,53 +1125,13 @@ class GenerateDocument extends Controller
             ]);
         }
         try {
-            $kasus = DataPelanggar::find($kasus_id);
-            $sprinHistory = SprinHistory::where('data_pelanggar_id', $kasus_id)->where('type', 'riksa')->first();
-            $penyelidik = Penyidik::where('data_pelanggar_id', $kasus_id)->where('type', 'riksa')->get();
-
-            $lpa = LPA::where('data_pelanggar_id', $kasus_id)->first();
-
-            if ($sprinHistory == null){
-                $sprinHistory = SprinHistory::create([
-                    'data_pelanggar_id' => $kasus_id,
-                    'no_sprin' => $request->no_sprin,
-                    'created_by' => Auth::user()->id,
-                    'type' => 'riksa',
-                    'unit_pemeriksa' => $request->unit_pemeriksa
-                ]);
-
-
-                $dokumen = DokumenPelanggar::where('data_pelanggar_id', $kasus_id)->where('process_id', $request->process_id)->where('sub_process_id', $request->sub_process)->first();
-                if($dokumen == null){
-                    DokumenPelanggar::create([
-                        'data_pelanggar_id' => $kasus_id,
-                        'process_id' => $request->process_id,
-                        'sub_process_id' => $request->sub_process,
-                        'created_by' => Auth::user()->id,
-                        'status' => 1
-                    ]);
-                }
-            }
+            $data = (new PemberkasanController)->generateSPRINRiksa($request, $kasus_id);
+            $penyelidik = $data->getData()->penyidik;
+            $kasus = $data->getData()->kasus;
+            $documentData = $data->getData()->document_data;
+            $documentData = json_decode(json_encode($documentData), true);
 
             $template_document = new TemplateProcessor(storage_path('template/template_sprin_riksa.docx'));
-            if (count($penyelidik) == 0){
-                $masterPenyelidik = MasterPenyidik::where('unit', $request->unit_pemeriksa)->with('pangkats')->get();
-
-                foreach ($masterPenyelidik as $value) {
-                    Penyidik::create([
-                        'data_pelanggar_id' => $kasus_id,
-                        'name' => strtoupper($value->name),
-                        'nrp' => $value->nrp,
-                        'pangkat' => strtoupper($value->pangkats->name),
-                        'jabatan' => strtoupper($value->jabatan),
-                        'kesatuan' => strtoupper($value->kesatuan),
-                        'type' => 'riksa'
-                    ]);
-                }
-
-                $penyelidik = Penyidik::where('data_pelanggar_id', $kasus_id)->where('type', 'riksa')->get();
-            }
-
             $template_document->cloneRow('pangkat_penyelidik', count($penyelidik));
 
             foreach ($penyelidik as $i => $val) {
@@ -1185,18 +1144,7 @@ class GenerateDocument extends Controller
                     'nrp_penyelidik#'.$i+1 => $val->nrp,
                 ));
             }
-
-            $template_document->setValues(array(
-                'no_lpa' => $lpa->no_lpa,
-                'tgl_lpa' => Carbon::parse($lpa->created_at)->translatedFormat('d F Y'),
-                'wujud_perbuatan' => $kasus->wujudPerbuatan->keterangan_wp,
-                'terlapor' => $kasus->terlapor,
-                'pangkat' => $kasus->pangkatName->name,
-                'jabatan' => $kasus->jabatan,
-                'kesatuan' => $kasus->kesatuan,
-                'no_sprin' => $request->no_sprin != '' ? $request->no_sprin : $sprinHistory->no_sprin,
-                'tanggal_ttd' => Carbon::parse($sprinHistory->created_at)->translatedFormat('F Y')
-            ));
+            $template_document->setValues($documentData);
 
             $filename = "$kasus->pelapor - SPRIN Riksa.docx";
             $path = storage_path('document/'.$filename);
@@ -1206,7 +1154,7 @@ class GenerateDocument extends Controller
             } else {
                 return response()->json(['file' => $filename]);
             }
-        } catch (\Throwable $th) {
+        } catch (Exception $th) {
             return response()->json([
                 'status' => [
                     'code' => 500,
@@ -1257,6 +1205,8 @@ class GenerateDocument extends Controller
                 'status' => 1
             ]);
         }
+
+        PublicWitness::where('data_pelanggar_id', $kasus_id)->delete();
 
         $penyidik1 = Penyidik::where('id', $request->penyidik1)->where('data_pelanggar_id', $kasus_id)->first();
         $dataSaksi = PublicWitness::where('data_pelanggar_id', $kasus_id)->get();
@@ -1445,6 +1395,8 @@ class GenerateDocument extends Controller
                 ]);
             }
 
+            Witness::where('data_pelanggar_id', $kasus_id)->delete();
+
             $penyidik1 = Penyidik::where('id', $request->penyidik1)->where('data_pelanggar_id', $kasus_id)->first();
             $penyidik2 = Penyidik::where('id', $request->penyidik2)->where('data_pelanggar_id', $kasus_id)->first();
             $dataSaksi = Witness::where('data_pelanggar_id', $kasus_id)->get();
@@ -1598,10 +1550,12 @@ class GenerateDocument extends Controller
         if($request->method() != 'GET'){
             $this->validate($request, [
                 'no_dp3d' => 'required',
-                'pasal' => 'required'
+                'pasal' => 'required',
+                'tgl_dp3d' => 'required'
             ],[
                 'no_dp3d' => 'Kolom No. DP3D wajib diisi',
-                'pasal' => 'Kolom Pasal yang Dilanggar wajib diisi'
+                'pasal' => 'Kolom Pasal yang Dilanggar wajib diisi',
+                'tgl' => 'Kolom Tanggal DP3D wajib diisi'
             ]);
         }
         try {
@@ -1626,6 +1580,8 @@ class GenerateDocument extends Controller
                     'data_pelanggar_id' => $kasus_id,
                     'no_dp3d' => $request->no_dp3d,
                     'pasal' => $request->pasal,
+                    'created_at' => $request->tgl_dp3d,
+                    'is_draft' => 1
                 ]);
 
                 $template_document->setValues(array(
@@ -1681,6 +1637,13 @@ class GenerateDocument extends Controller
     }
 
     public function pelimpahan_ankum($kasus_id, $process_id, $subprocess){
+        $dp3d = DP3D::where('data_pelanggar_id', $kasus_id)->first();
+        if($dp3d == null){
+            return redirect()->back()->with('msg', 'Berkas DP3D Belum Dibuat, Harap Buat Berkas DP3D Terlebih Dahulu');
+        } else if($dp3d->is_draft == 1){
+            return redirect()->back()->with('msg', 'Nomor DP3D masih draft, Harap Update Nomor DP3D Terlebih Dahulu');
+        }
+
         $dokumen = DokumenPelanggar::where('data_pelanggar_id', $kasus_id)->where('process_id', $process_id)->where('sub_process_id', $subprocess)->first();
         if($dokumen == null){
             DokumenPelanggar::create([
@@ -1694,7 +1657,6 @@ class GenerateDocument extends Controller
 
         $kasus = DataPelanggar::find($kasus_id);
         $lpa = LPA::where('data_pelanggar_id', $kasus_id)->first();
-        $dp3d = DP3D::where('data_pelanggar_id', $kasus_id)->first();
         $sprin = SprinHistory::where('data_pelanggar_id', $kasus_id)->where('type', 'riksa')->first();
 
         $template_document = new TemplateProcessor(storage_path('template/template_pelimpahan_ankum.docx'));
@@ -1783,6 +1745,7 @@ class GenerateDocument extends Controller
                     'type' => 'sidang',
                     'no_nd_rehabpers' => $request->no_nd_rehabpers,
                     'tgl_nd_rehabpers' => date('Y-m-d H:i:s', strtotime($request->tgl_nd_rehabpers)),
+                    'is_draft' => 1
                 ]);
 
 
@@ -1846,6 +1809,35 @@ class GenerateDocument extends Controller
                 'detail' => $th,
                 'kasus' => null,
                 'document_data' => null
+            ], 500);
+        }
+    }
+
+    public function updateSprinSidang(Request $request, $kasus_id)
+    {
+        DB::beginTransaction();
+        try {
+            $sprinHistory = SprinHistory::where('data_pelanggar_id', $kasus_id)->where('type', 'sidang');
+            $sprinHistory->update([
+                'is_draft' => 0,
+                'no_sprin' => $request->no_sprin,
+            ]);
+
+            DB::commit();
+            return response()->json([
+                'status' => [
+                    'code' => 200,
+                    'msg' => 'Success Processing Data',
+                ]
+            ], 200);
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return response()->json([
+                'status' => [
+                    'code' => 500,
+                    'msg' => 'Error'
+                ],
+                'detail' => $th,
             ], 500);
         }
     }
