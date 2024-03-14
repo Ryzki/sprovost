@@ -9,5 +9,5 @@ class Disposisi extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['data_pelanggar_id', 'no_agenda', 'klasifikasi', 'derajat', 'type'];
+    protected $fillable = ['data_pelanggar_id', 'no_agenda', 'klasifikasi', 'derajat', 'type', 'document_path'];
 }

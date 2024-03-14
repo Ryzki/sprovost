@@ -11,6 +11,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use PhpOffice\PhpWord\TemplateProcessor;
+use Illuminate\Support\Str;
 
 class DiterimaController extends Controller
 {
@@ -46,12 +47,37 @@ class DiterimaController extends Controller
             }
 
             if($disposisi == null){
+                if ($request->hasFile('dokumen_disposisi')) {
+                    $documentFile = $request->file('dokumen_disposisi');
+                    $filename = date('y-m-d') . '_' . Str::random(10) . '.' . $documentFile->getClientOriginalName();
+                    $documentFile->move(storage_path('document/disposisi/karo'), $filename);
+                }
+
                 Disposisi::create([
                     'data_pelanggar_id' => $request->kasus_id,
                     'no_agenda' => $request->nomor_agenda,
                     'klasifikasi' => $request->klasifikasi,
                     'derajat' => $request->derajat,
-                    'type' => 'Karo'
+                    'type' => 'Karo',
+                    'document_path' => $filename
+                ]);
+            } else {
+                unlink(storage_path('document/disposisi/karo'),$disposisi->document_path);
+                Disposisi::where('data_pelanggar_id', $request->kasus_id)->where('type', 'Karo')->delete();
+
+                if ($request->hasFile('dokumen_disposisi')) {
+                    $documentFile = $request->file('dokumen_disposisi');
+                    $filename = date('y-m-d') . '_' . Str::random(10) . '.' . $documentFile->getClientOriginalName();
+                    $documentFile->move(storage_path('document/disposisi/karo'), $filename);
+                }
+
+                Disposisi::create([
+                    'data_pelanggar_id' => $request->kasus_id,
+                    'no_agenda' => $request->nomor_agenda,
+                    'klasifikasi' => $request->klasifikasi,
+                    'derajat' => $request->derajat,
+                    'type' => 'Karo',
+                    'document_path' => $filename
                 ]);
             }
 
@@ -101,14 +127,40 @@ class DiterimaController extends Controller
                 ]);
             }
 
+
             $disposisi = Disposisi::where('data_pelanggar_id', $request->kasus_id)->where('type', 'Sesro')->first();
             if($disposisi == null){
+                if ($request->hasFile('dokumen_disposisi')) {
+                    $documentFile = $request->file('dokumen_disposisi');
+                    $filename = date('y-m-d') . '_' . Str::random(10) . '.' . $documentFile->getClientOriginalName();
+                    $documentFile->move(storage_path('document/disposisi/sesro'), $filename);
+                }
+
                 Disposisi::create([
                     'data_pelanggar_id' => $request->kasus_id,
                     'no_agenda' => $request->nomor_agenda,
                     'klasifikasi' => $request->klasifikasi,
                     'derajat' => $request->derajat,
-                    'type' => 'Sesro'
+                    'type' => 'Sesro',
+                    'document_path' => $filename
+                ]);
+            } else {
+                unlink(storage_path('document/disposisi/sesro'),$disposisi->document_path);
+                Disposisi::where('data_pelanggar_id', $request->kasus_id)->where('type', 'Sesro')->delete();
+
+                if ($request->hasFile('dokumen_disposisi')) {
+                    $documentFile = $request->file('dokumen_disposisi');
+                    $filename = date('y-m-d') . '_' . Str::random(10) . '.' . $documentFile->getClientOriginalName();
+                    $documentFile->move(storage_path('document/disposisi/sesro'), $filename);
+                }
+
+                Disposisi::create([
+                    'data_pelanggar_id' => $request->kasus_id,
+                    'no_agenda' => $request->nomor_agenda,
+                    'klasifikasi' => $request->klasifikasi,
+                    'derajat' => $request->derajat,
+                    'type' => 'Sesro',
+                    'document_path' => $filename
                 ]);
             }
 
@@ -163,15 +215,25 @@ class DiterimaController extends Controller
             }
 
             $disposisi = Disposisi::where('data_pelanggar_id', $request->kasus_id)->where('type', 'Kabag')->first();
+
             if($disposisi != null){
+                unlink(storage_path('document/disposisi/kabag'),$disposisi->document_path);
                 Disposisi::where('data_pelanggar_id', $request->kasus_id)->where('type', 'Kabag')->delete();
             }
+
+            if ($request->hasFile('dokumen_disposisi')) {
+                $documentFile = $request->file('dokumen_disposisi');
+                $filename = date('y-m-d') . '_' . Str::random(10) . '.' . $documentFile->getClientOriginalName();
+                $documentFile->move(storage_path('document/disposisi/kabag'), $filename);
+            }
+
             Disposisi::create([
                 'data_pelanggar_id' => $request->kasus_id,
                 'no_agenda' => $request->nomor_agenda,
                 'klasifikasi' => $request->klasifikasi,
                 'derajat' => $request->derajat,
-                'type' => 'Kabag'
+                'type' => 'Kabag',
+                'document_path' => $filename
             ]);
 
             $masterPenyelidik = MasterPenyidik::where('unit', $request->unit_pemeriksa)->with('pangkats')->get();

@@ -73,9 +73,11 @@ class GenerateDocument extends Controller
             'derajat' => 'required',
             'tanggal' => 'required',
             'jam' => 'required',
+            'dokumen_disposisi' => 'required'
         ],[
             'tanggal' => 'kolom tanggal diterima wajib diisi.',
-            'jam' => 'kolom jam diterima wajib diisi.'
+            'jam' => 'kolom jam diterima wajib diisi.',
+            'dokumen_disposisi' => 'Harap Upload Dokumen Disposisi yang sudah discan'
         ]);
 
         try {
@@ -113,9 +115,11 @@ class GenerateDocument extends Controller
             'derajat' => 'required',
             'tanggal' => 'required',
             'jam' => 'required',
+            'dokumen_disposisi' => 'required'
         ],[
             'tanggal' => 'kolom tanggal diterima wajib diisi.',
-            'jam' => 'kolom jam diterima wajib diisi.'
+            'jam' => 'kolom jam diterima wajib diisi.',
+            'dokumen_disposisi' => 'Harap Upload Dokumen Disposisi yang sudah discan'
         ]);
         try {
             $disposisi = (new DiterimaController)->DisposisiSesro($request);
@@ -150,8 +154,10 @@ class GenerateDocument extends Controller
             'klasifikasi' => 'required',
             'derajat' => 'required',
             'tanggal' => 'required',
+            'dokumen_disposisi' => 'required'
         ],[
             'tanggal' => 'kolom tanggal diterima wajib diisi.',
+            'dokumen_disposisi' => 'Harap Upload Dokumen Disposisi yang sudah discan'
         ]);
 
         try {

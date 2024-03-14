@@ -439,7 +439,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             {{-- <form action="/lembar-disposisi" method="post"> --}}
-            <form action="javascript:void(0)" id="form-disposisi-karo">
+            <form action="javascript:void(0)" id="form-disposisi-karo" enctype="multipart/form-data">
                 @csrf
                 <input type="hidden" name="kasus_id" value="{{$kasus->id}}">
                 <input type="hidden" name="status_id" value="{{$kasus->status_id}}">
@@ -527,10 +527,10 @@
                             </div>
                         </div>
                     </div>
-                    {{-- <div class="mb-3">
-                        <label for="exampleInputPassword1" class="form-label">Perihal</label>
-                        <input type="text" class="form-control" id="perihal" name="perihal">
-                    </div> --}}
+                    <div class="form-group">
+                        <label for="document">Upload Berkas Disposisi</label>
+                        <input class="form-input form-control" type="file" id="document" name="dokumen_disposisi" multiple accept=".doc,.docx,.pdf">
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -549,7 +549,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             {{-- <form action="/lembar-disposisi" method="post"> --}}
-            <form action="javascript:void(0)" id="form-disposisi-sesro">
+            <form action="javascript:void(0)" id="form-disposisi-sesro" enctype="multipart/form-data">
                 @csrf
                 <input type="hidden" name="kasus_id" value="{{$kasus->id}}">
                 <input type="hidden" name="status_id" value="{{$kasus->status_id}}">
@@ -637,6 +637,10 @@
                             </div>
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label for="document">Upload Berkas Disposisi</label>
+                        <input class="form-input form-control" type="file" id="document" name="dokumen_disposisi" multiple accept=".doc,.docx,.pdf">
+                    </div>
                     {{-- <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Perihal</label>
                         <input type="text" class="form-control" id="perihal" name="perihal">
@@ -658,7 +662,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             {{-- <form action="/lembar-disposisi" method="post"> --}}
-            <form action="javascript:void(0)" id="form-disposisi-kabag">
+            <form action="javascript:void(0)" id="form-disposisi-kabag" enctype="multipart/form-data">
                 @csrf
                 <input type="hidden" name="kasus_id" value="{{$kasus->id}}">
                 <input type="hidden" name="status_id" value="{{$kasus->status_id}}">
@@ -776,6 +780,11 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="document">Upload Berkas Disposisi</label>
+                        <input class="form-input form-control" type="file" id="document" name="dokumen_disposisi" multiple accept=".doc,.docx,.pdf">
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -899,12 +908,15 @@
         })
 
         $('#form-disposisi-karo').on('submit', function() {
-            var data = $(this).serializeArray()
+            const form = $(this)
+            var formData = new FormData(form[0]);
             validation(() => {
                 $.ajax({
                     url: `/lembar-disposisi-karo`,
                     method: 'POST',
-                    data: data,
+                    data: formData,
+                    processData: false,
+                    contentType: false,
                     beforeSend: () => {
                         $.LoadingOverlay("show");
                     },
@@ -938,12 +950,15 @@
         })
 
         $('#form-disposisi-sesro').on('submit', function() {
-            var data = $(this).serializeArray()
+            const form = $(this)
+            var formData = new FormData(form[0]);
             validation(() => {
                 $.ajax({
                     url: `/lembar-disposisi-sesro`,
                     method: 'POST',
-                    data: data,
+                    data: formData,
+                    processData: false,
+                    contentType: false,
                     beforeSend: () => {
                         $.LoadingOverlay("show");
                     },
@@ -977,12 +992,15 @@
         })
 
         $('#form-disposisi-kabag').on('submit', function() {
-            var data = $(this).serializeArray()
+            const form = $(this)
+            var formData = new FormData(form[0]);
             validation(() => {
                 $.ajax({
                     url: `/lembar-disposisi-kabag`,
                     method: 'POST',
-                    data: data,
+                    data: formData,
+                    processData: false,
+                    contentType: false,
                     beforeSend: () => {
                         $.LoadingOverlay("show");
                     },
