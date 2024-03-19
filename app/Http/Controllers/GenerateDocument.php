@@ -73,11 +73,12 @@ class GenerateDocument extends Controller
             'derajat' => 'required',
             'tanggal' => 'required',
             'jam' => 'required',
-            'dokumen_disposisi' => 'required'
+            'dokumen_disposisi' => 'required|max:324'
         ],[
             'tanggal' => 'kolom tanggal diterima wajib diisi.',
             'jam' => 'kolom jam diterima wajib diisi.',
-            'dokumen_disposisi' => 'Harap Upload Dokumen Disposisi yang sudah discan'
+            'dokumen_disposisi.required' => 'Harap Upload Dokumen Disposisi yang sudah discan',
+            'dokumen_disposisi.max' => 'Dokumen Disposisi Maksimal 300KB'
         ]);
 
         try {
@@ -91,7 +92,7 @@ class GenerateDocument extends Controller
             $path = storage_path('document/'.$filename.'.docx');
             $template = new TemplateProcessor(storage_path('template/template_disposisi_karo.docx'));
             $template->setValues($data);
-            $template->saveAs($path);
+            // $template->saveAs($path);
 
             return response()->json(['file' => $filename.'.docx']);
         } catch (\Throwable $th) {
@@ -115,11 +116,12 @@ class GenerateDocument extends Controller
             'derajat' => 'required',
             'tanggal' => 'required',
             'jam' => 'required',
-            'dokumen_disposisi' => 'required'
+            'dokumen_disposisi' => 'required|max:324'
         ],[
             'tanggal' => 'kolom tanggal diterima wajib diisi.',
             'jam' => 'kolom jam diterima wajib diisi.',
-            'dokumen_disposisi' => 'Harap Upload Dokumen Disposisi yang sudah discan'
+            'dokumen_disposisi.required' => 'Harap Upload Dokumen Disposisi yang sudah discan',
+            'dokumen_disposisi.max' => 'Dokumen Disposisi Maksimal 300KB'
         ]);
         try {
             $disposisi = (new DiterimaController)->DisposisiSesro($request);
@@ -132,7 +134,7 @@ class GenerateDocument extends Controller
             $path = storage_path('document/'.$filename.'.docx');
             $template = new TemplateProcessor(storage_path('template/template_disposisi_sesro.docx'));
             $template->setValues($data);
-            $template->saveAs($path);
+            // $template->saveAs($path);
 
             return response()->json(['file' => $filename.'.docx']);
         } catch (\Throwable $th) {
@@ -154,10 +156,12 @@ class GenerateDocument extends Controller
             'klasifikasi' => 'required',
             'derajat' => 'required',
             'tanggal' => 'required',
-            'dokumen_disposisi' => 'required'
+            'dokumen_disposisi' => 'required|max:324'
         ],[
             'tanggal' => 'kolom tanggal diterima wajib diisi.',
-            'dokumen_disposisi' => 'Harap Upload Dokumen Disposisi yang sudah discan'
+            'jam' => 'kolom jam diterima wajib diisi.',
+            'dokumen_disposisi.required' => 'Harap Upload Dokumen Disposisi yang sudah discan',
+            'dokumen_disposisi.max' => 'Dokumen Disposisi Maksimal 300KB'
         ]);
 
         try {
@@ -171,7 +175,7 @@ class GenerateDocument extends Controller
             $path = storage_path('document/'.$filename.'.docx');
             $template = new TemplateProcessor(storage_path('template/template_disposisi_kabag.docx'));
             $template->setValues($data);
-            $template->saveAs($path);
+            // $template->saveAs($path);
 
             return response()->json(['file' => $filename.'.docx']);
         } catch (\Throwable $th) {
@@ -296,51 +300,60 @@ class GenerateDocument extends Controller
     }
 
     public function undangan_klarifikasi(Request $request, $kasus_id){
-        $this->validate($request, [
-            'no_undangan' => 'required',
-            'tgl_pertemuan' => 'required',
-            'ruang_pertemuan' => 'required',
-            'jam_pertemuan' => 'required',
-            'penyidik' => 'required',
-            'no_telp_penyidik' => 'required',
-        ], [
-            'tgl_pertemuan' => 'Kolom Tanggal undangan wajib diisi',
-            'ruang_pertemuan' => 'Kolom Ruang penyelidikan wajib diisi',
-            'jam_pertemuan' => 'Kolom Jam undangan wajib diisi',
-        ]);
+        if($request->method() != 'GET'){
+            $this->validate($request, [
+                'no_undangan' => 'required',
+                'tgl_pertemuan' => 'required',
+                'ruang_pertemuan' => 'required',
+                'jam_pertemuan' => 'required',
+                'penyidik' => 'required',
+                'no_telp_penyidik' => 'required',
+            ], [
+                'tgl_pertemuan' => 'Kolom Tanggal undangan wajib diisi',
+                'ruang_pertemuan' => 'Kolom Ruang penyelidikan wajib diisi',
+                'jam_pertemuan' => 'Kolom Jam undangan wajib diisi',
+            ]);
+        }
 
         DB::beginTransaction();
         try {
-            $kasus = DataPelanggar::find($kasus_id);
-            $sprin = SprinHistory::where('data_pelanggar_id', $kasus_id)->where('type', 'lidik')->first();
-            $penyidik = Penyidik::find($request->penyidik);
+            if($request->method() != 'GET'){
+                $kasus = DataPelanggar::find($kasus_id);
+                $sprin = SprinHistory::where('data_pelanggar_id', $kasus_id)->where('type', 'lidik')->first();
+                $penyidik = Penyidik::find($request->penyidik);
 
-            $dokumen = DokumenPelanggar::where('data_pelanggar_id', $kasus_id)->where('process_id', $request->process_id)->where('sub_process_id', $request->sub_process)->first();
-            if($dokumen == null){
-                DokumenPelanggar::create([
+                $dokumen = DokumenPelanggar::where('data_pelanggar_id', $kasus_id)->where('process_id', $request->process_id)->where('sub_process_id', $request->sub_process)->first();
+                if($dokumen == null){
+                    DokumenPelanggar::create([
+                        'data_pelanggar_id' => $kasus_id,
+                        'process_id' => $request->process_id,
+                        'sub_process_id' => $request->sub_process,
+                        'created_by' => Auth::user()->id,
+                        'status' => 1
+                    ]);
+                }
+
+                DB::setDateFormat('YYYY-MM-DD HH24:MI:SS');
+                UndanganKlarifikasiHistories::create([
                     'data_pelanggar_id' => $kasus_id,
-                    'process_id' => $request->process_id,
-                    'sub_process_id' => $request->sub_process,
-                    'created_by' => Auth::user()->id,
-                    'status' => 1
+                    'no_undangan' => $request->no_undangan,
+                    'tgl_pertemuan' => date('Y-m-d H:i:s', strtotime($request->tgl_pertemuan)),
+                    'ruang_pertemuan' => $request->ruang_pertemuan,
+                    'jam_pertemuan' => $request->tgl_pertemuan.' '.$request->jam_pertemuan,
+                    'penyidik' => $request->penyidik,
+                    'no_telp_penyidik' => $request->no_telp_penyidik,
+                    'is_draft' => 1
                 ]);
+            } else {
+                $undanganKlarifikasi = UndanganKlarifikasiHistories::where('data_pelanggar_id', $kasus_id)->first();
+                $kasus = DataPelanggar::find($kasus_id);
+                $sprin = SprinHistory::where('data_pelanggar_id', $kasus_id)->where('type', 'lidik')->first();
+                $penyidik = Penyidik::find($undanganKlarifikasi->penyidik);
             }
-
-            DB::setDateFormat('YYYY-MM-DD HH24:MI:SS');
-            UndanganKlarifikasiHistories::create([
-                'data_pelanggar_id' => $kasus_id,
-                'no_undangan' => $request->no_undangan,
-                'tgl_pertemuan' => date('Y-m-d H:i:s', strtotime($request->tgl_pertemuan)),
-                'ruang_pertemuan' => $request->ruang_pertemuan,
-                'jam_pertemuan' => $request->tgl_pertemuan.' '.$request->jam_pertemuan,
-                'penyidik' => $request->penyidik,
-                'no_telp_penyidik' => $request->no_telp_penyidik,
-                'is_draft' => 1
-            ]);
 
             $template_document = new TemplateProcessor(storage_path('template/template_undangan_klarifikasi.docx'));
             $template_document->setValues(array(
-                'no' => $request->no_undangan,
+                'no' => $request->no_undangan != '' ? $request->no_undangan : $undanganKlarifikasi->no_sprin,
                 'create_date' => Carbon::now()->translatedFormat('d F Y'),
                 'pangkat' => strtoupper($kasus->pangkatName->name),
                 'terlapor' => strtoupper($kasus->terlapor),
@@ -356,13 +369,13 @@ class GenerateDocument extends Controller
                 'kesatuan_terlapor' => strtoupper($kasus->kesatuan),
                 'pangkat_penyidik'=> strtoupper($penyidik->pangkat),
                 'penyelidik'=> strtoupper($penyidik->name),
-                'no_telp' => $request->no_telp_penyidik,
+                'no_telp' => $request->no_telp_penyidik != '' ? $request->no_telp_penyidik : $undanganKlarifikasi->no_telp_penyidik,
                 'jabatan_penyelidik'=> strtoupper($penyidik->jabatan),
                 'kesatuan_penyelidik'=> strtoupper($penyidik->kesatuan),
-                'hari_pertemuan' => Carbon::parse($request->tgl_pertemuan)->translatedFormat('l'),
-                'tgl_pertemuan' => Carbon::parse($request->tgl_pertemuan)->translatedFormat('d F Y'),
-                'ruang_pertemuan' => $request->ruang_pertemuan,
-                'jam_pertemuan' => $request->jam_pertemuan.' WIB'
+                'hari_pertemuan' => Carbon::parse($request->tgl_pertemuan != '' ? $request->tgl_pertemuan : $undanganKlarifikasi->tgl_pertemuan)->translatedFormat('l'),
+                'tgl_pertemuan' => Carbon::parse($request->tgl_pertemuan != '' ? $request->tgl_pertemuan : $undanganKlarifikasi->tgl_pertemuan)->translatedFormat('d F Y'),
+                'ruang_pertemuan' => $request->ruang_pertemuan != '' ? $request->ruang_pertemuan : $undanganKlarifikasi->ruang_pertemuan,
+                'jam_pertemuan' => $request->jam_pertemuan != '' ? $request->jam_pertemuan.' WIB' : Carbon::parse($undanganKlarifikasi->jam_pertemuan)->format('H:i')
             ));
 
             $filename = "$kasus->pelapor - Undangan Klarifikasi.docx";
@@ -370,7 +383,11 @@ class GenerateDocument extends Controller
             $template_document->saveAs($path);
 
             DB::commit();
-            return response()->json(['file' => $filename]);
+            if ($request->method() == 'GET'){
+                return response()->download($path)->deleteFileAfterSend(true);
+            } else {
+                return response()->json(['file' => $filename]);
+            }
         } catch (\Throwable $th) {
             DB::rollBack();
             return response()->json([
@@ -653,11 +670,6 @@ class GenerateDocument extends Controller
                     'tempat_pelaksanaan' => $request->tempat,
                     'waktu_pelaksanaan' => $request->waktu,
                 ]);
-            } else {
-                $gelarPerkara->tgl_pelaksanaan = $request->tgl;
-                $gelarPerkara->tempat_pelaksanaan = $request->tempat;
-                $gelarPerkara->waktu_pelaksanaan = $request->waktu;
-                $gelarPerkara->save();
             }
 
             $kasus = DataPelanggar::find($kasus_id);
@@ -686,7 +698,8 @@ class GenerateDocument extends Controller
                 'no_sprin' => $no_sprin != '' ? $no_sprin : $sprinHistory->no_sprin,
                 'tgl_ttd' => Carbon::now()->translatedFormat('F Y'),
                 'hari' => $hari,
-                'tgl' => $tgl
+                'tgl' => $tgl,
+                'ruang' => $request->method() == 'POST' ? $request->tempat : $gelarPerkara->tempat_pelaksanaan
             ));
 
             $filename = "$kasus->pelapor - SPRIN Gelar Perkara.docx";
@@ -944,7 +957,8 @@ class GenerateDocument extends Controller
             'kronologi' => $dataPelanggaran->kronologi,
             'tgl_gp' => Carbon::parse($gelarPerkara->tgl_pelaksanaan)->translatedFormat('d F Y'),
             'hasil_gelar' => $gelarPerkara->hasil_gelar == 'Tidak Cukup Bukti' ? 'Dihentikan' : $gelarPerkara->hasil_gelar,
-            'keterangan' => $keterangan
+            'keterangan' => $keterangan,
+            'thn' => Carbon::now()->format('Y'),
         ));
 
         $filename = "$dataPelanggaran->pelapor - SP2HP.docx";
@@ -982,6 +996,18 @@ class GenerateDocument extends Controller
                 'tanggal_limpah' => Carbon::now()->translatedFormat('Y/m/d'),
                 'created_by' => Auth::user()->id,
             ]);
+
+            if(env('APP_DEBUG') == true){
+                // DEV
+                if($request->polda_id == 1){
+                    // Send Data To Wabprof
+                }
+            } else {
+                // PROD
+                if($request->polda_id == 0){
+                    // Send Data To Wabprof
+                }
+            }
 
             $template_document = new TemplateProcessor(storage_path('template/template_limpah.docx'));
             $template_document->setValues(array(
@@ -1071,6 +1097,9 @@ class GenerateDocument extends Controller
             $gelarPerkara = GelarPerkara::where('data_pelanggar_id', $kasus_id)->first();
             // $penyidik = Penyidik::where('data_pelanggar_id', $kasus_id)->where('id', $gelarPerkara->pimpinan)->first();
             $penyidik = MasterPenyidik::where('id', $gelarPerkara->pimpinan)->first();
+            $sprinHistory = SprinHistory::where('data_pelanggar_id', $kasus_id)->where('type', 'lidik')->first();
+            $mengetahui = MasterPenyidik::where('unit', $sprinHistory->unit_pemeriksa)->orderByRaw('CAST(pangkat as INTEGER) asc')->with('pangkats')->first();
+            // $mengetahui = MasterPenyidik::where('unit', $sprinHistory->unit_pemeriksa)->orderByRaw('CONVERT(pangkat, SIGNED) asc')->with('pangkats')->first();
 
             $template_document = new TemplateProcessor(storage_path('template/template_lpa.docx'));
             $template_document->setValues(array(
@@ -1091,6 +1120,10 @@ class GenerateDocument extends Controller
                 'nama_terlapor' => strtoupper($kasus->terlapor),
                 'pangkat_terlapor' => strtoupper($kasus->pangkatName->name),
                 'kesatuan_terlapor' => strtoupper($kasus->kesatuan),
+                'jabatan_mengetahui' => $mengetahui->jabatan,
+                'nama_mengetahui' => $mengetahui->name,
+                'pangkat_mengetahui' => $mengetahui->pangkats->name,
+                'nrp_mengetahui' => $mengetahui->nrp,
             ));
 
             $filename = "$kasus->pelapor - LPA.docx";
@@ -1225,8 +1258,8 @@ class GenerateDocument extends Controller
         $kasus = DataPelanggar::find($kasus_id);
 
         if (count($dataSaksi) == 0){
-            $template_document = new TemplateProcessor(storage_path('template/template_surat_panggilan_saksi.docx'));
             for ($i=0; $i < count($request->nama) ; $i++) {
+                $template_document = new TemplateProcessor(storage_path('template/template_surat_panggilan_saksi.docx'));
                 PublicWitness::create([
                     'data_pelanggar_id' => $kasus_id,
                     'nama' => strtoupper($request->nama[$i]),
@@ -1253,6 +1286,7 @@ class GenerateDocument extends Controller
                     'penyidik' => strtoupper($penyidik1->pangkat).' '.strtoupper($penyidik1->name),
                     'jabatan_penyidik' => strtoupper($penyidik1->jabatan).' '.strtoupper($penyidik1->kesatuan),
                     'no_telp' => $request->no_telp_penyidik,
+                    'unit' => $penyidik1->unit_pemeriksa,
                     // Data Kasus
                     'terlapor' => strtoupper($kasus->pangkatName->name).' '.strtoupper($kasus->terlapor),
                     'jabatan' => strtoupper($kasus->jabatan).' '.strtoupper($kasus->kesatuan),
@@ -1262,12 +1296,14 @@ class GenerateDocument extends Controller
                     'tgl_sprin' => Carbon::parse($sprin->created_at)->translatedFormat('d-F-Y'),
                     'no_lpa' => $lpa->no_lpa,
                     'tgl_lpa' => $lpa->created_at,
-                    'gelar_perkara' => $gelarPerkara->landasan_hukum,
+                    'landasan_hukum' => $gelarPerkara->landasan_hukum,
 
                     'tgl_ttd' => Carbon::now()->translatedFormat('F Y'),
                 ));
 
-                $filename = "$kasus->pelapor - Surat Panggilan Saksi.docx";
+                $namaSaksi = strtoupper($request->nama[$i]);
+
+                $filename = "$kasus->pelapor - Surat Panggilan Saksi - $namaSaksi.docx";
                 $path = storage_path('document/'.$filename);
                 $template_document->saveAs($path);
                 array_push($file, $filename);
@@ -1290,6 +1326,7 @@ class GenerateDocument extends Controller
                     'penyidik' => strtoupper($penyidik1->pangkat).' '.strtoupper($penyidik1->name),
                     'jabatan_penyidik' => strtoupper($penyidik1->jabatan).' '.strtoupper($penyidik1->kesatuan),
                     'no_telp' => $request->no_telp_penyidik,
+                    'unit' => $penyidik1->unit_pemeriksa,
                     // Data Kasus
                     'terlapor' => strtoupper($kasus->pangkatName->name).' '.strtoupper($kasus->terlapor),
                     'jabatan' => strtoupper($kasus->jabatan).' '.strtoupper($kasus->kesatuan),
@@ -1299,12 +1336,12 @@ class GenerateDocument extends Controller
                     'tgl_sprin' => Carbon::parse($sprin->created_at)->translatedFormat('d-F-Y'),
                     'no_lpa' => $lpa->no_lpa,
                     'tgl_lpa' => $lpa->created_at,
-                    'gelar_perkara' => $gelarPerkara->landasan_hukum,
+                    'landasan_hukum' => $gelarPerkara->landasan_hukum,
 
                     'tgl_ttd' => Carbon::now()->translatedFormat('F Y'),
                 ));
 
-                $filename = "$kasus->pelapor - Surat Panggilan Saksi.docx";
+                $filename = "$kasus->pelapor - Surat Panggilan Saksi - $saksi->nama.docx";
                 $path = storage_path('document/'.$filename);
                 $template_document->saveAs($path);
                 array_push($file, $filename);
@@ -1685,6 +1722,7 @@ class GenerateDocument extends Controller
             'wilayah_hukum' => $kasus->wilayah_hukum,
             'no_sprin_riksa' => $sprin->no_sprin,
             'tgl_sprin_riksa' => Carbon::parse($sprin->created_at)->translatedFormat('d F Y'),
+            'bulan' => strtoupper(Carbon::now()->translatedFormat('F')),
         ));
 
         $filename = "$kasus->pelapor - Surat Pelimpahan Ke Ankum.docx";
@@ -1871,6 +1909,8 @@ class GenerateDocument extends Controller
             'tgl_ttd' => Carbon::now()->translatedFormat('d F Y'),
             'hari' => Carbon::parse($request->tgl)->translatedFormat('l'),
             'tgl' => Carbon::parse($request->tgl)->translatedFormat('d F Y'),
+            'thn' => Carbon::now()->format('Y'),
+            'bln_romawi' => getBulanRomawi(Carbon::now()->translatedFormat('m')),
             'jam' => Carbon::parse($request->jam)->translatedFormat('H:i'),
             'lokasi' => $request->lokasi,
             'terlapor' => strtoupper($kasus->terlapor),
@@ -1893,6 +1933,8 @@ class GenerateDocument extends Controller
                 'tgl_ttd' => Carbon::now()->translatedFormat('d F Y'),
                 'hari' => Carbon::parse($request->tgl)->translatedFormat('l'),
                 'tgl' => Carbon::parse($request->tgl)->translatedFormat('d F Y'),
+                'thn' => Carbon::now()->format('Y'),
+                'bln_romawi' => getBulanRomawi(Carbon::now()->translatedFormat('m')),
                 'jam' => $request->jam,
                 'lokasi' => $request->lokasi,
                 'terlapor' => strtoupper($kasus->terlapor),
@@ -1916,6 +1958,8 @@ class GenerateDocument extends Controller
             $template_saksi->setValues(array(
                 'tgl_ttd' => Carbon::now()->translatedFormat('d F Y'),
                 'hari' => Carbon::parse($request->tgl)->translatedFormat('l'),
+                'thn' => Carbon::now()->format('Y'),
+                'bln_romawi' => getBulanRomawi(Carbon::now()->translatedFormat('m')),
                 'tgl' => Carbon::parse($request->tgl)->translatedFormat('d F Y'),
                 'jam' => $request->jam,
                 'lokasi' => $request->lokasi,
@@ -1952,6 +1996,7 @@ class GenerateDocument extends Controller
             $kasus = DataPelanggar::find($kasus_id);
             $dp3d = DP3D::where('data_pelanggar_id', $kasus_id)->first();
             $dokumen = DokumenPelanggar::where('data_pelanggar_id', $kasus_id)->where('process_id', $request->process_id)->where('sub_process_id', $request->sub_process)->first();
+            $pimpinan = GelarPerkara::where('data_pelanggar_id', $kasus_id)->with('penyidik')->first();
 
             if($dokumen == null){
                 DokumenPelanggar::create([
@@ -2011,6 +2056,15 @@ class GenerateDocument extends Controller
                 'hari_sidang' => Carbon::parse($sidang->tgl_sidang)->translatedFormat('l'),
                 'tgl_sidang' => Carbon::parse($sidang->tgl_sidang)->translatedFormat('d F Y'),
                 'hasil_sidang' => $request->hasil_sidang,
+                'thn' => Carbon::now()->format('Y'),
+                // 'jabatan_pimpinan' => $pimpinan->penyidik->jabatan,
+                // 'nama_pimpinan' => $pimpinan->penyidik->name,
+                // 'pangkat_pimpinan' => $pimpinan->penyidik->pangkats->name,
+                // 'nrp_pimpinan' => $pimpinan->penyidik->nrp,
+                'jabatan_pimpinan' => '-',
+                'nama_pimpinan' => '-',
+                'pangkat_pimpinan' => '-',
+                'nrp_pimpinan' => '-'
                 // 'jenis_hukuman' => $request->hukuman
             ));
 

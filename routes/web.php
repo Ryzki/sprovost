@@ -144,6 +144,7 @@ Route::middleware(['auth'])->group(function (){
     Route::POST('/print/laporan_hasil_penyelidikan/{id}', [PulbaketController::class, 'laporanHasilPenyelidikan']);
     Route::POST('/print/nd_permohonan_gelar_perkara/{id}', [GenerateDocument::class, 'nd_permohonan_gelar_perkara']);
     Route::post('/print/undangan_klarifikasi/{id}', [GenerateDocument::class, 'undangan_klarifikasi']);
+    Route::get('/print-ulang/undangan_klarifikasi/{id}', [GenerateDocument::class, 'undangan_klarifikasi']);
     Route::POST('/data-penyelidik', [PulbaketController::class, 'dataPenyelidik'])->name('pulbaket.data-penyelidik');
     Route::post('/update-no-sprin/{id}', [PulbaketController::class, 'updateNoSprin']);
     Route::post('/update-no-undangan-klarifikasi/{id}', [PulbaketController::class, 'updateNoUndangan']);

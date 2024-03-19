@@ -295,7 +295,7 @@
                             <div class="col-md-6 col-12">
                                 <div class="form-group">
                                     <label for="jam" class="form-label">Jam Pelaksanaan Sidang</label>
-                                    <input type="time" class="form-control" name="jam" value="{{!empty($sidang) ? \Carbon\Carbon::parse($sidang->waktu_sidang)->format('G:i') : ''}}" @empty(!$sidang) readonly @endempty>
+                                    <input type="time" class="form-control" name="jam" value="{{!empty($sidang) ? \Carbon\Carbon::parse($sidang->waktu_sidang)->format('H:i') : ''}}" @empty(!$sidang) readonly @endempty>
                                 </div>
                             </div>
 

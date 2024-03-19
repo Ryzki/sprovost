@@ -532,13 +532,25 @@
                         </div>
                     </form>
                 @else
-                    <form action="javascript:void(0)" id="update-no-undangan">
-                        @csrf
-                        <div class="form-group">
-                            <label for="no_undangan">Nomor Undangan</label>
-                            <input type="text" name="no_undangan" class="form-control" value="{{$undanganKlarifikasi != null ? $undanganKlarifikasi->no_undangan : ''}}">
+                    @if ($undanganKlarifikasi->is_draft = 0)
+                        <form action="javascript:void(0)" id="update-no-undangan">
+                            @csrf
+                            <div class="form-group">
+                                <label for="no_undangan">Nomor Undangan</label>
+                                <input type="text" name="no_undangan" class="form-control" value="{{$undanganKlarifikasi != null ? $undanganKlarifikasi->no_undangan : ''}}">
+                            </div>
+                        </form>
+                    @else
+                        <div class="row justify-content-around items-center mt-4">
+                            <p>
+                                <a href="/print-ulang/undangan_klarifikasi/{{$kasus->id}}" class="text-primary" style="text-decoration: none; width: 100%">
+                                    <i class="mdi mdi-file-document"></i>
+                                    Download Undangan Klarifikasi
+                                    <span class="mdi mdi-download"></span>
+                                </a>
+                            </p>
                         </div>
-                    </form>
+                    @endif
                 @endif
             </div>
             <div class="modal-footer">
