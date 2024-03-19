@@ -1311,8 +1311,9 @@
                     for( var n = 0; n < res.file.length; n++ )
                     {
                         var download = res.file[n];
-                        tempDownload.setAttribute( 'href', `/download-file/${res.file[n]}` );
-                        tempDownload.setAttribute( 'download', res.file );
+                        console.log(download)
+                        tempDownload.setAttribute( 'href', `/download-file/${download}` );
+                        tempDownload.setAttribute( 'download', download);
 
                         tempDownload.click();
 
@@ -1328,13 +1329,12 @@
                                 timer: 3000,
                                 timerProgressBar: true,
                             })
-
-                            setTimeout(() => {
-                                window.location.reload()
-                            }, 2000);
                         }
                     }
 
+                    setTimeout(() => {
+                        window.location.reload()
+                    }, 2000);
 
                 },
                 error: (xhr) => {
