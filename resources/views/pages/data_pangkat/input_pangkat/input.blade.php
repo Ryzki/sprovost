@@ -23,13 +23,13 @@
         @endif
             @csrf
             <div class="row">
-                <input type="hidden" name="id" id="id" value="{{ isset($pangkat) ? $pangkat->id : '' }}">
+                <input autocomplete="off" type="hidden" name="id" id="id" value="{{ isset($pangkat) ? $pangkat->id : '' }}">
                 <div class="col-lg-12 mb-3">
                     <label for="perihal_nota_dinas" class="form-label">Nama</label>
-                    <input type="text" name="name" class="form-control border-dark" placeholder="Nama" value="{{ isset($pangkat) ? $pangkat->name : '' }}" >
+                    <input autocomplete="off" type="text" name="name" class="form-control border-dark" placeholder="Nama" value="{{ isset($pangkat) ? $pangkat->name : '' }}" >
                 </div>
             </div>
-            {{-- <input type="text" class="form-control border-dark" value="{{ isset($kasus) ? $kasus->id : '' }}" hidden name="kasus_id"> --}}
+            {{-- <input autocomplete="off" type="text" class="form-control border-dark" value="{{ isset($kasus) ? $kasus->id : '' }}" hidden name="kasus_id"> --}}
             <div class="row">
                 <div class="col-lg-12 mb-3">
                     @if(isset($pangkat))

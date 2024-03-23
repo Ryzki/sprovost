@@ -41,16 +41,16 @@
                 <div class="row mb-3">
                     <div class="col-lg-4">
                         <label for="exampleInputEmail1" class="form-label">Polda / Sederajat</label>
-                        <input type="text" class="form-control" id="polda_limpah" readonly
+                        <input autocomplete="off" type="text" class="form-control" id="polda_limpah" readonly
                             value="{{ $limpahPolda->polda->name }}">
                     </div>
                     <div class="col-lg-4">
                         <label for="exampleInputEmail1" class="form-label">Tanggal Limpah</label>
-                        <input type="text" class="form-control" readonly value="{{ $limpahPolda->tanggal_limpah }}">
+                        <input autocomplete="off" type="text" class="form-control" readonly value="{{ $limpahPolda->tanggal_limpah }}">
                     </div>
                     <div class="col-lg-4">
                         <label for="exampleInputEmail1" class="form-label">Pelimpah</label>
-                        <input type="text" class="form-control" readonly value="{{ $limpahPolda->user->name }}">
+                        <input autocomplete="off" type="text" class="form-control" readonly value="{{ $limpahPolda->user->name }}">
                     </div>
                 </div>
                 <div class="row mb-3">

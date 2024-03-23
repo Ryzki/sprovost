@@ -26,15 +26,15 @@
         @endif
         @csrf
         <div class="row">
-            <input type="hidden" name="id" id="id" value="{{ isset($penyidik) ? $penyidik->id : '' }}">
+            <input autocomplete="off" type="hidden" name="id" id="id" value="{{ isset($penyidik) ? $penyidik->id : '' }}">
             <div class="col-lg-6 mb-3">
                 <label for="perihal_nota_dinas" class="form-label">Nama</label>
-                <input type="text" name="name" class="form-control border-dark" placeholder="Nama"
+                <input autocomplete="off" type="text" name="name" class="form-control border-dark" placeholder="Nama"
                     value="{{ isset($penyidik) ? $penyidik->name : '' }}">
             </div>
             <div class="col-lg-6 mb-3">
                 <label for="wujud_perbuatan" class="form-label">NRP</label>
-                <input type="number" name="nrp" class="form-control border-dark" placeholder="NRP"
+                <input autocomplete="off" type="number" name="nrp" class="form-control border-dark" placeholder="NRP"
                     value="{{ isset($penyidik) ? $penyidik->nrp : '' }}">
             </div>
             <div class="col-lg-6 mb-3">
@@ -49,21 +49,21 @@
             </div>
             <div class="col-lg-6 mb-3">
                 <label for="jabatan" class="form-label">Jabatan</label>
-                <input type="text" id="jabatan" name="jabatan" class="form-control border-dark" placeholder="Jabatan"
+                <input autocomplete="off" type="text" id="jabatan" name="jabatan" class="form-control border-dark" placeholder="Jabatan"
                     value="{{ isset($penyidik) ? $penyidik->jabatan : '' }}">
             </div>
             <div class="col-lg-6 mb-3">
                 <label for="tim" class="form-label">Tim</label>
-                <input type="text" id="tim" name="tim" class="form-control border-dark" placeholder="Tim"
+                <input autocomplete="off" type="text" id="tim" name="tim" class="form-control border-dark" placeholder="Tim"
                     value="{{ isset($penyidik) ? $penyidik->tim : '' }}">
             </div>
             <div class="col-lg-6 mb-3">
                 <label for="unit" class="form-label">Unit</label>
-                <input type="text" id="unit" name="unit" class="form-control border-dark" placeholder="Unit"
+                <input autocomplete="off" type="text" id="unit" name="unit" class="form-control border-dark" placeholder="Unit"
                     value="{{ isset($penyidik) ? $penyidik->unit : '' }}">
             </div>
         </div>
-        {{-- <input type="text" class="form-control border-dark" value="{{ isset($kasus) ? $kasus->id : '' }}" hidden name="kasus_id"> --}}
+        {{-- <input autocomplete="off" type="text" class="form-control border-dark" value="{{ isset($kasus) ? $kasus->id : '' }}" hidden name="kasus_id"> --}}
         <div class="row">
             <div class="col-lg-12 mb-3">
                 @if (isset($penyidik))

@@ -33,7 +33,7 @@
                         <div class="row">
                             @foreach ($permissions as $value)
                                 <div class="col-2 mt-2 mb-2">
-                                    <input class="form-check-input" type="checkbox" value="{{ $value->name }}"
+                                    <input autocomplete="off" class="form-check-input" type="checkbox" value="{{ $value->name }}"
                                         name="permissions[]" {{ in_array($value->name, $myPermissions) ? 'checked' : '' }}>
                                     <label class="form-check-label" for="flexCheckIndeterminate">
                                         {{ $value->name }}

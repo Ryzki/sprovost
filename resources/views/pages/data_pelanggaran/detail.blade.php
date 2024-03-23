@@ -31,9 +31,9 @@
                 @endif
 
                 <div class="card-body" style="min-height:300px">
-                    <input type="text" class="form-control" id="data_pelanggar_id" name="data_pelanggar_id"
+                    <input autocomplete="off" type="text" class="form-control" id="data_pelanggar_id" name="data_pelanggar_id"
                         value="{{ $kasus->id }}" hidden>
-                    <input type="text" class="form-control" id="process_id" name="data_pelanggar_id"
+                    <input autocomplete="off" type="text" class="form-control" id="process_id" name="data_pelanggar_id"
                         value="{{ $kasus->status_id }}" hidden>
                     <div class="loader-view" style="display:block;">
 

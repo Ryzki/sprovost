@@ -46,8 +46,8 @@
         {{-- <form action="/data-kasus/update" method="post"> --}}
         <form action="javascript:void(0)" id="form">
             @csrf
-            <input type="text" class="form-control" value="{{ $kasus->id }}" hidden name="kasus_id">
-            <input type="text" class="form-control" value="{{ $kasus->status_id }}" hidden name="status">
+            <input autocomplete="off" type="text" class="form-control" value="{{ $kasus->id }}" hidden name="kasus_id">
+            <input autocomplete="off" type="text" class="form-control" value="{{ $kasus->status_id }}" hidden name="status">
 
             {{-- Nav Ringkasan Data --}}
             <nav>
@@ -175,15 +175,15 @@
             </div>
             <form action="javascript:void(0)" @if(empty($lpa)) id="form-generate-lpa" @elseif($lpa->is_draft) id="update-lpa" @endif>
                 @csrf
-                <input type="hidden" name="status" value="{{$status->id}}">
-                <input type="hidden" name="sub_process">
-                <input type="hidden" name="process_id">
+                <input autocomplete="off" type="hidden" name="status" value="{{$status->id}}">
+                <input autocomplete="off" type="hidden" name="sub_process">
+                <input autocomplete="off" type="hidden" name="process_id">
                 <div class="modal-body">
                     <div class="row justify-content-between align-items-center">
                         <div class="col">
                             <div class="form-group">
                                 <label for="exampleInputEmail1" class="form-label">Tanggal Cetak LPA</label>
-                                <input type="text" class="form-control" id="exampleInputEmail1"
+                                <input autocomplete="off" type="text" class="form-control" id="exampleInputEmail1"
                                     aria-describedby="emailHelp"
                                     value="{{ !empty($lpa) ? date('d-m-Y H:i', strtotime($lpa->created_at)) . ' WIB' : '-' }}"
                                     readonly style="border:none">
@@ -192,7 +192,7 @@
                         <div class="col">
                             <div class="form-group">
                                 <label for="exampleInputEmail1" class="form-label">Dicetak Oleh</label>
-                                <input type="text" class="form-control" id="exampleInputEmail1"
+                                <input autocomplete="off" type="text" class="form-control" id="exampleInputEmail1"
                                     aria-describedby="emailHelp"
                                     value="{{ !empty($lpa) ? $lpa->user[0]->name: '-' }}"
                                     readonly style="border:none">
@@ -203,13 +203,13 @@
                     @if ($lpa == null)
                         <div class="form-group">
                             <label for="no_lpa" class="form-label">No. LPA</label>
-                            <input type="text" class="form-control" name="no_lpa" value="{{!empty($lpa) ? $lpa->no_lpa : ''}}" placeholder="{{!empty($lpa) ? '' : 'Masukan Nomor LPA'}}">
+                            <input autocomplete="off" type="text" class="form-control" name="no_lpa" value="{{!empty($lpa) ? $lpa->no_lpa : ''}}" placeholder="{{!empty($lpa) ? '' : 'Masukan Nomor LPA'}}">
                         </div>
                     @else
                         @if ($lpa->is_draft)
                             <div class="form-group">
                                 <label for="no_lpa" class="form-label">No. LPA</label>
-                                <input type="text" class="form-control" name="no_lpa" value="{{!empty($lpa) ? $lpa->no_lpa : ''}}" placeholder="{{!empty($lpa) ? '' : 'Masukan Nomor LPA'}}">
+                                <input autocomplete="off" type="text" class="form-control" name="no_lpa" value="{{!empty($lpa) ? $lpa->no_lpa : ''}}" placeholder="{{!empty($lpa) ? '' : 'Masukan Nomor LPA'}}">
                             </div>
                         @else
                             <div class="row justify-content-around items-center mt-4">
@@ -274,15 +274,15 @@
             @else
                 <form action="javascript:void(0)" @if(empty($sprinRiksa) || !$sprinRiksa->is_draft) id="form-generate-sprin" @elseif (!empty($sprinRiksa) && $sprinRiksa->is_draft) id="update-no-sprin" @endif>
                     @csrf
-                    <input type="hidden" name="status" value="{{$status->id}}">
-                    <input type="hidden" name="sub_process">
-                    <input type="hidden" name="process_id">
+                    <input autocomplete="off" type="hidden" name="status" value="{{$status->id}}">
+                    <input autocomplete="off" type="hidden" name="sub_process">
+                    <input autocomplete="off" type="hidden" name="process_id">
                     <div class="modal-body">
                         <div class="row justify-content-between align-items-center">
                             <div class="col">
                                 <div class="form-group">
                                     <label for="exampleInputEmail1" class="form-label">Tanggal Cetak Surat SPRIN</label>
-                                    <input type="text" class="form-control" id="exampleInputEmail1"
+                                    <input autocomplete="off" type="text" class="form-control" id="exampleInputEmail1"
                                         aria-describedby="emailHelp"
                                         value="{{ !empty($sprinRiksa) ? date('d-m-Y H:i', strtotime($sprinRiksa->created_at)) . ' WIB' : '-' }}"
                                         readonly style="border:none">
@@ -291,7 +291,7 @@
                             <div class="col">
                                 <div class="form-group">
                                     <label for="exampleInputEmail1" class="form-label">Dicetak Oleh</label>
-                                    <input type="text" class="form-control" id="exampleInputEmail1"
+                                    <input autocomplete="off" type="text" class="form-control" id="exampleInputEmail1"
                                         aria-describedby="emailHelp"
                                         value="{{ !empty($sprinRiksa) ? $sprinRiksa->user[0]->name: '-' }}"
                                         readonly style="border:none">
@@ -302,7 +302,7 @@
                         @if ($sprinRiksa == null)
                             <div class="form-group">
                                 <label for="no_sprin" class="form-label">No. SPRIN</label>
-                                <input type="text" class="form-control" name="no_sprin" value="{{!empty($sprinRiksa) ? $sprinRiksa->no_sprin : ''}}" placeholder="{{!empty($sprinRiksa) ? '' : 'Masukan Nomor SPRIN'}}">
+                                <input autocomplete="off" type="text" class="form-control" name="no_sprin" value="{{!empty($sprinRiksa) ? $sprinRiksa->no_sprin : ''}}" placeholder="{{!empty($sprinRiksa) ? '' : 'Masukan Nomor SPRIN'}}">
                             </div>
                             <div class="card card-data-penyidik">
                                 <div class="card-header">Unit Pemeriksa</div>
@@ -341,7 +341,7 @@
                             @if ($sprinRiksa->is_draft)
                                 <div class="form-group">
                                     <label for="no_sprin" class="form-label">No. SPRIN</label>
-                                    <input type="text" class="form-control" name="no_sprin" value="{{!empty($sprinRiksa) ? $sprinRiksa->no_sprin : ''}}" placeholder="{{!empty($sprinRiksa) ? '' : 'Masukan Nomor SPRIN'}}">
+                                    <input autocomplete="off" type="text" class="form-control" name="no_sprin" value="{{!empty($sprinRiksa) ? $sprinRiksa->no_sprin : ''}}" placeholder="{{!empty($sprinRiksa) ? '' : 'Masukan Nomor SPRIN'}}">
                                 </div>
                             @else
                                 <div class="row justify-content-around items-center mt-4">
@@ -393,9 +393,9 @@
             @else
                 <form action="javascript:void(0)" id="form-generate-sp-saksi">
                     @csrf
-                    <input type="hidden" name="status" value="{{$status->id}}">
-                    <input type="hidden" name="sub_process">
-                    <input type="hidden" name="process_id">
+                    <input autocomplete="off" type="hidden" name="status" value="{{$status->id}}">
+                    <input autocomplete="off" type="hidden" name="sub_process">
+                    <input autocomplete="off" type="hidden" name="process_id">
                     <div class="modal-body">
                         <div class="card" id="data-dihadap">
                             <div class="card-header">
@@ -412,21 +412,21 @@
                                 <div class="col-md-4 col-12">
                                     <div class="form-group">
                                         <label for="tgl">Tanggal</label>
-                                        <input type="date" name="tgl" class="form-control">
+                                        <input autocomplete="off" type="date" name="tgl" class="form-control">
                                     </div>
                                 </div>
 
                                 <div class="col-md-4 col-12">
                                     <div class="form-group">
                                         <label for="waktu">Waktu</label>
-                                        <input type="time" name="waktu" class="form-control">
+                                        <input autocomplete="off" type="time" name="waktu" class="form-control">
                                     </div>
                                 </div>
 
                                 <div class="col-md-12 col-12">
                                     <div class="form-group">
                                         <label for="waktu">No. Telp Penyidik</label>
-                                        <input type="text" name="no_telp_penyidik" class="form-control" onfocus="mask(this, '99999999999999')">
+                                        <input autocomplete="off" type="text" name="no_telp_penyidik" class="form-control" onfocus="mask(this, '99999999999999')">
                                     </div>
                                 </div>
 
@@ -447,25 +447,25 @@
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group">
                                                     <label for="nama">Nama</label>
-                                                    <input type="text" name="nama" class="form-control" placeholder="Masukan Nama">
+                                                    <input autocomplete="off" type="text" name="nama" class="form-control" placeholder="Masukan Nama">
                                                 </div>
                                             </div>
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group">
                                                     <label for="pekerjaan">Pekerjaan</label>
-                                                    <input type="text" name="pekerjaan" class="form-control" placeholder="Masukan Pekerjaan">
+                                                    <input autocomplete="off" type="text" name="pekerjaan" class="form-control" placeholder="Masukan Pekerjaan">
                                                 </div>
                                             </div>
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group">
                                                     <label for="ttl">Tempat Tanggal Lahir</label>
-                                                    <input type="text" name="ttl" class="form-control" placeholder="Masukan Tempat Tanggal Lahir">
+                                                    <input autocomplete="off" type="text" name="ttl" class="form-control" placeholder="Masukan Tempat Tanggal Lahir">
                                                 </div>
                                             </div>
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group">
                                                     <label for="warga_negara">Warga Negara</label>
-                                                    <input type="text" name="warga_negara" class="form-control" placeholder="Masukan Warga Negara">
+                                                    <input autocomplete="off" type="text" name="warga_negara" class="form-control" placeholder="Masukan Warga Negara">
                                                 </div>
                                             </div>
                                             <div class="col-md-6 col-12">
@@ -482,14 +482,14 @@
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group">
                                                     <label for="no_telp">No. Telp</label>
-                                                    <input type="text" name="no_telp" class="form-control" placeholder="Masukan Nomor Telepon"onclick="mask(this, '999999999999999')" onchange="mask(this, '999999999999999')">
+                                                    <input autocomplete="off" type="text" name="no_telp" class="form-control" placeholder="Masukan Nomor Telepon"onclick="mask(this, '999999999999999')" onchange="mask(this, '999999999999999')">
                                                 </div>
                                             </div>
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group">
                                                     <label for="alamat">Alamat</label>
                                                     <textarea name="alamat" class="form-control" cols="8" rows="5"></textarea>
-                                                    {{-- <input type="text" name="agama" class="form-control" placeholder="Masukan Warga Negara"> --}}
+                                                    {{-- <input autocomplete="off" type="text" name="agama" class="form-control" placeholder="Masukan Warga Negara"> --}}
                                                 </div>
                                             </div>
                                         </div>
@@ -530,25 +530,25 @@
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group">
                                                         <label for="nama">Nama</label>
-                                                        <input type="text" name="nama" class="form-control" value="{{$s->nama}}" placeholder="Masukan Nama">
+                                                        <input autocomplete="off" type="text" name="nama" class="form-control" value="{{$s->nama}}" placeholder="Masukan Nama">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group">
                                                         <label for="pekerjaan">Pekerjaan</label>
-                                                        <input type="text" name="pekerjaan" class="form-control" value="{{$s->pekerjaan}}" placeholder="Masukan Pekerjaan">
+                                                        <input autocomplete="off" type="text" name="pekerjaan" class="form-control" value="{{$s->pekerjaan}}" placeholder="Masukan Pekerjaan">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group">
                                                         <label for="ttl">Tempat Tanggal Lahir</label>
-                                                        <input type="text" name="ttl" class="form-control" value="{{$s->ttl}}" placeholder="Masukan Tempat Tanggal Lahir">
+                                                        <input autocomplete="off" type="text" name="ttl" class="form-control" value="{{$s->ttl}}" placeholder="Masukan Tempat Tanggal Lahir">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group">
                                                         <label for="warga_negara">Warga Negara</label>
-                                                        <input type="text" name="warga_negara" class="form-control" value="{{$s->warga_negara}}" placeholder="Masukan Warga Negara">
+                                                        <input autocomplete="off" type="text" name="warga_negara" class="form-control" value="{{$s->warga_negara}}" placeholder="Masukan Warga Negara">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 col-12">
@@ -565,14 +565,14 @@
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group">
                                                         <label for="no_telp">No. Telp</label>
-                                                        <input type="text" name="no_telp" class="form-control" value="{{$s->no_telp}}" placeholder="Masukan Nomor Telepon"onclick="mask(this, '999999999999999')" onchange="mask(this, '999999999999999')">
+                                                        <input autocomplete="off" type="text" name="no_telp" class="form-control" value="{{$s->no_telp}}" placeholder="Masukan Nomor Telepon"onclick="mask(this, '999999999999999')" onchange="mask(this, '999999999999999')">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group">
                                                         <label for="alamat">Alamat</label>
                                                         <textarea name="alamat" class="form-control" cols="8" rows="5">{{$s->alamat}}</textarea>
-                                                        {{-- <input type="text" name="agama" class="form-control" placeholder="Masukan Warga Negara"> --}}
+                                                        {{-- <input autocomplete="off" type="text" name="agama" class="form-control" placeholder="Masukan Warga Negara"> --}}
                                                     </div>
                                                 </div>
 
@@ -625,9 +625,9 @@
             @else
                 <form action="javascript:void(0)" id="form-generate-sp-terduga">
                     @csrf
-                    <input type="hidden" name="status" value="{{$status->id}}">
-                    <input type="hidden" name="sub_process">
-                    <input type="hidden" name="process_id">
+                    <input autocomplete="off" type="hidden" name="status" value="{{$status->id}}">
+                    <input autocomplete="off" type="hidden" name="sub_process">
+                    <input autocomplete="off" type="hidden" name="process_id">
                     <div class="modal-body">
                         {{-- @if (count($saksi) == 0) --}}
                             <div class="card" id="data-dihadap">
@@ -645,21 +645,21 @@
                                     <div class="col-md-4 col-12">
                                         <div class="form-group">
                                             <label for="tgl">Tanggal</label>
-                                            <input type="date" name="tgl" class="form-control">
+                                            <input autocomplete="off" type="date" name="tgl" class="form-control">
                                         </div>
                                     </div>
 
                                     <div class="col-md-4 col-12">
                                         <div class="form-group">
                                             <label for="waktu">Waktu</label>
-                                            <input type="time" name="waktu" class="form-control">
+                                            <input autocomplete="off" type="time" name="waktu" class="form-control">
                                         </div>
                                     </div>
 
                                     <div class="col-md-12 col-12">
                                         <div class="form-group">
                                             <label for="waktu">No. Telp Penyidik</label>
-                                            <input type="text" name="no_telp_penyidik" class="form-control" onfocus="mask(this, '99999999999999')">
+                                            <input autocomplete="off" type="text" name="no_telp_penyidik" class="form-control" onfocus="mask(this, '99999999999999')">
                                         </div>
                                     </div>
 
@@ -704,9 +704,9 @@
             @else
                 <form action="javascript:void(0)" id="form-generate-bap">
                     @csrf
-                    <input type="hidden" name="status" value="{{$status->id}}">
-                    <input type="hidden" name="sub_process">
-                    <input type="hidden" name="process_id">
+                    <input autocomplete="off" type="hidden" name="status" value="{{$status->id}}">
+                    <input autocomplete="off" type="hidden" name="sub_process">
+                    <input autocomplete="off" type="hidden" name="process_id">
                     <div class="modal-body">
                         @if ($bap == null)
                             <div class="card" id="data-penyidik">
@@ -737,21 +737,21 @@
                                     <div class="col-md-6 col-12">
                                         <div class="form-group">
                                             <label for="">Penyidik 1</label>
-                                            <input type="text" class="form-control" disabled value="{{$penyidik1->pangkat}} {{$penyidik1->name}} - {{$penyidik1->jabatan}}">
+                                            <input autocomplete="off" type="text" class="form-control" disabled value="{{$penyidik1->pangkat}} {{$penyidik1->name}} - {{$penyidik1->jabatan}}">
                                             <select name="penyidik_1" hidden>
                                                 <option value="{{$bap->penyidik1}}" selected></option>
                                             </select>
-                                            {{-- <input name="penyidik1" type="hidden" value="{{$bai->penyidik1}}"/> --}}
+                                            {{-- <input autocomplete="off" name="penyidik1" type="hidden" value="{{$bai->penyidik1}}"/> --}}
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-12">
                                         <div class="form-group">
                                             <label for="">Penyidik 2</label>
-                                            <input type="text" class="form-control" disabled value="{{$penyidik2->pangkat}} {{$penyidik2->name}} - {{$penyidik2->jabatan}}">
+                                            <input autocomplete="off" type="text" class="form-control" disabled value="{{$penyidik2->pangkat}} {{$penyidik2->name}} - {{$penyidik2->jabatan}}">
                                             <select name="penyidik_2" hidden>
                                                 <option value="{{$bap->penyidik2}}" selected></option>
                                             </select>
-                                            {{-- <input name="penyidik2" type="hidden" value="{{$bai->penyidik2}}"/> --}}
+                                            {{-- <input autocomplete="off" name="penyidik2" type="hidden" value="{{$bai->penyidik2}}"/> --}}
                                         </div>
                                     </div>
                                 </div>
@@ -766,43 +766,43 @@
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group">
                                                     <label for="nama">Nama</label>
-                                                    <input type="text" name="nama" class="form-control" placeholder="Masukan Nama">
+                                                    <input autocomplete="off" type="text" name="nama" class="form-control" placeholder="Masukan Nama">
                                                 </div>
                                             </div>
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group">
                                                     <label for="pangkat">Pangkat</label>
-                                                    <input type="text" name="pangkat" class="form-control" placeholder="Masukan Pangkat">
+                                                    <input autocomplete="off" type="text" name="pangkat" class="form-control" placeholder="Masukan Pangkat">
                                                 </div>
                                             </div>
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group">
                                                     <label for="jabatan">Jabatan</label>
-                                                    <input type="text" name="jabatan" class="form-control" placeholder="Masukan Jabatan">
+                                                    <input autocomplete="off" type="text" name="jabatan" class="form-control" placeholder="Masukan Jabatan">
                                                 </div>
                                             </div>
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group">
                                                     <label for="nrp">NRP</label>
-                                                    <input type="text" name="nrp" class="form-control" placeholder="Masukan NRP" onclick="mask(this, '99999999')" onchange="mask(this, '99999999')" onfocus="mask(this, '99999999')">
+                                                    <input autocomplete="off" type="text" name="nrp" class="form-control" placeholder="Masukan NRP" onclick="mask(this, '99999999')" onchange="mask(this, '99999999')" onfocus="mask(this, '99999999')">
                                                 </div>
                                             </div>
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group">
                                                     <label for="kesatuan">Kesatuan</label>
-                                                    <input type="text" name="kesatuan" class="form-control" placeholder="Masukan Kesatuan">
+                                                    <input autocomplete="off" type="text" name="kesatuan" class="form-control" placeholder="Masukan Kesatuan">
                                                 </div>
                                             </div>
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group">
                                                     <label for="ttl">Tempat Tanggal Lahir</label>
-                                                    <input type="text" name="ttl" class="form-control" placeholder="Masukan Tempat Tanggal Lahir">
+                                                    <input autocomplete="off" type="text" name="ttl" class="form-control" placeholder="Masukan Tempat Tanggal Lahir">
                                                 </div>
                                             </div>
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group">
                                                     <label for="warga_negara">Warga Negara</label>
-                                                    <input type="text" name="warga_negara" class="form-control" placeholder="Masukan Warga Negara">
+                                                    <input autocomplete="off" type="text" name="warga_negara" class="form-control" placeholder="Masukan Warga Negara">
                                                 </div>
                                             </div>
                                             <div class="col-md-6 col-12">
@@ -820,13 +820,13 @@
                                                 <div class="form-group">
                                                     <label for="alamat">Alamat</label>
                                                     <textarea name="alamat" class="form-control" cols="8" rows="5"></textarea>
-                                                    {{-- <input type="text" name="agama" class="form-control" placeholder="Masukan Warga Negara"> --}}
+                                                    {{-- <input autocomplete="off" type="text" name="agama" class="form-control" placeholder="Masukan Warga Negara"> --}}
                                                 </div>
                                             </div>
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group">
                                                     <label for="no_telp">No. Telp</label>
-                                                    <input type="text" name="no_telp" class="form-control" placeholder="Masukan Nomor Telepon"onclick="mask(this, '999999999999999')" onchange="mask(this, '999999999999999')">
+                                                    <input autocomplete="off" type="text" name="no_telp" class="form-control" placeholder="Masukan Nomor Telepon"onclick="mask(this, '999999999999999')" onchange="mask(this, '999999999999999')">
                                                 </div>
                                             </div>
                                         </div>
@@ -867,7 +867,7 @@
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group">
                                                         <label for="nama">Nama</label>
-                                                        <input type="text" name="nama" class="form-control" value="{{$s->nama}}" placeholder="Masukan Nama">
+                                                        <input autocomplete="off" type="text" name="nama" class="form-control" value="{{$s->nama}}" placeholder="Masukan Nama">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 col-12">
@@ -884,31 +884,31 @@
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group">
                                                         <label for="jabatan">Jabatan</label>
-                                                        <input type="text" name="jabatan" class="form-control" value="{{$s->jabatan}}" placeholder="Masukan Jabatan">
+                                                        <input autocomplete="off" type="text" name="jabatan" class="form-control" value="{{$s->jabatan}}" placeholder="Masukan Jabatan">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group">
                                                         <label for="nrp">NRP</label>
-                                                        <input type="text" name="nrp" class="form-control" placeholder="Masukan NRP" value="{{$s->nrp}}" onclick="mask(this, '99999999')" onchange="mask(this, '99999999')" onfocus="mask(this, '99999999')">
+                                                        <input autocomplete="off" type="text" name="nrp" class="form-control" placeholder="Masukan NRP" value="{{$s->nrp}}" onclick="mask(this, '99999999')" onchange="mask(this, '99999999')" onfocus="mask(this, '99999999')">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group">
                                                         <label for="kesatuan">Kesatuan</label>
-                                                        <input type="text" name="kesatuan" class="form-control" value="{{$s->kesatuan}}" placeholder="Masukan Kesatuan">
+                                                        <input autocomplete="off" type="text" name="kesatuan" class="form-control" value="{{$s->kesatuan}}" placeholder="Masukan Kesatuan">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group">
                                                         <label for="ttl">Tempat Tanggal Lahir</label>
-                                                        <input type="text" name="ttl" class="form-control" value={{$s->ttl}} placeholder="Masukan Tempat Tanggal Lahir">
+                                                        <input autocomplete="off" type="text" name="ttl" class="form-control" value={{$s->ttl}} placeholder="Masukan Tempat Tanggal Lahir">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group">
                                                         <label for="warga_negara">Warga Negara</label>
-                                                        <input type="text" name="warga_negara" class="form-control" value="{{$s->warga_negara}}" placeholder="Masukan Warga Negara">
+                                                        <input autocomplete="off" type="text" name="warga_negara" class="form-control" value="{{$s->warga_negara}}" placeholder="Masukan Warga Negara">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 col-12">
@@ -926,13 +926,13 @@
                                                     <div class="form-group">
                                                         <label for="alamat">Alamat</label>
                                                         <textarea name="alamat" class="form-control" cols="8" rows="5">{{$s->alamat}}</textarea>
-                                                        {{-- <input type="text" name="agama" class="form-control" placeholder="Masukan Warga Negara"> --}}
+                                                        {{-- <input autocomplete="off" type="text" name="agama" class="form-control" placeholder="Masukan Warga Negara"> --}}
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 col-12">
                                                     <div class="form-group">
                                                         <label for="no_telp">No. Telp</label>
-                                                        <input type="text" name="no_telp" class="form-control" value="{{$s->no_telp}}" placeholder="Masukan Nomor Telepon" onfocus="mask(this, '999999999999999')" onclick="mask(this, '999999999999999')" onchange="mask(this, '999999999999999')">
+                                                        <input autocomplete="off" type="text" name="no_telp" class="form-control" value="{{$s->no_telp}}" placeholder="Masukan Nomor Telepon" onfocus="mask(this, '999999999999999')" onclick="mask(this, '999999999999999')" onchange="mask(this, '999999999999999')">
                                                     </div>
                                                 </div>
                                                 <div class="d-flex mb-3 mt-4 justify-content-end">
@@ -991,20 +991,20 @@
             @else
                 <form action="javascript:void(0)" @if(empty($dp3d)) id="form-generate-dp3d" @else id="update-dp3d" @endif>
                     @csrf
-                    <input type="hidden" name="status" value="{{$status->id}}">
-                    <input type="hidden" name="sub_process">
-                    <input type="hidden" name="process_id">
+                    <input autocomplete="off" type="hidden" name="status" value="{{$status->id}}">
+                    <input autocomplete="off" type="hidden" name="sub_process">
+                    <input autocomplete="off" type="hidden" name="process_id">
                     <div class="modal-body">
                         @if ($dp3d == null)
                             <div class="card" id="data-dihadap">
                                 <div class="card-body">
                                     <div class="form-group">
                                         <label for="no_dp3d">Nomor DP3D</label>
-                                        <input type="text" name="no_dp3d" class="form-control">
+                                        <input autocomplete="off" type="text" name="no_dp3d" class="form-control">
                                     </div>
                                     <div class="form-group">
                                         <label for="tgl_dp3d">Tanggal DP3D</label>
-                                        <input type="date" name="tgl_dp3d" class="form-control">
+                                        <input autocomplete="off" type="date" name="tgl_dp3d" class="form-control">
                                     </div>
                                     <div class="form-group">
                                         <label for="pasal">Pasal yang dilanggar</label>
@@ -1016,7 +1016,7 @@
                             @if($dp3d->is_draft)
                                 <div class="form-group">
                                     <label for="no_dp3d">Nomor DP3D</label>
-                                    <input type="text" name="no_dp3d" class="form-control" value="{{$dp3d->no_dp3d}}">
+                                    <input autocomplete="off" type="text" name="no_dp3d" class="form-control" value="{{$dp3d->no_dp3d}}">
                                 </div>
                             @else
                                 <a href="/print/dp3d/{{$kasus->id}}/generated" class="text-primary" style="text-decoration: none; width: 100%">
@@ -1676,25 +1676,25 @@
             <div class="col-md-6 col-12">
                 <div class="form-group">
                     <label for="nama">Nama</label>
-                    <input type="text" name="nama" class="form-control" placeholder="Masukan Nama">
+                    <input autocomplete="off" type="text" name="nama" class="form-control" placeholder="Masukan Nama">
                 </div>
             </div>
             <div class="col-md-6 col-12">
                 <div class="form-group">
                     <label for="pekerjaan">Pekerjaan</label>
-                    <input type="text" name="pekerjaan" class="form-control" placeholder="Masukan Pekerjaan">
+                    <input autocomplete="off" type="text" name="pekerjaan" class="form-control" placeholder="Masukan Pekerjaan">
                 </div>
             </div>
             <div class="col-md-6 col-12">
                 <div class="form-group">
                     <label for="ttl">Tempat Tanggal Lahir</label>
-                    <input type="text" name="ttl" class="form-control" placeholder="Masukan Tempat Tanggal Lahir">
+                    <input autocomplete="off" type="text" name="ttl" class="form-control" placeholder="Masukan Tempat Tanggal Lahir">
                 </div>
             </div>
             <div class="col-md-6 col-12">
                 <div class="form-group">
                     <label for="warga_negara">Warga Negara</label>
-                    <input type="text" name="warga_negara" class="form-control" placeholder="Masukan Warga Negara">
+                    <input autocomplete="off" type="text" name="warga_negara" class="form-control" placeholder="Masukan Warga Negara">
                 </div>
             </div>
             <div class="col-md-6 col-12">
@@ -1711,14 +1711,14 @@
             <div class="col-md-6 col-12">
                 <div class="form-group">
                     <label for="no_telp">No. Telp</label>
-                    <input type="text" name="no_telp" class="form-control" placeholder="Masukan Nomor Telepon" onclick="mask(this, '999999999999999')" onchange="mask(this, '999999999999999')">
+                    <input autocomplete="off" type="text" name="no_telp" class="form-control" placeholder="Masukan Nomor Telepon" onclick="mask(this, '999999999999999')" onchange="mask(this, '999999999999999')">
                 </div>
             </div>
             <div class="col-md-6 col-12">
                 <div class="form-group">
                     <label for="alamat">Alamat</label>
                     <textarea name="alamat" class="form-control" cols="8" rows="5"></textarea>
-                    {{-- <input type="text" name="agama" class="form-control" placeholder="Masukan Warga Negara"> --}}
+                    {{-- <input autocomplete="off" type="text" name="agama" class="form-control" placeholder="Masukan Warga Negara"> --}}
                 </div>
             </div>
 
@@ -1761,7 +1761,7 @@
                     <div class="col-md-6 col-12">
                         <div class="form-group">
                             <label for="nama">Nama</label>
-                            <input type="text" name="nama" class="form-control" placeholder="Masukan Nama">
+                            <input autocomplete="off" type="text" name="nama" class="form-control" placeholder="Masukan Nama">
                         </div>
                     </div>
                     <div class="col-md-6 col-12">
@@ -1778,31 +1778,31 @@
                     <div class="col-md-6 col-12">
                         <div class="form-group">
                             <label for="jabatan">Jabatan</label>
-                            <input type="text" name="jabatan" class="form-control" placeholder="Masukan Jabatan">
+                            <input autocomplete="off" type="text" name="jabatan" class="form-control" placeholder="Masukan Jabatan">
                         </div>
                     </div>
                     <div class="col-md-6 col-12">
                         <div class="form-group">
                             <label for="nrp">NRP</label>
-                            <input type="text" name="nrp" class="form-control" placeholder="Masukan NRP" onclick="mask(this, '99999999')" onfocus="mask(this, '99999999')" onchange="mask(this, '99999999')">
+                            <input autocomplete="off" type="text" name="nrp" class="form-control" placeholder="Masukan NRP" onclick="mask(this, '99999999')" onfocus="mask(this, '99999999')" onchange="mask(this, '99999999')">
                         </div>
                     </div>
                     <div class="col-md-6 col-12">
                         <div class="form-group">
                             <label for="kesatuan">Kesatuan</label>
-                            <input type="text" name="kesatuan" class="form-control" placeholder="Masukan Kesatuan">
+                            <input autocomplete="off" type="text" name="kesatuan" class="form-control" placeholder="Masukan Kesatuan">
                         </div>
                     </div>
                     <div class="col-md-6 col-12">
                         <div class="form-group">
                             <label for="ttl">Tempat Tanggal Lahir</label>
-                            <input type="text" name="ttl" class="form-control" placeholder="Masukan Tempat Tanggal Lahir">
+                            <input autocomplete="off" type="text" name="ttl" class="form-control" placeholder="Masukan Tempat Tanggal Lahir">
                         </div>
                     </div>
                     <div class="col-md-6 col-12">
                         <div class="form-group">
                             <label for="warga_negara">Warga Negara</label>
-                            <input type="text" name="warga_negara" class="form-control" placeholder="Masukan Warga Negara">
+                            <input autocomplete="off" type="text" name="warga_negara" class="form-control" placeholder="Masukan Warga Negara">
                         </div>
                     </div>
                     <div class="col-md-6 col-12">
@@ -1820,13 +1820,13 @@
                         <div class="form-group">
                             <label for="alamat">Alamat</label>
                             <textarea name="alamat" class="form-control" cols="8" rows="5"></textarea>
-                            {{-- <input type="text" name="agama" class="form-control" placeholder="Masukan Warga Negara"> --}}
+                            {{-- <input autocomplete="off" type="text" name="agama" class="form-control" placeholder="Masukan Warga Negara"> --}}
                         </div>
                     </div>
                     <div class="col-md-6 col-12">
                         <div class="form-group">
                             <label for="no_telp">No. Telp</label>
-                            <input type="text" name="no_telp" class="form-control" placeholder="Masukan Nomor Telepon" onfocus="mask(this, '999999999999999')" onclick="mask(this, '999999999999999')" onchange="mask(this, '999999999999999')">
+                            <input autocomplete="off" type="text" name="no_telp" class="form-control" placeholder="Masukan Nomor Telepon" onfocus="mask(this, '999999999999999')" onclick="mask(this, '999999999999999')" onchange="mask(this, '999999999999999')">
                         </div>
                     </div>
 

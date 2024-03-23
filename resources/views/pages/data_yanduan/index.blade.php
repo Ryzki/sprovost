@@ -17,7 +17,7 @@
                                 <div class="col-md-3 col-12">
                                     <div class="form-group">
                                         <label for="start_date">Tanggal Mulai</label>
-                                        <input  type="date" name="start_date" id="start_date" class="form-control">
+                                        <input autocomplete="off"  type="date" name="start_date" id="start_date" class="form-control">
                                     </div>
                                 </div>
                                 <div class="col-md-2 col-12 text-center">
@@ -26,7 +26,7 @@
                                 <div class="col-md-3 col-12">
                                     <div class="form-group">
                                         <label for="end_date">Tanggal Akhir</label>
-                                        <input  type="date" name="end_date" id="end_date" class="form-control">
+                                        <input autocomplete="off"  type="date" name="end_date" id="end_date" class="form-control">
                                     </div>
                                 </div>
                                 <div class="col-md-2 col-12">&nbsp;</div>

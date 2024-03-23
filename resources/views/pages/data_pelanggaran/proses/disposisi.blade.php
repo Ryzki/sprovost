@@ -42,40 +42,40 @@
     <div class="col-lg-12">
         <form action="javascript:void(0)" id="form">
             @csrf
-            <input type="text" class="form-control" value="{{ $kasus->id }}" hidden name="kasus_id">
-            <input type="text" class="form-control" value="{{ $kasus->status_id }}" hidden name="process_id">
+            <input autocomplete="off" type="text" class="form-control" value="{{ $kasus->id }}" hidden name="kasus_id">
+            <input autocomplete="off" type="text" class="form-control" value="{{ $kasus->status_id }}" hidden name="process_id">
             <div class="row">
                 <div class="col-lg-6">
                     <div class="row">
                         <div class="col-lg-12 mb-3">
                             <label for="exampleFormControlInput1" class="form-label">Terlapor</label>
-                            <input type="text" class="form-control" value="{{ $kasus->terlapor }}" readonly>
+                            <input autocomplete="off" type="text" class="form-control" value="{{ $kasus->terlapor }}" readonly>
                         </div>
                         <div class="col-lg-6 mb-3">
                             <label for="exampleFormControlInput1" class="form-label">Pangkat</label>
-                            <input type="text" class="form-control" value="{{ $kasus->pangkat }}" readonly>
+                            <input autocomplete="off" type="text" class="form-control" value="{{ $kasus->pangkat }}" readonly>
                         </div>
                         <div class="col-lg-6 mb-3">
                             <label for="exampleFormControlInput1" class="form-label">Kesatuan</label>
-                            <input type="text" class="form-control" value="{{ $kasus->kesatuan }}" readonly>
+                            <input autocomplete="off" type="text" class="form-control" value="{{ $kasus->kesatuan }}" readonly>
                         </div>
                         <div class="col-lg-6 mb-3">
                             <label for="exampleFormControlInput1" class="form-label">Tempat Kejadian</label>
-                            <input type="text" class="form-control" value="{{ $kasus->tempat_kejadian }}"
+                            <input autocomplete="off" type="text" class="form-control" value="{{ $kasus->tempat_kejadian }}"
                                 readonly>
                         </div>
                         <div class="col-lg-6 mb-3">
                             <label for="exampleFormControlInput1" class="form-label">Tanggal Kejadian</label>
-                            <input type="text" class="form-control" value="{{ $kasus->tanggal_kejadian }}"
+                            <input autocomplete="off" type="text" class="form-control" value="{{ $kasus->tanggal_kejadian }}"
                                 readonly>
                         </div>
                         <div class="col-lg-12 mb-3">
                             <label for="exampleFormControlInput1" class="form-label">Nama Korban</label>
-                            <input type="text" class="form-control" value="{{ $kasus->nama_korban }}" readonly>
+                            <input autocomplete="off" type="text" class="form-control" value="{{ $kasus->nama_korban }}" readonly>
                         </div>
                         <div class="col-lg-12 mb-3">
                             <label for="exampleFormControlInput1" class="form-label">Kronologis</label>
-                            <input type="text" class="form-control" value="{{ $kasus->kronologi }}" readonly>
+                            <input autocomplete="off" type="text" class="form-control" value="{{ $kasus->kronologi }}" readonly>
                         </div>
                         <div class="col-lg-12 mb-3">
                             <label for="exampleFormControlInput1" class="form-label" style="; width: 100%">Download Berkas</label>

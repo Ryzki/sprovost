@@ -14,7 +14,7 @@
                 <div class="row">
                     <div class="col-4">
                         <div class="form-check card-radio">
-                            <input id="customizer-layout01" name="data-layout" type="radio" value="vertical"
+                            <input autocomplete="off" id="customizer-layout01" name="data-layout" type="radio" value="vertical"
                                 class="form-check-input">
                             <label class="form-check-label p-0 avatar-md w-100" for="customizer-layout01">
                                 <span class="d-flex gap-1 h-100">
@@ -39,7 +39,7 @@
                     </div>
                     <div class="col-4">
                         <div class="form-check card-radio">
-                            <input id="customizer-layout02" name="data-layout" type="radio" value="horizontal"
+                            <input autocomplete="off" id="customizer-layout02" name="data-layout" type="radio" value="horizontal"
                                 class="form-check-input">
                             <label class="form-check-label p-0 avatar-md w-100" for="customizer-layout02">
                                 <span class="d-flex h-100 flex-column gap-1">
@@ -57,7 +57,7 @@
                     </div>
                     <div class="col-4">
                         <div class="form-check card-radio">
-                            <input id="customizer-layout03" name="data-layout" type="radio" value="twocolumn"
+                            <input autocomplete="off" id="customizer-layout03" name="data-layout" type="radio" value="twocolumn"
                                 class="form-check-input">
                             <label class="form-check-label p-0 avatar-md w-100" for="customizer-layout03">
                                 <span class="d-flex gap-1 h-100">
@@ -98,7 +98,7 @@
                     <div class="row">
                         <div class="col-4">
                             <div class="form-check card-radio">
-                                <input class="form-check-input" type="radio" name="data-layout-mode"
+                                <input autocomplete="off" class="form-check-input" type="radio" name="data-layout-mode"
                                     id="layout-mode-light" value="light">
                                 <label class="form-check-label p-0 avatar-md w-100" for="layout-mode-light">
                                     <span class="d-flex gap-1 h-100">
@@ -124,7 +124,7 @@
 
                         <div class="col-4">
                             <div class="form-check card-radio dark">
-                                <input class="form-check-input" type="radio" name="data-layout-mode"
+                                <input autocomplete="off" class="form-check-input" type="radio" name="data-layout-mode"
                                     id="layout-mode-dark" value="dark">
                                 <label class="form-check-label p-0 avatar-md w-100 bg-dark" for="layout-mode-dark">
                                     <span class="d-flex gap-1 h-100">
@@ -157,7 +157,7 @@
                     <div class="row">
                         <div class="col-4">
                             <div class="form-check card-radio">
-                                <input class="form-check-input" type="radio" name="data-layout-width"
+                                <input autocomplete="off" class="form-check-input" type="radio" name="data-layout-width"
                                     id="layout-width-fluid" value="fluid">
                                 <label class="form-check-label p-0 avatar-md w-100" for="layout-width-fluid">
                                     <span class="d-flex gap-1 h-100">
@@ -182,7 +182,7 @@
                         </div>
                         <div class="col-4">
                             <div class="form-check card-radio">
-                                <input class="form-check-input" type="radio" name="data-layout-width"
+                                <input autocomplete="off" class="form-check-input" type="radio" name="data-layout-width"
                                     id="layout-width-boxed" value="boxed">
                                 <label class="form-check-label p-0 avatar-md w-100 px-2" for="layout-width-boxed">
                                     <span class="d-flex gap-1 h-100 border-start border-end">
@@ -213,11 +213,11 @@
                     <p class="text-muted fs-13">Choose Fixed or Scrollable Layout Position.</p>
 
                     <div class="btn-group radio" role="group">
-                        <input type="radio" class="btn-check" name="data-layout-position"
+                        <input autocomplete="off" type="radio" class="btn-check" name="data-layout-position"
                             id="layout-position-fixed" value="fixed">
                         <label class="btn btn-light w-sm" for="layout-position-fixed">Fixed</label>
 
-                        <input type="radio" class="btn-check" name="data-layout-position"
+                        <input autocomplete="off" type="radio" class="btn-check" name="data-layout-position"
                             id="layout-position-scrollable" value="scrollable">
                         <label class="btn btn-light w-sm ms-0" for="layout-position-scrollable">Scrollable</label>
                     </div>
@@ -228,7 +228,7 @@
                 <div class="row">
                     <div class="col-4">
                         <div class="form-check card-radio">
-                            <input class="form-check-input" type="radio" name="data-topbar"
+                            <input autocomplete="off" class="form-check-input" type="radio" name="data-topbar"
                                 id="topbar-color-light" value="light">
                             <label class="form-check-label p-0 avatar-md w-100" for="topbar-color-light">
                                 <span class="d-flex gap-1 h-100">
@@ -253,7 +253,7 @@
                     </div>
                     <div class="col-4">
                         <div class="form-check card-radio">
-                            <input class="form-check-input" type="radio" name="data-topbar" id="topbar-color-dark"
+                            <input autocomplete="off" class="form-check-input" type="radio" name="data-topbar" id="topbar-color-dark"
                                 value="dark">
                             <label class="form-check-label p-0 avatar-md w-100" for="topbar-color-dark">
                                 <span class="d-flex gap-1 h-100">
@@ -285,7 +285,7 @@
                     <div class="row">
                         <div class="col-4">
                             <div class="form-check sidebar-setting card-radio">
-                                <input class="form-check-input" type="radio" name="data-sidebar-size"
+                                <input autocomplete="off" class="form-check-input" type="radio" name="data-sidebar-size"
                                     id="sidebar-size-default" value="lg">
                                 <label class="form-check-label p-0 avatar-md w-100" for="sidebar-size-default">
                                     <span class="d-flex gap-1 h-100">
@@ -311,7 +311,7 @@
 
                         <div class="col-4">
                             <div class="form-check sidebar-setting card-radio">
-                                <input class="form-check-input" type="radio" name="data-sidebar-size"
+                                <input autocomplete="off" class="form-check-input" type="radio" name="data-sidebar-size"
                                     id="sidebar-size-compact" value="md">
                                 <label class="form-check-label p-0 avatar-md w-100" for="sidebar-size-compact">
                                     <span class="d-flex gap-1 h-100">
@@ -337,7 +337,7 @@
 
                         <div class="col-4">
                             <div class="form-check sidebar-setting card-radio">
-                                <input class="form-check-input" type="radio" name="data-sidebar-size"
+                                <input autocomplete="off" class="form-check-input" type="radio" name="data-sidebar-size"
                                     id="sidebar-size-small" value="sm">
                                 <label class="form-check-label p-0 avatar-md w-100" for="sidebar-size-small">
                                     <span class="d-flex gap-1 h-100">
@@ -363,7 +363,7 @@
 
                         <div class="col-4">
                             <div class="form-check sidebar-setting card-radio">
-                                <input class="form-check-input" type="radio" name="data-sidebar-size"
+                                <input autocomplete="off" class="form-check-input" type="radio" name="data-sidebar-size"
                                     id="sidebar-size-small-hover" value="sm-hover">
                                 <label class="form-check-label p-0 avatar-md w-100" for="sidebar-size-small-hover">
                                     <span class="d-flex gap-1 h-100">
@@ -396,7 +396,7 @@
                     <div class="row">
                         <div class="col-4">
                             <div class="form-check sidebar-setting card-radio">
-                                <input class="form-check-input" type="radio" name="data-layout-style"
+                                <input autocomplete="off" class="form-check-input" type="radio" name="data-layout-style"
                                     id="sidebar-view-default" value="default">
                                 <label class="form-check-label p-0 avatar-md w-100" for="sidebar-view-default">
                                     <span class="d-flex gap-1 h-100">
@@ -421,7 +421,7 @@
                         </div>
                         <div class="col-4">
                             <div class="form-check sidebar-setting card-radio">
-                                <input class="form-check-input" type="radio" name="data-layout-style"
+                                <input autocomplete="off" class="form-check-input" type="radio" name="data-layout-style"
                                     id="sidebar-view-detached" value="detached">
                                 <label class="form-check-label p-0 avatar-md w-100" for="sidebar-view-detached">
                                     <span class="d-flex h-100 flex-column">
@@ -455,7 +455,7 @@
                         <div class="col-4">
                             <div class="form-check sidebar-setting card-radio" data-bs-toggle="collapse"
                                 data-bs-target="#collapseBgGradient.show">
-                                <input class="form-check-input" type="radio" name="data-sidebar"
+                                <input autocomplete="off" class="form-check-input" type="radio" name="data-sidebar"
                                     id="sidebar-color-light" value="light">
                                 <label class="form-check-label p-0 avatar-md w-100" for="sidebar-color-light">
                                     <span class="d-flex gap-1 h-100">
@@ -481,7 +481,7 @@
                         <div class="col-4">
                             <div class="form-check sidebar-setting card-radio" data-bs-toggle="collapse"
                                 data-bs-target="#collapseBgGradient.show">
-                                <input class="form-check-input" type="radio" name="data-sidebar"
+                                <input autocomplete="off" class="form-check-input" type="radio" name="data-sidebar"
                                     id="sidebar-color-dark" value="dark">
                                 <label class="form-check-label p-0 avatar-md w-100" for="sidebar-color-dark">
                                     <span class="d-flex gap-1 h-100">
@@ -534,7 +534,7 @@
                         <div class="d-flex gap-2 flex-wrap img-switch p-2 px-3 bg-light rounded">
 
                             <div class="form-check sidebar-setting card-radio">
-                                <input class="form-check-input" type="radio" name="data-sidebar"
+                                <input autocomplete="off" class="form-check-input" type="radio" name="data-sidebar"
                                     id="sidebar-color-gradient" value="gradient">
                                 <label class="form-check-label p-0 avatar-xs rounded-circle"
                                     for="sidebar-color-gradient">
@@ -542,7 +542,7 @@
                                 </label>
                             </div>
                             <div class="form-check sidebar-setting card-radio">
-                                <input class="form-check-input" type="radio" name="data-sidebar"
+                                <input autocomplete="off" class="form-check-input" type="radio" name="data-sidebar"
                                     id="sidebar-color-gradient-2" value="gradient-2">
                                 <label class="form-check-label p-0 avatar-xs rounded-circle"
                                     for="sidebar-color-gradient-2">
@@ -550,7 +550,7 @@
                                 </label>
                             </div>
                             <div class="form-check sidebar-setting card-radio">
-                                <input class="form-check-input" type="radio" name="data-sidebar"
+                                <input autocomplete="off" class="form-check-input" type="radio" name="data-sidebar"
                                     id="sidebar-color-gradient-3" value="gradient-3">
                                 <label class="form-check-label p-0 avatar-xs rounded-circle"
                                     for="sidebar-color-gradient-3">
@@ -558,7 +558,7 @@
                                 </label>
                             </div>
                             <div class="form-check sidebar-setting card-radio">
-                                <input class="form-check-input" type="radio" name="data-sidebar"
+                                <input autocomplete="off" class="form-check-input" type="radio" name="data-sidebar"
                                     id="sidebar-color-gradient-4" value="gradient-4">
                                 <label class="form-check-label p-0 avatar-xs rounded-circle"
                                     for="sidebar-color-gradient-4">
@@ -575,7 +575,7 @@
 
                     <div class="d-flex gap-2 flex-wrap img-switch">
                         <div class="form-check sidebar-setting card-radio">
-                            <input class="form-check-input" type="radio" name="data-sidebar-image"
+                            <input autocomplete="off" class="form-check-input" type="radio" name="data-sidebar-image"
                                 id="sidebarimg-none" value="none">
                             <label class="form-check-label p-0 avatar-sm h-auto" for="sidebarimg-none">
                                 <span
@@ -586,7 +586,7 @@
                         </div>
 
                         <div class="form-check sidebar-setting card-radio">
-                            <input class="form-check-input" type="radio" name="data-sidebar-image"
+                            <input autocomplete="off" class="form-check-input" type="radio" name="data-sidebar-image"
                                 id="sidebarimg-01" value="img-1">
                             <label class="form-check-label p-0 avatar-sm h-auto" for="sidebarimg-01">
                                 <img src="assets/images/sidebar/img-1.jpg" alt=""
@@ -595,7 +595,7 @@
                         </div>
 
                         <div class="form-check sidebar-setting card-radio">
-                            <input class="form-check-input" type="radio" name="data-sidebar-image"
+                            <input autocomplete="off" class="form-check-input" type="radio" name="data-sidebar-image"
                                 id="sidebarimg-02" value="img-2">
                             <label class="form-check-label p-0 avatar-sm h-auto" for="sidebarimg-02">
                                 <img src="assets/images/sidebar/img-2.jpg" alt=""
@@ -603,7 +603,7 @@
                             </label>
                         </div>
                         <div class="form-check sidebar-setting card-radio">
-                            <input class="form-check-input" type="radio" name="data-sidebar-image"
+                            <input autocomplete="off" class="form-check-input" type="radio" name="data-sidebar-image"
                                 id="sidebarimg-03" value="img-3">
                             <label class="form-check-label p-0 avatar-sm h-auto" for="sidebarimg-03">
                                 <img src="assets/images/sidebar/img-3.jpg" alt=""
@@ -611,7 +611,7 @@
                             </label>
                         </div>
                         <div class="form-check sidebar-setting card-radio">
-                            <input class="form-check-input" type="radio" name="data-sidebar-image"
+                            <input autocomplete="off" class="form-check-input" type="radio" name="data-sidebar-image"
                                 id="sidebarimg-04" value="img-4">
                             <label class="form-check-label p-0 avatar-sm h-auto" for="sidebarimg-04">
                                 <img src="assets/images/sidebar/img-4.jpg" alt=""
@@ -628,7 +628,7 @@
                     <div class="row">
                         <div class="col-4">
                             <div class="form-check sidebar-setting card-radio">
-                                <input class="form-check-input" type="radio" name="data-preloader"
+                                <input autocomplete="off" class="form-check-input" type="radio" name="data-preloader"
                                     id="preloader-view-custom" value="enable">
                                 <label class="form-check-label p-0 avatar-md w-100" for="preloader-view-custom">
                                     <span class="d-flex gap-1 h-100">
@@ -660,7 +660,7 @@
                         </div>
                         <div class="col-4">
                             <div class="form-check sidebar-setting card-radio">
-                                <input class="form-check-input" type="radio" name="data-preloader"
+                                <input autocomplete="off" class="form-check-input" type="radio" name="data-preloader"
                                     id="preloader-view-none" value="disable">
                                 <label class="form-check-label p-0 avatar-md w-100" for="preloader-view-none">
                                     <span class="d-flex gap-1 h-100">

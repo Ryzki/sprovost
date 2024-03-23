@@ -23,7 +23,7 @@
         @endif
             @csrf
             <div class="row">
-                <input type="hidden" name="id" id="id" value="{{ isset($wujud_perbuatan) ? $wujud_perbuatan->id : '' }}">
+                <input autocomplete="off" type="hidden" name="id" id="id" value="{{ isset($wujud_perbuatan) ? $wujud_perbuatan->id : '' }}">
                 <div class="col-lg-12 mb-3">
                     <label for="perihal_nota_dinas" class="form-label">Jenis Wujud Perbuatan</label>
                     <select name="jenis_wp" class="form-control" id="jenis_wp">
@@ -42,10 +42,10 @@
                 </div>
                 <div class="col-lg-12 mb-3">
                     <label for="perihal_nota_dinas" class="form-label">Keterangan Wujud Perbuatan</label>
-                    <input type="text" name="keterangan_wp" class="form-control" placeholder="Keterangan Wujud Perbuatan" value="{{ isset($wujud_perbuatan) ? $wujud_perbuatan->keterangan_wp : '' }}" >
+                    <input autocomplete="off" type="text" name="keterangan_wp" class="form-control" placeholder="Keterangan Wujud Perbuatan" value="{{ isset($wujud_perbuatan) ? $wujud_perbuatan->keterangan_wp : '' }}" >
                 </div>
             </div>
-            {{-- <input type="text" class="form-control border-dark" value="{{ isset($kasus) ? $kasus->id : '' }}" hidden name="kasus_id"> --}}
+            {{-- <input autocomplete="off" type="text" class="form-control border-dark" value="{{ isset($kasus) ? $kasus->id : '' }}" hidden name="kasus_id"> --}}
             <div class="row">
                 <div class="col-lg-12 mb-3">
                     @if(isset($wujud_perbuatan))

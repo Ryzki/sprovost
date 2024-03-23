@@ -19,13 +19,13 @@
             <div class="row">
                 <div class="col-lg-6 mb-3">
                     <div class="form-floating">
-                        <input  type="text" class="form-control border-dark" name="no_nota_dinas" id="no_nota_dinas" placeholder="No. Nota Dinas" value="{{ isset($kasus) ? $kasus->no_nota_dinas : '' }}" required>
+                        <input autocomplete="off"  type="text" class="form-control border-dark" name="no_nota_dinas" id="no_nota_dinas" placeholder="No. Nota Dinas" value="{{ isset($kasus) ? $kasus->no_nota_dinas : '' }}" required>
                         <label for="no_nota_dinas">No. Nota Dinas</label>
                     </div>
                 </div>
                 <div class="col-lg-6 mb-3">
                     <div class="form-floating">
-                        <input  type="text" class="form-control border-dark" name="perihal_nota_dinas" id="perihal_nota_dinas" placeholder="Perihal Nota Dinas" value="{{ isset($kasus) ? $kasus->perihal_nota_dinas : '' }}" required>
+                        <input autocomplete="off"  type="text" class="form-control border-dark" name="perihal_nota_dinas" id="perihal_nota_dinas" placeholder="Perihal Nota Dinas" value="{{ isset($kasus) ? $kasus->perihal_nota_dinas : '' }}" required>
                         <label for="perihal_nota_dinas">Perihal Nota Dinas</label>
                     </div>
                 </div>
@@ -36,11 +36,11 @@
                             <label for="check-box">Tipe Pelanggaran</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input  class="form-check-input border-dark" type="checkbox" id="disiplin" name="jenis_wp" value="1" checked onchange='disiplinChange(this);'>
+                            <input autocomplete="off"  class="form-check-input border-dark" type="checkbox" id="disiplin" name="jenis_wp" value="1" checked onchange='disiplinChange(this);'>
                             <label class="form-check-label " for="disiplin">Disiplin</label>
                           </div>
                         <div class="form-check form-check-inline">
-                            <input  class="form-check-input border-dark" type="checkbox" id="kode_etik" name="jenis_wp" value="2" onchange='kodeEtikChange(this);'>
+                            <input autocomplete="off"  class="form-check-input border-dark" type="checkbox" id="kode_etik" name="jenis_wp" value="2" onchange='kodeEtikChange(this);'>
                             <label class="form-check-label" for="kode_etik">Kode Etik</label>
                         </div>
                     </center>
@@ -56,7 +56,7 @@
 
                 <div class="col-lg-12 mb-3">
                     <div class="form-floating">
-                        <input  type="date" name="tanggal_nota_dinas" class="form-control border-dark" id="datepicker" placeholder="Tanggal Nota Dinas" value="{{ isset($kasus) ? $kasus->tanggal_nota_dinas : '' }}" required>
+                        <input autocomplete="off"  type="date" name="tanggal_nota_dinas" class="form-control border-dark" id="datepicker" placeholder="Tanggal Nota Dinas" value="{{ isset($kasus) ? $kasus->tanggal_nota_dinas : '' }}" required>
                         <label for="tanggal_nota_dinas">Tanggal Nota Dinas</label>
                     </div>
                 </div>
@@ -67,14 +67,14 @@
                     <div class="row">
                         <div class="col-lg-12 mb-3">
                             <div class="form-floating">
-                                <input  type="text" class="form-control border-dark" name="pelapor" id="pelapor" placeholder="Nama Pelapor" value="{{ isset($kasus) ? $kasus->pelapor : '' }}" required>
+                                <input autocomplete="off"  type="text" class="form-control border-dark" name="pelapor" id="pelapor" placeholder="Nama Pelapor" value="{{ isset($kasus) ? $kasus->pelapor : '' }}" required>
                                 <label for="pelapor">Nama Pelapor</label>
                             </div>
                         </div>
 
                         <div class="col-lg-6 mb-3">
                             <div class="form-floating">
-                                <input  type="number" class="form-control border-dark" name="umur" id="umur" placeholder="Umur Pelapor" value="{{ isset($kasus) ? $kasus->umur : '' }}">
+                                <input autocomplete="off"  type="number" class="form-control border-dark" name="umur" id="umur" placeholder="Umur Pelapor" value="{{ isset($kasus) ? $kasus->umur : '' }}">
                                 <label for="umur">Umur</label>
                             </div>
                         </div>
@@ -96,7 +96,7 @@
 
                         <div class="col-lg-6 mb-3">
                             <div class="form-floating">
-                                <input  type="text" name="pekerjaan" class="form-control border-dark" placeholder="Pekerjaan Pelapor" value="{{ isset($kasus) ? $kasus->pekerjaan : '' }}">
+                                <input autocomplete="off"  type="text" name="pekerjaan" class="form-control border-dark" placeholder="Pekerjaan Pelapor" value="{{ isset($kasus) ? $kasus->pekerjaan : '' }}">
                                 <label for="pekerjaan" class="form-label">Pekerjaan</label>
                             </div>
 
@@ -117,7 +117,7 @@
 
                         <div class="col-lg-6 mb-3">
                             <div class="form-floating">
-                                <input  type="text" name="no_identitas" id="no_identitas" placeholder="1234-5678-9012-1234" class="form-control border-dark" value="{{ isset($kasus) ? $kasus->no_identitas : '' }}">
+                                <input autocomplete="off"  type="text" name="no_identitas" id="no_identitas" placeholder="1234-5678-9012-1234" class="form-control border-dark" value="{{ isset($kasus) ? $kasus->no_identitas : '' }}">
                                 <label for="no_identitas" class="form-label">No Identitas</label>
                             </div>
                         </div>
@@ -138,7 +138,7 @@
 
                         <div class="col-lg-12 mb-3">
                             <div class="form-floating">
-                                <input  type="text" name="no_telp" id="no_telp" placeholder="No. Telp Pelapor" class="form-control border-dark" value="{{ isset($kasus) ? $kasus->no_telp : '' }}" required>
+                                <input autocomplete="off"  type="text" name="no_telp" id="no_telp" placeholder="No. Telp Pelapor" class="form-control border-dark" value="{{ isset($kasus) ? $kasus->no_telp : '' }}" required>
                                 <label for="no_telp" class="form-label">No. Telepon Pelapor</label>
                             </div>
                         </div>
@@ -155,13 +155,13 @@
                     <div class="row">
                         <div class="col-lg-6 mb-3">
                             <div class="form-floating">
-                                <input  type="text" class="form-control border-dark" name="nrp" id="nrp" placeholder="NRP Terduga Pelanggar" value="{{ isset($kasus) ? $kasus->nrp : '' }}" required>
+                                <input autocomplete="off"  type="text" class="form-control border-dark" name="nrp" id="nrp" placeholder="NRP Terduga Pelanggar" value="{{ isset($kasus) ? $kasus->nrp : '' }}" required>
                                 <label for="nrp">NRP Terduga Pelanggar</label>
                             </div>
                         </div>
                         <div class="col-lg-6 mb-3">
                             <div class="form-floating">
-                                <input  type="text" class="form-control border-dark" name="terlapor" id="terlapor" placeholder="Nama Terduga Pelanggar" value="{{ isset($kasus) ? $kasus->terlapor : '' }}" required>
+                                <input autocomplete="off"  type="text" class="form-control border-dark" name="terlapor" id="terlapor" placeholder="Nama Terduga Pelanggar" value="{{ isset($kasus) ? $kasus->terlapor : '' }}" required>
                                 <label for="terlapor">Nama Terduga Pelanggar</label>
                             </div>
                         </div>
@@ -184,14 +184,14 @@
 
                         <div class="col-lg-6 mb-3">
                             <div class="form-floating">
-                                <input  type="text" class="form-control border-dark" name="jabatan" id="jabatan" placeholder="Jabatan Terduga Pelanggar" value="{{ isset($kasus) ? $kasus->jabatan : '' }}" required>
+                                <input autocomplete="off"  type="text" class="form-control border-dark" name="jabatan" id="jabatan" placeholder="Jabatan Terduga Pelanggar" value="{{ isset($kasus) ? $kasus->jabatan : '' }}" required>
                                 <label for="jabatan">Jabatan Terduga Pelanggar</label>
                             </div>
                         </div>
 
                         <div class="col-lg-6 mb-3">
                             <div class="form-floating">
-                                <input  type="text" class="form-control border-dark" name="kesatuan" id="kesatuan" placeholder="Kesatuan Terduga Pelanggar" value="{{ isset($kasus) ? $kasus->kesatuan : '' }}" required>
+                                <input autocomplete="off"  type="text" class="form-control border-dark" name="kesatuan" id="kesatuan" placeholder="Kesatuan Terduga Pelanggar" value="{{ isset($kasus) ? $kasus->kesatuan : '' }}" required>
                                 <label for="kesatuan">Kesatuan Terduga Pelanggar</label>
                             </div>
                         </div>
@@ -204,26 +204,26 @@
                                         <option value="{{$item->id}}">{{$item->name}}</option>
                                     @endforeach
                                 </select>
-                                {{-- <input  type="text" class="form-control border-dark" name="wilayah_hukum" id="wilayah_hukum" placeholder="Mabes/Polda" value="{{ isset($kasus) ? $kasus->wilayah_hukum : '' }}" required> --}}
+                                {{-- <input autocomplete="off"  type="text" class="form-control border-dark" name="wilayah_hukum" id="wilayah_hukum" placeholder="Mabes/Polda" value="{{ isset($kasus) ? $kasus->wilayah_hukum : '' }}" required> --}}
                                 <label for="wilayah_hukum">Mabes/Polda</label>
                             </div>
                         </div>
 
                         <div class="col-lg-6 mb-3">
                             <div class="form-floating">
-                                <input  type="text" class="form-control border-dark" name="tempat_kejadian" id="tempat_kejadian" placeholder="Tempat Kejadian" value="{{ isset($kasus) ? $kasus->tempat_kejadian : '' }}" required>
+                                <input autocomplete="off"  type="text" class="form-control border-dark" name="tempat_kejadian" id="tempat_kejadian" placeholder="Tempat Kejadian" value="{{ isset($kasus) ? $kasus->tempat_kejadian : '' }}" required>
                                 <label for="tempat_kejadian">Tempat Kejadian</label>
                             </div>
                         </div>
                         <div class="col-lg-6 mb-3">
                             <div class="form-floating">
-                                <input  type="date" id="datepicker_tgl_kejadian" name="tanggal_kejadian" class="form-control border-dark" placeholder="BB/HH/TTTT" value="{{ isset($kasus) ? $kasus->tanggal_kejadian : '' }}" required>
+                                <input autocomplete="off"  type="date" id="datepicker_tgl_kejadian" name="tanggal_kejadian" class="form-control border-dark" placeholder="BB/HH/TTTT" value="{{ isset($kasus) ? $kasus->tanggal_kejadian : '' }}" required>
                                 <label for="tempat_kejadian">Tanggal Kejadian</label>
                             </div>
                         </div>
                         <div class="col-lg-12 mb-3">
                             <div class="form-floating">
-                                <input  type="text" class="form-control border-dark" name="nama_korban" id="nama_korban" placeholder="Nama korban" value="{{ isset($kasus) ? $kasus->nama_korban : '' }}" required>
+                                <input autocomplete="off"  type="text" class="form-control border-dark" name="nama_korban" id="nama_korban" placeholder="Nama korban" value="{{ isset($kasus) ? $kasus->nama_korban : '' }}" required>
                                 <label for="nama_korban">Nama Korban</label>
                             </div>
                         </div>

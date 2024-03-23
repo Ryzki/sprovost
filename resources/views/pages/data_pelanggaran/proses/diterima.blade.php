@@ -61,26 +61,26 @@
         {{-- <form action="/data-kasus/update" method="post"> --}}
         <form action="javascript:void(0)" id="form">
             @csrf
-            <input type="text" class="form-control" value="{{ $kasus->id }}" hidden name="kasus_id">
-            <input type="text" class="form-control" value="{{ $kasus->status_id }}" hidden name="process_id">
-            <input type="hidden" name="next" value="pulbaket">
+            <input autocomplete="off" type="text" class="form-control" value="{{ $kasus->id }}" hidden name="kasus_id">
+            <input autocomplete="off" type="text" class="form-control" value="{{ $kasus->status_id }}" hidden name="process_id">
+            <input autocomplete="off" type="hidden" name="next" value="pulbaket">
             <div class="row">
                 <div class="col-lg-6 mb-3">
                     <div class="form-floating">
-                        <input type="text" class="form-control border-dark required" name="no_nota_dinas" id="no_nota_dinas" placeholder="No. Nota Dinas" value="{{ isset($kasus) ? $kasus->no_nota_dinas : '' }}" required>
+                        <input autocomplete="off" type="text" class="form-control border-dark required" name="no_nota_dinas" id="no_nota_dinas" placeholder="No. Nota Dinas" value="{{ isset($kasus) ? $kasus->no_nota_dinas : '' }}" required>
                         <label for="no_nota_dinas">No. Nota Dinas</label>
                     </div>
                 </div>
                 <div class="col-lg-6 mb-3">
                     <div class="form-floating">
-                        <input type="text" class="form-control border-dark required" name="perihal_nota_dinas" id="perihal_nota_dinas" placeholder="Perihal Nota Dinas" value="{{ isset($kasus) ? $kasus->perihal_nota_dinas : '' }}" required>
+                        <input autocomplete="off" type="text" class="form-control border-dark required" name="perihal_nota_dinas" id="perihal_nota_dinas" placeholder="Perihal Nota Dinas" value="{{ isset($kasus) ? $kasus->perihal_nota_dinas : '' }}" required>
                         <label for="perihal_nota_dinas">Perihal Nota Dinas</label>
                     </div>
                 </div>
 
                 <div class="col-lg-6 mb-3">
                     <div class="form-floating">
-                        <input type="date" name="tanggal_nota_dinas" class="form-control border-dark required" id="datepicker" placeholder="Tanggal Nota Dinas" value="{{ isset($kasus) ? \Carbon\Carbon::parse($kasus->tanggal_nota_dinas)->format('Y-m-d') : '' }}" required>
+                        <input autocomplete="off" type="date" name="tanggal_nota_dinas" class="form-control border-dark required" id="datepicker" placeholder="Tanggal Nota Dinas" value="{{ isset($kasus) ? \Carbon\Carbon::parse($kasus->tanggal_nota_dinas)->format('Y-m-d') : '' }}" required>
                         <label for="tanggal_nota_dinas">Tanggal Nota Dinas</label>
                     </div>
                 </div>
@@ -91,7 +91,7 @@
                             <label for="check-box">Tipe Pelanggaran</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input border-dark" type="checkbox" id="disiplin" name="disiplin" value="1" checked>
+                            <input autocomplete="off" class="form-check-input border-dark" type="checkbox" id="disiplin" name="disiplin" value="1" checked>
                             <label class="form-check-label " for="disiplin">Disiplin</label>
                           </div>
                     </center>
@@ -114,7 +114,7 @@
                 @if ($kasus->data_from == 'yanduan')
                     <div class="col-lg-12 mb-3">
                         <div class="form-floating">
-                            <input type="text" name="kategori_yanduan" id="" class="form-control border-grey" disabled value="{{$kasus->kategoriYanduan != null ? $kasus->kategoriYanduan->name : ''}}">
+                            <input autocomplete="off" type="text" name="kategori_yanduan" id="" class="form-control border-grey" disabled value="{{$kasus->kategoriYanduan != null ? $kasus->kategoriYanduan->name : ''}}">
                             <label for="wujud_perbuatan" class="form-label">Kategori Yanduan</label>
                         </div>
                     </div>
@@ -126,14 +126,14 @@
                     <div class="row">
                         <div class="col-lg-12 mb-3">
                             <div class="form-floating">
-                                <input type="text" class="form-control border-dark required" name="pelapor" id="pelapor" placeholder="Nama Pelapor" value="{{ isset($kasus) ? $kasus->pelapor : '' }}" required>
+                                <input autocomplete="off" type="text" class="form-control border-dark required" name="pelapor" id="pelapor" placeholder="Nama Pelapor" value="{{ isset($kasus) ? $kasus->pelapor : '' }}" required>
                                 <label for="pelapor">Pelapor</label>
                             </div>
                         </div>
 
                         <div class="col-lg-6 mb-3">
                             <div class="form-floating">
-                                <input type="number" class="form-control border-dark required" name="umur" id="umur" placeholder="Umur Pelapor" value="{{ isset($kasus) ? $kasus->umur : '' }}" required>
+                                <input autocomplete="off" type="number" class="form-control border-dark required" name="umur" id="umur" placeholder="Umur Pelapor" value="{{ isset($kasus) ? $kasus->umur : '' }}" required>
                                 <label for="umur">Umur</label>
                             </div>
                         </div>
@@ -155,7 +155,7 @@
 
                         <div class="col-lg-6 mb-3">
                             <div class="form-floating">
-                                <input type="text" name="pekerjaan" class="form-control border-dark required" placeholder="Pekerjaan Pelapor" value="{{ isset($kasus) ? $kasus->pekerjaan : '' }}" required>
+                                <input autocomplete="off" type="text" name="pekerjaan" class="form-control border-dark required" placeholder="Pekerjaan Pelapor" value="{{ isset($kasus) ? $kasus->pekerjaan : '' }}" required>
                                 <label for="pekerjaan" class="form-label">Pekerjaan</label>
                             </div>
 
@@ -180,7 +180,7 @@
 
                         <div class="col-lg-6 mb-3">
                             <div class="form-floating">
-                                <input type="text" name="no_identitas" id="no_identitas" placeholder="1234-5678-9012-1234" class="form-control border-dark required" value="{{ isset($kasus) ? $kasus->no_identitas : '' }}" required>
+                                <input autocomplete="off" type="text" name="no_identitas" id="no_identitas" placeholder="1234-5678-9012-1234" class="form-control border-dark required" value="{{ isset($kasus) ? $kasus->no_identitas : '' }}" required>
                                 <label for="no_identitas" class="form-label">No Identitas</label>
                             </div>
                         </div>
@@ -221,7 +221,7 @@
 
                         <div class="col-lg-12 mb-3">
                             <div class="form-floating">
-                                <input type="text" name="no_telp" id="no_telp" placeholder="No. Telp Pelapor" class="form-control border-dark required" value="{{ isset($kasus) ? $kasus->no_telp : '' }}" required>
+                                <input autocomplete="off" type="text" name="no_telp" id="no_telp" placeholder="No. Telp Pelapor" class="form-control border-dark required" value="{{ isset($kasus) ? $kasus->no_telp : '' }}" required>
                                 <label for="no_telp" class="form-label">No. Telepon Pelapor</label>
                             </div>
                         </div>
@@ -239,13 +239,13 @@
                     <div class="row">
                         <div class="col-lg-6 mb-3">
                             <div class="form-floating">
-                                <input type="text" class="form-control border-dark required" name="nrp" id="nrp" placeholder="NRP Terduga Pelanggar" value="{{ isset($kasus) ? $kasus->nrp : '' }}" required>
+                                <input autocomplete="off" type="text" class="form-control border-dark required" name="nrp" id="nrp" placeholder="NRP Terduga Pelanggar" value="{{ isset($kasus) ? $kasus->nrp : '' }}" required>
                                 <label for="nrp">NRP</label>
                             </div>
                         </div>
                         <div class="col-lg-6 mb-3">
                             <div class="form-floating">
-                                <input type="text" class="form-control border-dark required" name="terlapor" id="terlapor" placeholder="Nama Terlapor" value="{{ isset($kasus) ? $kasus->terlapor : '' }}" required>
+                                <input autocomplete="off" type="text" class="form-control border-dark required" name="terlapor" id="terlapor" placeholder="Nama Terlapor" value="{{ isset($kasus) ? $kasus->terlapor : '' }}" required>
                                 <label for="terlapor">Nama Terlapor</label>
                             </div>
                         </div>
@@ -262,13 +262,13 @@
                         </div>
                         <div class="col-lg-6 mb-3">
                             <div class="form-floating">
-                                <input type="text" class="form-control border-dark required" name="jabatan" id="jabatan" placeholder="Jabatan Terduga Pelanggar" value="{{ isset($kasus) ? $kasus->jabatan : '' }}" required>
+                                <input autocomplete="off" type="text" class="form-control border-dark required" name="jabatan" id="jabatan" placeholder="Jabatan Terduga Pelanggar" value="{{ isset($kasus) ? $kasus->jabatan : '' }}" required>
                                 <label for="jabatan">Jabatan Terduga Pelanggar</label>
                             </div>
                         </div>
                         <div class="col-lg-6 mb-3">
                             <div class="form-floating">
-                                <input type="text" class="form-control border-dark required" name="kesatuan" id="kesatuan" placeholder="Kesatuan Terlapor" value="{{ isset($kasus) ? $kasus->kesatuan : '' }}" required>
+                                <input autocomplete="off" type="text" class="form-control border-dark required" name="kesatuan" id="kesatuan" placeholder="Kesatuan Terlapor" value="{{ isset($kasus) ? $kasus->kesatuan : '' }}" required>
                                 <label for="kesatuan">Kesatuan Terlapor</label>
                             </div>
                         </div>
@@ -280,25 +280,25 @@
                                         <option value="{{$item->id}}"{{ $item->id == $kasus->wilayah_hukum ? 'selected' : '' }}>{{$item->name}}</option>
                                     @endforeach
                                 </select>
-                                {{-- <input type="text" class="form-control border-dark required" name="wilayah_hukum" id="wilayah_hukum" placeholder="Mabes/Polda" value="{{ isset($kasus) ? $kasus->wilayah_hukum : '' }}" required> --}}
+                                {{-- <input autocomplete="off" type="text" class="form-control border-dark required" name="wilayah_hukum" id="wilayah_hukum" placeholder="Mabes/Polda" value="{{ isset($kasus) ? $kasus->wilayah_hukum : '' }}" required> --}}
                                 <label for="wilayah_hukum">Mabes/Polda</label>
                             </div>
                         </div>
                         <div class="col-lg-6 mb-3">
                             <div class="form-floating">
-                                <input type="text" class="form-control border-dark required" name="tempat_kejadian" id="tempat_kejadian" placeholder="Tempat Kejadian" value="{{ isset($kasus) ? $kasus->tempat_kejadian : '' }}" required>
+                                <input autocomplete="off" type="text" class="form-control border-dark required" name="tempat_kejadian" id="tempat_kejadian" placeholder="Tempat Kejadian" value="{{ isset($kasus) ? $kasus->tempat_kejadian : '' }}" required>
                                 <label for="tempat_kejadian">Tempat Kejadian</label>
                             </div>
                         </div>
                         <div class="col-lg-6 mb-3">
                             <div class="form-floating">
-                                <input type="date" name="tanggal_kejadian" class="form-control border-dark required" value="{{ isset($kasus) ? \Carbon\Carbon::parse($kasus->tanggal_kejadian)->format('Y-m-d') : '' }}" required>
+                                <input autocomplete="off" type="date" name="tanggal_kejadian" class="form-control border-dark required" value="{{ isset($kasus) ? \Carbon\Carbon::parse($kasus->tanggal_kejadian)->format('Y-m-d') : '' }}" required>
                                 <label for="tempat_kejadian">Tanggal Kejadian</label>
                             </div>
                         </div>
                         <div class="col-lg-12 mb-3">
                             <div class="form-floating">
-                                <input type="text" class="form-control border-dark required" name="nama_korban" id="nama_korban" placeholder="Nama korban" value="{{ isset($kasus) ? $kasus->nama_korban : '' }}" required>
+                                <input autocomplete="off" type="text" class="form-control border-dark required" name="nama_korban" id="nama_korban" placeholder="Nama korban" value="{{ isset($kasus) ? $kasus->nama_korban : '' }}" required>
                                 <label for="nama_korban">Nama Korban</label>
                             </div>
                         </div>
@@ -395,31 +395,31 @@
             {{-- <form action="/lembar-disposisi" method="post"> --}}
             <form action="javascript:void(0)" id="form-disposisi">
                 @csrf
-                <input type="hidden" name="kasus_id" value="{{$kasus->id}}">
-                <input type="hidden" name="status_id" value="{{$kasus->status_id}}">
-                <input type="hidden" name="sub_process">
+                <input autocomplete="off" type="hidden" name="kasus_id" value="{{$kasus->id}}">
+                <input autocomplete="off" type="hidden" name="status_id" value="{{$kasus->status_id}}">
+                <input autocomplete="off" type="hidden" name="sub_process">
                 <div class="modal-body">
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Nomor Agenda :</label>
-                        <input type="text" class="form-control" id="nomor_agenda" aria-describedby="emailHelp"
+                        <input autocomplete="off" type="text" class="form-control" id="nomor_agenda" aria-describedby="emailHelp"
                             name="nomor_agenda" >
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Surat dari :</label>
-                        <input type="text" class="form-control" id="surat_dari" aria-describedby="emailHelp"
+                        <input autocomplete="off" type="text" class="form-control" id="surat_dari" aria-describedby="emailHelp"
                             name="surat_dari">
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Nomor Surat</label>
-                        <input type="text" class="form-control" id="nomor_surat" name="nomor_surat" value="{{$kasus->no_nota_dinas}}" readonly>
+                        <input autocomplete="off" type="text" class="form-control" id="nomor_surat" name="nomor_surat" value="{{$kasus->no_nota_dinas}}" readonly>
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Tanggal</label>
-                        <input type="date" class="form-control" id="tanggal" name="tanggal" value="{{$kasus->tanggal_nota_dinas}}" readonly>
+                        <input autocomplete="off" type="date" class="form-control" id="tanggal" name="tanggal" value="{{$kasus->tanggal_nota_dinas}}" readonly>
                     </div>
                     {{-- <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Perihal</label>
-                        <input type="text" class="form-control" id="perihal" name="perihal">
+                        <input autocomplete="off" type="text" class="form-control" id="perihal" name="perihal">
                     </div> --}}
                 </div>
                 <div class="modal-footer">
@@ -442,21 +442,21 @@
             @if (!empty($disposisiKaro))
                 <form action="javascript:void(0)" id="form-disposisi-karo" enctype="multipart/form-data">
                     @csrf
-                    <input type="hidden" name="kasus_id" value="{{$kasus->id}}">
-                    <input type="hidden" name="status_id" value="{{$kasus->status_id}}">
-                    <input type="hidden" name="sub_process">
+                    <input autocomplete="off" type="hidden" name="kasus_id" value="{{$kasus->id}}">
+                    <input autocomplete="off" type="hidden" name="status_id" value="{{$kasus->status_id}}">
+                    <input autocomplete="off" type="hidden" name="sub_process">
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-lg-6 col-md-12">
                                 <div class="form-group">
                                     <label for="exampleInputPassword1" class="form-label">Nomor Surat</label>
-                                    <input type="text" class="form-control" id="nomor_surat" name="nomor_surat" value="{{$kasus->no_nota_dinas}}" readonly>
+                                    <input autocomplete="off" type="text" class="form-control" id="nomor_surat" name="nomor_surat" value="{{$kasus->no_nota_dinas}}" readonly>
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-12">
                                 <div class="form-group">
                                     <label for="exampleInputPassword1" class="form-label">Nomor Agenda</label>
-                                    <input type="text" class="form-control" id="nomor_agenda" name="nomor_agenda" value="{{$disposisiKaro != null ? $disposisiKaro->no_agenda : ''}}" @if($disposisiKaro != null) readonly @endif>
+                                    <input autocomplete="off" type="text" class="form-control" id="nomor_agenda" name="nomor_agenda" value="{{$disposisiKaro != null ? $disposisiKaro->no_agenda : ''}}" @if($disposisiKaro != null) readonly @endif>
                                 </div>
                             </div>
 
@@ -465,7 +465,7 @@
                                     <legend class="col-form-label">Klasifikasi</legend>
                                     <div class="col-sm-10">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="klasifikasi" id="klasifikasi1" value="Biasa"
+                                        <input autocomplete="off" class="form-check-input" type="radio" name="klasifikasi" id="klasifikasi1" value="Biasa"
                                         @if ($disposisiKaro != null)
                                             @if ($disposisiKaro->klasifikasi == 'Biasa')
                                                 @checked(true)
@@ -478,7 +478,7 @@
                                         </label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="klasifikasi" id="klasifikasi2" value="Rahasia"
+                                        <input autocomplete="off" class="form-check-input" type="radio" name="klasifikasi" id="klasifikasi2" value="Rahasia"
                                         @if ($disposisiKaro != null)
                                             @if ($disposisiKaro->klasifikasi == 'Rahasia')
                                                 @checked(true)
@@ -498,7 +498,7 @@
                                     <legend class="col-form-label">Derajat</legend>
                                     <div class="col-sm-10">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="derajat" id="derajat1" value="Biasa"
+                                        <input autocomplete="off" class="form-check-input" type="radio" name="derajat" id="derajat1" value="Biasa"
                                         @if ($disposisiKaro != null)
                                             @if ($disposisiKaro->derajat == 'Biasa')
                                                 @checked(true)
@@ -511,7 +511,7 @@
                                         </label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="derajat" id="derajat2" value="Kilat"
+                                        <input autocomplete="off" class="form-check-input" type="radio" name="derajat" id="derajat2" value="Kilat"
                                         @if ($disposisiKaro != null)
                                             @if ($disposisiKaro->derajat == 'Kilat')
                                                 @checked(true)
@@ -541,23 +541,23 @@
             @else
                 <form action="javascript:void(0)" id="form-disposisi-karo" enctype="multipart/form-data">
                     @csrf
-                    <input type="hidden" name="kasus_id" value="{{$kasus->id}}">
-                    <input type="hidden" name="status_id" value="{{$kasus->status_id}}">
-                    <input type="hidden" name="sub_process">
+                    <input autocomplete="off" type="hidden" name="kasus_id" value="{{$kasus->id}}">
+                    <input autocomplete="off" type="hidden" name="status_id" value="{{$kasus->status_id}}">
+                    <input autocomplete="off" type="hidden" name="sub_process">
                     <div class="modal-body">
                         <div class="mb-3">
                             <label for="exampleInputPassword1" class="form-label">Nomor Surat</label>
-                            <input type="text" class="form-control" id="nomor_surat" name="nomor_surat" value="{{$kasus->no_nota_dinas}}" readonly>
+                            <input autocomplete="off" type="text" class="form-control" id="nomor_surat" name="nomor_surat" value="{{$kasus->no_nota_dinas}}" readonly>
                         </div>
                         <div class="mb-3">
                             <label for="exampleInputPassword1" class="form-label">Nomor Agenda</label>
-                            <input type="text" class="form-control" id="nomor_agenda" name="nomor_agenda" value="{{$disposisiKaro != null ? $disposisiKaro->no_agenda : ''}}" @if($disposisiKaro != null) readonly @endif>
+                            <input autocomplete="off" type="text" class="form-control" id="nomor_agenda" name="nomor_agenda" value="{{$disposisiKaro != null ? $disposisiKaro->no_agenda : ''}}" @if($disposisiKaro != null) readonly @endif>
                         </div>
                         <fieldset class="form-group row mb-4">
                             <legend class="col-form-label">Klasifikasi</legend>
                             <div class="col-sm-10">
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="klasifikasi" id="klasifikasi1" value="Biasa"
+                                <input autocomplete="off" class="form-check-input" type="radio" name="klasifikasi" id="klasifikasi1" value="Biasa"
                                 @if ($disposisiKaro != null)
                                     @if ($disposisiKaro->klasifikasi == 'Biasa')
                                         @checked(true)
@@ -570,7 +570,7 @@
                                 </label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="klasifikasi" id="klasifikasi2" value="Rahasia"
+                                <input autocomplete="off" class="form-check-input" type="radio" name="klasifikasi" id="klasifikasi2" value="Rahasia"
                                 @if ($disposisiKaro != null)
                                     @if ($disposisiKaro->klasifikasi == 'Rahasia')
                                         @checked(true)
@@ -588,7 +588,7 @@
                             <legend class="col-form-label">Derajat</legend>
                             <div class="col-sm-10">
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="derajat" id="derajat1" value="Biasa"
+                                <input autocomplete="off" class="form-check-input" type="radio" name="derajat" id="derajat1" value="Biasa"
                                 @if ($disposisiKaro != null)
                                     @if ($disposisiKaro->derajat == 'Biasa')
                                         @checked(true)
@@ -601,7 +601,7 @@
                                 </label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="derajat" id="derajat2" value="Kilat"
+                                <input autocomplete="off" class="form-check-input" type="radio" name="derajat" id="derajat2" value="Kilat"
                                 @if ($disposisiKaro != null)
                                     @if ($disposisiKaro->derajat == 'Kilat')
                                         @checked(true)
@@ -619,17 +619,17 @@
                             <div class="row">
                                 <div class="col-6">
                                     <label for="exampleInputPassword1" class="form-label">Tanggal Diterima</label>
-                                    <input type="date" class="form-control" id="tanggal" name="tanggal">
+                                    <input autocomplete="off" type="date" class="form-control" id="tanggal" name="tanggal">
                                 </div>
                                 <div class="col-6">
                                     <label for="exampleInputPassword1" class="form-label">Jam Diterima</label>
-                                    <input type="time" class="form-control" id="jam" name="jam">
+                                    <input autocomplete="off" type="time" class="form-control" id="jam" name="jam">
                                 </div>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="document">Upload Berkas Disposisi (max 300KB)</label>
-                            <input class="form-input form-control" type="file" id="document" name="dokumen_disposisi" multiple accept=".pdf">
+                            <input autocomplete="off" class="form-input form-control" type="file" id="document" name="dokumen_disposisi" multiple accept=".pdf">
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -653,21 +653,21 @@
             @if(!empty($disposisiSesro))
                 <form action="javascript:void(0)" id="form-disposisi-sesro" enctype="multipart/form-data">
                     @csrf
-                    <input type="hidden" name="kasus_id" value="{{$kasus->id}}">
-                    <input type="hidden" name="status_id" value="{{$kasus->status_id}}">
-                    <input type="hidden" name="sub_process">
+                    <input autocomplete="off" type="hidden" name="kasus_id" value="{{$kasus->id}}">
+                    <input autocomplete="off" type="hidden" name="status_id" value="{{$kasus->status_id}}">
+                    <input autocomplete="off" type="hidden" name="sub_process">
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-lg-6 col-md-12">
                                 <div class="form-group">
                                     <label for="exampleInputPassword1" class="form-label">Nomor Surat</label>
-                                    <input type="text" class="form-control" id="nomor_surat" name="nomor_surat" value="{{$kasus->no_nota_dinas}}" readonly>
+                                    <input autocomplete="off" type="text" class="form-control" id="nomor_surat" name="nomor_surat" value="{{$kasus->no_nota_dinas}}" readonly>
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-12">
                                 <div class="form-group">
                                     <label for="exampleInputPassword1" class="form-label">Nomor Agenda</label>
-                                    <input type="text" class="form-control" id="nomor_agenda" name="nomor_agenda" value="{{$disposisiSesro != null ? $disposisiSesro->no_agenda : ''}}" @if($disposisiSesro != null) readonly @endif>
+                                    <input autocomplete="off" type="text" class="form-control" id="nomor_agenda" name="nomor_agenda" value="{{$disposisiSesro != null ? $disposisiSesro->no_agenda : ''}}" @if($disposisiSesro != null) readonly @endif>
                                 </div>
                             </div>
 
@@ -676,7 +676,7 @@
                                     <legend class="col-form-label">Klasifikasi</legend>
                                     <div class="col-sm-10">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="klasifikasi" id="klasifikasi1" value="Biasa"
+                                        <input autocomplete="off" class="form-check-input" type="radio" name="klasifikasi" id="klasifikasi1" value="Biasa"
                                         @if ($disposisiSesro != null)
                                             @if ($disposisiSesro->klasifikasi == 'Biasa')
                                                 @checked(true)
@@ -689,7 +689,7 @@
                                         </label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="klasifikasi" id="klasifikasi2" value="Rahasia"
+                                        <input autocomplete="off" class="form-check-input" type="radio" name="klasifikasi" id="klasifikasi2" value="Rahasia"
                                         @if ($disposisiSesro != null)
                                             @if ($disposisiSesro->klasifikasi == 'Rahasia')
                                                 @checked(true)
@@ -709,7 +709,7 @@
                                     <legend class="col-form-label">Derajat</legend>
                                     <div class="col-sm-10">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="derajat" id="derajat1" value="Biasa"
+                                        <input autocomplete="off" class="form-check-input" type="radio" name="derajat" id="derajat1" value="Biasa"
                                         @if ($disposisiSesro != null)
                                             @if ($disposisiSesro->derajat == 'Biasa')
                                                 @checked(true)
@@ -722,7 +722,7 @@
                                         </label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="derajat" id="derajat2" value="Kilat"
+                                        <input autocomplete="off" class="form-check-input" type="radio" name="derajat" id="derajat2" value="Kilat"
                                         @if ($disposisiSesro != null)
                                             @if ($disposisiSesro->derajat == 'Kilat')
                                                 @checked(true)
@@ -752,21 +752,21 @@
             @else
                 <form action="javascript:void(0)" id="form-disposisi-sesro" enctype="multipart/form-data">
                     @csrf
-                    <input type="hidden" name="kasus_id" value="{{$kasus->id}}">
-                    <input type="hidden" name="status_id" value="{{$kasus->status_id}}">
-                    <input type="hidden" name="sub_process">
+                    <input autocomplete="off" type="hidden" name="kasus_id" value="{{$kasus->id}}">
+                    <input autocomplete="off" type="hidden" name="status_id" value="{{$kasus->status_id}}">
+                    <input autocomplete="off" type="hidden" name="sub_process">
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-lg-6 col-md-12">
                                 <div class="form-group">
                                     <label for="exampleInputPassword1" class="form-label">Nomor Surat</label>
-                                    <input type="text" class="form-control" id="nomor_surat" name="nomor_surat" value="{{$kasus->no_nota_dinas}}" readonly>
+                                    <input autocomplete="off" type="text" class="form-control" id="nomor_surat" name="nomor_surat" value="{{$kasus->no_nota_dinas}}" readonly>
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-12">
                                 <div class="form-group">
                                     <label for="exampleInputPassword1" class="form-label">Nomor Agenda</label>
-                                    <input type="text" class="form-control" id="nomor_agenda" name="nomor_agenda" value="{{$disposisiSesro != null ? $disposisiSesro->no_agenda : ''}}" @if($disposisiSesro != null) readonly @endif>
+                                    <input autocomplete="off" type="text" class="form-control" id="nomor_agenda" name="nomor_agenda" value="{{$disposisiSesro != null ? $disposisiSesro->no_agenda : ''}}" @if($disposisiSesro != null) readonly @endif>
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-12">
@@ -774,7 +774,7 @@
                                     <legend class="col-form-label">Klasifikasi</legend>
                                     <div class="col-sm-10">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="klasifikasi" id="klasifikasi1" value="Biasa"
+                                        <input autocomplete="off" class="form-check-input" type="radio" name="klasifikasi" id="klasifikasi1" value="Biasa"
                                         @if ($disposisiKaro != null)
                                             @if ($disposisiKaro->klasifikasi == 'Biasa')
                                                 @checked(true)
@@ -787,7 +787,7 @@
                                         </label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="klasifikasi" id="klasifikasi2" value="Rahasia"
+                                        <input autocomplete="off" class="form-check-input" type="radio" name="klasifikasi" id="klasifikasi2" value="Rahasia"
                                         @if ($disposisiKaro != null)
                                             @if ($disposisiKaro->klasifikasi == 'Rahasia')
                                                 @checked(true)
@@ -807,7 +807,7 @@
                                     <legend class="col-form-label">Derajat</legend>
                                     <div class="col-sm-10">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="derajat" id="derajat1" value="Biasa"
+                                        <input autocomplete="off" class="form-check-input" type="radio" name="derajat" id="derajat1" value="Biasa"
                                         @if ($disposisiKaro != null)
                                             @if ($disposisiKaro->derajat == 'Biasa')
                                                 @checked(true)
@@ -820,7 +820,7 @@
                                         </label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="derajat" id="derajat2" value="Kilat"
+                                        <input autocomplete="off" class="form-check-input" type="radio" name="derajat" id="derajat2" value="Kilat"
                                         @if ($disposisiKaro != null)
                                             @if ($disposisiKaro->derajat == 'Kilat')
                                                 @checked(true)
@@ -840,21 +840,21 @@
                             <div class="row">
                                 <div class="col-6">
                                     <label for="exampleInputPassword1" class="form-label">Tanggal Diterima</label>
-                                    <input type="date" class="form-control" id="tanggal" name="tanggal">
+                                    <input autocomplete="off" type="date" class="form-control" id="tanggal" name="tanggal">
                                 </div>
                                 <div class="col-6">
                                     <label for="exampleInputPassword1" class="form-label">Jam Diterima</label>
-                                    <input type="time" class="form-control" id="jam" name="jam">
+                                    <input autocomplete="off" type="time" class="form-control" id="jam" name="jam">
                                 </div>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="document">Upload Berkas Disposisi (max 300KB)</label>
-                            <input class="form-input form-control" type="file" id="document" name="dokumen_disposisi" multiple accept=".pdf">
+                            <input autocomplete="off" class="form-input form-control" type="file" id="document" name="dokumen_disposisi" multiple accept=".pdf">
                         </div>
                         {{-- <div class="mb-3">
                             <label for="exampleInputPassword1" class="form-label">Perihal</label>
-                            <input type="text" class="form-control" id="perihal" name="perihal">
+                            <input autocomplete="off" type="text" class="form-control" id="perihal" name="perihal">
                         </div> --}}
                     </div>
                     <div class="modal-footer">
@@ -877,21 +877,21 @@
                 @if (!empty($disposisiKabag))
                     <form action="javascript:void(0)" id="form-disposisi-sesro" enctype="multipart/form-data">
                         @csrf
-                        <input type="hidden" name="kasus_id" value="{{$kasus->id}}">
-                        <input type="hidden" name="status_id" value="{{$kasus->status_id}}">
-                        <input type="hidden" name="sub_process">
+                        <input autocomplete="off" type="hidden" name="kasus_id" value="{{$kasus->id}}">
+                        <input autocomplete="off" type="hidden" name="status_id" value="{{$kasus->status_id}}">
+                        <input autocomplete="off" type="hidden" name="sub_process">
                         <div class="modal-body">
                             <div class="row">
                                 <div class="col-lg-6 col-md-12">
                                     <div class="form-group">
                                         <label for="exampleInputPassword1" class="form-label">Nomor Surat</label>
-                                        <input type="text" class="form-control" id="nomor_surat" name="nomor_surat" value="{{$kasus->no_nota_dinas}}" readonly>
+                                        <input autocomplete="off" type="text" class="form-control" id="nomor_surat" name="nomor_surat" value="{{$kasus->no_nota_dinas}}" readonly>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-12">
                                     <div class="form-group">
                                         <label for="exampleInputPassword1" class="form-label">Nomor Agenda</label>
-                                        <input type="text" class="form-control" id="nomor_agenda" name="nomor_agenda" value="{{$disposisiKabag != null ? $disposisiKabag->no_agenda : ''}}" @if($disposisiKabag != null) readonly @endif>
+                                        <input autocomplete="off" type="text" class="form-control" id="nomor_agenda" name="nomor_agenda" value="{{$disposisiKabag != null ? $disposisiKabag->no_agenda : ''}}" @if($disposisiKabag != null) readonly @endif>
                                     </div>
                                 </div>
 
@@ -900,7 +900,7 @@
                                         <legend class="col-form-label">Klasifikasi</legend>
                                         <div class="col-sm-10">
                                         <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="klasifikasi" id="klasifikasi1" value="Biasa"
+                                            <input autocomplete="off" class="form-check-input" type="radio" name="klasifikasi" id="klasifikasi1" value="Biasa"
                                             @if ($disposisiKabag != null)
                                                 @if ($disposisiKabag->klasifikasi == 'Biasa')
                                                     @checked(true)
@@ -913,7 +913,7 @@
                                             </label>
                                         </div>
                                         <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="klasifikasi" id="klasifikasi2" value="Rahasia"
+                                            <input autocomplete="off" class="form-check-input" type="radio" name="klasifikasi" id="klasifikasi2" value="Rahasia"
                                             @if ($disposisiKabag != null)
                                                 @if ($disposisiKabag->klasifikasi == 'Rahasia')
                                                     @checked(true)
@@ -933,7 +933,7 @@
                                         <legend class="col-form-label">Derajat</legend>
                                         <div class="col-sm-10">
                                         <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="derajat" id="derajat1" value="Biasa"
+                                            <input autocomplete="off" class="form-check-input" type="radio" name="derajat" id="derajat1" value="Biasa"
                                             @if ($disposisiKabag != null)
                                                 @if ($disposisiKabag->derajat == 'Biasa')
                                                     @checked(true)
@@ -946,7 +946,7 @@
                                             </label>
                                         </div>
                                         <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="derajat" id="derajat2" value="Kilat"
+                                            <input autocomplete="off" class="form-check-input" type="radio" name="derajat" id="derajat2" value="Kilat"
                                             @if ($disposisiKabag != null)
                                                 @if ($disposisiKabag->derajat == 'Kilat')
                                                     @checked(true)
@@ -976,21 +976,21 @@
                 @else
                     <form action="javascript:void(0)" id="form-disposisi-kabag" enctype="multipart/form-data">
                         @csrf
-                        <input type="hidden" name="kasus_id" value="{{$kasus->id}}">
-                        <input type="hidden" name="status_id" value="{{$kasus->status_id}}">
-                        <input type="hidden" name="sub_process">
+                        <input autocomplete="off" type="hidden" name="kasus_id" value="{{$kasus->id}}">
+                        <input autocomplete="off" type="hidden" name="status_id" value="{{$kasus->status_id}}">
+                        <input autocomplete="off" type="hidden" name="sub_process">
                         <div class="modal-body">
                             <div class="row">
                                 <div class="col-lg-6 col-md-12">
                                     <div class="form-group">
                                         <label for="exampleInputPassword1" class="form-label">Nomor Surat</label>
-                                        <input type="text" class="form-control" id="nomor_surat" name="nomor_surat" value="{{$kasus->no_nota_dinas}}" readonly>
+                                        <input autocomplete="off" type="text" class="form-control" id="nomor_surat" name="nomor_surat" value="{{$kasus->no_nota_dinas}}" readonly>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-12">
                                     <div class="form-group">
                                         <label for="exampleInputPassword1" class="form-label">Nomor Agenda</label>
-                                        <input type="text" class="form-control" id="nomor_agenda" name="nomor_agenda" value="{{$disposisiKabag != null ? $disposisiKabag->no_agenda : ''}}" @if($disposisiKabag != null) readonly @endif>
+                                        <input autocomplete="off" type="text" class="form-control" id="nomor_agenda" name="nomor_agenda" value="{{$disposisiKabag != null ? $disposisiKabag->no_agenda : ''}}" @if($disposisiKabag != null) readonly @endif>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-12">
@@ -998,7 +998,7 @@
                                         <legend class="col-form-label">Klasifikasi</legend>
                                         <div class="col-sm-10">
                                         <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="klasifikasi" id="klasifikasi1" value="Biasa"
+                                            <input autocomplete="off" class="form-check-input" type="radio" name="klasifikasi" id="klasifikasi1" value="Biasa"
                                             @if ($disposisiKaro != null)
                                                 @if ($disposisiKaro->klasifikasi == 'Biasa')
                                                     @checked(true)
@@ -1011,7 +1011,7 @@
                                             </label>
                                         </div>
                                         <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="klasifikasi" id="klasifikasi2" value="Rahasia"
+                                            <input autocomplete="off" class="form-check-input" type="radio" name="klasifikasi" id="klasifikasi2" value="Rahasia"
                                             @if ($disposisiKaro != null)
                                                 @if ($disposisiKaro->klasifikasi == 'Rahasia')
                                                     @checked(true)
@@ -1031,7 +1031,7 @@
                                         <legend class="col-form-label">Derajat</legend>
                                         <div class="col-sm-10">
                                         <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="derajat" id="derajat1" value="Biasa"
+                                            <input autocomplete="off" class="form-check-input" type="radio" name="derajat" id="derajat1" value="Biasa"
                                             @if ($disposisiKaro != null)
                                                 @if ($disposisiKaro->derajat == 'Biasa')
                                                     @checked(true)
@@ -1044,7 +1044,7 @@
                                             </label>
                                         </div>
                                         <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="derajat" id="derajat2" value="Kilat"
+                                            <input autocomplete="off" class="form-check-input" type="radio" name="derajat" id="derajat2" value="Kilat"
                                             @if ($disposisiKaro != null)
                                                 @if ($disposisiKaro->derajat == 'Kilat')
                                                     @checked(true)
@@ -1062,11 +1062,11 @@
                             </div>
                             <div class="mb-3">
                                 <label for="exampleInputPassword1" class="form-label">Tanggal Diterima</label>
-                                <input type="date" class="form-control" id="tanggal" name="tanggal">
+                                <input autocomplete="off" type="date" class="form-control" id="tanggal" name="tanggal">
                             </div>
                             {{-- <div class="mb-3">
                                 <label for="exampleInputPassword1" class="form-label">Perihal</label>
-                                <input type="text" class="form-control" id="perihal" name="perihal">
+                                <input autocomplete="off" type="text" class="form-control" id="perihal" name="perihal">
                             </div> --}}
 
                             {{-- Form Pemeriksa --}}
@@ -1106,7 +1106,7 @@
 
                             <div class="form-group">
                                 <label for="document">Upload Berkas Disposisi (max 300KB)</label>
-                                <input class="form-input form-control" type="file" id="document" name="dokumen_disposisi" multiple accept=".pdf">
+                                <input autocomplete="off" class="form-input form-control" type="file" id="document" name="dokumen_disposisi" multiple accept=".pdf">
                             </div>
                         </div>
                         <div class="modal-footer">

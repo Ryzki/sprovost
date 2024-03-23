@@ -46,8 +46,8 @@
         {{-- <form action="/data-kasus/update" method="post"> --}}
         <form action="javascript:void(0)" id="form">
             @csrf
-            <input type="text" class="form-control" value="{{ $kasus->id }}" hidden name="kasus_id">
-            <input type="text" class="form-control" value="{{ $kasus->status_id }}" hidden name="status">
+            <input autocomplete="off" type="text" class="form-control" value="{{ $kasus->id }}" hidden name="kasus_id">
+            <input autocomplete="off" type="text" class="form-control" value="{{ $kasus->status_id }}" hidden name="status">
 
             {{-- Nav Ringkasan Data --}}
             <nav>
@@ -152,15 +152,15 @@
             </div>
             <form action="javascript:void(0)" @if(empty($sprin)) id="form-generate-sprin" @else id="update-sprin" @endif>
                 @csrf
-                <input type="hidden" name="status" value="{{$status->id}}">
-                <input type="hidden" name="sub_process">
-                <input type="hidden" name="process_id">
+                <input autocomplete="off" type="hidden" name="status" value="{{$status->id}}">
+                <input autocomplete="off" type="hidden" name="sub_process">
+                <input autocomplete="off" type="hidden" name="process_id">
                 <div class="modal-body">
                     <div class="row justify-content-between align-items-center">
                         <div class="col">
                             <div class="form-group">
                                 <label for="exampleInputEmail1" class="form-label">Tanggal Cetak Surat SPRIN</label>
-                                <input type="text" class="form-control" id="exampleInputEmail1"
+                                <input autocomplete="off" type="text" class="form-control" id="exampleInputEmail1"
                                     aria-describedby="emailHelp"
                                     value="{{ !empty($sprin) ? date('d-m-Y H:i', strtotime($sprin->created_at)) . ' WIB' : '-' }}"
                                     readonly style="border:none">
@@ -169,7 +169,7 @@
                         <div class="col">
                             <div class="form-group">
                                 <label for="exampleInputEmail1" class="form-label">Dicetak Oleh</label>
-                                <input type="text" class="form-control" id="exampleInputEmail1"
+                                <input autocomplete="off" type="text" class="form-control" id="exampleInputEmail1"
                                     aria-describedby="emailHelp"
                                     value="{{ !empty($sprin) ? $sprin->user[0]->name: '-' }}"
                                     readonly style="border:none">
@@ -180,37 +180,37 @@
                     @if ($sprin == null)
                         <div class="form-group">
                             <label for="no_sprin" class="form-label">No. SPRIN</label>
-                            <input type="text" class="form-control" name="no_sprin" value="{{!empty($sprin) ? $sprin->no_sprin : ''}}" placeholder="{{!empty($sprin) ? '' : 'Masukan Nomor SPRIN'}}">
+                            <input autocomplete="off" type="text" class="form-control" name="no_sprin" value="{{!empty($sprin) ? $sprin->no_sprin : ''}}" placeholder="{{!empty($sprin) ? '' : 'Masukan Nomor SPRIN'}}">
                         </div>
                         <div class="row">
                             <div class="col">
                                 <div class="form-group">
                                     <label for="tgl_sidang">Tanggal Pelaksanaan Sidang</label>
-                                    <input type="date" name="tgl_sidang" class="form-control" required>
+                                    <input autocomplete="off" type="date" name="tgl_sidang" class="form-control" required>
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="form-group">
                                     <label for="waktu_sidang">Waktu Pelaksanaan Sidang</label>
-                                    <input type="time" name="waktu_sidang" class="form-control" required>
+                                    <input autocomplete="off" type="time" name="waktu_sidang" class="form-control" required>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="lokasi_sidang">Lokasi Sidang</label>
-                                <input type="text" class="form-control" name="lokasi_sidang" required>
+                                <input autocomplete="off" type="text" class="form-control" name="lokasi_sidang" required>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col">
                                 <div class="form-group">
                                     <label for="no_nd_rehabpers">Nomor Nota Dinas Bag. Rehabpers</label>
-                                    <input type="text" name="no_nd_rehabpers" class="form-control" required>
+                                    <input autocomplete="off" type="text" name="no_nd_rehabpers" class="form-control" required>
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="form-group">
                                     <label for="tgl_nd_rehabpers">Tanggal Nota Dinas Bag. Rehabpers</label>
-                                    <input type="date" name="tgl_nd_rehabpers" class="form-control" required>
+                                    <input autocomplete="off" type="date" name="tgl_nd_rehabpers" class="form-control" required>
                                 </div>
                             </div>
                         </div>
@@ -218,7 +218,7 @@
                         @if($sprin->is_draft)
                             <div class="form-group">
                                 <label for="no_sprin" class="form-label">No. SPRIN</label>
-                                <input type="text" class="form-control" name="no_sprin" value="{{!empty($sprin) ? $sprin->no_sprin : ''}}" placeholder="{{!empty($sprin) ? '' : 'Masukan Nomor SPRIN'}}">
+                                <input autocomplete="off" type="text" class="form-control" name="no_sprin" value="{{!empty($sprin) ? $sprin->no_sprin : ''}}" placeholder="{{!empty($sprin) ? '' : 'Masukan Nomor SPRIN'}}">
                             </div>
                         @else
                             <div class="row justify-content-around items-center mt-4">
@@ -275,34 +275,34 @@
             @else
                 <form action="javascript:void(0)" id="form-generate-undangan">
                     @csrf
-                    <input type="hidden" name="status" value="{{$status->id}}">
-                    <input type="hidden" name="sub_process">
-                    <input type="hidden" name="process_id">
+                    <input autocomplete="off" type="hidden" name="status" value="{{$status->id}}">
+                    <input autocomplete="off" type="hidden" name="sub_process">
+                    <input autocomplete="off" type="hidden" name="process_id">
                     <div class="modal-body">
                         <div class="row mb-4">
                             {{-- <div class="col-md-6 col-12">
                                 <div class="form-group">
                                     <label for="no_undangan" class="form-label">No. Undangan</label>
-                                    <input type="number" class="form-control" name="no_undangan" placeholder='Masukan Nomor Undangan'>
+                                    <input autocomplete="off" type="number" class="form-control" name="no_undangan" placeholder='Masukan Nomor Undangan'>
                                 </div>
                             </div> --}}
                             <div class="col-md-6 col-12">
                                 <div class="form-group">
                                     <label for="tgl" class="form-label">Tanggal Sidang</label>
-                                    <input type="date" class="form-control" name="tgl" value="{{!empty($sidang) ? \Carbon\Carbon::parse($sidang->tgl_sidang)->format('Y-m-d') : ''}}" @empty(!$sidang) readonly @endempty placeholder='Pilih Tanggal'>
+                                    <input autocomplete="off" type="date" class="form-control" name="tgl" value="{{!empty($sidang) ? \Carbon\Carbon::parse($sidang->tgl_sidang)->format('Y-m-d') : ''}}" @empty(!$sidang) readonly @endempty placeholder='Pilih Tanggal'>
                                 </div>
                             </div>
                             <div class="col-md-6 col-12">
                                 <div class="form-group">
                                     <label for="jam" class="form-label">Jam Pelaksanaan Sidang</label>
-                                    <input type="time" class="form-control" name="jam" value="{{!empty($sidang) ? \Carbon\Carbon::parse($sidang->waktu_sidang)->format('H:i') : ''}}" @empty(!$sidang) readonly @endempty>
+                                    <input autocomplete="off" type="time" class="form-control" name="jam" value="{{!empty($sidang) ? \Carbon\Carbon::parse($sidang->waktu_sidang)->format('H:i') : ''}}" @empty(!$sidang) readonly @endempty>
                                 </div>
                             </div>
 
                             <div class="col-12">
                                 <div class="form-group">
                                     <label for="lokasi" class="form-label">Ruang Sidang</label>
-                                    <input type="text" class="form-control" name="lokasi" value="{{!empty($sidang) ? $sidang->lokasi_sidang : ''}}" @empty(!$sidang) readonly @endempty>
+                                    <input autocomplete="off" type="text" class="form-control" name="lokasi" value="{{!empty($sidang) ? $sidang->lokasi_sidang : ''}}" @empty(!$sidang) readonly @endempty>
                                 </div>
                             </div>
                         </div>
@@ -345,9 +345,9 @@
             @else
                 <form action="javascript:void(0)" id="form-generate-hasil-putusan">
                     @csrf
-                    <input type="hidden" name="status" value="{{$status->id}}">
-                    <input type="hidden" name="sub_process">
-                    <input type="hidden" name="process_id">
+                    <input autocomplete="off" type="hidden" name="status" value="{{$status->id}}">
+                    <input autocomplete="off" type="hidden" name="sub_process">
+                    <input autocomplete="off" type="hidden" name="process_id">
                     <div class="modal-body">
                         <div class="card">
                             <div class="card-header">
@@ -383,13 +383,13 @@
                                         <div class="form-group">
                                             <label for="">Hasil Putusan</label>
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="hasil_sidang" id="hasil_sidang1" value="Terbukti">
+                                                <input autocomplete="off" class="form-check-input" type="radio" name="hasil_sidang" id="hasil_sidang1" value="Terbukti">
                                                 <label class="form-check-label" for="hasil_sidang1">
                                                 Terbukti
                                                 </label>
                                             </div>
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="hasil_sidang" id="hasil_sidang2" value="Tidak Terbukti">
+                                                <input autocomplete="off" class="form-check-input" type="radio" name="hasil_sidang" id="hasil_sidang2" value="Tidak Terbukti">
                                                 <label class="form-check-label" for="hasil_sidang2">
                                                 Tidak Terbukti
                                                 </label>

@@ -52,8 +52,8 @@
         {{-- <form action="/data-kasus/update" method="post"> --}}
         <form action="javascript:void(0)" id="form">
             @csrf
-            <input type="text" class="form-control" value="{{ $kasus->id }}" hidden name="kasus_id">
-            <input type="text" class="form-control" value="{{ $kasus->status_id }}" hidden name="status">
+            <input autocomplete="off" type="text" class="form-control" value="{{ $kasus->id }}" hidden name="kasus_id">
+            <input autocomplete="off" type="text" class="form-control" value="{{ $kasus->status_id }}" hidden name="status">
 
             {{-- Nav Ringkasan Data --}}
             <nav>
@@ -227,33 +227,33 @@
             <div class="modal-body">
                 <form action="javascript:void(0)" id="form-sprin-gelar">
                     @csrf
-                    <input type="hidden" name="status" value="{{$status->id}}">
-                    <input type="hidden" name="sub_process">
-                    <input type="hidden" name="process_id">
+                    <input autocomplete="off" type="hidden" name="status" value="{{$status->id}}">
+                    <input autocomplete="off" type="hidden" name="sub_process">
+                    <input autocomplete="off" type="hidden" name="process_id">
                     @if ($sprinGelar == null)
                         <div class="row mb-4">
                             <div class="col-md-6 col-12">
                                 <div class="form-group">
                                     <label for="no_sprin" class="form-label">No. SPRIN</label>
-                                    <input type="text" class="form-control" name="no_sprin" placeholder='Masukan Nomor SPRIN'>
+                                    <input autocomplete="off" type="text" class="form-control" name="no_sprin" placeholder='Masukan Nomor SPRIN'>
                                 </div>
                             </div>
                             <div class="col-md-6 col-12">
                                 <div class="form-group">
                                     <label for="tgl" class="form-label">Tanggal Pelaksanaan Gelar Perkara</label>
-                                    <input type="date" class="form-control" name="tgl" placeholder='Pilih Tanggal'>
+                                    <input autocomplete="off" type="date" class="form-control" name="tgl" placeholder='Pilih Tanggal'>
                                 </div>
                             </div>
                             <div class="col-md-6 col-12">
                                 <div class="form-group">
                                     <label for="tempat" class="form-label">Lokasi Pelaksanaan Gelar Perkara</label>
-                                    <input type="text" class="form-control" name="tempat" placeholder='Masukan Lokasi Pelaksanaan'>
+                                    <input autocomplete="off" type="text" class="form-control" name="tempat" placeholder='Masukan Lokasi Pelaksanaan'>
                                 </div>
                             </div>
                             <div class="col-md-6 col-12">
                                 <div class="form-group">
                                     <label for="waktu" class="form-label">Waktu Pelaksanaan Gelar Perkara</label>
-                                    <input type="time" class="form-control" name="waktu" placeholder='Masukan Waktu Pelaksanaan'>
+                                    <input autocomplete="off" type="time" class="form-control" name="waktu" placeholder='Masukan Waktu Pelaksanaan'>
                                 </div>
                             </div>
                         </div>
@@ -274,10 +274,10 @@
 
                 <form action="javascript:void(0)" id="update-no-sprin" @if($sprinGelar == null || !$sprinGelar->is_draft) style="display: none" @endif>
                     @csrf
-                    <input type="hidden" name="type" value="gelar">
+                    <input autocomplete="off" type="hidden" name="type" value="gelar">
                     <div class="form-group">
                         <label for="no_sprin">Update Nomor SPRIN Gelar</label>
-                        <input type="text" name="no_sprin" class="form-control" value="{{$sprinGelar != null ? $sprinGelar->no_sprin : ''}}">
+                        <input autocomplete="off" type="text" name="no_sprin" class="form-control" value="{{$sprinGelar != null ? $sprinGelar->no_sprin : ''}}">
                     </div>
                 </form>
             </div>
@@ -303,9 +303,9 @@
             </div>
             <form action="javascript:void(0)" id="form-undangan-gelar">
                 @csrf
-                <input type="hidden" name="status" value="{{$status->id}}">
-                <input type="hidden" name="sub_process">
-                <input type="hidden" name="process_id">
+                <input autocomplete="off" type="hidden" name="status" value="{{$status->id}}">
+                <input autocomplete="off" type="hidden" name="sub_process">
+                <input autocomplete="off" type="hidden" name="process_id">
                 <div class="modal-body">
                     @if (!isset($gelarPerkara->tgl_pelaksanaan))
                         <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
@@ -322,14 +322,14 @@
                     @else
                         <div class="form-group">
                             <label for="no_undangan" class="form-label">No. Undangan Gelar Perkara</label>
-                            <input type="text" class="form-control" name="no_undangan">
+                            <input autocomplete="off" type="text" class="form-control" name="no_undangan">
                         </div>
 
                         <div class="row mb-4">
                             <div class="col-md-6 col-12">
                                 <div class="form-group">
                                     <label for="tgl" class="form-label">Tanggal Pelaksanaan Gelar Perkara</label>
-                                    <input type="date" class="form-control" name="tgl" placeholder='Pilih Tanggal' value="{{ isset($gelarPerkara) ? \Carbon\Carbon::parse($gelarPerkara->tgl_pelaksanaan)->format('Y-m-d') : '' }}"
+                                    <input autocomplete="off" type="date" class="form-control" name="tgl" placeholder='Pilih Tanggal' value="{{ isset($gelarPerkara) ? \Carbon\Carbon::parse($gelarPerkara->tgl_pelaksanaan)->format('Y-m-d') : '' }}"
                                     @if (isset($gelarPerkara))
                                         readonly
                                     @endif>
@@ -338,7 +338,7 @@
                             <div class="col-md-6 col-12">
                                 <div class="form-group">
                                     <label for="jam" class="form-label">Waktu Pelaksanaan Gelar Perkara</label>
-                                    <input type="time" class="form-control" name="jam" placeholder='Pilih Jam' value="{{ isset($gelarPerkara) ? $gelarPerkara->waktu_pelaksanaan : '' }}"
+                                    <input autocomplete="off" type="time" class="form-control" name="jam" placeholder='Pilih Jam' value="{{ isset($gelarPerkara) ? $gelarPerkara->waktu_pelaksanaan : '' }}"
                                     @if (isset($gelarPerkara))
                                         readonly
                                     @endif>
@@ -347,7 +347,7 @@
                             <div class="col-md-6 col-12">
                                 <div class="form-group">
                                     <label for="tempat" class="form-label">Tempat Pelaksanaan</label>
-                                    <input type="text" class="form-control" name="tempat" placeholder='Masukan Tempat Pelaksanaan' value="{{ isset($gelarPerkara) ? $gelarPerkara->tempat_pelaksanaan : '' }}"
+                                    <input autocomplete="off" type="text" class="form-control" name="tempat" placeholder='Masukan Tempat Pelaksanaan' value="{{ isset($gelarPerkara) ? $gelarPerkara->tempat_pelaksanaan : '' }}"
                                     @if (isset($gelarPerkara))
                                         readonly
                                     @endif>
@@ -358,7 +358,7 @@
                                     <label for="pimpinan">Pimpinan Gelar Perkara</label>
                                     <select name="pimpinan" id="select-pimpinan" class="form-select select-penyidik" data-placeholder="Silahkan Pilih Pimpinan">
                                     </select>
-                                    {{-- <input type="text" class="form-control" name="pimpinan" placeholder='Masukan Pimpinan Pelaksanaan'> --}}
+                                    {{-- <input autocomplete="off" type="text" class="form-control" name="pimpinan" placeholder='Masukan Pimpinan Pelaksanaan'> --}}
                                 </div>
                             </div>
                         </div>
@@ -381,9 +381,9 @@
             </div>
             <form action="javascript:void(0)" id="form-laporan-gelar">
                 @csrf
-                <input type="hidden" name="status" value="{{$status->id}}">
-                <input type="hidden" name="sub_process">
-                <input type="hidden" name="process_id">
+                <input autocomplete="off" type="hidden" name="status" value="{{$status->id}}">
+                <input autocomplete="off" type="hidden" name="sub_process">
+                <input autocomplete="off" type="hidden" name="process_id">
                 <div class="modal-body">
                     @if (!isset($gelarPerkara->pimpinan))
                         <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
@@ -407,8 +407,8 @@
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group mb-4">
                                                     <label for="pimpinan">Pimpinan</label>
-                                                    <input type="hidden" name="pimpinan" value="{{ $gelarPerkara != null ? ($gelarPerkara->pimpinan != null ? $gelarPerkara->pimpinan : '') : '' }}" class="form-control" readonly>
-                                                    <input type="text" name="pimpinan_text" value="{{ $gelarPerkara != null ? ($gelarPerkara->pimpinan != null ? $gelarPerkara->penyidik->pangkats->name.' '.$gelarPerkara->penyidik->name : '') : '' }}" class="form-control" readonly>
+                                                    <input autocomplete="off" type="hidden" name="pimpinan" value="{{ $gelarPerkara != null ? ($gelarPerkara->pimpinan != null ? $gelarPerkara->pimpinan : '') : '' }}" class="form-control" readonly>
+                                                    <input autocomplete="off" type="text" name="pimpinan_text" value="{{ $gelarPerkara != null ? ($gelarPerkara->pimpinan != null ? $gelarPerkara->penyidik->pangkats->name.' '.$gelarPerkara->penyidik->name : '') : '' }}" class="form-control" readonly>
                                                     {{-- <select name="pimpinan" id="select-pimpinan" class="form-select select-penyidik" data-placeholder="Silahkan Pilih Pimpinan">
                                                     </select> --}}
                                                 </div>
@@ -420,8 +420,8 @@
                                                         <select name="pemapar" id="select-pemapar" class="form-select select-penyidik" data-placeholder="Silahkan Pilih Pemapar">
                                                         </select>
                                                     @else
-                                                        <input type="hidden" name="pemapar" value="{{ $gelarPerkara != null ? ($gelarPerkara->pemapar != null ? $gelarPerkara->pemapar : '') : '' }}" class="form-control" readonly>
-                                                        <input type="text" name="pemapar_text" value="{{ $gelarPerkara != null ? ($gelarPerkara->pemapar != null ? $gelarPerkara->pemaparDetail->pangkat.' '.$gelarPerkara->pemaparDetail->name : '') : '' }}" class="form-control" readonly>
+                                                        <input autocomplete="off" type="hidden" name="pemapar" value="{{ $gelarPerkara != null ? ($gelarPerkara->pemapar != null ? $gelarPerkara->pemapar : '') : '' }}" class="form-control" readonly>
+                                                        <input autocomplete="off" type="text" name="pemapar_text" value="{{ $gelarPerkara != null ? ($gelarPerkara->pemapar != null ? $gelarPerkara->pemaparDetail->pangkat.' '.$gelarPerkara->pemaparDetail->name : '') : '' }}" class="form-control" readonly>
                                                     @endif
                                                 </div>
                                             </div>
@@ -432,8 +432,8 @@
                                                         <select name="notulen" id="select-notulen" class="form-select select-penyidik" data-placeholder="Silahkan Pilih Notulen">
                                                         </select>
                                                     @else
-                                                        <input type="hidden" name="notulen" value="{{ $gelarPerkara != null ? ($gelarPerkara->notulen != null ? $gelarPerkara->notulen : '') : '' }}" class="form-control" readonly>
-                                                        <input type="text" name="notulen_text" value="{{ $gelarPerkara != null ? ($gelarPerkara->notulen != null ? $gelarPerkara->notulenDetail->pangkat.' '.$gelarPerkara->notulenDetail->name : '') : '' }}" class="form-control" readonly>
+                                                        <input autocomplete="off" type="hidden" name="notulen" value="{{ $gelarPerkara != null ? ($gelarPerkara->notulen != null ? $gelarPerkara->notulen : '') : '' }}" class="form-control" readonly>
+                                                        <input autocomplete="off" type="text" name="notulen_text" value="{{ $gelarPerkara != null ? ($gelarPerkara->notulen != null ? $gelarPerkara->notulenDetail->pangkat.' '.$gelarPerkara->notulenDetail->name : '') : '' }}" class="form-control" readonly>
                                                     @endif
                                                 </div>
                                             </div>
@@ -444,8 +444,8 @@
                                                         <select name="operator" id="select-operator" class="form-select select-penyidik" data-placeholder="Silahkan Pilih Operator">
                                                         </select>
                                                     @else
-                                                        <input type="hidden" name="operator" value="{{ $gelarPerkara != null ? ($gelarPerkara->operator != null ? $gelarPerkara->operator : '') : '' }}" class="form-control" readonly>
-                                                        <input type="text" name="operator_text" value="{{ $gelarPerkara != null ? ($gelarPerkara->operator != null ? $gelarPerkara->operatorDetail->pangkat.' '.$gelarPerkara->operatorDetail->name : '') : '' }}" class="form-control" readonly>
+                                                        <input autocomplete="off" type="hidden" name="operator" value="{{ $gelarPerkara != null ? ($gelarPerkara->operator != null ? $gelarPerkara->operator : '') : '' }}" class="form-control" readonly>
+                                                        <input autocomplete="off" type="text" name="operator_text" value="{{ $gelarPerkara != null ? ($gelarPerkara->operator != null ? $gelarPerkara->operatorDetail->pangkat.' '.$gelarPerkara->operatorDetail->name : '') : '' }}" class="form-control" readonly>
                                                     @endif
                                                 </div>
                                             </div>
@@ -461,7 +461,7 @@
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group">
                                                     <label for="tgl" class="form-label">Tanggal Pelaksanaan</label>
-                                                    <input type="date" class="form-control" name="tgl" placeholder='Pilih Tanggal' value="{{ isset($gelarPerkara) ? \Carbon\Carbon::parse($gelarPerkara->tgl_pelaksanaan)->format('Y-m-d') : '' }}"
+                                                    <input autocomplete="off" type="date" class="form-control" name="tgl" placeholder='Pilih Tanggal' value="{{ isset($gelarPerkara) ? \Carbon\Carbon::parse($gelarPerkara->tgl_pelaksanaan)->format('Y-m-d') : '' }}"
                                                     @if (isset($gelarPerkara))
                                                         readonly
                                                     @endif>
@@ -470,7 +470,7 @@
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group">
                                                     <label for="jam" class="form-label">Waktu Pelaksanaan</label>
-                                                    <input type="time" class="form-control" name="jam" placeholder='Pilih Jam' value="{{ isset($gelarPerkara) ? $gelarPerkara->waktu_pelaksanaan : '' }}"
+                                                    <input autocomplete="off" type="time" class="form-control" name="jam" placeholder='Pilih Jam' value="{{ isset($gelarPerkara) ? $gelarPerkara->waktu_pelaksanaan : '' }}"
                                                     @if (isset($gelarPerkara))
                                                         readonly
                                                     @endif>
@@ -479,7 +479,7 @@
                                             <div class="col-md-12 col-12">
                                                 <div class="form-group">
                                                     <label for="tempat" class="form-label">Tempat Pelaksanaan</label>
-                                                    <input type="text" class="form-control" name="tempat" placeholder='Masukan Tempat Pelaksanaan' value="{{ isset($gelarPerkara) ? $gelarPerkara->tempat_pelaksanaan : '' }}"
+                                                    <input autocomplete="off" type="text" class="form-control" name="tempat" placeholder='Masukan Tempat Pelaksanaan' value="{{ isset($gelarPerkara) ? $gelarPerkara->tempat_pelaksanaan : '' }}"
                                                     @if (isset($gelarPerkara))
                                                         readonly
                                                     @endif>
@@ -499,13 +499,13 @@
                                             <legend class="col-form-label">Hasil Putusan Gelar</legend>
                                             <div class="col-sm-10">
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="hasil_gp" id="hasil_gp1" value="Cukup Bukti" {{$gelarPerkara != null ? ($gelarPerkara->hasil_gelar == 'Cukup Bukti' ? 'checked' : '') : ''}}>
+                                                <input autocomplete="off" class="form-check-input" type="radio" name="hasil_gp" id="hasil_gp1" value="Cukup Bukti" {{$gelarPerkara != null ? ($gelarPerkara->hasil_gelar == 'Cukup Bukti' ? 'checked' : '') : ''}}>
                                                 <label class="form-check-label" for="hasil_gp1">
                                                 Cukup Bukti
                                                 </label>
                                             </div>
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="hasil_gp" id="hasil_gp2" value="Tidak Cukup Bukti" {{$gelarPerkara != null ? ($gelarPerkara->hasil_gelar != 'Cukup Bukti' ? 'checked' : '') : ''}}>
+                                                <input autocomplete="off" class="form-check-input" type="radio" name="hasil_gp" id="hasil_gp2" value="Tidak Cukup Bukti" {{$gelarPerkara != null ? ($gelarPerkara->hasil_gelar != 'Cukup Bukti' ? 'checked' : '') : ''}}>
                                                 <label class="form-check-label" for="hasil_gp2">
                                                 Tidak Cukup Bukti
                                                 </label>
@@ -533,7 +533,7 @@
                                             <legend class="col-form-label">Tindak Lanjut</legend>
                                             <div class="form-group">
                                                 <label for="tindak_lanjut"></label>
-                                                <input type="text" name="tindak_lanjut" id="tindak_lanjut" class="form-control" value="{{$gelarPerkara != null ? $gelarPerkara->saran_penyidik : ''}}"/>
+                                                <input autocomplete="off" type="text" name="tindak_lanjut" id="tindak_lanjut" class="form-control" value="{{$gelarPerkara != null ? $gelarPerkara->saran_penyidik : ''}}"/>
                                             </div>
                                         </fieldset>
                                     {{-- </div> --}}
@@ -561,9 +561,9 @@
             </div>
             <form action="javascript:void(0)" id="form-limpah-polda">
                 @csrf
-                <input type="hidden" name="status" value="{{$status->id}}">
-                <input type="hidden" name="sub_process">
-                <input type="hidden" name="process_id">
+                <input autocomplete="off" type="hidden" name="status" value="{{$status->id}}">
+                <input autocomplete="off" type="hidden" name="sub_process">
+                <input autocomplete="off" type="hidden" name="process_id">
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="polda_id">Pilih Polda</label>
