@@ -17,7 +17,7 @@ class FrameGuardMiddleware
     public function handle(Request $request, Closure $next)
     {
         $response = $next($request);
-        $response->headers->set('X-Frame-Options', 'DENY', 'TRUE');
+        $response->headers->set('X-Frame-Options', 'DENY', true);
         return $response;
     }
 }
