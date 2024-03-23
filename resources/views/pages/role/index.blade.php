@@ -76,19 +76,19 @@
                     <div class="modal-body">
                         <div class="mb-3">
                             <label for="exampleFormControlInput1" class="form-label">Name</label>
-                            <input autocomplete="off" type="text" class="form-control" name="name" required>
+                            <input  type="text" class="form-control" name="name" required>
                         </div>
                         <div class="mb-3">
                             <label for="exampleFormControlInput1" class="form-label">Username</label>
-                            <input autocomplete="off" type="text" class="form-control" name="username" required>
+                            <input  type="text" class="form-control" name="username" required>
                         </div>
                         <div class="mb-3">
                             <label for="exampleFormControlInput1" class="form-label">Jabatan</label>
-                            <input autocomplete="off" type="text" class="form-control" name="jabatan">
+                            <input  type="text" class="form-control" name="jabatan">
                         </div>
                         <div class="mb-3">
                             <label for="exampleFormControlInput1" class="form-label">Password</label>
-                            <input autocomplete="off" type="password" class="form-control" name="password" required>
+                            <input  type="password" class="form-control" name="password" required>
                         </div>
                         <div class="mb-3">
                             <label for="exampleFormControlInput1" class="form-label">Role</label>

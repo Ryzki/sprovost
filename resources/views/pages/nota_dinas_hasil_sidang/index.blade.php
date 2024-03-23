@@ -18,17 +18,17 @@
                         <div class="col-md-4 col-12">
                             <div class="form-group">
                                 <label for="start">Bulan Mulai Periode Sidang</label>
-                                <input autocomplete="off" type="month" name="month_start" id="start" class="form-control">
+                                <input  type="month" name="month_start" id="start" class="form-control">
                             </div>
                         </div>
                         <div class="col-md-2 col-12 mt-3">
                             <h5 class="text-center"> - </h5>
-                            {{-- <input autocomplete="off" type="month" name="month_start" id="start" class="form-control"> --}}
+                            {{-- <input  type="month" name="month_start" id="start" class="form-control"> --}}
                         </div>
                         <div class="col-md-4 col-12">
                             <div class="form-group">
                                 <label for="end">Bulan Akhir Periode Sidang</label>
-                                <input autocomplete="off" type="month" name="month_end" id="end" class="form-control">
+                                <input  type="month" name="month_end" id="end" class="form-control">
                             </div>
                         </div>
                         <div class="col-md-2 col-12">
