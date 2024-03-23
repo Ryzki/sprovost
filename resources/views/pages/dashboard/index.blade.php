@@ -457,7 +457,10 @@
             let url = `{{ url('/get-data-by-status/${status_id}') }}`
             $.ajax({
                 url: url,
-                method: "get"
+                method: "post",
+                data: {
+                    _token: '{{ csrf_token() }}'
+                }
             }).done(function(data) {
                 $('#dumas_by_status').data('target', data)
                 $('#dumas_by_status').html(data)
@@ -468,7 +471,10 @@
             let url = `{{ url('/get-data-limpah/${limpah_id}') }}`
             $.ajax({
                 url: url,
-                method: "get"
+                method: "post",
+                data: {
+                    _token: '{{ csrf_token() }}'
+                }
             }).done(function(data) {
                 $('#dumas_by_limpah').data('target', data)
                 $('#dumas_by_limpah').html(data)
@@ -479,7 +485,10 @@
             let url = `{{ url('/get-data-unit/${unit}') }}`
             $.ajax({
                 url: url,
-                method: "get"
+                method: "post",
+                data: {
+                    _token: '{{ csrf_token() }}'
+                }
             }).done(function(data) {
                 $('#dumas_by_unit').data('target', data)
                 $('#dumas_by_unit').html(data)
@@ -490,7 +499,10 @@
             let url = `{{ url('/get-chart-data/${tipe}') }}`
             $.ajax({
                 url: url,
-                method: "get"
+                method: "post",
+                data: {
+                    _token: '{{ csrf_token() }}'
+                }
             }).done(function(data) {
                 $('.loader-view').fadeOut();
                 if (chartType == 'line') {

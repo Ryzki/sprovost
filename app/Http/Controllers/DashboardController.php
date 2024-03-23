@@ -39,7 +39,7 @@ class DashboardController extends Controller
             $data['dumas_by_status'] = DataPelanggar::where('status_id', $status_id)->count();
         }
 
-        return $data['dumas_by_status'];
+        return response()->json($data['dumas_by_status'])->header('Content-Type','application/json; charset=utf-8');
     }
 
     public function DataByLimpah($limpah_id = ''){
@@ -48,7 +48,7 @@ class DashboardController extends Controller
             $data = DataPelanggar::whereIn('id', LimpahPolda::where('polda_id', $limpah_id)->select('data_pelanggar_id')->pluck('data_pelanggar_id'))->count();
         }
 
-        return $data;
+        return response()->json($data)->header('Content-Type','application/json; charset=utf-8');
     }
 
     public function DataByUnit($unit = ''){
@@ -57,7 +57,7 @@ class DashboardController extends Controller
             $data = DataPelanggar::whereIn('id', SprinHistory::where('unit_pemeriksa', $unit)->select('data_pelanggar_id')->groupBy('data_pelanggar_id')->pluck('data_pelanggar_id'))->count();
         }
 
-        return $data;
+        return response()->json($data)->header('Content-Type','application/json; charset=utf-8');
     }
 
     public function ChartData($tipe = '', Request $request){
@@ -199,6 +199,6 @@ class DashboardController extends Controller
             }
         }
 
-        return $data;
+        return response()->json($data)->header('Content-Type','application/json; charset=utf-8');
     }
 }
