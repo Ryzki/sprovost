@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rules\Password;
 use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
@@ -17,19 +18,29 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
-        try {
-        $role = Role::find($request->role);
-        $user = User::create([
-            'name' => $request->name,
-            'username' => strtolower($request->username),
-            'password' => bcrypt($request->password),
-            'jabata' => $request->jabatan
-        ]);
-        $user->assignRole($role);
 
-        return redirect()->back()->with('success', 'Success Create User');
+        try {
+            $this->validate($request, [
+                'password' => ['min:8', Password::min(8)
+                    ->letters()
+                    ->mixedCase()
+                    ->numbers()
+                    ->symbols()
+                    ->uncompromised()]
+            ]);
+
+            $role = Role::find($request->role);
+            $user = User::create([
+                'name' => $request->name,
+                'username' => strtolower($request->username),
+                'password' => bcrypt($request->password),
+                'jabata' => $request->jabatan
+            ]);
+            $user->assignRole($role);
+
+            return redirect()->back()->with('success', 'Success Create User');
         } catch (\Throwable $th) {
-        return redirect()->back()->with('error', 'Failed Create User');
+            return redirect()->back()->with('error', 'Failed Create User');
         }
     }
 

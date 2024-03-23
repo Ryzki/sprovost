@@ -2,6 +2,34 @@
 
 @prepend('styles')
     <link href="{{ asset('assets/css/dashboard.css') }}" rel="stylesheet" type="text/css" />
+    <style>
+        .password-meter {
+            display: flex;
+            height: 5px;
+            margin-top: 10px;
+        }
+
+        .meter-section {
+            flex: 1;
+            background-color: #ddd;
+        }
+
+        .weak {
+            background-color: #ff4d4d;
+        }
+
+        .medium {
+            background-color: #ffd633;
+        }
+
+        .strong {
+            background-color: #00b300;
+        }
+
+        .very-strong {
+            background-color: #009900;
+        }
+    </style>
 @endprepend
 
 
@@ -68,19 +96,27 @@
                     <div class="modal-body">
                         <div class="mb-3">
                             <label for="exampleFormControlInput1" class="form-label">Name</label>
-                            <input  type="text" class="form-control" name="name" required>
+                            <input type="text" class="form-control" name="name" required>
                         </div>
                         <div class="mb-3">
                             <label for="exampleFormControlInput1" class="form-label">Username</label>
-                            <input  type="text" class="form-control" name="username" required>
+                            <input type="text" class="form-control" name="username" required>
                         </div>
                         <div class="mb-3">
                             <label for="exampleFormControlInput1" class="form-label">Jabatan</label>
-                            <input  type="text" class="form-control" name="jabatan">
+                            <input type="text" class="form-control" name="jabatan">
                         </div>
                         <div class="mb-3">
                             <label for="exampleFormControlInput1" class="form-label">Password</label>
-                            <input  type="password" class="form-control" name="password" required>
+                            <input type="password" class="form-control" name="password" id="password-input" required>
+                            <div class="password-meter">
+                                <div class="meter-section rounded me-2"></div>
+                                <div class="meter-section rounded me-2"></div>
+                                <div class="meter-section rounded me-2"></div>
+                                <div class="meter-section rounded"></div>
+                            </div>
+                            <div id="passwordHelp" class="form-text text-muted">Password harus 8 atau lebih karakter dengan kombinasi huruf, angka, dan karakter khusus (#, @, dll)
+                            </div>
                         </div>
                         <div class="mb-3">
                             <label for="exampleFormControlInput1" class="form-label">Role</label>
@@ -94,7 +130,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save changes</button>
+                        <button type="submit" class="btn btn-primary" id="save" disabled>Save changes</button>
                     </div>
                 </form>
             </div>
@@ -103,4 +139,73 @@
 @endsection
 
 @section('scripts')
+<script>
+    const passwordInput = document.getElementById('password-input');
+const meterSections = document.querySelectorAll('.meter-section');
+
+passwordInput.addEventListener('input', updateMeter);
+
+function updateMeter() {
+    const password = passwordInput.value;
+    let strength = calculatePasswordStrength(password);
+
+    // Remove all strength classes
+    meterSections.forEach((section) => {
+        section.classList.remove('weak', 'medium', 'strong', 'very-strong');
+    });
+
+    // Add the appropriate strength class based on the strength value
+    if (strength >= 1) {
+        meterSections[0].classList.add('weak');
+        $('#save').prop('disabled','disabled')
+    }
+    if (strength >= 2) {
+        meterSections[1].classList.add('medium');
+        $('#save').prop('disabled','disabled')
+    }
+    if (strength >= 3) {
+        meterSections[2].classList.add('strong');
+        $('#save').removeAttr('disabled')
+    }
+    if (strength >= 4) {
+        meterSections[3].classList.add('very-strong');
+        $('#save').removeAttr('disabled')
+    }
+}
+
+function calculatePasswordStrength(password) {
+    const lengthWeight = 0.2;
+    const uppercaseWeight = 0.5;
+    const lowercaseWeight = 0.5;
+    const numberWeight = 0.7;
+    const symbolWeight = 1;
+
+    let strength = 0;
+
+    // Calculate the strength based on the password length
+    strength += password.length * lengthWeight;
+
+    // Calculate the strength based on uppercase letters
+    if (/[A-Z]/.test(password)) {
+        strength += uppercaseWeight;
+    }
+
+    // Calculate the strength based on lowercase letters
+    if (/[a-z]/.test(password)) {
+        strength += lowercaseWeight;
+    }
+
+    // Calculate the strength based on numbers
+    if (/\d/.test(password)) {
+        strength += numberWeight;
+    }
+
+    // Calculate the strength based on symbols
+    if (/[^A-Za-z0-9]/.test(password)) {
+        strength += symbolWeight;
+    }
+
+    return strength;
+}
+</script>
 @endsection
