@@ -29,8 +29,7 @@ class VerifyCsrfToken extends Middleware
                 null,
                 true, // Set this to true for secure.
                 true, // Set this to true for httponly.
-                false,
-                'strict'
+                false
             )
         );
         return $response;
