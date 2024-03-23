@@ -46,10 +46,10 @@ Route::get('info', function(){
 Route::middleware(['auth'])->group(function (){
     // Dashboard
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
-    Route::get('/get-chart-data/{tipe?}', [DashboardController::class, 'ChartData']);
-    Route::get('/get-data-by-status/{status_id?}', [DashboardController::class, 'DataByStatus']);
-    Route::get('/get-data-limpah/{limpah_id?}', [DashboardController::class, 'DataByLimpah']);
-    Route::get('/get-data-unit/{unit?}', [DashboardController::class, 'DataByUnit']);
+    Route::post('/get-chart-data/{tipe?}', [DashboardController::class, 'ChartData']);
+    Route::post('/get-data-by-status/{status_id?}', [DashboardController::class, 'DataByStatus']);
+    Route::post('/get-data-limpah/{limpah_id?}', [DashboardController::class, 'DataByLimpah']);
+    Route::post('/get-data-unit/{unit?}', [DashboardController::class, 'DataByUnit']);
     Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 
     // User Management
