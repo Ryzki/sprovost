@@ -456,6 +456,9 @@
         function getDataByStatus(status_id = '') {
             let url = `{{ url('/get-data-by-status/${status_id}') }}`
             $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
                 url: url,
                 method: "post",
                 data: {
@@ -470,6 +473,9 @@
         function getDataByLimpah(limpah_id = '') {
             let url = `{{ url('/get-data-limpah/${limpah_id}') }}`
             $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
                 url: url,
                 method: "post",
                 data: {
@@ -484,6 +490,9 @@
         function getDataByUnit(unit = '') {
             let url = `{{ url('/get-data-unit/${unit}') }}`
             $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
                 url: url,
                 method: "post",
                 data: {
@@ -498,6 +507,9 @@
         function getChartData(tipe, chartType, containerId) {
             let url = `{{ url('/get-chart-data/${tipe}') }}`
             $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
                 url: url,
                 method: "post",
                 data: {

@@ -39,11 +39,11 @@ Route::get('/login', function () {
 Route::get('/pdf-test', [LimpahPoldaController::class, 'generateDocumen']);
 // Route::get('/lembar-disposisi', [LimpahPoldaController::class, 'generateDisposisi']);
 Route::post('login', [AuthController::class, 'loginAction'])->name('login-action');
-Route::get('info', function(){
+Route::get('info', function () {
     phpinfo();
 });
 
-Route::middleware(['auth'])->group(function (){
+Route::middleware(['auth'])->group(function () {
     // Dashboard
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
     Route::post('/get-chart-data/{tipe?}', [DashboardController::class, 'ChartData']);
@@ -77,14 +77,14 @@ Route::middleware(['auth'])->group(function (){
     Route::get('input-data-penyidik', [PenyidikController::class, 'inputPenyidik'])->name('penyidik.input');
     Route::post('input-data-penyidik/store', [PenyidikController::class, 'storePenyidik'])->name('penyidik.store.penyidik');
 
-     Route::get('edit-data-penyidik/{id}', [PenyidikController::class, 'editPenyidik'])->name('penyidik.edit');
-     Route::post('data-penyidik/update', [PenyidikController::class, 'updateData'])->name('penyidik.update');
+    Route::get('edit-data-penyidik/{id}', [PenyidikController::class, 'editPenyidik'])->name('penyidik.edit');
+    Route::post('data-penyidik/update', [PenyidikController::class, 'updateData'])->name('penyidik.update');
 
-     Route::get('data-penyidik/hapus/{id}', [PenyidikController::class, 'hapusData'])->name('penyidik.hapus');
-     Route::get('master-penyidik', [PenyidikController::class, 'masterPenyidik'])->name('penyidik.master');
-     // End Penyidik
+    Route::get('data-penyidik/hapus/{id}', [PenyidikController::class, 'hapusData'])->name('penyidik.hapus');
+    Route::get('master-penyidik', [PenyidikController::class, 'masterPenyidik'])->name('penyidik.master');
+    // End Penyidik
 
-     // Start Pangkat
+    // Start Pangkat
     Route::get('data-pangkat', [PangkatController::class, 'index'])->name('pangkat.index');
     Route::post('data-pangkat/data', [PangkatController::class, 'data'])->name('pangkat.data');
 
@@ -95,9 +95,9 @@ Route::middleware(['auth'])->group(function (){
     Route::post('data-pangkat/update', [PangkatController::class, 'updateData'])->name('pangkat.update');
 
     Route::get('data-pangkat/hapus/{id}', [PangkatController::class, 'hapusData'])->name('pangkat.hapus');
-     // End Pangkat
+    // End Pangkat
 
-      // Start Wujud Perbuatan
+    // Start Wujud Perbuatan
     Route::get('data-wujud-perbuatan', [WujudPerbuatanController::class, 'index'])->name('wujud-perbuatan.index');
     Route::post('data-wujud-perbuatan/data', [WujudPerbuatanController::class, 'data'])->name('wujud-perbuatan.data');
 
@@ -108,7 +108,7 @@ Route::middleware(['auth'])->group(function (){
     Route::post('data-wujud-perbuatan/update', [WujudPerbuatanController::class, 'updateData'])->name('wujud-perbuatan.update');
 
     Route::get('data-wujud-perbuatan/hapus/{id}', [WujudPerbuatanController::class, 'hapusData'])->name('wujud-perbuatan.hapus');
-     // End Wujud Perbuatan
+    // End Wujud Perbuatan
 
     // View Kasus
     Route::get('data-kasus/view/{kasus_id}/{id}', [RenderViewController::class, 'viewProcess'])->name('kasus.proses.view');
