@@ -28,6 +28,7 @@ use App\Models\Witness;
 use App\Models\WujudPerbuatan;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class RenderViewController extends Controller
@@ -80,7 +81,14 @@ class RenderViewController extends Controller
         }
         $status = Process::find($status_id);
         $process = Process::where('sort', '<=', $status->id)->get();
-        $sub_process = SubProcess::where('process_id', $status->id)->get();
+        $userLoggedin = Auth::user();
+
+        if($userLoggedin->username == 'urtu'){
+            $sub_process = SubProcess::where('process_id', $status->id)->where('id', '<>', 4)->get();
+        } else {
+            $sub_process = SubProcess::where('process_id', $status->id)->get();
+        }
+
         $agama = Agama::get();
         $jenis_identitas = JenisIdentitas::get();
         $jenis_kelamin = JenisKelamin::get();
@@ -128,7 +136,8 @@ class RenderViewController extends Controller
             'disposisiSesro' => $disposisiSesro,
             'disposisiKabag' => $disposisiKabag,
             'polda' => $polda,
-            'unit' => $unit
+            'unit' => $unit,
+            'user' => $userLoggedin->username
         ];
 
         return view('pages.data_pelanggaran.proses.diterima', $data);
@@ -136,6 +145,15 @@ class RenderViewController extends Controller
 
     private function viewPulbaket($id, $status_id){
         $kasus = DataPelanggar::find($id);
+        $kasusArr = DataPelanggar::find($id)->toArray();
+        $dataStillNull = false;
+        foreach ($kasusArr as $key => $value) {
+            $dataStillNull = blank($value);
+            if($dataStillNull == true){
+                break;
+            }
+        }
+
         if($kasus->status_id == 8 || $kasus->status_id == 5){
             $status_id = $kasus->status_id;
         }
@@ -176,7 +194,8 @@ class RenderViewController extends Controller
             'undanganKlarifikasi' => $undanganKlarifikasi,
             'gelarPerkara' => $gelarPerkara,
             'unit' => $unit,
-            'penyidik' => $penyidik
+            'penyidik' => $penyidik,
+            'dataStillNull' => $dataStillNull
         ];
 
         return view('pages.data_pelanggaran.proses.pulbaket', $data);

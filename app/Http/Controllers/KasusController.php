@@ -26,6 +26,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use DataTables;
 use Exception;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 
@@ -419,20 +420,39 @@ class KasusController extends Controller
     private function cek_requirement($kasus_id, $process_id){
         $documentgenerated = DokumenPelanggar::where('data_pelanggar_id', $kasus_id)->where('process_id', $process_id)->select(['data_pelanggar_id', 'process_id', 'sub_process_id'])->distinct();
         $subProcess = SubProcess::where('process_id', (int)$process_id);
+        $userLoggedin = Auth::user()->username;
 
-        if (count($documentgenerated->get()) == $subProcess->count()){
-            return ['status' => true, 'data' => null];
-        } else {
-            $arrSubProcessId = [];
-            foreach ($documentgenerated->get() as $val) {
-                array_push($arrSubProcessId, $val->sub_process_id);
+        if($process_id == '2'){
+            $generatedDocument = [];
+            foreach ($documentgenerated->get() as $value) {
+                $generatedDocument[] = $value->sub_process_id;
             }
 
             $documentNotGenerated = '';
-            foreach ($subProcess->whereNotIn('id',$arrSubProcessId)->get() as $docVal) {
+            foreach ($subProcess->whereNotIn('id',$generatedDocument)->get() as $docVal) {
                 $documentNotGenerated .= "- $docVal->name <br>";
             };
-            return ['status' => false, 'data' => $documentNotGenerated];
+
+            if(in_array('2',$generatedDocument) && in_array('4',$generatedDocument)){
+                return ['status' => true, 'data' => null];
+            } else {
+                return ['status' => false, 'data' => $documentNotGenerated];
+            }
+        } else {
+            if (count($documentgenerated->get()) == $subProcess->count()){
+                return ['status' => true, 'data' => null];
+            } else {
+                $arrSubProcessId = [];
+                foreach ($documentgenerated->get() as $val) {
+                    array_push($arrSubProcessId, $val->sub_process_id);
+                }
+
+                $documentNotGenerated = '';
+                foreach ($subProcess->whereNotIn('id',$arrSubProcessId)->get() as $docVal) {
+                    $documentNotGenerated .= "- $docVal->name <br>";
+                };
+                return ['status' => false, 'data' => $documentNotGenerated];
+            }
         }
     }
 

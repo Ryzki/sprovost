@@ -36,7 +36,7 @@
             :
         </div>
         <div class="col-md-8 col-sm-12">
-            {{$kasus->pangkatName->name}} {{$kasus->terlapor}} {{$kasus->jabatan}}, {{$kasus->kesatuan}} - {{$kasus->nrp}}
+            {{$kasus->pangkatName->name ?? ''}} {{$kasus->terlapor}} {{$kasus->jabatan}}, {{$kasus->kesatuan}} - {{$kasus->nrp}}
         </div>
 
         <div class="col-md-3 col-sm-12">

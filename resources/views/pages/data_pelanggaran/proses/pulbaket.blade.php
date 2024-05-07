@@ -965,7 +965,22 @@
 </div>
 
 <script>
+    let dataStillNull = `{{$dataStillNull}}`
     $(document).ready(function(){
+        if(dataStillNull == '1'){
+            Swal.fire({
+                    title: `Masih ada data dumas yang kosong!`,
+                    text: `Harap lengkapi data dumas terlebih dahulu`,
+                    icon: 'error',
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 5000,
+                    timerProgressBar: true,
+            })
+            getViewProcess(2)
+        }
+
         localStorage.setItem('addAnggota', 0)
 
         $('input[type="time"]').on('keydown', function(){
@@ -1485,6 +1500,7 @@
                 }
             })
         })
+
     })
 
     function mask(el, maskVal){
