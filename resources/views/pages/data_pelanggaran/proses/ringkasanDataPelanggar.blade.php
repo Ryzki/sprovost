@@ -26,7 +26,7 @@
             :
         </div>
         <div class="col-md-8 col-sm-12">
-            {{$kasus->wujudPerbuatan->keterangan_wp}}
+            {{$kasus->wujudPerbuatan->keterangan_wp ?? ''}}
         </div>
 
         <div class="col-md-3 col-sm-12">

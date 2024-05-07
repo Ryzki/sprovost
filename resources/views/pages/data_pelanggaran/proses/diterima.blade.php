@@ -1541,7 +1541,7 @@
         const formId = $('#form')
         var canInput = true
 
-        if(user == 'urtu'){
+        if(user == 'urtu' || user == 'kabaggakkum'){
             canInput = true
             callback(canInput)
         } else {
